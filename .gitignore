@@ -1,0 +1,14 @@
+*.iml
+# The FFmpegKit AAR is a 37 MB binary: it is not stored in git. CI fetches it
+# with a pinned SHA-256 (see .github/workflows/build.yml); for a local build,
+# drop it into app/libs/ yourself — provenance and hash in app/libs/VENDORED.md.
+/app/libs/*.aar
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build/
+/app/build/
+/captures/
+.externalNativeBuild/
+.cxx/

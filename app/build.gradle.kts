@@ -1,0 +1,71 @@
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
+}
+
+android {
+    namespace = "io.github.justvisiting992.mediaconverter"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "io.github.justvisiting992.mediaconverter"
+        minSdk = 24
+        targetSdk = 35
+        versionCode = 1
+        versionName = "0.1.0"
+
+        // Phones only: x86_64 is emulator weight, 32-bit is dead.
+        ndk {
+            abiFilters += listOf("arm64-v8a")
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+    buildFeatures {
+        compose = true
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+}
+
+dependencies {
+    val composeBom = platform("androidx.compose:compose-bom:2024.12.01")
+    implementation(composeBom)
+    implementation("androidx.core:core-ktx:1.15.0")
+    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // FFmpegKit (maintained fork) is vendored as an AAR in app/libs — see
+    // VENDORED.md. It is deliberately NOT a Maven dependency: when the
+    // original FFmpegKit's binaries vanished from Maven Central in 2025,
+    // every app that depended on them stopped building.
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
+    // FFmpegKit's only transitive dependency.
+    implementation("com.arthenica:smart-exception-java:0.2.1")
+}
