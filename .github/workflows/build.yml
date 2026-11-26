@@ -35,7 +35,7 @@ jobs:
       # hash recorded in app/libs/VENDORED.md. A changed binary fails here.
       - name: Fetch FFmpegKit AAR (hash-pinned)
         run: |
-          curl -sL -o app/libs/ffmpeg-kit-full-gpl-8.1.9.aar \
+          curl -fSL --retry 3 --retry-delay 5 --retry-all-errors -o app/libs/ffmpeg-kit-full-gpl-8.1.9.aar \
             "https://repo1.maven.org/maven2/dev/ffmpegkit-maintained/ffmpeg-kit-full-gpl/8.1.9/ffmpeg-kit-full-gpl-8.1.9.aar"
           echo "72094919ac812598ec3f77ba2631e5b2dbd50b1daa98dfa64e9fc565f2b52ede  app/libs/ffmpeg-kit-full-gpl-8.1.9.aar" | sha256sum -c -
 
@@ -48,4 +48,3 @@ jobs:
           name: mediaconverter-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-          
