@@ -16,14 +16,21 @@ picked, the app says so.
 Early development. What exists today:
 
 - Project scaffold (Kotlin + Jetpack Compose, Material 3, arm64-v8a only)
-- A "Your hardware" screen that probes the device's MediaCodec encoders live —
-  component names, hardware vs software, max resolution, bitrate range,
-  profiles — the capability report every preset will be built from
-- A preset-to-command builder (`core/engine/PresetCommands.kt`): five v1
+- A "Your hardware" screen that probes the device's MediaCodec codecs live —
+  encoders and decoders, component names, hardware vs software, max
+  resolution, bitrate range, profiles — the capability report every preset
+  is built from
+- A preset-to-command builder (`core/engine/PresetCommands.kt`): five
   presets (H.264/HEVC hardware, H.264 software max-quality, audio extract,
   trim without re-encode) turned into exact ffmpeg commands from the live
-  report — hardware presets pin the probed component by name and refuse
-  honestly when the hardware is missing, never silently falling back to CPU
+  report and a probe of the actual input file — hardware presets pin the
+  probed encoder by name and refuse honestly when the hardware is missing;
+  decoding uses the hardware decoder for the input's codec when the
+  device has one (a software decode feeding a hardware encode still pegs
+  the CPU), with one visible retry on CPU decode if the hardware decoder
+  rejects a file; hardware bitrates come from a per-resolution table
+  capped at 2x the source bitrate, so a low-bitrate source doesn't
+  balloon
 - A working Convert tab (`core/engine/ConversionEngine.kt`, `core/queue/`,
   `ui/convert/`): pick files, choose a preset, convert. Jobs run one at a
   time through the vendored FFmpeg with live progress and cancel; inputs

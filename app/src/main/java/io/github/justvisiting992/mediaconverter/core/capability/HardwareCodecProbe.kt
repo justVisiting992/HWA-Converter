@@ -24,10 +24,29 @@ data class EncoderCapability(
     val profiles: List<String>,
 )
 
-/** Everything this device can hardware-encode, probed once at runtime. */
+/**
+ * One decoder component as the device reports it. Decoding matters as
+ * much as encoding: a hardware encoder fed by a software decoder still
+ * pegs the CPU (1080p AV1 through libdav1d is the expensive way to learn
+ * this), so the probe reports decoders too.
+ */
+data class DecoderCapability(
+    /** Codec2 / OMX component name, e.g. "c2.mtk.av1.decoder". */
+    val componentName: String,
+    /** MIME type, e.g. "video/av01". */
+    val mimeType: String,
+    /** True when the component runs on the SoC's media engine, not the CPU. */
+    val isHardware: Boolean,
+    /** Largest frame the decoder accepts, or null when unreported. */
+    val maxWidth: Int?,
+    val maxHeight: Int?,
+)
+
+/** Everything this device can hardware-encode and -decode, probed once. */
 data class DeviceCodecReport(
     val videoEncoders: List<EncoderCapability>,
     val audioEncoders: List<EncoderCapability>,
+    val videoDecoders: List<DecoderCapability> = emptyList(),
 ) {
     /** The preferred hardware encoder component for a MIME type, if any. */
     fun bestHardwareEncoder(mimeType: String): EncoderCapability? =
@@ -35,6 +54,12 @@ data class DeviceCodecReport(
             ?: audioEncoders.firstOrNull { it.mimeType == mimeType && it.isHardware }
 
     fun hasHardwareEncoder(mimeType: String): Boolean = bestHardwareEncoder(mimeType) != null
+
+    /** The preferred hardware decoder component for a MIME type, if any. */
+    fun bestHardwareDecoder(mimeType: String): DecoderCapability? =
+        videoDecoders.firstOrNull { it.mimeType == mimeType && it.isHardware }
+
+    fun hasHardwareDecoder(mimeType: String): Boolean = bestHardwareDecoder(mimeType) != null
 
     companion object {
         const val MIME_AVC = "video/avc"
@@ -56,9 +81,29 @@ object HardwareCodecProbe {
     fun probe(): DeviceCodecReport {
         val video = mutableListOf<EncoderCapability>()
         val audio = mutableListOf<EncoderCapability>()
+        val decoders = mutableListOf<DecoderCapability>()
         val codecList = MediaCodecList(MediaCodecList.REGULAR_CODECS)
         for (info in codecList.codecInfos) {
-            if (!info.isEncoder) continue
+            if (!info.isEncoder) {
+                for (mime in info.supportedTypes) {
+                    if (!mime.startsWith("video/")) continue
+                    val caps = runCatching { info.getCapabilitiesForType(mime) }
+                        .getOrNull() ?: continue
+                    val videoCaps = caps.videoCapabilities ?: continue
+                    decoders.add(
+                        DecoderCapability(
+                            componentName = info.name,
+                            mimeType = mime,
+                            isHardware = isHardware(info),
+                            maxWidth = videoCaps.supportedWidths?.upper,
+                            maxHeight = videoCaps.let {
+                                it.getSupportedHeightsFor(it.supportedWidths.upper).upper
+                            },
+                        ),
+                    )
+                }
+                continue
+            }
             for (mime in info.supportedTypes) {
                 val isVideo = mime.startsWith("video/")
                 val isAudio = mime.startsWith("audio/")
@@ -85,9 +130,12 @@ object HardwareCodecProbe {
         // Hardware first, then by capability, so index 0 is the best component.
         val order = compareByDescending<EncoderCapability> { it.isHardware }
             .thenByDescending { (it.maxWidth ?: 0) * (it.maxHeight ?: 0) }
+        val decoderOrder = compareByDescending<DecoderCapability> { it.isHardware }
+            .thenByDescending { (it.maxWidth ?: 0) * (it.maxHeight ?: 0) }
         return DeviceCodecReport(
             videoEncoders = video.sortedWith(order),
             audioEncoders = audio.sortedWith(order),
+            videoDecoders = decoders.sortedWith(decoderOrder),
         )
     }
 

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.github.justvisiting992.mediaconverter.core.capability.DecoderCapability
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.capability.EncoderCapability
 
@@ -53,6 +54,7 @@ fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) 
     ) {
         item { DeviceHeader() }
         item { HardwareSummary(report) }
+        item { HardwareDecodeSummary(report) }
         item {
             Text(
                 "Video encoders",
@@ -72,6 +74,16 @@ fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) 
         }
         items(report.audioEncoders, key = { it.componentName + it.mimeType }) {
             EncoderCard(it)
+        }
+        item {
+            Text(
+                "Video decoders",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+        }
+        items(report.videoDecoders, key = { "dec:" + it.componentName + it.mimeType }) {
+            DecoderCard(it)
         }
     }
 }
@@ -120,6 +132,45 @@ private fun HardwareSummary(report: DeviceCodecReport) {
 }
 
 @Composable
+private fun HardwareDecodeSummary(report: DeviceCodecReport) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+        ),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Text(
+                "Hardware decoding on this device",
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.SemiBold,
+            )
+            DecoderSummaryRow("H.264", report.bestHardwareDecoder(DeviceCodecReport.MIME_AVC))
+            DecoderSummaryRow("H.265 / HEVC", report.bestHardwareDecoder(DeviceCodecReport.MIME_HEVC))
+            DecoderSummaryRow("VP9", report.bestHardwareDecoder(DeviceCodecReport.MIME_VP9))
+            DecoderSummaryRow("AV1", report.bestHardwareDecoder(DeviceCodecReport.MIME_AV1))
+        }
+    }
+}
+
+@Composable
+private fun DecoderSummaryRow(label: String, decoder: DecoderCapability?) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Text(label, style = MaterialTheme.typography.bodyMedium)
+        Text(
+            text = decoder?.componentName ?: "software only",
+            style = MaterialTheme.typography.bodyMedium,
+            fontFamily = FontFamily.Monospace,
+            color = if (decoder != null) {
+                MaterialTheme.colorScheme.onPrimaryContainer
+            } else {
+                MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
+            },
+        )
+    }
+}
+
+@Composable
 private fun SummaryRow(label: String, encoder: EncoderCapability?) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         Text(label, style = MaterialTheme.typography.bodyMedium)
@@ -133,6 +184,47 @@ private fun SummaryRow(label: String, encoder: EncoderCapability?) {
                 MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
             },
         )
+    }
+}
+
+@Composable
+private fun DecoderCard(decoder: DecoderCapability) {
+    Card(Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    decoder.componentName,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontFamily = FontFamily.Monospace,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.weight(1f),
+                )
+                Text(
+                    if (decoder.isHardware) "HARDWARE" else "SOFTWARE",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = if (decoder.isHardware) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    },
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+            val facts = buildList {
+                add(decoder.mimeType)
+                if (decoder.maxWidth != null && decoder.maxHeight != null) {
+                    add("up to ${decoder.maxWidth}×${decoder.maxHeight}")
+                }
+            }
+            Text(
+                facts.joinToString(" · "),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
     }
 }
 

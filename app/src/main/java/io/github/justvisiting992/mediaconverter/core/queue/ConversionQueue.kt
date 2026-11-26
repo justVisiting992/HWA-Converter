@@ -61,6 +61,10 @@ data class ConversionJob(
     val command: List<String>,
     /** One line from the preset layer: which encoder runs, and why. */
     val note: String,
+    /** What ffprobe found in the input before the command was built. */
+    val inputInfo: InputInfo? = null,
+    /** True when the command decodes on the media engine (retry ladder). */
+    val usedHardwareDecode: Boolean = false,
     val status: JobStatus,
     /** The debug log file written when the job finished; null until then. */
     val logUri: Uri? = null,
@@ -91,6 +95,11 @@ class ConversionQueueViewModel : ViewModel() {
     @Volatile
     private var appContext: Context? = null
 
+    // The latest capability report, kept so a failed job's command can be
+    // rebuilt (the decode retry ladder) without re-probing the device.
+    @Volatile
+    private var codecReport: DeviceCodecReport? = null
+
     /**
      * Queue one job per picked file, all with the same [preset]. A preset
      * that cannot run (e.g. trim without times) becomes a Failed job with
@@ -106,6 +115,7 @@ class ConversionQueueViewModel : ViewModel() {
     ) {
         val app = context.applicationContext
         if (appContext == null) appContext = app
+        codecReport = report
         viewModelScope.launch {
             val created = withContext(Dispatchers.IO) {
                 uris.map { uri ->
@@ -142,13 +152,16 @@ class ConversionQueueViewModel : ViewModel() {
         val base = inputName.substringBeforeLast('.', inputName)
         val outputName = "${base}_${preset.id}.${preset.outputExtension}"
         val isAudio = preset.outputExtension == "m4a"
+        // Probe first: the command is built from what the file actually
+        // is (codec, resolution, bitrate), not from guesses.
+        val inputInfo = ConversionEngine.probeInput(context, inputUri)
         val outputUri = MediaStoreOutput.create(context, outputName, isAudio)
         if (outputUri == null) {
             return ConversionJob(
                 id = id, inputUri = inputUri, inputName = inputName, preset = preset,
                 outputUri = null, outputName = outputName,
                 outputFolder = MediaStoreOutput.folderLabel(isAudio),
-                command = emptyList(), note = "",
+                command = emptyList(), note = "", inputInfo = inputInfo,
                 status = JobStatus.Failed("Could not create the output file in MediaStore."),
             )
         }
@@ -158,6 +171,7 @@ class ConversionQueueViewModel : ViewModel() {
                 inputPath = ConversionEngine.inputPath(context, inputUri),
                 outputPath = ConversionEngine.outputPath(context, outputUri),
                 report = report,
+                input = inputInfo,
                 trimStartSeconds = trimStartSeconds,
                 trimEndSeconds = trimEndSeconds,
             )
@@ -168,7 +182,7 @@ class ConversionQueueViewModel : ViewModel() {
                     id = id, inputUri = inputUri, inputName = inputName, preset = preset,
                     outputUri = null, outputName = outputName,
                     outputFolder = MediaStoreOutput.folderLabel(isAudio),
-                    command = emptyList(), note = "",
+                    command = emptyList(), note = "", inputInfo = inputInfo,
                     status = JobStatus.Failed(built.reason),
                 )
             }
@@ -177,6 +191,8 @@ class ConversionQueueViewModel : ViewModel() {
                 outputUri = outputUri, outputName = outputName,
                 outputFolder = MediaStoreOutput.folderLabel(isAudio),
                 command = built.command, note = built.note,
+                inputInfo = inputInfo,
+                usedHardwareDecode = built.usedHardwareDecode,
                 status = JobStatus.Queued,
             )
         }
@@ -199,19 +215,17 @@ class ConversionQueueViewModel : ViewModel() {
         setStatus(job.id, JobStatus.Running(null))
         val collector = LogCollector()
         val startedAt = System.nanoTime()
-        var inputInfo: InputInfo? = null
+        val inputInfo = job.inputInfo
         try {
-            inputInfo = withContext(Dispatchers.IO) {
-                ConversionEngine.probeInput(context, job.inputUri)
-            }
             val totalMs = totalDurationFor(job, inputInfo?.durationMs)
-            // The engine run lives in its own Deferred so cancel() can stop
-            // this job without killing the pump loop behind it. Cancelling
-            // it makes the engine cancel the ffmpeg session.
-            val result = coroutineScope {
+
+            // One engine run in its own Deferred, so cancel() can stop
+            // this job without killing the pump loop behind it.
+            // Cancelling it makes the engine cancel the ffmpeg session.
+            suspend fun execute(command: List<String>): EngineResult = coroutineScope {
                 val deferred = async {
                     ConversionEngine.run(
-                        job.command, totalMs,
+                        command, totalMs,
                         onProgress = { fraction ->
                             setStatus(job.id, JobStatus.Running(fraction))
                         },
@@ -221,29 +235,72 @@ class ConversionQueueViewModel : ViewModel() {
                 runningDeferred = deferred
                 deferred.await()
             }
+
+            var current = job
+            var result = execute(current.command)
+            // Decode retry ladder: a hardware decoder that rejects a
+            // file fails at startup, within seconds — a failure minutes
+            // in is something else and is reported, not retried. The
+            // retry rebuilds the same command with CPU decode, updates
+            // the job so the card and the log show what actually ran,
+            // and the ffmpeg -y flag overwrites the partial output.
+            if (result is EngineResult.Failed && current.usedHardwareDecode &&
+                (System.nanoTime() - startedAt) / 1e9 < 20.0
+            ) {
+                val report = codecReport
+                val outUri = current.outputUri
+                val rebuilt = if (report != null && outUri != null) {
+                    PresetCommands.build(
+                        preset = current.preset,
+                        inputPath = ConversionEngine.inputPath(context, current.inputUri),
+                        outputPath = ConversionEngine.outputPath(context, outUri),
+                        report = report,
+                        input = current.inputInfo,
+                        softwareDecode = true,
+                    )
+                } else {
+                    null
+                }
+                if (rebuilt is PresetCommand.Ready) {
+                    collector.append(
+                        "--- hardware decode failed fast; retrying with CPU decode ---",
+                    )
+                    current = current.copy(
+                        command = rebuilt.command,
+                        note = rebuilt.note,
+                        usedHardwareDecode = false,
+                    )
+                    _jobs.update { jobs ->
+                        jobs.map { if (it.id == job.id) current else it }
+                    }
+                    result = execute(current.command)
+                }
+            }
             val elapsedSec = (System.nanoTime() - startedAt) / 1e9
+            val finishedJob = current
             when (result) {
                 EngineResult.Success -> {
-                    job.outputUri?.let { MediaStoreOutput.publish(context, it) }
-                    finishWithLog(job, inputInfo, collector, "Done", elapsedSec)
+                    finishedJob.outputUri?.let { MediaStoreOutput.publish(context, it) }
+                    finishWithLog(finishedJob, inputInfo, collector, "Done", elapsedSec)
                     setStatus(job.id, JobStatus.Done)
                 }
                 EngineResult.Cancelled -> {
-                    discardOutput(job)
-                    finishWithLog(job, inputInfo, collector, "Cancelled", elapsedSec)
+                    discardOutput(finishedJob)
+                    finishWithLog(finishedJob, inputInfo, collector, "Cancelled", elapsedSec)
                     setStatus(job.id, JobStatus.Cancelled)
                 }
                 is EngineResult.Failed -> {
-                    discardOutput(job)
+                    discardOutput(finishedJob)
                     val reason = failureReason(result.logTail)
-                    finishWithLog(job, inputInfo, collector, "Failed: $reason", elapsedSec)
+                    finishWithLog(finishedJob, inputInfo, collector, "Failed: $reason", elapsedSec)
                     setStatus(job.id, JobStatus.Failed(reason))
                 }
             }
         } catch (e: CancellationException) {
             discardOutput(job)
             val elapsedSec = (System.nanoTime() - startedAt) / 1e9
-            finishWithLog(job, inputInfo, collector, "Cancelled", elapsedSec)
+            val latest = _jobs.value.firstOrNull { it.id == job.id } ?: job
+            finishWithLog(latest, inputInfo, collector, "Cancelled", elapsedSec)
             setStatus(job.id, JobStatus.Cancelled)
         } finally {
             runningDeferred = null
