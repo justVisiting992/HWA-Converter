@@ -6,6 +6,12 @@ import android.view.Display
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Memory
@@ -71,16 +77,29 @@ class MainActivity : ComponentActivity() {
                     bottomBar = { TabBar(tab) { tab = it } },
                 ) { innerPadding ->
                     val modifier = Modifier.padding(innerPadding)
-                    when (tab) {
-                        Tab.CONVERT -> ConvertScreen(reportState.value, modifier)
-                        Tab.HARDWARE -> CapabilityScreen(reportState.value, modifier)
-                        Tab.SETTINGS -> SettingsScreen(
-                            template = template,
-                            mode = mode,
-                            onTemplateChange = { update(it, mode) },
-                            onModeChange = { update(template, it) },
-                            modifier = modifier,
-                        )
+                    AnimatedContent(
+                        targetState = tab,
+                        transitionSpec = {
+                            val direction =
+                                if (targetState.ordinal > initialState.ordinal) 1 else -1
+                            (fadeIn() + slideInHorizontally { it / 6 * direction })
+                                .togetherWith(
+                                    fadeOut() + slideOutHorizontally { -it / 6 * direction },
+                                )
+                        },
+                        label = "tab",
+                    ) { currentTab ->
+                        when (currentTab) {
+                            Tab.CONVERT -> ConvertScreen(reportState.value, modifier)
+                            Tab.HARDWARE -> CapabilityScreen(reportState.value, modifier)
+                            Tab.SETTINGS -> SettingsScreen(
+                                template = template,
+                                mode = mode,
+                                onTemplateChange = { update(it, mode) },
+                                onModeChange = { update(template, it) },
+                                modifier = modifier,
+                            )
+                        }
                     }
                 }
             }

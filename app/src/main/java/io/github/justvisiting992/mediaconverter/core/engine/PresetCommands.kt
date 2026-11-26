@@ -142,6 +142,14 @@ enum class ConversionPreset(
         kind = MediaKind.IMAGE,
         mimeType = "image/gif",
     ),
+    CUSTOM(
+        id = "custom",
+        label = "Custom · manual settings",
+        description = "Your own format: container, codecs, bitrate, resolution.",
+        outputExtension = "mp4",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/mp4",
+    ),
 }
 
 /** Which engine runs the job — shown to the user, never hidden. */
@@ -262,6 +270,7 @@ object PresetCommands {
             PresetCommand.Ready(
                 command = listOf("-y") + decode.args + listOf(
                     "-i", inputPath,
+                    "-threads", "0",
                     "-c:v", "libx264", "-preset", "slow", "-crf", "18",
                     "-pix_fmt", "yuv420p",
                     "-c:a", "aac", "-b:a", "128k",
@@ -279,6 +288,7 @@ object PresetCommands {
             PresetCommand.Ready(
                 command = listOf("-y") + decode.args + listOf(
                     "-i", inputPath,
+                    "-threads", "0",
                     "-c:v", "libx265", "-preset", "medium", "-crf", "22",
                     "-pix_fmt", "yuv420p", "-tag:v", "hvc1",
                     "-c:a", "aac", "-b:a", "128k",
@@ -296,6 +306,7 @@ object PresetCommands {
             PresetCommand.Ready(
                 command = listOf("-y") + decode.args + listOf(
                     "-i", inputPath,
+                    "-threads", "0",
                     // Constant-quality VP9: -b:v 0 with a CRF target.
                     "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "30",
                     "-deadline", "good", "-cpu-used", "2", "-row-mt", "1",
@@ -314,11 +325,12 @@ object PresetCommands {
             PresetCommand.Ready(
                 command = listOf("-y") + decode.args + listOf(
                     "-i", inputPath,
+                    "-threads", "0",
                     // libaom is the AV1 encoder in this FFmpeg build (no
                     // SVT-AV1); cpu-used 5 is the usable speed/quality
                     // point, and it is still slow — hence the label.
                     "-c:v", "libaom-av1", "-crf", "32", "-b:v", "0",
-                    "-cpu-used", "5",
+                    "-cpu-used", "5", "-row-mt", "1",
                     "-pix_fmt", "yuv420p",
                     "-c:a", "aac", "-b:a", "128k",
                     "-movflags", "+faststart",
@@ -330,6 +342,9 @@ object PresetCommands {
                 usedHardwareDecode = decode.hardware,
             )
         }
+        ConversionPreset.CUSTOM -> PresetCommand.Unavailable(
+            "Custom jobs are built from the manual options, not the preset path.",
+        )
         ConversionPreset.AUDIO_AAC -> PresetCommand.Ready(
             command = listOf(
                 "-y", "-i", inputPath,
@@ -399,6 +414,7 @@ object PresetCommands {
             PresetCommand.Ready(
                 command = listOf("-y") + decode.args + listOf(
                     "-i", inputPath,
+                    "-threads", "0",
                     "-an",
                     "-vf", "fps=12,scale=480:-2:flags=lanczos",
                     "-loop", "0",
@@ -460,6 +476,7 @@ object PresetCommands {
         return PresetCommand.Ready(
             command = listOf("-y") + decode.args + listOf(
                 "-i", inputPath,
+                "-threads", "0",
                 "-c:v", ffmpegEncoder,
                 // Pin the exact component the probe found — never let the
                 // platform silently pick a software encoder instead.
@@ -499,6 +516,7 @@ object PresetCommands {
         report: DeviceCodecReport,
         input: InputInfo?,
         softwareDecode: Boolean,
+        softwareLabel: String = "CPU (retried after the hardware decoder failed)",
     ): DecodeChoice {
         val codec = input?.videoCodec?.lowercase()
         val (wrapper, mime) = when (codec) {
@@ -512,7 +530,7 @@ object PresetCommands {
             return DecodeChoice(
                 args = emptyList(),
                 hardware = false,
-                label = "CPU (retried after the hardware decoder failed)",
+                label = softwareLabel,
             )
         }
         if (wrapper == null || mime == null) {
@@ -574,6 +592,213 @@ object PresetCommands {
             target = encoderMaxBitrate.toLong()
         }
         return target
+    }
+
+    // ------------------------------------------------------------------
+    // Manual mode: the user picks container, codecs, quality and size.
+    // Same honesty rules as the presets — hardware choices are checked
+    // against the probe, impossible combinations are refused in words.
+    // ------------------------------------------------------------------
+
+    /** Containers a manual conversion can target. */
+    enum class ManualContainer(val label: String, val extension: String, val mimeType: String) {
+        MP4("MP4", "mp4", "video/mp4"),
+        MKV("MKV", "mkv", "video/x-matroska"),
+        WEBM("WebM", "webm", "video/webm"),
+    }
+
+    enum class ManualVideoCodec(val label: String) {
+        COPY("Copy — no re-encode"),
+        H264_HW("H.264 · hardware"),
+        HEVC_HW("H.265 · hardware"),
+        H264_SW("H.264 · software"),
+        HEVC_SW("H.265 · software"),
+        VP9_SW("VP9 · software"),
+        AV1_SW("AV1 · software"),
+        NONE("No video — audio only"),
+    }
+
+    enum class ManualAudioCodec(
+        val label: String,
+        /** Output file shape when the job is audio-only. */
+        val extension: String,
+        val mimeType: String,
+    ) {
+        COPY("Copy — no re-encode", "", ""),
+        AAC("AAC", "m4a", "audio/mp4"),
+        MP3("MP3", "mp3", "audio/mpeg"),
+        OPUS("Opus", "opus", "audio/opus"),
+        NONE("No audio", "", ""),
+    }
+
+    /** Everything the manual panel lets the user choose. */
+    data class ManualOptions(
+        val container: ManualContainer = ManualContainer.MP4,
+        val video: ManualVideoCodec = ManualVideoCodec.HEVC_HW,
+        val audio: ManualAudioCodec = ManualAudioCodec.AAC,
+        /** Hardware video bitrate; null = the table value for this input. */
+        val videoBitrateKbps: Int? = null,
+        /** Software quality (CRF); null = the codec's preset default. */
+        val crf: Int? = null,
+        val audioBitrateKbps: Int = 128,
+        /** Cap the output height (downscale only); null = original size. */
+        val maxHeight: Int? = null,
+        /** True = decode on the media engine when a decoder exists. */
+        val hardwareDecode: Boolean = true,
+    )
+
+    /** The output file a manual job produces: extension, MIME, collection. */
+    fun manualOutputSpec(options: ManualOptions): Triple<String, String, MediaKind> =
+        if (options.video == ManualVideoCodec.NONE) {
+            Triple(options.audio.extension, options.audio.mimeType, MediaKind.AUDIO)
+        } else {
+            Triple(options.container.extension, options.container.mimeType, MediaKind.VIDEO)
+        }
+
+    /**
+     * Build the ffmpeg command for a manual conversion. Refuses, in
+     * words, when the combination cannot work: a missing hardware
+     * encoder, audio-copy with no video (the output format would be
+     * unknowable), or a WebM container with codecs WebM cannot hold.
+     */
+    fun buildManual(
+        options: ManualOptions,
+        inputPath: String,
+        outputPath: String,
+        report: DeviceCodecReport,
+        input: InputInfo? = null,
+    ): PresetCommand {
+        if (options.video == ManualVideoCodec.NONE) {
+            if (options.audio == ManualAudioCodec.COPY ||
+                options.audio == ManualAudioCodec.NONE
+            ) {
+                return PresetCommand.Unavailable(
+                    "Audio-only output needs an audio codec — pick AAC, MP3 or Opus.",
+                )
+            }
+            val encoder = when (options.audio) {
+                ManualAudioCodec.AAC -> listOf("-c:a", "aac", "-b:a", "${options.audioBitrateKbps}k")
+                ManualAudioCodec.MP3 -> listOf("-c:a", "libmp3lame", "-b:a", "${options.audioBitrateKbps}k")
+                ManualAudioCodec.OPUS -> listOf("-c:a", "libopus", "-b:a", "${options.audioBitrateKbps}k")
+                else -> return PresetCommand.Unavailable("Pick an audio codec.")
+            }
+            return PresetCommand.Ready(
+                command = listOf("-y", "-i", inputPath, "-vn") + encoder + listOf(outputPath),
+                engine = EngineKind.SOFTWARE,
+                note = "Custom: audio only (${options.audio.label} " +
+                    "${options.audioBitrateKbps}k).",
+            )
+        }
+        if (options.container == ManualContainer.WEBM &&
+            options.video != ManualVideoCodec.VP9_SW &&
+            options.video != ManualVideoCodec.AV1_SW &&
+            options.video != ManualVideoCodec.COPY
+        ) {
+            return PresetCommand.Unavailable(
+                "WebM holds VP9 or AV1 video — pick one of those, or an MP4/MKV container.",
+            )
+        }
+        if (options.container == ManualContainer.WEBM &&
+            (options.audio == ManualAudioCodec.AAC || options.audio == ManualAudioCodec.MP3)
+        ) {
+            return PresetCommand.Unavailable(
+                "WebM audio must be Opus (or copied / none) — AAC and MP3 don't fit WebM.",
+            )
+        }
+
+        val decode = decodeChoice(
+            report, input,
+            softwareDecode = !options.hardwareDecode,
+            softwareLabel = "CPU (your choice in Custom settings)",
+        )
+        val args = mutableListOf("-y")
+        args += decode.args
+        args += listOf("-i", inputPath, "-threads", "0")
+        var engine = EngineKind.SOFTWARE
+
+        // Video side.
+        when (options.video) {
+            ManualVideoCodec.COPY -> {
+                args += listOf("-c:v", "copy")
+                engine = EngineKind.COPY
+            }
+            ManualVideoCodec.H264_HW, ManualVideoCodec.HEVC_HW -> {
+                val hevc = options.video == ManualVideoCodec.HEVC_HW
+                val mime = if (hevc) {
+                    DeviceCodecReport.MIME_HEVC
+                } else {
+                    DeviceCodecReport.MIME_AVC
+                }
+                val encoder = report.bestHardwareEncoder(mime)
+                    ?: return PresetCommand.Unavailable(
+                        "This phone has no hardware ${if (hevc) "HEVC" else "H.264"} " +
+                            "encoder, so this custom setting cannot run.",
+                    )
+                val bitrate = options.videoBitrateKbps?.let { it * 1000L }
+                    ?: hardwareBitrate(mime, input, encoder.maxBitrate)
+                args += listOf(
+                    "-c:v", if (hevc) "hevc_mediacodec" else "h264_mediacodec",
+                    "-codec_name", encoder.componentName,
+                    "-b:v", bitrate.toString(),
+                    "-pix_fmt", "yuv420p",
+                )
+                if (hevc) args += listOf("-tag:v", "hvc1")
+                engine = EngineKind.HARDWARE
+            }
+            ManualVideoCodec.H264_SW -> args += listOf(
+                "-c:v", "libx264", "-preset", "slow",
+                "-crf", (options.crf ?: 18).toString(), "-pix_fmt", "yuv420p",
+            )
+            ManualVideoCodec.HEVC_SW -> args += listOf(
+                "-c:v", "libx265", "-preset", "medium",
+                "-crf", (options.crf ?: 22).toString(),
+                "-pix_fmt", "yuv420p", "-tag:v", "hvc1",
+            )
+            ManualVideoCodec.VP9_SW -> args += listOf(
+                "-c:v", "libvpx-vp9", "-b:v", "0",
+                "-crf", (options.crf ?: 30).toString(),
+                "-deadline", "good", "-cpu-used", "2", "-row-mt", "1",
+                "-pix_fmt", "yuv420p",
+            )
+            ManualVideoCodec.AV1_SW -> args += listOf(
+                "-c:v", "libaom-av1",
+                "-crf", (options.crf ?: 32).toString(), "-b:v", "0",
+                "-cpu-used", "5", "-row-mt", "1", "-pix_fmt", "yuv420p",
+            )
+            ManualVideoCodec.NONE -> Unit // handled above
+        }
+
+        // Downscale cap (re-encodes only; a copied stream keeps its size).
+        if (options.maxHeight != null && options.video != ManualVideoCodec.COPY) {
+            args += listOf("-vf", "scale=-2:min(ih\\,${options.maxHeight})")
+        }
+
+        // Audio side.
+        when (options.audio) {
+            ManualAudioCodec.COPY -> args += listOf("-c:a", "copy")
+            ManualAudioCodec.AAC -> args += listOf(
+                "-c:a", "aac", "-b:a", "${options.audioBitrateKbps}k",
+            )
+            ManualAudioCodec.MP3 -> args += listOf(
+                "-c:a", "libmp3lame", "-b:a", "${options.audioBitrateKbps}k",
+            )
+            ManualAudioCodec.OPUS -> args += listOf(
+                "-c:a", "libopus", "-b:a", "${options.audioBitrateKbps}k",
+            )
+            ManualAudioCodec.NONE -> args += listOf("-an")
+        }
+
+        if (options.container == ManualContainer.MP4) {
+            args += listOf("-movflags", "+faststart")
+        }
+        args += outputPath
+        return PresetCommand.Ready(
+            command = args,
+            engine = engine,
+            note = "Custom: ${options.container.label} · video ${options.video.label} · " +
+                "audio ${options.audio.label}. Decode: ${decode.label}.",
+            usedHardwareDecode = decode.hardware,
+        )
     }
 
     /** One shell-readable line, for the command-mode view and the job log. */

@@ -48,6 +48,14 @@ Early development. What exists today:
   each in light and dark), saved between launches
 - The app requests the display's highest refresh rate at its native
   resolution (120 Hz on the 15T Pro) instead of accepting a 60 Hz cap
+- Presets live in categorized, animated menus (Hardware encode, Software
+  encode, Audio only, No re-encode, Create), and a Custom preset opens a
+  manual panel: container (MP4/MKV/WebM), video codec (copy, hardware
+  H.264/HEVC, software H.264/HEVC/VP9/AV1, none), bitrate or CRF, max
+  height, audio codec and bitrate, and a hardware-decode toggle —
+  impossible combinations are refused in plain words, like the presets
+- Software encoders are told explicitly to use every CPU core
+  (`-threads 0`, row-mt where the encoder needs it)
 - FFmpeg 8.1.2 (ffmpeg-kit-full-gpl 8.1.9) vendored in `app/libs`, MediaCodec
   included
 

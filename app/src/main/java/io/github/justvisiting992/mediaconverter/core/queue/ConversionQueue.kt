@@ -66,6 +66,8 @@ data class ConversionJob(
     val inputInfo: InputInfo? = null,
     /** True when the command decodes on the media engine (retry ladder). */
     val usedHardwareDecode: Boolean = false,
+    /** The manual options for a CUSTOM job; null for preset jobs. */
+    val manual: PresetCommands.ManualOptions? = null,
     val status: JobStatus,
     /** The debug log file written when the job finished; null until then. */
     val logUri: Uri? = null,
@@ -113,6 +115,7 @@ class ConversionQueueViewModel : ViewModel() {
         report: DeviceCodecReport,
         trimStartSeconds: Double?,
         trimEndSeconds: Double?,
+        manual: PresetCommands.ManualOptions? = null,
     ) {
         val app = context.applicationContext
         if (appContext == null) appContext = app
@@ -120,7 +123,10 @@ class ConversionQueueViewModel : ViewModel() {
         viewModelScope.launch {
             val created = withContext(Dispatchers.IO) {
                 uris.map { uri ->
-                    createJob(app, uri, preset, report, trimStartSeconds, trimEndSeconds)
+                    createJob(
+                        app, uri, preset, report,
+                        trimStartSeconds, trimEndSeconds, manual,
+                    )
                 }
             }
             _jobs.update { it + created }
@@ -147,43 +153,62 @@ class ConversionQueueViewModel : ViewModel() {
         report: DeviceCodecReport,
         trimStartSeconds: Double?,
         trimEndSeconds: Double?,
+        manual: PresetCommands.ManualOptions?,
     ): ConversionJob {
         val id = nextId++
         val inputName = queryDisplayName(context, inputUri) ?: "input"
         val base = inputName.substringBeforeLast('.', inputName)
-        val outputName = "${base}_${preset.id}.${preset.outputExtension}"
+        // A custom job's file shape comes from the manual options, not
+        // the placeholder values on the CUSTOM preset entry.
+        val custom = if (preset == ConversionPreset.CUSTOM) manual else null
+        val (outExt, outMime, outKind) = if (custom != null) {
+            PresetCommands.manualOutputSpec(custom)
+        } else {
+            Triple(preset.outputExtension, preset.mimeType, preset.kind)
+        }
+        val outputName = "${base}_${preset.id}.$outExt"
         // Probe first: the command is built from what the file actually
         // is (codec, resolution, bitrate), not from guesses.
         val inputInfo = ConversionEngine.probeInput(context, inputUri)
         val outputUri = MediaStoreOutput.create(
-            context, outputName, preset.kind, preset.mimeType,
+            context, outputName, outKind, outMime,
         )
         if (outputUri == null) {
             return ConversionJob(
                 id = id, inputUri = inputUri, inputName = inputName, preset = preset,
                 outputUri = null, outputName = outputName,
-                outputFolder = MediaStoreOutput.folderLabel(preset.kind),
+                outputFolder = MediaStoreOutput.folderLabel(outKind),
                 command = emptyList(), note = "", inputInfo = inputInfo,
                 status = JobStatus.Failed("Could not create the output file in MediaStore."),
             )
         }
         return when (
-            val built = PresetCommands.build(
-                preset = preset,
-                inputPath = ConversionEngine.inputPath(context, inputUri),
-                outputPath = ConversionEngine.outputPath(context, outputUri),
-                report = report,
-                input = inputInfo,
-                trimStartSeconds = trimStartSeconds,
-                trimEndSeconds = trimEndSeconds,
-            )
+            val built = if (custom != null) {
+                PresetCommands.buildManual(
+                    options = custom,
+                    inputPath = ConversionEngine.inputPath(context, inputUri),
+                    outputPath = ConversionEngine.outputPath(context, outputUri),
+                    report = report,
+                    input = inputInfo,
+                )
+            } else {
+                PresetCommands.build(
+                    preset = preset,
+                    inputPath = ConversionEngine.inputPath(context, inputUri),
+                    outputPath = ConversionEngine.outputPath(context, outputUri),
+                    report = report,
+                    input = inputInfo,
+                    trimStartSeconds = trimStartSeconds,
+                    trimEndSeconds = trimEndSeconds,
+                )
+            }
         ) {
             is PresetCommand.Unavailable -> {
                 MediaStoreOutput.discard(context, outputUri)
                 ConversionJob(
                     id = id, inputUri = inputUri, inputName = inputName, preset = preset,
                     outputUri = null, outputName = outputName,
-                    outputFolder = MediaStoreOutput.folderLabel(preset.kind),
+                    outputFolder = MediaStoreOutput.folderLabel(outKind),
                     command = emptyList(), note = "", inputInfo = inputInfo,
                     status = JobStatus.Failed(built.reason),
                 )
@@ -191,10 +216,11 @@ class ConversionQueueViewModel : ViewModel() {
             is PresetCommand.Ready -> ConversionJob(
                 id = id, inputUri = inputUri, inputName = inputName, preset = preset,
                 outputUri = outputUri, outputName = outputName,
-                outputFolder = MediaStoreOutput.folderLabel(preset.kind),
+                outputFolder = MediaStoreOutput.folderLabel(outKind),
                 command = built.command, note = built.note,
                 inputInfo = inputInfo,
                 usedHardwareDecode = built.usedHardwareDecode,
+                manual = custom,
                 status = JobStatus.Queued,
             )
         }
@@ -252,14 +278,24 @@ class ConversionQueueViewModel : ViewModel() {
                 val report = codecReport
                 val outUri = current.outputUri
                 val rebuilt = if (report != null && outUri != null) {
-                    PresetCommands.build(
-                        preset = current.preset,
-                        inputPath = ConversionEngine.inputPath(context, current.inputUri),
-                        outputPath = ConversionEngine.outputPath(context, outUri),
-                        report = report,
-                        input = current.inputInfo,
-                        softwareDecode = true,
-                    )
+                    if (current.manual != null) {
+                        PresetCommands.buildManual(
+                            options = current.manual.copy(hardwareDecode = false),
+                            inputPath = ConversionEngine.inputPath(context, current.inputUri),
+                            outputPath = ConversionEngine.outputPath(context, outUri),
+                            report = report,
+                            input = current.inputInfo,
+                        )
+                    } else {
+                        PresetCommands.build(
+                            preset = current.preset,
+                            inputPath = ConversionEngine.inputPath(context, current.inputUri),
+                            outputPath = ConversionEngine.outputPath(context, outUri),
+                            report = report,
+                            input = current.inputInfo,
+                            softwareDecode = true,
+                        )
+                    }
                 } else {
                     null
                 }
