@@ -69,6 +69,7 @@ private fun categoriesFor(available: List<ConversionPreset>): List<PresetCategor
         group(
             "Hardware encode",
             ConversionPreset.H264_HARDWARE, ConversionPreset.HEVC_HARDWARE,
+            ConversionPreset.VP9_HARDWARE, ConversionPreset.AV1_HARDWARE,
         ),
         group(
             "Software encode",
@@ -430,6 +431,10 @@ private fun ManualPanel(
                 report.hasHardwareEncoder(DeviceCodecReport.MIME_AVC)
             PresetCommands.ManualVideoCodec.HEVC_HW ->
                 report.hasHardwareEncoder(DeviceCodecReport.MIME_HEVC)
+            PresetCommands.ManualVideoCodec.VP9_HW ->
+                report.hasHardwareEncoder(DeviceCodecReport.MIME_VP9)
+            PresetCommands.ManualVideoCodec.AV1_HW ->
+                report.hasHardwareEncoder(DeviceCodecReport.MIME_AV1)
             else -> true
         }
     }

@@ -123,6 +123,13 @@ private fun HardwareSummary(report: DeviceCodecReport) {
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
             )
+            report.mediaVendor()?.let { vendor ->
+                Text(
+                    "Media engine: $vendor",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.75f),
+                )
+            }
             SummaryRow("H.264", report.bestHardwareEncoder(DeviceCodecReport.MIME_AVC))
             SummaryRow("H.265 / HEVC", report.bestHardwareEncoder(DeviceCodecReport.MIME_HEVC))
             SummaryRow("VP9", report.bestHardwareEncoder(DeviceCodecReport.MIME_VP9))

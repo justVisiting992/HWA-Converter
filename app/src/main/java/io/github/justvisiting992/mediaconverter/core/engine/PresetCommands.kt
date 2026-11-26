@@ -38,6 +38,22 @@ enum class ConversionPreset(
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
     ),
+    VP9_HARDWARE(
+        id = "vp9-hw",
+        label = "VP9 · hardware",
+        description = "Hardware VP9 in a WebM file. Only on phones whose media engine encodes VP9.",
+        outputExtension = "webm",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/webm",
+    ),
+    AV1_HARDWARE(
+        id = "av1-hw",
+        label = "AV1 · hardware",
+        description = "Hardware AV1. Rare — only a few media engines encode AV1; this preset appears only on those phones.",
+        outputExtension = "mp4",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/mp4",
+    ),
     H264_SOFTWARE(
         id = "h264-sw-max",
         label = "H.264 · max quality (software)",
@@ -216,6 +232,10 @@ object PresetCommands {
                     report.hasHardwareEncoder(DeviceCodecReport.MIME_AVC)
                 ConversionPreset.HEVC_HARDWARE ->
                     report.hasHardwareEncoder(DeviceCodecReport.MIME_HEVC)
+                ConversionPreset.VP9_HARDWARE ->
+                    report.hasHardwareEncoder(DeviceCodecReport.MIME_VP9)
+                ConversionPreset.AV1_HARDWARE ->
+                    report.hasHardwareEncoder(DeviceCodecReport.MIME_AV1)
                 else -> true
             }
         }
@@ -264,6 +284,32 @@ object PresetCommands {
             videoBitrateBps = videoBitrateBps,
             // hvc1 tag: the MP4 brand Apple players expect for HEVC.
             extraVideoArgs = listOf("-tag:v", "hvc1"),
+        )
+        ConversionPreset.VP9_HARDWARE -> hardwareVideo(
+            mimeType = DeviceCodecReport.MIME_VP9,
+            ffmpegEncoder = "vp9_mediacodec",
+            codecLabel = "VP9",
+            inputPath = inputPath,
+            outputPath = outputPath,
+            report = report,
+            input = input,
+            softwareDecode = softwareDecode,
+            videoBitrateBps = videoBitrateBps,
+            extraVideoArgs = emptyList(),
+            audioArgs = listOf("-c:a", "libopus", "-b:a", "128k"),
+            containerArgs = emptyList(),
+        )
+        ConversionPreset.AV1_HARDWARE -> hardwareVideo(
+            mimeType = DeviceCodecReport.MIME_AV1,
+            ffmpegEncoder = "av1_mediacodec",
+            codecLabel = "AV1",
+            inputPath = inputPath,
+            outputPath = outputPath,
+            report = report,
+            input = input,
+            softwareDecode = softwareDecode,
+            videoBitrateBps = videoBitrateBps,
+            extraVideoArgs = emptyList(),
         )
         ConversionPreset.H264_SOFTWARE -> {
             val decode = decodeChoice(report, input, softwareDecode)
@@ -463,6 +509,8 @@ object PresetCommands {
         softwareDecode: Boolean,
         videoBitrateBps: Long?,
         extraVideoArgs: List<String>,
+        audioArgs: List<String> = listOf("-c:a", "aac", "-b:a", "128k"),
+        containerArgs: List<String> = listOf("-movflags", "+faststart"),
     ): PresetCommand {
         val encoder = report.bestHardwareEncoder(mimeType)
             ?: return PresetCommand.Unavailable(
@@ -483,11 +531,7 @@ object PresetCommands {
                 "-codec_name", encoder.componentName,
                 "-b:v", bitrate.toString(),
                 "-pix_fmt", "yuv420p",
-            ) + extraVideoArgs + listOf(
-                "-c:a", "aac", "-b:a", "128k",
-                "-movflags", "+faststart",
-                outputPath,
-            ),
+            ) + extraVideoArgs + audioArgs + containerArgs + listOf(outputPath),
             engine = EngineKind.HARDWARE,
             note = "Hardware encode ($codecLabel) on ${encoder.componentName} " +
                 "at ${"%.1f".format(bitrate / 1e6)} Mbps. Decode: ${decode.label}.",
@@ -573,7 +617,9 @@ object PresetCommands {
         encoderMaxBitrate: Int?,
     ): Long {
         val height = input?.height?.toInt() ?: 1080
-        val hevc = mimeType == DeviceCodecReport.MIME_HEVC
+        val hevc = mimeType == DeviceCodecReport.MIME_HEVC ||
+            mimeType == DeviceCodecReport.MIME_VP9 ||
+            mimeType == DeviceCodecReport.MIME_AV1
         var target = when {
             height >= 2160 -> if (hevc) 16_000_000L else 20_000_000L
             height >= 1080 -> if (hevc) 4_500_000L else 8_000_000L
@@ -611,6 +657,8 @@ object PresetCommands {
         COPY("Copy — no re-encode"),
         H264_HW("H.264 · hardware"),
         HEVC_HW("H.265 · hardware"),
+        VP9_HW("VP9 · hardware"),
+        AV1_HW("AV1 · hardware"),
         H264_SW("H.264 · software"),
         HEVC_SW("H.265 · software"),
         VP9_SW("VP9 · software"),
@@ -692,6 +740,8 @@ object PresetCommands {
         if (options.container == ManualContainer.WEBM &&
             options.video != ManualVideoCodec.VP9_SW &&
             options.video != ManualVideoCodec.AV1_SW &&
+            options.video != ManualVideoCodec.VP9_HW &&
+            options.video != ManualVideoCodec.AV1_HW &&
             options.video != ManualVideoCodec.COPY
         ) {
             return PresetCommand.Unavailable(
@@ -722,27 +772,34 @@ object PresetCommands {
                 args += listOf("-c:v", "copy")
                 engine = EngineKind.COPY
             }
-            ManualVideoCodec.H264_HW, ManualVideoCodec.HEVC_HW -> {
-                val hevc = options.video == ManualVideoCodec.HEVC_HW
-                val mime = if (hevc) {
-                    DeviceCodecReport.MIME_HEVC
-                } else {
-                    DeviceCodecReport.MIME_AVC
+            ManualVideoCodec.H264_HW, ManualVideoCodec.HEVC_HW,
+            ManualVideoCodec.VP9_HW, ManualVideoCodec.AV1_HW -> {
+                val (mime, wrapper, shortName) = when (options.video) {
+                    ManualVideoCodec.HEVC_HW ->
+                        Triple(DeviceCodecReport.MIME_HEVC, "hevc_mediacodec", "HEVC")
+                    ManualVideoCodec.VP9_HW ->
+                        Triple(DeviceCodecReport.MIME_VP9, "vp9_mediacodec", "VP9")
+                    ManualVideoCodec.AV1_HW ->
+                        Triple(DeviceCodecReport.MIME_AV1, "av1_mediacodec", "AV1")
+                    else ->
+                        Triple(DeviceCodecReport.MIME_AVC, "h264_mediacodec", "H.264")
                 }
                 val encoder = report.bestHardwareEncoder(mime)
                     ?: return PresetCommand.Unavailable(
-                        "This phone has no hardware ${if (hevc) "HEVC" else "H.264"} " +
+                        "This phone has no hardware $shortName " +
                             "encoder, so this custom setting cannot run.",
                     )
                 val bitrate = options.videoBitrateKbps?.let { it * 1000L }
                     ?: hardwareBitrate(mime, input, encoder.maxBitrate)
                 args += listOf(
-                    "-c:v", if (hevc) "hevc_mediacodec" else "h264_mediacodec",
+                    "-c:v", wrapper,
                     "-codec_name", encoder.componentName,
                     "-b:v", bitrate.toString(),
                     "-pix_fmt", "yuv420p",
                 )
-                if (hevc) args += listOf("-tag:v", "hvc1")
+                if (options.video == ManualVideoCodec.HEVC_HW) {
+                    args += listOf("-tag:v", "hvc1")
+                }
                 engine = EngineKind.HARDWARE
             }
             ManualVideoCodec.H264_SW -> args += listOf(

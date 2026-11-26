@@ -20,8 +20,12 @@ Early development. What exists today:
   encoders and decoders, component names, hardware vs software, max
   resolution, bitrate range, profiles — the capability report every preset
   is built from
-- A preset-to-command builder (`core/engine/PresetCommands.kt`): fifteen
-  presets — H.264/HEVC hardware, H.264/HEVC software max-quality, VP9
+- A preset-to-command builder (`core/engine/PresetCommands.kt`): seventeen
+  presets — H.264/HEVC/VP9/AV1 hardware (each shown only when the
+  phone's media engine has it: MediaTek, Qualcomm, Samsung Exynos,
+  HiSilicon Kirin and Google Tensor are all probed the same way, with
+  no vendor settings anywhere — the app detects the hardware and adapts
+  on its own), H.264/HEVC software max-quality, VP9
   (WebM), AV1, audio extraction to AAC/MP3/Opus/FLAC/WAV, remux to
   MP4/MKV without re-encoding, trim, and GIF — turned into exact ffmpeg
   commands from the live report and a probe of the actual input file —

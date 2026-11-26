@@ -61,6 +61,28 @@ data class DeviceCodecReport(
 
     fun hasHardwareDecoder(mimeType: String): Boolean = bestHardwareDecoder(mimeType) != null
 
+    /**
+     * Who made the media engine, read from the hardware components'
+     * names: the mtk tag is MediaTek, qti/qcom Qualcomm, exynos
+     * Samsung Exynos, hisi HiSilicon Kirin, google Google (Tensor).
+     * Null when no hardware component carries a known vendor tag.
+     */
+    fun mediaVendor(): String? {
+        val names =
+            videoEncoders.filter { it.isHardware }.map { it.componentName.lowercase() } +
+                videoDecoders.filter { it.isHardware }.map { it.componentName.lowercase() }
+        fun any(vararg needles: String) = names.any { n -> needles.any { n.contains(it) } }
+        return when {
+            any(".mtk.", "omx.mtk") -> "MediaTek"
+            any(".qti.", ".qcom.") -> "Qualcomm"
+            any(".exynos.", ".samsung.") -> "Samsung Exynos"
+            any(".hisi.", ".kirin.") -> "HiSilicon Kirin"
+            any(".google.") -> "Google"
+            any(".arm.") -> "Arm"
+            else -> null
+        }
+    }
+
     companion object {
         const val MIME_AVC = "video/avc"
         const val MIME_HEVC = "video/hevc"
@@ -75,6 +97,14 @@ data class DeviceCodecReport(
  * advertises, never assume from the chipset name. The Dimensity 9400+ can
  * encode HEVC at 4K, but the platform only *guarantees* far less — so this
  * probe, not a spec sheet, is what our presets are built from.
+ *
+ * The probe is vendor-neutral by construction: MediaTek (c2.mtk.*),
+ * Qualcomm (c2.qti.*), Samsung Exynos (c2.exynos.*), HiSilicon Kirin
+ * (c2.hisi.*) and Google Tensor (c2.google.*) components all arrive
+ * through the same MediaCodecList enumeration, are ranked by the same
+ * rules, and are pinned by name into the same FFmpeg wrappers. A phone
+ * whose media engine encodes VP9 or AV1 gets those hardware presets;
+ * a phone without them never sees them.
  */
 object HardwareCodecProbe {
 
@@ -84,6 +114,8 @@ object HardwareCodecProbe {
         val decoders = mutableListOf<DecoderCapability>()
         val codecList = MediaCodecList(MediaCodecList.REGULAR_CODECS)
         for (info in codecList.codecInfos) {
+            // Secure-path components (DRM) can't encode general content.
+            if (info.name.lowercase().contains(".secure")) continue
             if (!info.isEncoder) {
                 for (mime in info.supportedTypes) {
                     if (!mime.startsWith("video/")) continue
@@ -127,10 +159,14 @@ object HardwareCodecProbe {
                 (if (isVideo) video else audio).add(entry)
             }
         }
-        // Hardware first, then by capability, so index 0 is the best component.
+        // Best component first: hardware over software, then the modern
+        // Codec2 components (c2.*) over legacy OMX aliases of the same
+        // silicon, then by the largest frame they accept.
         val order = compareByDescending<EncoderCapability> { it.isHardware }
+            .thenByDescending { it.componentName.startsWith("c2.") }
             .thenByDescending { (it.maxWidth ?: 0) * (it.maxHeight ?: 0) }
         val decoderOrder = compareByDescending<DecoderCapability> { it.isHardware }
+            .thenByDescending { it.componentName.startsWith("c2.") }
             .thenByDescending { (it.maxWidth ?: 0) * (it.maxHeight ?: 0) }
         return DeviceCodecReport(
             videoEncoders = video.sortedWith(order),
