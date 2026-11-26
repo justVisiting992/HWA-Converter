@@ -19,6 +19,11 @@ Early development. What exists today:
 - A "Your hardware" screen that probes the device's MediaCodec encoders live —
   component names, hardware vs software, max resolution, bitrate range,
   profiles — the capability report every preset will be built from
+- A preset-to-command builder (`core/engine/PresetCommands.kt`): five v1
+  presets (H.264/HEVC hardware, H.264 software max-quality, audio extract,
+  trim without re-encode) turned into exact ffmpeg commands from the live
+  report — hardware presets pin the probed component by name and refuse
+  honestly when the hardware is missing, never silently falling back to CPU
 - FFmpeg 8.1.2 (ffmpeg-kit-full-gpl 8.1.9) vendored in `app/libs`, MediaCodec
   included
 
