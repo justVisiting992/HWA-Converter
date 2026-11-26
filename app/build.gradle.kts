@@ -14,10 +14,18 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "0.1.0"
+    }
 
-        // Phones only: x86_64 is emulator weight, 32-bit is dead.
-        ndk {
-            abiFilters += listOf("arm64-v8a")
+    // One APK per ABI the FFmpegKit engine actually ships, plus a
+    // universal APK carrying both: app-arm64-v8a, app-x86_64,
+    // app-universal. (armeabi-v7a does not exist in any maintained
+    // FFmpegKit build — the fork ships arm64-v8a + x86_64 only.)
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("arm64-v8a", "x86_64")
+            isUniversalApk = true
         }
     }
 
