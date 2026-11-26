@@ -60,7 +60,7 @@ fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) 
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 100.dp, bottom = 120.dp),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 120.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item { DeviceHero(report) }

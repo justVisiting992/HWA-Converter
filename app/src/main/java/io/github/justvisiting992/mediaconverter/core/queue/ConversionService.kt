@@ -15,11 +15,14 @@ import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import io.github.justvisiting992.mediaconverter.MainActivity
 import io.github.justvisiting992.mediaconverter.R
+import io.github.justvisiting992.mediaconverter.ui.components.formatEtaLeft
+import io.github.justvisiting992.mediaconverter.ui.components.formatSizeBytes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -78,6 +81,21 @@ class ConversionService : Service() {
         if (observeJob?.isActive != true) {
             observeJob = scope.launch { observeQueue() }
         }
+        // Safety net: if no job ever materializes (the files could not
+        // be queued at all), do not linger as a foreground service.
+        scope.launch {
+            delay(15_000)
+            val jobs = ConversionRuntime.get(this@ConversionService).jobs.value
+            if (jobs.none {
+                    it.status is JobStatus.Running || it.status is JobStatus.Queued
+                }
+            ) {
+                ServiceCompat.stopForeground(
+                    this@ConversionService, ServiceCompat.STOP_FOREGROUND_REMOVE,
+                )
+                stopSelf()
+            }
+        }
         return START_NOT_STICKY
     }
 
@@ -97,14 +115,25 @@ class ConversionService : Service() {
         val queue = ConversionRuntime.get(this)
         var lastPercent = -2
         var lastPostAt = 0L
+        // Jobs are created asynchronously (probing takes a moment), so
+        // at startup the queue can legitimately read empty for a beat.
+        // Standing down on that first empty read killed the service —
+        // and its notification — before the first job even landed.
+        // Only stand down once work has been seen and then drained, or
+        // when every job already reached a finished state.
+        var seenActive = false
         queue.jobs.collect { jobs ->
             val running = jobs.firstOrNull { it.status is JobStatus.Running }
             val queuedCount = jobs.count { it.status is JobStatus.Queued }
-            if (running == null && queuedCount == 0) {
-                // Nothing in flight and nothing waiting: the queue has
-                // drained (or the only jobs were cancelled). Stand down.
-                ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
-                stopSelf()
+            val active = running != null || queuedCount > 0
+            if (active) seenActive = true
+            if (!active) {
+                if (seenActive || jobs.isNotEmpty()) {
+                    ServiceCompat.stopForeground(
+                        this, ServiceCompat.STOP_FOREGROUND_REMOVE,
+                    )
+                    stopSelf()
+                }
                 return@collect
             }
             val status = running?.status as? JobStatus.Running
@@ -115,14 +144,14 @@ class ConversionService : Service() {
                 lastPostAt = now
                 val speedText = status?.speed?.let { " · %.1f×".format(it) } ?: ""
                 val queueText = if (queuedCount > 0) " · $queuedCount more queued" else ""
-                val etaText = io.github.justvisiting992.mediaconverter.ui.components
-                    .formatEtaLeft(
-                        running?.inputInfo?.durationMs, status?.fraction, status?.speed,
-                    )?.let { " · $it" } ?: ""
+                val etaText = formatEtaLeft(
+                    running?.inputInfo?.durationMs, status?.fraction, status?.speed,
+                )?.let { " · $it" } ?: ""
+                val sizeText = status?.sizeBytes?.let { " · ${formatSizeBytes(it)}" } ?: ""
                 val text = when {
                     running == null -> "Starting…"
-                    percent != null -> "$percent%$speedText$etaText$queueText"
-                    else -> "Converting…$speedText$queueText"
+                    percent != null -> "$percent%$speedText$etaText$sizeText$queueText"
+                    else -> "Converting…$speedText$sizeText$queueText"
                 }
                 notify(
                     buildNotification(

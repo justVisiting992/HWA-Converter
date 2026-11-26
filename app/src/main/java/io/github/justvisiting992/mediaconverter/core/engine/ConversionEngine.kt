@@ -123,14 +123,15 @@ object ConversionEngine {
      * Run one ffmpeg command to completion. [onProgress] receives a 0..1
      * fraction when [totalDurationMs] is known (null when it is not —
      * statistics still arrive, they just cannot be turned into a
-     * fraction) and the current speed as a multiple of realtime.
+     * fraction), the current speed as a multiple of realtime, and the
+     * output size written so far in bytes.
      * Every ffmpeg log line is also passed to [onLog] for the debug log.
      * Cancelling the calling coroutine cancels the ffmpeg session.
      */
     suspend fun run(
         command: List<String>,
         totalDurationMs: Long?,
-        onProgress: (fraction: Float?, speed: Double?) -> Unit,
+        onProgress: (fraction: Float?, speed: Double?, sizeBytes: Long?) -> Unit,
         onLog: (String) -> Unit = {},
     ): EngineResult = withContext(Dispatchers.IO) {
         suspendCancellableCoroutine { cont ->
@@ -155,7 +156,11 @@ object ConversionEngine {
                     } else {
                         null
                     }
-                    onProgress(fraction, stats.speed.takeIf { it > 0 })
+                    onProgress(
+                        fraction,
+                        stats.speed.takeIf { it > 0 },
+                        stats.size.takeIf { it > 0 },
+                    )
                 },
             )
             cont.invokeOnCancellation { session.cancel() }

@@ -44,7 +44,12 @@ sealed interface JobStatus {
      * indeterminate, honestly. [speed] is realtime multiples (2.5 =
      * two and a half times realtime), null before ffmpeg reports any.
      */
-    data class Running(val fraction: Float?, val speed: Double? = null) : JobStatus
+    data class Running(
+        val fraction: Float?,
+        val speed: Double? = null,
+        /** Output bytes written so far, as ffmpeg reports them. */
+        val sizeBytes: Long? = null,
+    ) : JobStatus
 
     data object Done : JobStatus
 
@@ -264,8 +269,8 @@ class ConversionQueue(private val appContext: Context) {
                 val deferred = async {
                     ConversionEngine.run(
                         command, totalMs,
-                        onProgress = { fraction, speed ->
-                            setStatus(job.id, JobStatus.Running(fraction, speed))
+                        onProgress = { fraction, speed, size ->
+                            setStatus(job.id, JobStatus.Running(fraction, speed, size))
                         },
                         onLog = { line -> collector.append(line) },
                     )

@@ -1,4 +1,4 @@
-# Media Converter
+# HWA Converter
 
 An all-in-one multimedia converter for Android that encodes on your phone's
 hardware first.
@@ -60,9 +60,8 @@ Early development. What exists today:
   impossible combinations are refused in plain words, like the presets
 - Software encoders are told explicitly to use every CPU core
   (`-threads 0`, row-mt where the encoder needs it)
-- Floating chrome in plain Material surfaces: the top bar and the
-  navigation are pills floating over the content, and Add files is a
-  floating button. (A simulated-glass treatment shipped for one build
+- Floating chrome in plain Material surfaces: the navigation is a
+  pill floating over the content, and Add files is a floating button. (A simulated-glass treatment shipped for one build
   and was removed — it read as plain transparency, and real backdrop
   blur costs a GPU pass per frame for no functional gain.)
 - A friendly face: a gradient hero panel names your media engine and
@@ -72,7 +71,8 @@ Early development. What exists today:
   thumbnail and fact chips (codec, resolution, duration, size)
 - Conversions keep running in the background: a foreground service
   holds a permanent notification with the progress bar, the percent,
-  the speed, the time left, and a cancel button. Job cards show the
+  the speed, the time left, the output size so far, and a cancel
+  button. Job cards show the
   same numbers, an estimated output size before a job starts (when
   the command pins a bitrate), the exact ffmpeg command that ran, and
   Open / Share buttons when a file is done

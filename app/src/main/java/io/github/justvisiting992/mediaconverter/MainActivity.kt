@@ -86,9 +86,9 @@ class MainActivity : ComponentActivity() {
                 }
                 var tab by remember { mutableStateOf(Tab.CONVERT) }
                 // Floating chrome: content fills the screen and scrolls
-                // under a floating top pill and a floating navigation
-                // pill, instead of living between two fixed bars. The
-                // screens pad their own content clear of both pills.
+                // under a floating navigation pill, instead of living
+                // between two fixed bars. The screens pad their own
+                // content clear of the pill.
                 // The root Surface also provides the theme's content
                 // color — without it, plain text falls back to black.
                 Surface(
@@ -109,21 +109,17 @@ class MainActivity : ComponentActivity() {
                         label = "tab",
                     ) { currentTab ->
                         when (currentTab) {
-                            Tab.CONVERT -> ConvertScreen(reportState.value, Modifier.fillMaxSize())
-                            Tab.HARDWARE -> CapabilityScreen(reportState.value, Modifier.fillMaxSize())
+                            Tab.CONVERT -> ConvertScreen(reportState.value, Modifier.fillMaxSize().statusBarsPadding())
+                            Tab.HARDWARE -> CapabilityScreen(reportState.value, Modifier.fillMaxSize().statusBarsPadding())
                             Tab.SETTINGS -> SettingsScreen(
                                 template = template,
                                 mode = mode,
                                 onTemplateChange = { update(it, mode) },
                                 onModeChange = { update(template, it) },
-                                modifier = Modifier.fillMaxSize(),
+                                modifier = Modifier.fillMaxSize().statusBarsPadding(),
                             )
                         }
                     }
-                    FloatingTopBar(
-                        title = tab.title,
-                        modifier = Modifier.align(Alignment.TopCenter),
-                    )
                     FloatingNavBar(
                         selected = tab,
                         onSelect = { tab = it },
@@ -164,28 +160,6 @@ class MainActivity : ComponentActivity() {
                 preferredDisplayModeId = fastest.modeId
                 preferredRefreshRate = fastest.refreshRate
             }
-        }
-    }
-}
-
-/** The floating pill at the top: just the current tab's title. */
-@Composable
-private fun FloatingTopBar(title: String, modifier: Modifier = Modifier) {
-    val shape = RoundedCornerShape(percent = 50)
-    Box(
-        modifier = modifier
-            .statusBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 10.dp)
-            .fillMaxWidth()
-            .floatingSurface(shape)
-            .padding(horizontal = 20.dp, vertical = 13.dp),
-    ) {
-        AnimatedContent(targetState = title, label = "title") { text ->
-            Text(
-                text,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-            )
         }
     }
 }

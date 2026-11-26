@@ -226,7 +226,7 @@ fun ConvertScreen(
     Box(modifier = modifier.fillMaxSize()) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 100.dp, bottom = 120.dp),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 120.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         if (report == null) {
@@ -521,7 +521,10 @@ private fun ManualPanel(
             )
 
             PanelLabel("Video")
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                 videoOptions.forEach { codec ->
                     FilterChip(
                         selected = video == codec,
@@ -538,7 +541,10 @@ private fun ManualPanel(
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     PanelLabel("Container")
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                         PresetCommands.ManualContainer.entries.forEach { entry ->
                             FilterChip(
                                 selected = container == entry,
@@ -590,7 +596,10 @@ private fun ManualPanel(
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     PanelLabel("Max height")
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                         listOf<Int?>(null, 1080, 720, 480, 360).forEach { height ->
                             FilterChip(
                                 selected = maxHeight == height,
@@ -603,7 +612,10 @@ private fun ManualPanel(
             }
 
             PanelLabel("Audio")
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                 PresetCommands.ManualAudioCodec.entries.forEach { codec ->
                     FilterChip(
                         selected = audio == codec,
@@ -732,7 +744,10 @@ private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
                         color = MaterialTheme.colorScheme.primary,
                     )
                     if (info != null) {
-                        FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            verticalArrangement = Arrangement.spacedBy(6.dp),
+                        ) {
                             info.videoCodec?.let { InfoChip(it.uppercase()) }
                             if (info.width != null && info.height != null) {
                                 InfoChip("${info.width}×${info.height}")
@@ -811,6 +826,7 @@ private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
                                     listOfNotNull(
                                         status.speed?.let { "%.1f× speed".format(it) },
                                         eta,
+                                        status.sizeBytes?.let { formatSizeBytes(it) },
                                     ).joinToString(" · ").ifEmpty { "Converting…" },
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -821,7 +837,8 @@ private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
                         LinearProgressIndicator(Modifier.fillMaxWidth())
                         Text(
                             "Converting…" +
-                                (status.speed?.let { " · %.1f× speed".format(it) } ?: ""),
+                                (status.speed?.let { " · %.1f× speed".format(it) } ?: "") +
+                                (status.sizeBytes?.let { " · ${formatSizeBytes(it)}" } ?: ""),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
@@ -968,6 +985,7 @@ private fun ConvertHero(report: DeviceCodecReport) {
         if (chips.isNotEmpty()) {
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
                 modifier = Modifier.padding(top = 14.dp),
             ) {
                 chips.forEach { InfoChip(it) }
