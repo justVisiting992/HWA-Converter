@@ -13,8 +13,13 @@ import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecRepor
 import io.github.justvisiting992.mediaconverter.core.engine.ConversionEngine
 import io.github.justvisiting992.mediaconverter.core.engine.ConversionPreset
 import io.github.justvisiting992.mediaconverter.core.engine.EngineResult
+import io.github.justvisiting992.mediaconverter.core.engine.InputInfo
+import io.github.justvisiting992.mediaconverter.core.engine.LogCollector
 import io.github.justvisiting992.mediaconverter.core.engine.PresetCommand
 import io.github.justvisiting992.mediaconverter.core.engine.PresetCommands
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -57,6 +62,8 @@ data class ConversionJob(
     /** One line from the preset layer: which encoder runs, and why. */
     val note: String,
     val status: JobStatus,
+    /** The debug log file written when the job finished; null until then. */
+    val logUri: Uri? = null,
 )
 
 /**
@@ -190,43 +197,143 @@ class ConversionQueueViewModel : ViewModel() {
     private suspend fun runJob(job: ConversionJob) {
         val context = appContext ?: return
         setStatus(job.id, JobStatus.Running(null))
+        val collector = LogCollector()
+        val startedAt = System.nanoTime()
+        var inputInfo: InputInfo? = null
         try {
-            val durationMs = withContext(Dispatchers.IO) {
-                ConversionEngine.probeDurationMs(context, job.inputUri)
+            inputInfo = withContext(Dispatchers.IO) {
+                ConversionEngine.probeInput(context, job.inputUri)
             }
-            val totalMs = totalDurationFor(job, durationMs)
+            val totalMs = totalDurationFor(job, inputInfo?.durationMs)
             // The engine run lives in its own Deferred so cancel() can stop
             // this job without killing the pump loop behind it. Cancelling
             // it makes the engine cancel the ffmpeg session.
             val result = coroutineScope {
                 val deferred = async {
-                    ConversionEngine.run(job.command, totalMs) { fraction ->
-                        setStatus(job.id, JobStatus.Running(fraction))
-                    }
+                    ConversionEngine.run(
+                        job.command, totalMs,
+                        onProgress = { fraction ->
+                            setStatus(job.id, JobStatus.Running(fraction))
+                        },
+                        onLog = { line -> collector.append(line) },
+                    )
                 }
                 runningDeferred = deferred
                 deferred.await()
             }
+            val elapsedSec = (System.nanoTime() - startedAt) / 1e9
             when (result) {
                 EngineResult.Success -> {
                     job.outputUri?.let { MediaStoreOutput.publish(context, it) }
+                    finishWithLog(job, inputInfo, collector, "Done", elapsedSec)
                     setStatus(job.id, JobStatus.Done)
                 }
                 EngineResult.Cancelled -> {
                     discardOutput(job)
+                    finishWithLog(job, inputInfo, collector, "Cancelled", elapsedSec)
                     setStatus(job.id, JobStatus.Cancelled)
                 }
                 is EngineResult.Failed -> {
                     discardOutput(job)
-                    setStatus(job.id, JobStatus.Failed(failureReason(result.logTail)))
+                    val reason = failureReason(result.logTail)
+                    finishWithLog(job, inputInfo, collector, "Failed: $reason", elapsedSec)
+                    setStatus(job.id, JobStatus.Failed(reason))
                 }
             }
         } catch (e: CancellationException) {
             discardOutput(job)
+            val elapsedSec = (System.nanoTime() - startedAt) / 1e9
+            finishWithLog(job, inputInfo, collector, "Cancelled", elapsedSec)
             setStatus(job.id, JobStatus.Cancelled)
         } finally {
             runningDeferred = null
         }
+    }
+
+    /** Write the finished job's debug log and point the job at it. */
+    private suspend fun finishWithLog(
+        job: ConversionJob,
+        info: InputInfo?,
+        collector: LogCollector,
+        resultLine: String,
+        elapsedSec: Double,
+    ) {
+        val context = appContext ?: return
+        val text = buildDebugLog(job, info, collector, resultLine, elapsedSec)
+        val uri = withContext(Dispatchers.IO) { DebugLogStore.write(context, job, text) }
+        if (uri != null) {
+            _jobs.update { jobs ->
+                jobs.map { if (it.id == job.id) it.copy(logUri = uri) else it }
+            }
+        }
+    }
+
+    /**
+     * The debug log's header: everything needed to diagnose a conversion
+     * without the phone in hand — device, app, the probed input, the
+     * exact command, the outcome — followed by the ffmpeg log itself.
+     */
+    private fun buildDebugLog(
+        job: ConversionJob,
+        info: InputInfo?,
+        collector: LogCollector,
+        resultLine: String,
+        elapsedSec: Double,
+    ): String {
+        val sb = StringBuilder()
+        sb.appendLine("HWA Converter debug log")
+        sb.appendLine(
+            "Time: " + SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date()),
+        )
+        val context = appContext
+        if (context != null) {
+            val pkg = runCatching {
+                context.packageManager.getPackageInfo(context.packageName, 0)
+            }.getOrNull()
+            val code = pkg?.let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    it.longVersionCode
+                } else {
+                    @Suppress("DEPRECATION") it.versionCode.toLong()
+                }
+            }
+            sb.appendLine("App: ${pkg?.versionName ?: "?"} (build ${code ?: "?"})")
+        }
+        val soc = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            Build.SOC_MODEL
+        } else {
+            "unknown"
+        }
+        sb.appendLine(
+            "Device: ${Build.MANUFACTURER} ${Build.MODEL} · SoC $soc · " +
+                "Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})",
+        )
+        sb.appendLine("Input: ${job.inputName}")
+        if (info != null) {
+            sb.appendLine(
+                "Input probe: format=${info.format ?: "?"} · " +
+                    "duration=${info.durationMs?.let { "%.1fs".format(it / 1000.0) } ?: "?"} · " +
+                    "size=${info.sizeBytes?.let { "%.1f MB".format(it / 1e6) } ?: "?"} · " +
+                    "overall=${info.overallBitrateBps?.let { "%.2f Mbps".format(it / 1e6) } ?: "?"}",
+            )
+            sb.appendLine(
+                "Video stream: ${info.videoCodec ?: "?"} " +
+                    "${info.width ?: "?"}x${info.height ?: "?"} @ " +
+                    (info.videoBitrateBps?.let { "%.2f Mbps".format(it / 1e6) } ?: "?"),
+            )
+            sb.appendLine("Audio stream: ${info.audioCodec ?: "none"}")
+        } else {
+            sb.appendLine("Input probe: unavailable")
+        }
+        sb.appendLine("Preset: ${job.preset.id} (${job.preset.label})")
+        sb.appendLine("Note: ${job.note}")
+        sb.appendLine("Command: ffmpeg " + PresetCommands.displayCommand(job.command))
+        sb.appendLine("Result: $resultLine")
+        sb.appendLine("Elapsed: ${"%.1f".format(elapsedSec)}s")
+        sb.appendLine()
+        sb.appendLine("--- ffmpeg log ---")
+        sb.append(collector.render())
+        return sb.toString()
     }
 
     /**
@@ -325,5 +432,51 @@ object MediaStoreOutput {
     /** Remove an output entry whose conversion did not complete. */
     fun discard(context: Context, uri: Uri) {
         runCatching { context.contentResolver.delete(uri, null, null) }
+    }
+}
+
+/** Debug log files in Downloads/HWA Converter, one per finished job. */
+object DebugLogStore {
+
+    private const val FOLDER = "HWA Converter"
+
+    /**
+     * Write [text] as the job's debug log file and return its URI, or
+     * null when the write is not possible. Below API 29 there is no
+     * MediaStore Downloads collection, so no log file is written there.
+     */
+    fun write(context: Context, job: ConversionJob, text: String): Uri? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return null
+        val resolver = context.contentResolver
+        val stamp = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(Date())
+        val base = job.inputName.substringBeforeLast('.', job.inputName)
+        val values = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "hwa-log_${base}_$stamp.txt")
+            put(MediaStore.MediaColumns.MIME_TYPE, "text/plain")
+            put(
+                MediaStore.MediaColumns.RELATIVE_PATH,
+                Environment.DIRECTORY_DOWNLOADS + "/" + FOLDER,
+            )
+            put(MediaStore.MediaColumns.IS_PENDING, 1)
+        }
+        val collection =
+            MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        val uri = runCatching { resolver.insert(collection, values) }.getOrNull()
+            ?: return null
+        val written = runCatching {
+            resolver.openOutputStream(uri)?.use {
+                it.write(text.toByteArray(Charsets.UTF_8))
+            }
+            true
+        }.getOrDefault(false)
+        if (!written) {
+            runCatching { resolver.delete(uri, null, null) }
+            return null
+        }
+        val publish = ContentValues().apply {
+            put(MediaStore.MediaColumns.IS_PENDING, 0)
+        }
+        runCatching { resolver.update(uri, publish, null, null) }
+        return uri
     }
 }

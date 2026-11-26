@@ -30,6 +30,10 @@ Early development. What exists today:
   and outputs move through SAF/MediaStore (outputs in Movies/HWA Converter,
   Music/ for audio), and a failed or cancelled job leaves no half-written
   file behind
+- A debug log per finished job: device and app info, the probed input
+  (codec, resolution, bitrates), the exact command and the full FFmpeg
+  log, written to Download/HWA Converter with a Share log button on the
+  job card
 - FFmpeg 8.1.2 (ffmpeg-kit-full-gpl 8.1.9) vendored in `app/libs`, MediaCodec
   included
 

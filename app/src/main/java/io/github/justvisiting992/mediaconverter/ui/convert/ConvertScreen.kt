@@ -1,5 +1,6 @@
 package io.github.justvisiting992.mediaconverter.ui.convert
 
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -180,6 +181,7 @@ fun ConvertScreen(
 
 @Composable
 private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
+    val context = LocalContext.current
     Card(Modifier.fillMaxWidth()) {
         Column(
             Modifier.padding(14.dp),
@@ -246,6 +248,22 @@ private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
+            }
+            if (job.logUri != null) {
+                TextButton(
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_STREAM, job.logUri)
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        }
+                        context.startActivity(
+                            Intent.createChooser(intent, "Share debug log"),
+                        )
+                    },
+                ) {
+                    Text("Share log")
+                }
             }
         }
     }
