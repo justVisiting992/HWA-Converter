@@ -16,29 +16,22 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.capability.EncoderCapability
-import io.github.justvisiting992.mediaconverter.core.capability.HardwareCodecProbe
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
- * "Your hardware" — the first screen of the app, and its promise made
- * visible: exactly which encoders this phone's media engine offers, probed
- * live. Every preset in the app is built from this report, so the user can
- * see the evidence the app is working from.
+ * "Your hardware" — the app's promise made visible: exactly which encoders
+ * this phone's media engine offers, probed live. Every preset in the app
+ * is built from this report, so the user can see the evidence the app is
+ * working from. The report is probed once in MainActivity and shared with
+ * the Convert tab.
  */
 @Composable
-fun CapabilityScreen(modifier: Modifier = Modifier) {
-    val reportState = produceState<DeviceCodecReport?>(initialValue = null) {
-        value = withContext(Dispatchers.Default) { HardwareCodecProbe.probe() }
-    }
-    val report = reportState.value
+fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) {
     if (report == null) {
         Column(
             modifier = modifier.fillMaxSize().padding(24.dp),

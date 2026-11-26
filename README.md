@@ -24,6 +24,12 @@ Early development. What exists today:
   trim without re-encode) turned into exact ffmpeg commands from the live
   report — hardware presets pin the probed component by name and refuse
   honestly when the hardware is missing, never silently falling back to CPU
+- A working Convert tab (`core/engine/ConversionEngine.kt`, `core/queue/`,
+  `ui/convert/`): pick files, choose a preset, convert. Jobs run one at a
+  time through the vendored FFmpeg with live progress and cancel; inputs
+  and outputs move through SAF/MediaStore (outputs in Movies/HWA Converter,
+  Music/ for audio), and a failed or cancelled job leaves no half-written
+  file behind
 - FFmpeg 8.1.2 (ffmpeg-kit-full-gpl 8.1.9) vendored in `app/libs`, MediaCodec
   included
 
