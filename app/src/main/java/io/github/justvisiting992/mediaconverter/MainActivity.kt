@@ -7,30 +7,42 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SwapHoriz
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.capability.HardwareCodecProbe
 import io.github.justvisiting992.mediaconverter.ui.capability.CapabilityScreen
@@ -40,17 +52,17 @@ import io.github.justvisiting992.mediaconverter.ui.theme.MediaConverterTheme
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeMode
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemePrefs
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeTemplate
+import io.github.justvisiting992.mediaconverter.ui.theme.liquidGlass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-private enum class Tab(val title: String) {
-    CONVERT("Convert"),
-    HARDWARE("Your hardware"),
-    SETTINGS("Settings"),
+private enum class Tab(val title: String, val icon: ImageVector) {
+    CONVERT("Convert", Icons.Filled.SwapHoriz),
+    HARDWARE("Your hardware", Icons.Filled.Memory),
+    SETTINGS("Settings", Icons.Filled.Settings),
 }
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -72,11 +84,15 @@ class MainActivity : ComponentActivity() {
                     value = withContext(Dispatchers.Default) { HardwareCodecProbe.probe() }
                 }
                 var tab by remember { mutableStateOf(Tab.CONVERT) }
-                Scaffold(
-                    topBar = { TopAppBar(title = { Text(tab.title) }) },
-                    bottomBar = { TabBar(tab) { tab = it } },
-                ) { innerPadding ->
-                    val modifier = Modifier.padding(innerPadding)
+                // Floating chrome: content fills the screen and scrolls
+                // under a glass top pill and a glass navigation pill,
+                // instead of living between two solid bars. The screens
+                // pad their own content clear of both pills.
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background),
+                ) {
                     AnimatedContent(
                         targetState = tab,
                         transitionSpec = {
@@ -90,17 +106,26 @@ class MainActivity : ComponentActivity() {
                         label = "tab",
                     ) { currentTab ->
                         when (currentTab) {
-                            Tab.CONVERT -> ConvertScreen(reportState.value, modifier)
-                            Tab.HARDWARE -> CapabilityScreen(reportState.value, modifier)
+                            Tab.CONVERT -> ConvertScreen(reportState.value, Modifier.fillMaxSize())
+                            Tab.HARDWARE -> CapabilityScreen(reportState.value, Modifier.fillMaxSize())
                             Tab.SETTINGS -> SettingsScreen(
                                 template = template,
                                 mode = mode,
                                 onTemplateChange = { update(it, mode) },
                                 onModeChange = { update(template, it) },
-                                modifier = modifier,
+                                modifier = Modifier.fillMaxSize(),
                             )
                         }
                     }
+                    FloatingTopBar(
+                        title = tab.title,
+                        modifier = Modifier.align(Alignment.TopCenter),
+                    )
+                    FloatingNavBar(
+                        selected = tab,
+                        onSelect = { tab = it },
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                    )
                 }
             }
         }
@@ -139,26 +164,89 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/** The floating glass pill at the top: just the current tab's title. */
 @Composable
-private fun TabBar(selected: Tab, onSelect: (Tab) -> Unit) {
-    NavigationBar {
-        NavigationBarItem(
-            selected = selected == Tab.CONVERT,
-            onClick = { onSelect(Tab.CONVERT) },
-            icon = { Icon(Icons.Filled.SwapHoriz, contentDescription = null) },
-            label = { Text("Convert") },
+private fun FloatingTopBar(title: String, modifier: Modifier = Modifier) {
+    val shape = RoundedCornerShape(percent = 50)
+    Box(
+        modifier = modifier
+            .statusBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .fillMaxWidth()
+            .liquidGlass(shape)
+            .padding(horizontal = 20.dp, vertical = 13.dp),
+    ) {
+        AnimatedContent(targetState = title, label = "title") { text ->
+            Text(
+                text,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+    }
+}
+
+/** The floating glass navigation pill: three tabs, selected one filled. */
+@Composable
+private fun FloatingNavBar(
+    selected: Tab,
+    onSelect: (Tab) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val shape = RoundedCornerShape(percent = 50)
+    Row(
+        modifier = modifier
+            .navigationBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .liquidGlass(shape)
+            .padding(6.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Tab.entries.forEach { entry ->
+            NavPillItem(
+                entry = entry,
+                selected = entry == selected,
+                onClick = { onSelect(entry) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun NavPillItem(entry: Tab, selected: Boolean, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(percent = 50)
+    Row(
+        modifier = Modifier
+            .clip(shape)
+            .background(
+                if (selected) {
+                    MaterialTheme.colorScheme.primaryContainer
+                } else {
+                    MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0f)
+                },
+            )
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        Icon(
+            entry.icon,
+            contentDescription = entry.title,
+            tint = if (selected) {
+                MaterialTheme.colorScheme.onPrimaryContainer
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            },
         )
-        NavigationBarItem(
-            selected = selected == Tab.HARDWARE,
-            onClick = { onSelect(Tab.HARDWARE) },
-            icon = { Icon(Icons.Filled.Memory, contentDescription = null) },
-            label = { Text("Hardware") },
-        )
-        NavigationBarItem(
-            selected = selected == Tab.SETTINGS,
-            onClick = { onSelect(Tab.SETTINGS) },
-            icon = { Icon(Icons.Filled.Settings, contentDescription = null) },
-            label = { Text("Settings") },
-        )
+        AnimatedVisibility(visible = selected) {
+            Text(
+                entry.title,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        }
     }
 }

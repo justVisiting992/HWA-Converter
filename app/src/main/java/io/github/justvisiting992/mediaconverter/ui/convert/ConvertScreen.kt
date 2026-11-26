@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -25,10 +26,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -166,9 +168,10 @@ fun ConvertScreen(
         }
     }
 
+    Box(modifier = modifier.fillMaxSize()) {
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 100.dp, bottom = 120.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         if (report == null) {
@@ -254,14 +257,6 @@ fun ConvertScreen(
                     }
                 }
             }
-            item {
-                Button(
-                    onClick = { picker.launch(arrayOf("video/*", "audio/*")) },
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Text("Add files")
-                }
-            }
         }
 
         if (jobs.isNotEmpty()) {
@@ -286,6 +281,17 @@ fun ConvertScreen(
                 )
             }
         }
+    }
+    if (report != null) {
+        ExtendedFloatingActionButton(
+            onClick = { picker.launch(arrayOf("video/*", "audio/*")) },
+            icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+            text = { Text("Add files") },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(end = 16.dp, bottom = 104.dp),
+        )
+    }
     }
 }
 

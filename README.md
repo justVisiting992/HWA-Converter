@@ -60,6 +60,11 @@ Early development. What exists today:
   impossible combinations are refused in plain words, like the presets
 - Software encoders are told explicitly to use every CPU core
   (`-threads 0`, row-mt where the encoder needs it)
+- Floating liquid-glass chrome: the top bar and the navigation are
+  glass pills floating over the content, and Add files is a floating
+  button. The glass is simulated — translucent surface, bright hairline
+  edge, soft shadow — with no backdrop-blur passes and no UI libraries,
+  so rendering stays as cheap as the solid bars it replaced
 - FFmpeg 8.1.2 (ffmpeg-kit-full-gpl 8.1.9) vendored in `app/libs`, MediaCodec
   included
 
