@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,7 +53,7 @@ import io.github.justvisiting992.mediaconverter.ui.theme.MediaConverterTheme
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeMode
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemePrefs
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeTemplate
-import io.github.justvisiting992.mediaconverter.ui.theme.liquidGlass
+import io.github.justvisiting992.mediaconverter.ui.theme.floatingSurface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -85,14 +86,16 @@ class MainActivity : ComponentActivity() {
                 }
                 var tab by remember { mutableStateOf(Tab.CONVERT) }
                 // Floating chrome: content fills the screen and scrolls
-                // under a glass top pill and a glass navigation pill,
-                // instead of living between two solid bars. The screens
-                // pad their own content clear of both pills.
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background),
+                // under a floating top pill and a floating navigation
+                // pill, instead of living between two fixed bars. The
+                // screens pad their own content clear of both pills.
+                // The root Surface also provides the theme's content
+                // color — without it, plain text falls back to black.
+                Surface(
+                    color = MaterialTheme.colorScheme.background,
+                    modifier = Modifier.fillMaxSize(),
                 ) {
+                Box(modifier = Modifier.fillMaxSize()) {
                     AnimatedContent(
                         targetState = tab,
                         transitionSpec = {
@@ -126,6 +129,7 @@ class MainActivity : ComponentActivity() {
                         onSelect = { tab = it },
                         modifier = Modifier.align(Alignment.BottomCenter),
                     )
+                }
                 }
             }
         }
@@ -164,7 +168,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/** The floating glass pill at the top: just the current tab's title. */
+/** The floating pill at the top: just the current tab's title. */
 @Composable
 private fun FloatingTopBar(title: String, modifier: Modifier = Modifier) {
     val shape = RoundedCornerShape(percent = 50)
@@ -173,7 +177,7 @@ private fun FloatingTopBar(title: String, modifier: Modifier = Modifier) {
             .statusBarsPadding()
             .padding(horizontal = 16.dp, vertical = 10.dp)
             .fillMaxWidth()
-            .liquidGlass(shape)
+            .floatingSurface(shape)
             .padding(horizontal = 20.dp, vertical = 13.dp),
     ) {
         AnimatedContent(targetState = title, label = "title") { text ->
@@ -186,7 +190,7 @@ private fun FloatingTopBar(title: String, modifier: Modifier = Modifier) {
     }
 }
 
-/** The floating glass navigation pill: three tabs, selected one filled. */
+/** The floating navigation pill: three tabs, selected one filled. */
 @Composable
 private fun FloatingNavBar(
     selected: Tab,
@@ -198,7 +202,7 @@ private fun FloatingNavBar(
         modifier = modifier
             .navigationBarsPadding()
             .padding(horizontal = 16.dp, vertical = 12.dp)
-            .liquidGlass(shape)
+            .floatingSurface(shape)
             .padding(6.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically,

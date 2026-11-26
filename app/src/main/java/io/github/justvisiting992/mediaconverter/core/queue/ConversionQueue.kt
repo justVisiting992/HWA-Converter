@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -37,8 +39,12 @@ import kotlinx.coroutines.withContext
 sealed interface JobStatus {
     data object Queued : JobStatus
 
-    /** [fraction] is null when the input duration is unknown — indeterminate, honestly. */
-    data class Running(val fraction: Float?) : JobStatus
+    /**
+     * [fraction] is null when the input duration is unknown —
+     * indeterminate, honestly. [speed] is realtime multiples (2.5 =
+     * two and a half times realtime), null before ffmpeg reports any.
+     */
+    data class Running(val fraction: Float?, val speed: Double? = null) : JobStatus
 
     data object Done : JobStatus
 
@@ -83,20 +89,21 @@ data class ConversionJob(
  * failed or cancelled job's entry is deleted, so a half-written file never
  * shows up in the user's gallery.
  */
-class ConversionQueueViewModel : ViewModel() {
+class ConversionQueue(private val appContext: Context) {
+
+    // The queue owns its scope: conversions keep running while the app
+    // is in the background (the foreground service keeps the process
+    // alive), independent of any screen's lifecycle.
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     private val _jobs = MutableStateFlow<List<ConversionJob>>(emptyList())
     val jobs: StateFlow<List<ConversionJob>> = _jobs
 
     private var nextId = 1L
     private var pumpJob: Job? = null
-    private var runningDeferred: Deferred<EngineResult>? = null
 
-    // The ViewModel outlives any single Activity instance, so engine and
-    // MediaStore work runs against the application context, captured on
-    // the first addJobs call.
     @Volatile
-    private var appContext: Context? = null
+    private var runningDeferred: Deferred<EngineResult>? = null
 
     // The latest capability report, kept so a failed job's command can be
     // rebuilt (the decode retry ladder) without re-probing the device.
@@ -109,7 +116,6 @@ class ConversionQueueViewModel : ViewModel() {
      * the reason showing — visible, never silently dropped.
      */
     fun addJobs(
-        context: Context,
         uris: List<Uri>,
         preset: ConversionPreset,
         report: DeviceCodecReport,
@@ -117,14 +123,12 @@ class ConversionQueueViewModel : ViewModel() {
         trimEndSeconds: Double?,
         manual: PresetCommands.ManualOptions? = null,
     ) {
-        val app = context.applicationContext
-        if (appContext == null) appContext = app
         codecReport = report
-        viewModelScope.launch {
+        scope.launch {
             val created = withContext(Dispatchers.IO) {
                 uris.map { uri ->
                     createJob(
-                        app, uri, preset, report,
+                        appContext, uri, preset, report,
                         trimStartSeconds, trimEndSeconds, manual,
                     )
                 }
@@ -132,6 +136,12 @@ class ConversionQueueViewModel : ViewModel() {
             _jobs.update { it + created }
             pump()
         }
+    }
+
+    /** Cancel whatever is running right now (the notification's action). */
+    fun cancelCurrent() {
+        _jobs.value.firstOrNull { it.status is JobStatus.Running }
+            ?.let { cancel(it.id) }
     }
 
     fun cancel(jobId: Long) {
@@ -229,7 +239,7 @@ class ConversionQueueViewModel : ViewModel() {
     /** Start the runner if it is not already going. */
     private fun pump() {
         if (pumpJob?.isActive == true) return
-        pumpJob = viewModelScope.launch {
+        pumpJob = scope.launch {
             while (true) {
                 val next = _jobs.value.firstOrNull { it.status is JobStatus.Queued }
                     ?: break
@@ -239,7 +249,7 @@ class ConversionQueueViewModel : ViewModel() {
     }
 
     private suspend fun runJob(job: ConversionJob) {
-        val context = appContext ?: return
+        val context = appContext
         setStatus(job.id, JobStatus.Running(null))
         val collector = LogCollector()
         val startedAt = System.nanoTime()
@@ -254,8 +264,8 @@ class ConversionQueueViewModel : ViewModel() {
                 val deferred = async {
                     ConversionEngine.run(
                         command, totalMs,
-                        onProgress = { fraction ->
-                            setStatus(job.id, JobStatus.Running(fraction))
+                        onProgress = { fraction, speed ->
+                            setStatus(job.id, JobStatus.Running(fraction, speed))
                         },
                         onLog = { line -> collector.append(line) },
                     )
@@ -353,7 +363,7 @@ class ConversionQueueViewModel : ViewModel() {
         resultLine: String,
         elapsedSec: Double,
     ) {
-        val context = appContext ?: return
+        val context = appContext
         val text = buildDebugLog(job, info, collector, resultLine, elapsedSec)
         val uri = withContext(Dispatchers.IO) { DebugLogStore.write(context, job, text) }
         if (uri != null) {
@@ -381,19 +391,17 @@ class ConversionQueueViewModel : ViewModel() {
             "Time: " + SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date()),
         )
         val context = appContext
-        if (context != null) {
-            val pkg = runCatching {
-                context.packageManager.getPackageInfo(context.packageName, 0)
-            }.getOrNull()
-            val code = pkg?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    it.longVersionCode
-                } else {
-                    @Suppress("DEPRECATION") it.versionCode.toLong()
-                }
+        val pkg = runCatching {
+            context.packageManager.getPackageInfo(context.packageName, 0)
+        }.getOrNull()
+        val code = pkg?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                it.longVersionCode
+            } else {
+                @Suppress("DEPRECATION") it.versionCode.toLong()
             }
-            sb.appendLine("App: ${pkg?.versionName ?: "?"} (build ${code ?: "?"})")
         }
+        sb.appendLine("App: ${pkg?.versionName ?: "?"} (build ${code ?: "?"})")
         val soc = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             Build.SOC_MODEL
         } else {
@@ -462,8 +470,8 @@ class ConversionQueueViewModel : ViewModel() {
 
     private fun discardOutput(job: ConversionJob) {
         val uri = job.outputUri ?: return
-        val context = appContext ?: return
-        viewModelScope.launch(Dispatchers.IO) { MediaStoreOutput.discard(context, uri) }
+        val context = appContext
+        scope.launch(Dispatchers.IO) { MediaStoreOutput.discard(context, uri) }
     }
 
     private fun queryDisplayName(context: Context, uri: Uri): String? =
@@ -584,5 +592,66 @@ object DebugLogStore {
         }
         runCatching { resolver.update(uri, publish, null, null) }
         return uri
+    }
+}
+
+/**
+ * The one queue for the whole process. The UI's ViewModel and the
+ * foreground service both talk to this instance, so the notification
+ * and the job cards always describe the same conversions.
+ */
+object ConversionRuntime {
+
+    @Volatile
+    private var instance: ConversionQueue? = null
+
+    fun get(context: Context): ConversionQueue =
+        instance ?: synchronized(this) {
+            instance ?: ConversionQueue(context.applicationContext)
+                .also { instance = it }
+        }
+}
+
+/**
+ * The UI's handle on the shared queue. It mirrors the runtime queue's
+ * jobs into its own flow so the screens can collect one stable flow;
+ * the conversions themselves live in [ConversionQueue], not here, so
+ * they survive the screen being destroyed and recreated.
+ */
+class ConversionQueueViewModel : ViewModel() {
+
+    private val _jobs = MutableStateFlow<List<ConversionJob>>(emptyList())
+    val jobs: StateFlow<List<ConversionJob>> = _jobs
+
+    private var queue: ConversionQueue? = null
+
+    /** Connect to the shared queue (idempotent). */
+    fun attach(context: Context) {
+        if (queue != null) return
+        val shared = ConversionRuntime.get(context)
+        queue = shared
+        viewModelScope.launch {
+            shared.jobs.collect { _jobs.value = it }
+        }
+    }
+
+    fun addJobs(
+        context: Context,
+        uris: List<Uri>,
+        preset: ConversionPreset,
+        report: DeviceCodecReport,
+        trimStartSeconds: Double?,
+        trimEndSeconds: Double?,
+        manual: PresetCommands.ManualOptions? = null,
+    ) {
+        attach(context)
+        queue?.addJobs(
+            uris, preset, report, trimStartSeconds, trimEndSeconds, manual,
+        )
+        ConversionService.start(context)
+    }
+
+    fun cancel(jobId: Long) {
+        queue?.cancel(jobId)
     }
 }

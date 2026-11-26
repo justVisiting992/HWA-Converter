@@ -60,11 +60,15 @@ Early development. What exists today:
   impossible combinations are refused in plain words, like the presets
 - Software encoders are told explicitly to use every CPU core
   (`-threads 0`, row-mt where the encoder needs it)
-- Floating liquid-glass chrome: the top bar and the navigation are
-  glass pills floating over the content, and Add files is a floating
-  button. The glass is simulated — translucent surface, bright hairline
-  edge, soft shadow — with no backdrop-blur passes and no UI libraries,
-  so rendering stays as cheap as the solid bars it replaced
+- Floating chrome in plain Material surfaces: the top bar and the
+  navigation are pills floating over the content, and Add files is a
+  floating button. (A simulated-glass treatment shipped for one build
+  and was removed — it read as plain transparency, and real backdrop
+  blur costs a GPU pass per frame for no functional gain.)
+- Conversions keep running in the background: a foreground service
+  holds a permanent notification with the progress bar, the percent,
+  the speed, and a cancel button, and every job card shows the exact
+  ffmpeg command that ran
 - FFmpeg 8.1.2 (ffmpeg-kit-full-gpl 8.1.9) vendored in `app/libs`, MediaCodec
   included
 

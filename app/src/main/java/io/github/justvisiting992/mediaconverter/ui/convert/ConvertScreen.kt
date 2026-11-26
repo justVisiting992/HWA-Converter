@@ -1,6 +1,9 @@
 package io.github.justvisiting992.mediaconverter.ui.convert
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -41,6 +44,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,9 +54,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.engine.ConversionPreset
@@ -112,6 +119,17 @@ fun ConvertScreen(
     val jobs by queueViewModel.jobs.collectAsState()
     val context = LocalContext.current
 
+    // Connect the screen to the process-wide queue (the same one the
+    // foreground service renders into the progress notification).
+    LaunchedEffect(Unit) { queueViewModel.attach(context) }
+
+    // Android 13+ needs a runtime grant before the conversion
+    // notification can appear. Asked for once, when the first files
+    // are picked; conversions run either way.
+    val notificationPermission = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { }
+
     val presets = remember(report) {
         report?.let { PresetCommands.availablePresets(it) } ?: emptyList()
     }
@@ -142,6 +160,13 @@ fun ConvertScreen(
     ) { uris ->
         val preset = selected
         if (uris.isNotEmpty() && report != null && preset != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(
+                    context, Manifest.permission.POST_NOTIFICATIONS,
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
             val manual = if (preset == ConversionPreset.CUSTOM) {
                 PresetCommands.ManualOptions(
                     container = manualContainer,
@@ -628,6 +653,18 @@ private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
+            if (job.command.isNotEmpty()) {
+                var commandExpanded by remember { mutableStateOf(false) }
+                Text(
+                    "ffmpeg " + PresetCommands.displayCommand(job.command),
+                    style = MaterialTheme.typography.bodySmall,
+                    fontFamily = FontFamily.Monospace,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = if (commandExpanded) Int.MAX_VALUE else 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.clickable { commandExpanded = !commandExpanded },
+                )
+            }
             when (val status = job.status) {
                 is JobStatus.Queued -> Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -649,13 +686,15 @@ private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
                             modifier = Modifier.fillMaxWidth(),
                         )
                         Text(
-                            "Converting… ${(status.fraction * 100).toInt()}%",
+                            "Converting… ${(status.fraction * 100).toInt()}%" +
+                                (status.speed?.let { " · %.1f× speed".format(it) } ?: ""),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     } else {
                         LinearProgressIndicator(Modifier.fillMaxWidth())
                         Text(
-                            "Converting…",
+                            "Converting…" +
+                                (status.speed?.let { " · %.1f× speed".format(it) } ?: ""),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
