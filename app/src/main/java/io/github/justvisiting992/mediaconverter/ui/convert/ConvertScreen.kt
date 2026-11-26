@@ -12,6 +12,9 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import android.webkit.MimeTypeMap
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,10 +30,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -52,7 +64,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -67,37 +82,52 @@ import io.github.justvisiting992.mediaconverter.core.engine.PresetCommands
 import io.github.justvisiting992.mediaconverter.core.queue.ConversionJob
 import io.github.justvisiting992.mediaconverter.core.queue.ConversionQueueViewModel
 import io.github.justvisiting992.mediaconverter.core.queue.JobStatus
+import io.github.justvisiting992.mediaconverter.ui.components.HeroPanel
+import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
+import io.github.justvisiting992.mediaconverter.ui.components.InfoChip
+import io.github.justvisiting992.mediaconverter.ui.components.Thumbnails
+import io.github.justvisiting992.mediaconverter.ui.components.estimateOutputBytes
+import io.github.justvisiting992.mediaconverter.ui.components.formatDurationMs
+import io.github.justvisiting992.mediaconverter.ui.components.formatEtaLeft
+import io.github.justvisiting992.mediaconverter.ui.components.formatSizeBytes
 
 /** Preset groups, in display order — the Convert tab's menu structure. */
-private data class PresetCategory(val title: String, val members: List<ConversionPreset>)
+private data class PresetCategory(
+    val title: String,
+    val icon: androidx.compose.ui.graphics.vector.ImageVector,
+    val members: List<ConversionPreset>,
+)
 
 private fun categoriesFor(available: List<ConversionPreset>): List<PresetCategory> {
-    fun group(title: String, vararg members: ConversionPreset) =
-        PresetCategory(title, members.filter { it in available })
+    fun group(
+        title: String,
+        icon: androidx.compose.ui.graphics.vector.ImageVector,
+        vararg members: ConversionPreset,
+    ) = PresetCategory(title, icon, members.filter { it in available })
     return listOf(
         group(
-            "Hardware encode",
+            "Hardware encode", Icons.Filled.Bolt,
             ConversionPreset.H264_HARDWARE, ConversionPreset.HEVC_HARDWARE,
             ConversionPreset.VP9_HARDWARE, ConversionPreset.AV1_HARDWARE,
         ),
         group(
-            "Software encode",
+            "Software encode", Icons.Filled.Code,
             ConversionPreset.H264_SOFTWARE, ConversionPreset.HEVC_SOFTWARE,
             ConversionPreset.VP9_SOFTWARE, ConversionPreset.AV1_SOFTWARE,
         ),
         group(
-            "Audio only",
+            "Audio only", Icons.Filled.MusicNote,
             ConversionPreset.AUDIO_AAC, ConversionPreset.AUDIO_MP3,
             ConversionPreset.AUDIO_OPUS, ConversionPreset.AUDIO_FLAC,
             ConversionPreset.AUDIO_WAV,
         ),
         group(
-            "No re-encode",
+            "No re-encode", Icons.Filled.ContentCopy,
             ConversionPreset.REMUX_MP4, ConversionPreset.REMUX_MKV,
             ConversionPreset.TRIM_COPY,
         ),
         group(
-            "Create",
+            "Create", Icons.Filled.AutoAwesome,
             ConversionPreset.GIF, ConversionPreset.CUSTOM,
         ),
     ).filter { it.members.isNotEmpty() }
@@ -202,6 +232,7 @@ fun ConvertScreen(
         if (report == null) {
             item { Text("Probing this device's media engine…") }
         } else {
+            item { ConvertHero(report) }
             item {
                 Text(
                     "Convert with",
@@ -334,7 +365,15 @@ private fun CategoryCard(
         label = "chevron",
     )
     val chosen = category.members.firstOrNull { it == selected }
-    Card(Modifier.fillMaxWidth()) {
+    val scheme = MaterialTheme.colorScheme
+    val (badgeContainer, badgeContent) = when (category.title) {
+        "Hardware encode" -> scheme.primaryContainer to scheme.onPrimaryContainer
+        "Software encode" -> scheme.tertiaryContainer to scheme.onTertiaryContainer
+        "Audio only" -> scheme.secondaryContainer to scheme.onSecondaryContainer
+        "Create" -> scheme.primaryContainer to scheme.onPrimaryContainer
+        else -> scheme.surfaceContainerHigh to scheme.onSurfaceVariant
+    }
+    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
         Column {
             Row(
                 modifier = Modifier
@@ -342,8 +381,9 @@ private fun CategoryCard(
                     .clickable(onClick = onToggle)
                     .padding(14.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
+                IconBadge(category.icon, badgeContainer, badgeContent)
                 Column(Modifier.weight(1f)) {
                     Text(
                         category.title,
@@ -628,24 +668,82 @@ private fun PanelLabel(text: String) {
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
     val context = LocalContext.current
-    Card(Modifier.fillMaxWidth()) {
+    val info = job.inputInfo
+    var thumb by remember(job.id) { mutableStateOf(Thumbnails.cached(job.inputUri)) }
+    if (info?.videoCodec != null && thumb == null) {
+        LaunchedEffect(job.id) { thumb = Thumbnails.load(context, job.inputUri) }
+    }
+    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
         Column(
             Modifier.padding(14.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            Text(
-                job.inputName,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium,
-            )
-            Text(
-                job.preset.label,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.Top,
+            ) {
+                if (info?.videoCodec != null) {
+                    val bitmap = thumb
+                    if (bitmap != null) {
+                        Image(
+                            bitmap.asImageBitmap(),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(72.dp)
+                                .clip(RoundedCornerShape(16.dp)),
+                            contentScale = ContentScale.Crop,
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .size(72.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceContainerHigh,
+                                ),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(
+                                Icons.Filled.Movie,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                }
+                Column(
+                    Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(3.dp),
+                ) {
+                    Text(
+                        job.inputName,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Text(
+                        job.preset.label,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                    if (info != null) {
+                        FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                            info.videoCodec?.let { InfoChip(it.uppercase()) }
+                            if (info.width != null && info.height != null) {
+                                InfoChip("${info.width}×${info.height}")
+                            }
+                            info.durationMs?.let { InfoChip(formatDurationMs(it)) }
+                            info.sizeBytes?.let { InfoChip(formatSizeBytes(it)) }
+                            info.audioCodec?.let { InfoChip(it.uppercase()) }
+                        }
+                    }
+                }
+            }
             if (job.note.isNotEmpty()) {
                 Text(
                     job.note,
@@ -669,8 +767,18 @@ private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
                 is JobStatus.Queued -> Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text("Queued", style = MaterialTheme.typography.bodyMedium)
+                    Column {
+                        Text("Queued", style = MaterialTheme.typography.bodyMedium)
+                        estimateOutputBytes(job.command, info?.durationMs)?.let {
+                            Text(
+                                "≈ ${formatSizeBytes(it)} output",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
                     TextButton(onClick = onCancel) { Text("Cancel") }
                 }
                 is JobStatus.Running -> Column(
@@ -681,15 +789,34 @@ private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
                             targetValue = status.fraction,
                             label = "jobProgress",
                         )
-                        LinearProgressIndicator(
-                            progress = { animatedFraction },
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                        Text(
-                            "Converting… ${(status.fraction * 100).toInt()}%" +
-                                (status.speed?.let { " · %.1f× speed".format(it) } ?: ""),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        ) {
+                            Text(
+                                "${(status.fraction * 100).toInt()}%",
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary,
+                            )
+                            Column(Modifier.weight(1f)) {
+                                LinearProgressIndicator(
+                                    progress = { animatedFraction },
+                                    modifier = Modifier.fillMaxWidth(),
+                                )
+                                val eta = formatEtaLeft(
+                                    info?.durationMs, status.fraction, status.speed,
+                                )
+                                Text(
+                                    listOfNotNull(
+                                        status.speed?.let { "%.1f× speed".format(it) },
+                                        eta,
+                                    ).joinToString(" · ").ifEmpty { "Converting…" },
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                        }
                     } else {
                         LinearProgressIndicator(Modifier.fillMaxWidth())
                         Text(
@@ -700,11 +827,58 @@ private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
                     }
                     TextButton(onClick = onCancel) { Text("Cancel") }
                 }
-                is JobStatus.Done -> Text(
-                    "Saved to ${job.outputFolder}/${job.outputName}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                )
+                is JobStatus.Done -> Column {
+                    Text(
+                        "Saved to ${job.outputFolder}/${job.outputName}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                    val outUri = job.outputUri
+                    if (outUri != null) {
+                        val outMime = MimeTypeMap.getSingleton()
+                            .getMimeTypeFromExtension(
+                                job.outputName.substringAfterLast('.').lowercase(),
+                            ) ?: "video/*"
+                        Row {
+                            TextButton(onClick = {
+                                runCatching {
+                                    context.startActivity(
+                                        Intent(Intent.ACTION_VIEW).apply {
+                                            setDataAndType(outUri, outMime)
+                                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                        },
+                                    )
+                                }
+                            }) {
+                                Icon(
+                                    Icons.AutoMirrored.Filled.OpenInNew,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp),
+                                )
+                                Text(" Open", style = MaterialTheme.typography.labelLarge)
+                            }
+                            TextButton(onClick = {
+                                runCatching {
+                                    val send = Intent(Intent.ACTION_SEND).apply {
+                                        type = outMime
+                                        putExtra(Intent.EXTRA_STREAM, outUri)
+                                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                    }
+                                    context.startActivity(
+                                        Intent.createChooser(send, "Share converted file"),
+                                    )
+                                }
+                            }) {
+                                Icon(
+                                    Icons.Filled.Share,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp),
+                                )
+                                Text(" Share", style = MaterialTheme.typography.labelLarge)
+                            }
+                        }
+                    }
+                }
                 is JobStatus.Failed -> Text(
                     status.reason,
                     style = MaterialTheme.typography.bodySmall,
@@ -731,6 +905,72 @@ private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
                 ) {
                     Text("Share log")
                 }
+            }
+        }
+    }
+}
+
+/**
+ * The Convert tab's hero: the app's whole pitch in one panel — whose
+ * media engine this is, and which hardware paths it unlocks. Built
+ * from the same probe report the presets are built from.
+ */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun ConvertHero(report: DeviceCodecReport) {
+    val scheme = MaterialTheme.colorScheme
+    HeroPanel(Modifier.fillMaxWidth()) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            IconBadge(
+                Icons.Filled.Bolt,
+                scheme.primary,
+                scheme.onPrimary,
+                size = 48.dp,
+            )
+            Column {
+                Text(
+                    report.mediaVendor()?.let { "$it media engine" } ?: "Media engine",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = scheme.onPrimaryContainer,
+                )
+                Text(
+                    "Hardware acceleration is on for this phone — " +
+                        "conversions run on the media engine, not the CPU.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = scheme.onPrimaryContainer.copy(alpha = 0.8f),
+                )
+            }
+        }
+        val chips = buildList {
+            if (report.bestHardwareEncoder(DeviceCodecReport.MIME_AVC) != null) {
+                add("H.264 HW encode")
+            }
+            if (report.bestHardwareEncoder(DeviceCodecReport.MIME_HEVC) != null) {
+                add("HEVC HW encode")
+            }
+            if (report.bestHardwareEncoder(DeviceCodecReport.MIME_VP9) != null) {
+                add("VP9 HW encode")
+            }
+            if (report.bestHardwareEncoder(DeviceCodecReport.MIME_AV1) != null) {
+                add("AV1 HW encode")
+            }
+            if (report.bestHardwareDecoder(DeviceCodecReport.MIME_AV1) != null) {
+                add("AV1 HW decode")
+            }
+            if (report.bestHardwareDecoder(DeviceCodecReport.MIME_HEVC) != null) {
+                add("HEVC HW decode")
+            }
+        }
+        if (chips.isNotEmpty()) {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.padding(top = 14.dp),
+            ) {
+                chips.forEach { InfoChip(it) }
             }
         }
     }

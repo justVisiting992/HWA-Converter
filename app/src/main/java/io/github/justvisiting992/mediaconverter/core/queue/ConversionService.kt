@@ -115,9 +115,13 @@ class ConversionService : Service() {
                 lastPostAt = now
                 val speedText = status?.speed?.let { " · %.1f×".format(it) } ?: ""
                 val queueText = if (queuedCount > 0) " · $queuedCount more queued" else ""
+                val etaText = io.github.justvisiting992.mediaconverter.ui.components
+                    .formatEtaLeft(
+                        running?.inputInfo?.durationMs, status?.fraction, status?.speed,
+                    )?.let { " · $it" } ?: ""
                 val text = when {
                     running == null -> "Starting…"
-                    percent != null -> "$percent%$speedText$queueText"
+                    percent != null -> "$percent%$speedText$etaText$queueText"
                     else -> "Converting…$speedText$queueText"
                 }
                 notify(

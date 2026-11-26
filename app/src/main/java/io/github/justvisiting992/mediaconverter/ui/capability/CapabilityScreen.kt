@@ -6,12 +6,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import io.github.justvisiting992.mediaconverter.core.capability.DecoderCapability
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.capability.EncoderCapability
+import io.github.justvisiting992.mediaconverter.ui.components.HeroPanel
+import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
 
 /**
  * "Your hardware" — the app's promise made visible: exactly which encoders
@@ -52,9 +63,10 @@ fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) 
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 100.dp, bottom = 120.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        item { DeviceHeader() }
-        item { HardwareSummary(report) }
-        item { HardwareDecodeSummary(report) }
+        item { DeviceHero(report) }
+        item { BentoTiles(report) }
+        item { EncodeCard(report) }
+        item { DecodeCard(report) }
         item {
             Text(
                 "Video encoders",
@@ -89,47 +101,126 @@ fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) 
 }
 
 @Composable
-private fun DeviceHeader() {
-    Column {
-        Text(
-            "${Build.MANUFACTURER} ${Build.MODEL}",
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.SemiBold,
-        )
-        val soc = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            Build.SOC_MANUFACTURER + " " + Build.SOC_MODEL
-        } else {
-            Build.HARDWARE
+private fun DeviceHero(report: DeviceCodecReport) {
+    val scheme = MaterialTheme.colorScheme
+    HeroPanel(Modifier.fillMaxWidth()) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            IconBadge(Icons.Filled.Memory, scheme.primary, scheme.onPrimary, size = 48.dp)
+            Column {
+                Text(
+                    "${Build.MANUFACTURER} ${Build.MODEL}",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = scheme.onPrimaryContainer,
+                )
+                val soc = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    Build.SOC_MANUFACTURER + " " + Build.SOC_MODEL
+                } else {
+                    Build.HARDWARE
+                }
+                Text(
+                    "$soc · Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = scheme.onPrimaryContainer.copy(alpha = 0.8f),
+                )
+                report.mediaVendor()?.let { vendor ->
+                    Text(
+                        "Media engine: $vendor",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = scheme.onPrimaryContainer.copy(alpha = 0.8f),
+                    )
+                }
+            }
         }
-        Text(
-            "$soc · Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+    }
+}
+
+/** Four headline facts as bento tiles: the counts and ceilings that matter. */
+@Composable
+private fun BentoTiles(report: DeviceCodecReport) {
+    val hwEncoders = report.videoEncoders.filter { it.isHardware }
+    val hwDecoders = report.videoDecoders.filter { it.isHardware }
+    val maxRes = hwEncoders
+        .filter { it.maxWidth != null && it.maxHeight != null }
+        .maxByOrNull { (it.maxWidth ?: 0) * (it.maxHeight ?: 0) }
+    val maxBitrate = hwEncoders.mapNotNull { it.maxBitrate }.maxOrNull()
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            BentoTile(
+                icon = Icons.Filled.Bolt,
+                value = "${hwEncoders.size}",
+                label = "hardware encoders",
+                modifier = Modifier.weight(1f),
+            )
+            BentoTile(
+                icon = Icons.Filled.Movie,
+                value = "${hwDecoders.size}",
+                label = "hardware decoders",
+                modifier = Modifier.weight(1f),
+            )
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            BentoTile(
+                icon = Icons.Filled.Memory,
+                value = maxRes?.let { "${it.maxWidth}×${it.maxHeight}" } ?: "—",
+                label = "max hardware encode",
+                modifier = Modifier.weight(1f),
+            )
+            BentoTile(
+                icon = Icons.Filled.Speed,
+                value = maxBitrate?.let { "${it / 1_000_000} Mbps" } ?: "—",
+                label = "top encoder bitrate",
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
 }
 
 @Composable
-private fun HardwareSummary(report: DeviceCodecReport) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-        ),
-        modifier = Modifier.fillMaxWidth(),
-    ) {
+private fun BentoTile(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    value: String,
+    label: String,
+    modifier: Modifier = Modifier,
+) {
+    val scheme = MaterialTheme.colorScheme
+    Card(modifier, shape = RoundedCornerShape(20.dp)) {
+        Column(
+            Modifier.padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            IconBadge(
+                icon,
+                scheme.primaryContainer,
+                scheme.onPrimaryContainer,
+                size = 36.dp,
+            )
+            Text(
+                value,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+            )
+            Text(
+                label,
+                style = MaterialTheme.typography.bodySmall,
+                color = scheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
+private fun EncodeCard(report: DeviceCodecReport) {
+    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(
-                "Hardware encoding on this device",
+                "Hardware encoding",
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
             )
-            report.mediaVendor()?.let { vendor ->
-                Text(
-                    "Media engine: $vendor",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.75f),
-                )
-            }
             SummaryRow("H.264", report.bestHardwareEncoder(DeviceCodecReport.MIME_AVC))
             SummaryRow("H.265 / HEVC", report.bestHardwareEncoder(DeviceCodecReport.MIME_HEVC))
             SummaryRow("VP9", report.bestHardwareEncoder(DeviceCodecReport.MIME_VP9))
@@ -139,16 +230,11 @@ private fun HardwareSummary(report: DeviceCodecReport) {
 }
 
 @Composable
-private fun HardwareDecodeSummary(report: DeviceCodecReport) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-        ),
-        modifier = Modifier.fillMaxWidth(),
-    ) {
+private fun DecodeCard(report: DeviceCodecReport) {
+    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(
-                "Hardware decoding on this device",
+                "Hardware decoding",
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
             )
@@ -169,9 +255,9 @@ private fun DecoderSummaryRow(label: String, decoder: DecoderCapability?) {
             style = MaterialTheme.typography.bodyMedium,
             fontFamily = FontFamily.Monospace,
             color = if (decoder != null) {
-                MaterialTheme.colorScheme.onPrimaryContainer
+                MaterialTheme.colorScheme.onSurface
             } else {
-                MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
+                MaterialTheme.colorScheme.onSurfaceVariant
             },
         )
     }
@@ -186,9 +272,9 @@ private fun SummaryRow(label: String, encoder: EncoderCapability?) {
             style = MaterialTheme.typography.bodyMedium,
             fontFamily = FontFamily.Monospace,
             color = if (encoder != null) {
-                MaterialTheme.colorScheme.onPrimaryContainer
+                MaterialTheme.colorScheme.onSurface
             } else {
-                MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
+                MaterialTheme.colorScheme.onSurfaceVariant
             },
         )
     }
@@ -196,11 +282,12 @@ private fun SummaryRow(label: String, encoder: EncoderCapability?) {
 
 @Composable
 private fun DecoderCard(decoder: DecoderCapability) {
-    Card(Modifier.fillMaxWidth()) {
+    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp)) {
         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     decoder.componentName,
@@ -209,16 +296,29 @@ private fun DecoderCard(decoder: DecoderCapability) {
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.weight(1f),
                 )
-                Text(
-                    if (decoder.isHardware) "HARDWARE" else "SOFTWARE",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = if (decoder.isHardware) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    },
-                    fontWeight = FontWeight.Bold,
-                )
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(percent = 50))
+                        .background(
+                            if (decoder.isHardware) {
+                                MaterialTheme.colorScheme.primaryContainer
+                            } else {
+                                MaterialTheme.colorScheme.surfaceContainerHigh
+                            },
+                        )
+                        .padding(horizontal = 9.dp, vertical = 3.dp),
+                ) {
+                    Text(
+                        if (decoder.isHardware) "HARDWARE" else "SOFTWARE",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = if (decoder.isHardware) {
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
             }
             val facts = buildList {
                 add(decoder.mimeType)
@@ -237,11 +337,12 @@ private fun DecoderCard(decoder: DecoderCapability) {
 
 @Composable
 private fun EncoderCard(encoder: EncoderCapability) {
-    Card(Modifier.fillMaxWidth()) {
+    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp)) {
         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     encoder.componentName,
@@ -250,16 +351,29 @@ private fun EncoderCard(encoder: EncoderCapability) {
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.weight(1f),
                 )
-                Text(
-                    if (encoder.isHardware) "HARDWARE" else "SOFTWARE",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = if (encoder.isHardware) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    },
-                    fontWeight = FontWeight.Bold,
-                )
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(percent = 50))
+                        .background(
+                            if (encoder.isHardware) {
+                                MaterialTheme.colorScheme.primaryContainer
+                            } else {
+                                MaterialTheme.colorScheme.surfaceContainerHigh
+                            },
+                        )
+                        .padding(horizontal = 9.dp, vertical = 3.dp),
+                ) {
+                    Text(
+                        if (encoder.isHardware) "HARDWARE" else "SOFTWARE",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = if (encoder.isHardware) {
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
             }
             val facts = buildList {
                 add(encoder.mimeType)

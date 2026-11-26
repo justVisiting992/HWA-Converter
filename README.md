@@ -65,10 +65,17 @@ Early development. What exists today:
   floating button. (A simulated-glass treatment shipped for one build
   and was removed — it read as plain transparency, and real backdrop
   blur costs a GPU pass per frame for no functional gain.)
+- A friendly face: a gradient hero panel names your media engine and
+  the hardware paths it unlocks, sections are color-coded with icon
+  badges, the Hardware tab leads with bento tiles (encoder/decoder
+  counts, max resolution, top bitrate), and job cards carry a video
+  thumbnail and fact chips (codec, resolution, duration, size)
 - Conversions keep running in the background: a foreground service
   holds a permanent notification with the progress bar, the percent,
-  the speed, and a cancel button, and every job card shows the exact
-  ffmpeg command that ran
+  the speed, the time left, and a cancel button. Job cards show the
+  same numbers, an estimated output size before a job starts (when
+  the command pins a bitrate), the exact ffmpeg command that ran, and
+  Open / Share buttons when a file is done
 - FFmpeg 8.1.2 (ffmpeg-kit-full-gpl 8.1.9) vendored in `app/libs`, MediaCodec
   included
 

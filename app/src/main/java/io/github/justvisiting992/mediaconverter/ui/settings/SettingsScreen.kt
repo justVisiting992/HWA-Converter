@@ -16,6 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Contrast
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.Card
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeMode
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeTemplate
 
@@ -49,11 +53,19 @@ fun SettingsScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item {
-            Text(
-                "Theme",
-                style = MaterialTheme.typography.titleMedium,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.padding(top = 8.dp),
-            )
+            ) {
+                IconBadge(
+                    Icons.Filled.Contrast,
+                    MaterialTheme.colorScheme.tertiaryContainer,
+                    MaterialTheme.colorScheme.onTertiaryContainer,
+                    size = 32.dp,
+                )
+                Text("Theme", style = MaterialTheme.typography.titleMedium)
+            }
         }
         item {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -75,11 +87,19 @@ fun SettingsScreen(
             }
         }
         item {
-            Text(
-                "Color scheme",
-                style = MaterialTheme.typography.titleMedium,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.padding(top = 8.dp),
-            )
+            ) {
+                IconBadge(
+                    Icons.Filled.Palette,
+                    MaterialTheme.colorScheme.primaryContainer,
+                    MaterialTheme.colorScheme.onPrimaryContainer,
+                    size = 32.dp,
+                )
+                Text("Color scheme", style = MaterialTheme.typography.titleMedium)
+            }
         }
         item {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -116,6 +136,7 @@ private fun TemplateRow(
         listOf(live.primary, live.secondary, live.tertiary)
     }
     Card(
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
         modifier = Modifier
             .fillMaxWidth()
             .border(
@@ -125,7 +146,7 @@ private fun TemplateRow(
                 } else {
                     Color.Transparent
                 },
-                shape = MaterialTheme.shapes.medium,
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
             )
             .clickable(onClick = onClick),
     ) {
