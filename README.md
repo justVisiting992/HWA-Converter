@@ -20,10 +20,12 @@ Early development. What exists today:
   encoders and decoders, component names, hardware vs software, max
   resolution, bitrate range, profiles — the capability report every preset
   is built from
-- A preset-to-command builder (`core/engine/PresetCommands.kt`): five
-  presets (H.264/HEVC hardware, H.264 software max-quality, audio extract,
-  trim without re-encode) turned into exact ffmpeg commands from the live
-  report and a probe of the actual input file — hardware presets pin the
+- A preset-to-command builder (`core/engine/PresetCommands.kt`): fifteen
+  presets — H.264/HEVC hardware, H.264/HEVC software max-quality, VP9
+  (WebM), AV1, audio extraction to AAC/MP3/Opus/FLAC/WAV, remux to
+  MP4/MKV without re-encoding, trim, and GIF — turned into exact ffmpeg
+  commands from the live report and a probe of the actual input file —
+  hardware presets pin the
   probed encoder by name and refuse honestly when the hardware is missing;
   decoding uses the hardware decoder for the input's codec when the
   device has one (a software decode feeding a hardware encode still pegs
@@ -41,6 +43,11 @@ Early development. What exists today:
   (codec, resolution, bitrates), the exact command and the full FFmpeg
   log, written to Download/HWA Converter with a Share log button on the
   job card
+- A Settings tab with appearance choices: System/Light/Dark mode and
+  seven color scheme templates (Material You plus six fixed palettes,
+  each in light and dark), saved between launches
+- The app requests the display's highest refresh rate at its native
+  resolution (120 Hz on the 15T Pro) instead of accepting a 60 Hz cap
 - FFmpeg 8.1.2 (ffmpeg-kit-full-gpl 8.1.9) vendored in `app/libs`, MediaCodec
   included
 

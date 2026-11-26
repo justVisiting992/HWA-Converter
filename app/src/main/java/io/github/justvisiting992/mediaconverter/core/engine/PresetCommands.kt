@@ -11,41 +11,136 @@ import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecRepor
  * back to the CPU. If the hardware encoder is missing, [PresetCommands]
  * returns [PresetCommand.Unavailable] with the reason in plain words.
  */
+/** Which MediaStore collection an output belongs in. */
+enum class MediaKind { VIDEO, AUDIO, IMAGE }
+
 enum class ConversionPreset(
     val id: String,
     val label: String,
     val description: String,
     val outputExtension: String,
+    val kind: MediaKind,
+    val mimeType: String,
 ) {
     H264_HARDWARE(
         id = "h264-hw",
         label = "H.264 · hardware",
         description = "Fast, small, plays everywhere. Uses this phone's media engine.",
         outputExtension = "mp4",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/mp4",
     ),
     HEVC_HARDWARE(
         id = "hevc-hw",
         label = "H.265 / HEVC · hardware",
         description = "About half the size of H.264 at the same quality. Uses this phone's media engine.",
         outputExtension = "mp4",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/mp4",
     ),
     H264_SOFTWARE(
         id = "h264-sw-max",
         label = "H.264 · max quality (software)",
         description = "Slow CPU encode with libx264, best quality per byte. For masters and HDR.",
         outputExtension = "mp4",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/mp4",
+    ),
+    HEVC_SOFTWARE(
+        id = "hevc-sw-max",
+        label = "H.265 / HEVC · max quality (software)",
+        description = "Smaller than H.264 at the same quality. Slow CPU encode with libx265.",
+        outputExtension = "mp4",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/mp4",
+    ),
+    VP9_SOFTWARE(
+        id = "vp9-sw",
+        label = "VP9 · software (WebM)",
+        description = "The web's codec, in a WebM file. CPU encode with libvpx.",
+        outputExtension = "webm",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/webm",
+    ),
+    AV1_SOFTWARE(
+        id = "av1-sw",
+        label = "AV1 · software",
+        description = "Newest codec, smallest files. Very slow CPU encode — short clips only.",
+        outputExtension = "mp4",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/mp4",
     ),
     AUDIO_AAC(
         id = "audio-aac",
         label = "Audio only · AAC",
         description = "Extract the audio track to AAC.",
         outputExtension = "m4a",
+        kind = MediaKind.AUDIO,
+        mimeType = "audio/mp4",
+    ),
+    AUDIO_MP3(
+        id = "audio-mp3",
+        label = "Audio only · MP3",
+        description = "Extract the audio track to MP3. Plays everywhere.",
+        outputExtension = "mp3",
+        kind = MediaKind.AUDIO,
+        mimeType = "audio/mpeg",
+    ),
+    AUDIO_OPUS(
+        id = "audio-opus",
+        label = "Audio only · Opus",
+        description = "Extract the audio track to Opus. Smallest at the same quality.",
+        outputExtension = "opus",
+        kind = MediaKind.AUDIO,
+        mimeType = "audio/opus",
+    ),
+    AUDIO_FLAC(
+        id = "audio-flac",
+        label = "Audio only · FLAC",
+        description = "Extract the audio track losslessly to FLAC.",
+        outputExtension = "flac",
+        kind = MediaKind.AUDIO,
+        mimeType = "audio/flac",
+    ),
+    AUDIO_WAV(
+        id = "audio-wav",
+        label = "Audio only · WAV",
+        description = "Extract the audio track uncompressed to WAV, for editing.",
+        outputExtension = "wav",
+        kind = MediaKind.AUDIO,
+        mimeType = "audio/wav",
+    ),
+    REMUX_MP4(
+        id = "remux-mp4",
+        label = "Remux to MP4 · no re-encode",
+        description = "Same picture and sound, new MP4 container. Instant.",
+        outputExtension = "mp4",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/mp4",
+    ),
+    REMUX_MKV(
+        id = "remux-mkv",
+        label = "Remux to MKV · no re-encode",
+        description = "Same picture and sound, new MKV container. Instant.",
+        outputExtension = "mkv",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/x-matroska",
     ),
     TRIM_COPY(
         id = "trim-copy",
         label = "Trim · no re-encode",
         description = "Cut a section out without touching the picture. Cuts land on keyframes.",
         outputExtension = "mp4",
+        kind = MediaKind.VIDEO,
+        mimeType = "video/mp4",
+    ),
+    GIF(
+        id = "gif",
+        label = "GIF · animated image",
+        description = "Turn a clip into an animated GIF (12 fps, 480 px wide). Short clips only.",
+        outputExtension = "gif",
+        kind = MediaKind.IMAGE,
+        mimeType = "image/gif",
     ),
 }
 
@@ -179,6 +274,62 @@ object PresetCommands {
                 usedHardwareDecode = decode.hardware,
             )
         }
+        ConversionPreset.HEVC_SOFTWARE -> {
+            val decode = decodeChoice(report, input, softwareDecode)
+            PresetCommand.Ready(
+                command = listOf("-y") + decode.args + listOf(
+                    "-i", inputPath,
+                    "-c:v", "libx265", "-preset", "medium", "-crf", "22",
+                    "-pix_fmt", "yuv420p", "-tag:v", "hvc1",
+                    "-c:a", "aac", "-b:a", "128k",
+                    "-movflags", "+faststart",
+                    outputPath,
+                ),
+                engine = EngineKind.SOFTWARE,
+                note = "Software encode (libx265, CRF 22, medium preset). " +
+                    "Decode: ${decode.label}.",
+                usedHardwareDecode = decode.hardware,
+            )
+        }
+        ConversionPreset.VP9_SOFTWARE -> {
+            val decode = decodeChoice(report, input, softwareDecode)
+            PresetCommand.Ready(
+                command = listOf("-y") + decode.args + listOf(
+                    "-i", inputPath,
+                    // Constant-quality VP9: -b:v 0 with a CRF target.
+                    "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "30",
+                    "-deadline", "good", "-cpu-used", "2", "-row-mt", "1",
+                    "-pix_fmt", "yuv420p",
+                    "-c:a", "libopus", "-b:a", "128k",
+                    outputPath,
+                ),
+                engine = EngineKind.SOFTWARE,
+                note = "Software encode (libvpx-vp9, CRF 30) to WebM. " +
+                    "Decode: ${decode.label}.",
+                usedHardwareDecode = decode.hardware,
+            )
+        }
+        ConversionPreset.AV1_SOFTWARE -> {
+            val decode = decodeChoice(report, input, softwareDecode)
+            PresetCommand.Ready(
+                command = listOf("-y") + decode.args + listOf(
+                    "-i", inputPath,
+                    // libaom is the AV1 encoder in this FFmpeg build (no
+                    // SVT-AV1); cpu-used 5 is the usable speed/quality
+                    // point, and it is still slow — hence the label.
+                    "-c:v", "libaom-av1", "-crf", "32", "-b:v", "0",
+                    "-cpu-used", "5",
+                    "-pix_fmt", "yuv420p",
+                    "-c:a", "aac", "-b:a", "128k",
+                    "-movflags", "+faststart",
+                    outputPath,
+                ),
+                engine = EngineKind.SOFTWARE,
+                note = "Software encode (libaom-av1, CRF 32). AV1 on CPU " +
+                    "is very slow. Decode: ${decode.label}.",
+                usedHardwareDecode = decode.hardware,
+            )
+        }
         ConversionPreset.AUDIO_AAC -> PresetCommand.Ready(
             command = listOf(
                 "-y", "-i", inputPath,
@@ -188,6 +339,77 @@ object PresetCommands {
             engine = EngineKind.SOFTWARE,
             note = "Audio extraction to AAC 192k. No video encoder involved.",
         )
+        ConversionPreset.AUDIO_MP3 -> PresetCommand.Ready(
+            command = listOf(
+                "-y", "-i", inputPath,
+                "-vn", "-c:a", "libmp3lame", "-b:a", "192k",
+                outputPath,
+            ),
+            engine = EngineKind.SOFTWARE,
+            note = "Audio extraction to MP3 192k. No video encoder involved.",
+        )
+        ConversionPreset.AUDIO_OPUS -> PresetCommand.Ready(
+            command = listOf(
+                "-y", "-i", inputPath,
+                "-vn", "-c:a", "libopus", "-b:a", "128k",
+                outputPath,
+            ),
+            engine = EngineKind.SOFTWARE,
+            note = "Audio extraction to Opus 128k. No video encoder involved.",
+        )
+        ConversionPreset.AUDIO_FLAC -> PresetCommand.Ready(
+            command = listOf(
+                "-y", "-i", inputPath,
+                "-vn", "-c:a", "flac",
+                outputPath,
+            ),
+            engine = EngineKind.SOFTWARE,
+            note = "Audio extraction to FLAC (lossless). No video encoder involved.",
+        )
+        ConversionPreset.AUDIO_WAV -> PresetCommand.Ready(
+            command = listOf(
+                "-y", "-i", inputPath,
+                "-vn", "-c:a", "pcm_s16le",
+                outputPath,
+            ),
+            engine = EngineKind.SOFTWARE,
+            note = "Audio extraction to WAV (uncompressed). No video encoder involved.",
+        )
+        ConversionPreset.REMUX_MP4 -> PresetCommand.Ready(
+            command = listOf(
+                "-y", "-i", inputPath,
+                "-c", "copy",
+                "-movflags", "+faststart",
+                outputPath,
+            ),
+            engine = EngineKind.COPY,
+            note = "Remux to MP4: streams copied, nothing re-encoded.",
+        )
+        ConversionPreset.REMUX_MKV -> PresetCommand.Ready(
+            command = listOf(
+                "-y", "-i", inputPath,
+                "-c", "copy",
+                outputPath,
+            ),
+            engine = EngineKind.COPY,
+            note = "Remux to MKV: streams copied, nothing re-encoded.",
+        )
+        ConversionPreset.GIF -> {
+            val decode = decodeChoice(report, input, softwareDecode)
+            PresetCommand.Ready(
+                command = listOf("-y") + decode.args + listOf(
+                    "-i", inputPath,
+                    "-an",
+                    "-vf", "fps=12,scale=480:-2:flags=lanczos",
+                    "-loop", "0",
+                    outputPath,
+                ),
+                engine = EngineKind.SOFTWARE,
+                note = "Animated GIF at 12 fps, 480 px wide. " +
+                    "Decode: ${decode.label}.",
+                usedHardwareDecode = decode.hardware,
+            )
+        }
         ConversionPreset.TRIM_COPY -> {
             if (trimStartSeconds == null || trimEndSeconds == null ||
                 trimEndSeconds <= trimStartSeconds

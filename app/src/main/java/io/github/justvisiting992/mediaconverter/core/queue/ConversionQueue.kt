@@ -15,6 +15,7 @@ import io.github.justvisiting992.mediaconverter.core.engine.ConversionPreset
 import io.github.justvisiting992.mediaconverter.core.engine.EngineResult
 import io.github.justvisiting992.mediaconverter.core.engine.InputInfo
 import io.github.justvisiting992.mediaconverter.core.engine.LogCollector
+import io.github.justvisiting992.mediaconverter.core.engine.MediaKind
 import io.github.justvisiting992.mediaconverter.core.engine.PresetCommand
 import io.github.justvisiting992.mediaconverter.core.engine.PresetCommands
 import java.text.SimpleDateFormat
@@ -151,16 +152,17 @@ class ConversionQueueViewModel : ViewModel() {
         val inputName = queryDisplayName(context, inputUri) ?: "input"
         val base = inputName.substringBeforeLast('.', inputName)
         val outputName = "${base}_${preset.id}.${preset.outputExtension}"
-        val isAudio = preset.outputExtension == "m4a"
         // Probe first: the command is built from what the file actually
         // is (codec, resolution, bitrate), not from guesses.
         val inputInfo = ConversionEngine.probeInput(context, inputUri)
-        val outputUri = MediaStoreOutput.create(context, outputName, isAudio)
+        val outputUri = MediaStoreOutput.create(
+            context, outputName, preset.kind, preset.mimeType,
+        )
         if (outputUri == null) {
             return ConversionJob(
                 id = id, inputUri = inputUri, inputName = inputName, preset = preset,
                 outputUri = null, outputName = outputName,
-                outputFolder = MediaStoreOutput.folderLabel(isAudio),
+                outputFolder = MediaStoreOutput.folderLabel(preset.kind),
                 command = emptyList(), note = "", inputInfo = inputInfo,
                 status = JobStatus.Failed("Could not create the output file in MediaStore."),
             )
@@ -181,7 +183,7 @@ class ConversionQueueViewModel : ViewModel() {
                 ConversionJob(
                     id = id, inputUri = inputUri, inputName = inputName, preset = preset,
                     outputUri = null, outputName = outputName,
-                    outputFolder = MediaStoreOutput.folderLabel(isAudio),
+                    outputFolder = MediaStoreOutput.folderLabel(preset.kind),
                     command = emptyList(), note = "", inputInfo = inputInfo,
                     status = JobStatus.Failed(built.reason),
                 )
@@ -189,7 +191,7 @@ class ConversionQueueViewModel : ViewModel() {
             is PresetCommand.Ready -> ConversionJob(
                 id = id, inputUri = inputUri, inputName = inputName, preset = preset,
                 outputUri = outputUri, outputName = outputName,
-                outputFolder = MediaStoreOutput.folderLabel(isAudio),
+                outputFolder = MediaStoreOutput.folderLabel(preset.kind),
                 command = built.command, note = built.note,
                 inputInfo = inputInfo,
                 usedHardwareDecode = built.usedHardwareDecode,
@@ -448,27 +450,38 @@ object MediaStoreOutput {
 
     private const val FOLDER = "HWA Converter"
 
-    fun folderLabel(isAudio: Boolean): String =
-        if (isAudio) "Music/$FOLDER" else "Movies/$FOLDER"
+    fun folderLabel(kind: MediaKind): String = when (kind) {
+        MediaKind.AUDIO -> "Music/$FOLDER"
+        MediaKind.IMAGE -> "Pictures/$FOLDER"
+        MediaKind.VIDEO -> "Movies/$FOLDER"
+    }
 
     /** Create a pending output entry; null when MediaStore refuses. */
-    fun create(context: Context, displayName: String, isAudio: Boolean): Uri? {
+    fun create(
+        context: Context,
+        displayName: String,
+        kind: MediaKind,
+        mimeType: String,
+    ): Uri? {
         val resolver = context.contentResolver
-        val collection = when {
-            isAudio -> MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-            else -> MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        val volume = MediaStore.VOLUME_EXTERNAL_PRIMARY
+        val collection = when (kind) {
+            MediaKind.AUDIO -> MediaStore.Audio.Media.getContentUri(volume)
+            MediaKind.IMAGE -> MediaStore.Images.Media.getContentUri(volume)
+            MediaKind.VIDEO -> MediaStore.Video.Media.getContentUri(volume)
+        }
+        val directory = when (kind) {
+            MediaKind.AUDIO -> Environment.DIRECTORY_MUSIC
+            MediaKind.IMAGE -> Environment.DIRECTORY_PICTURES
+            MediaKind.VIDEO -> Environment.DIRECTORY_MOVIES
         }
         val values = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, displayName)
-            put(
-                MediaStore.MediaColumns.MIME_TYPE,
-                if (isAudio) "audio/mp4" else "video/mp4",
-            )
+            put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 put(
                     MediaStore.MediaColumns.RELATIVE_PATH,
-                    (if (isAudio) Environment.DIRECTORY_MUSIC else Environment.DIRECTORY_MOVIES) +
-                        "/" + FOLDER,
+                    "$directory/$FOLDER",
                 )
                 put(MediaStore.MediaColumns.IS_PENDING, 1)
             }

@@ -1,41 +1,64 @@
 package io.github.justvisiting992.mediaconverter.ui.theme
 
+import android.content.Context
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-private val FallbackLight = lightColorScheme(
-    primary = Color(0xFF0B5563),
-    onPrimary = Color.White,
-    primaryContainer = Color(0xFFBEE9F2),
-    onPrimaryContainer = Color(0xFF001F24),
-)
-private val FallbackDark = darkColorScheme(
-    primary = Color(0xFF9FD3DE),
-    onPrimary = Color(0xFF00363E),
-    primaryContainer = Color(0xFF004B56),
-    onPrimaryContainer = Color(0xFFBEE9F2),
-)
+/** Light/dark choice, independent of which color template is active. */
+enum class ThemeMode { SYSTEM, LIGHT, DARK }
+
+/**
+ * The user's appearance choices, persisted in SharedPreferences — two
+ * small values don't justify a database or a DataStore dependency.
+ */
+object ThemePrefs {
+    private const val FILE = "appearance"
+    private const val KEY_TEMPLATE = "color_template"
+    private const val KEY_MODE = "theme_mode"
+
+    fun load(context: Context): Pair<ThemeTemplate, ThemeMode> {
+        val prefs = context.getSharedPreferences(FILE, Context.MODE_PRIVATE)
+        val template = ThemeTemplate.fromId(prefs.getString(KEY_TEMPLATE, null))
+        val mode = runCatching {
+            ThemeMode.valueOf(prefs.getString(KEY_MODE, null) ?: "SYSTEM")
+        }.getOrDefault(ThemeMode.SYSTEM)
+        return template to mode
+    }
+
+    fun save(context: Context, template: ThemeTemplate, mode: ThemeMode) {
+        context.getSharedPreferences(FILE, Context.MODE_PRIVATE).edit()
+            .putString(KEY_TEMPLATE, template.id)
+            .putString(KEY_MODE, mode.name)
+            .apply()
+    }
+}
 
 @Composable
 fun MediaConverterTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    template: ThemeTemplate = ThemeTemplate.DYNAMIC,
+    mode: ThemeMode = ThemeMode.SYSTEM,
     content: @Composable () -> Unit,
 ) {
+    val darkTheme = when (mode) {
+        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+    }
     val context = LocalContext.current
-    val colorScheme = when {
+    val colorScheme = template.scheme(darkTheme) ?: when {
+        // DYNAMIC: Material You from the wallpaper (API 31+). Below
+        // that, fall back to Ocean — the app's original palette.
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (darkTheme) dynamicDarkColorScheme(context)
+            else dynamicLightColorScheme(context)
         }
-        darkTheme -> FallbackDark
-        else -> FallbackLight
+        darkTheme -> ThemeTemplate.OCEAN.scheme(dark = true)!!
+        else -> ThemeTemplate.OCEAN.scheme(dark = false)!!
     }
     MaterialTheme(colorScheme = colorScheme, content = content)
 }
