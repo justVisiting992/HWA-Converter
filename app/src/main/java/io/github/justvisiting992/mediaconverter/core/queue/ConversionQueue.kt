@@ -31,6 +31,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -109,6 +111,33 @@ class ConversionQueue(private val appContext: Context) {
 
     private val _jobs = MutableStateFlow<List<ConversionJob>>(emptyList())
     val jobs: StateFlow<List<ConversionJob>> = _jobs
+
+    /**
+     * The Start gate. Picking files queues jobs but converts nothing:
+     * the pump waits here until [start] opens the gate. The gate
+     * closes again on its own when the queue drains, so the next
+     * batch the user picks also waits for its own Start.
+     */
+    private val gateOpen = MutableStateFlow(false)
+
+    private val _awaitingStart = MutableStateFlow(false)
+
+    /** True while queued jobs are waiting for the user's Start. */
+    val awaitingStart: StateFlow<Boolean> = _awaitingStart
+
+    init {
+        scope.launch {
+            combine(_jobs, gateOpen) { jobs, open ->
+                !open && jobs.any { it.status is JobStatus.Queued }
+            }.collect { _awaitingStart.value = it }
+        }
+    }
+
+    /** Open the Start gate and run everything queued so far. */
+    fun start() {
+        gateOpen.value = true
+        pump()
+    }
 
     private var nextId = 1L
     private var pumpJob: Job? = null
@@ -263,8 +292,17 @@ class ConversionQueue(private val appContext: Context) {
             while (true) {
                 val next = _jobs.value.firstOrNull { it.status is JobStatus.Queued }
                     ?: break
+                // The Start gate: queued jobs wait here until the
+                // user taps Start. Jobs added while a batch is already
+                // running join it — the gate is open by then.
+                if (!gateOpen.value) {
+                    gateOpen.first { it }
+                }
                 runJob(next)
             }
+            // Drained: re-arm the gate, so the next picked batch
+            // waits for its own Start.
+            gateOpen.value = false
         }
     }
 
@@ -281,11 +319,31 @@ class ConversionQueue(private val appContext: Context) {
             // this job without killing the pump loop behind it.
             // Cancelling it makes the engine cancel the ffmpeg session.
             suspend fun execute(command: List<String>): EngineResult = coroutineScope {
+                // Progress is throttled before it touches the job
+                // state: ffmpeg statistics arrive several times a
+                // second, and every state write rebuilds the jobs
+                // list and recomposes every collector (job cards,
+                // the notification) — the app felt that churn, not
+                // the conversion. At most one update per 500 ms,
+                // plus the first report and any whole-percent step.
+                var lastForwardAt = 0L
+                var lastPercent = -1
                 val deferred = async {
                     ConversionEngine.run(
                         command, totalMs,
                         onProgress = { fraction, speed, size ->
-                            setStatus(job.id, JobStatus.Running(fraction, speed, size))
+                            val now = System.nanoTime() / 1_000_000
+                            val percent = fraction?.let { (it * 100).toInt() } ?: -1
+                            if (lastForwardAt == 0L || percent != lastPercent ||
+                                now - lastForwardAt >= 500
+                            ) {
+                                lastForwardAt = now
+                                lastPercent = percent
+                                setStatus(
+                                    job.id,
+                                    JobStatus.Running(fraction, speed, size),
+                                )
+                            }
                         },
                         onLog = { line -> collector.append(line) },
                     )
@@ -663,6 +721,11 @@ class ConversionQueueViewModel : ViewModel() {
     private val _jobs = MutableStateFlow<List<ConversionJob>>(emptyList())
     val jobs: StateFlow<List<ConversionJob>> = _jobs
 
+    private val _awaitingStart = MutableStateFlow(false)
+
+    /** Mirror of the shared queue's Start-gate state. */
+    val awaitingStart: StateFlow<Boolean> = _awaitingStart
+
     private var queue: ConversionQueue? = null
 
     /** Connect to the shared queue (idempotent). */
@@ -673,6 +736,16 @@ class ConversionQueueViewModel : ViewModel() {
         viewModelScope.launch {
             shared.jobs.collect { _jobs.value = it }
         }
+        viewModelScope.launch {
+            shared.awaitingStart.collect { _awaitingStart.value = it }
+        }
+    }
+
+    /** The Start button: open the gate and run the queued jobs. */
+    fun start(context: Context) {
+        attach(context)
+        queue?.start()
+        ConversionService.start(context)
     }
 
     fun addJobs(

@@ -41,6 +41,7 @@ import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -58,6 +59,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -147,7 +149,7 @@ fun ConvertScreen(
     report: DeviceCodecReport?,
     modifier: Modifier = Modifier,
     queueViewModel: ConversionQueueViewModel = viewModel(),
-    onJobsAdded: () -> Unit = {},
+    onStartPressed: () -> Unit = {},
 ) {
     val context = LocalContext.current
 
@@ -161,6 +163,16 @@ fun ConvertScreen(
     val notificationPermission = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { }
+
+    // The Start gate, read through derived state: the queue's job
+    // list changes on every progress tick while a conversion runs,
+    // and this screen should only react when the waiting count or
+    // the gate itself changes — not several times a second.
+    val jobs by queueViewModel.jobs.collectAsState()
+    val awaitingStart by queueViewModel.awaitingStart.collectAsState()
+    val waitingCount by remember {
+        derivedStateOf { jobs.count { it.status is JobStatus.Queued } }
+    }
 
     val presets = remember(report) {
         report?.let { PresetCommands.availablePresets(it) } ?: emptyList()
@@ -222,7 +234,8 @@ fun ConvertScreen(
                 trimEndSeconds = trimEnd.toDoubleOrNull(),
                 manual = manual,
             )
-            onJobsAdded()
+            // No tab jump: the jobs wait for Start right here, and
+            // the Start button below is how the user says go.
         }
     }
 
@@ -331,9 +344,10 @@ fun ConvertScreen(
         if (report != null) {
             item {
                 Text(
-                    "Pick a conversion, add files, and the jobs run in " +
-                        "the Queue tab — one at a time, on the hardware " +
-                        "when the setting says so.",
+                    "Pick a conversion, add files, then tap Start — " +
+                        "nothing runs until you say so. Jobs then work " +
+                        "through the Queue tab one at a time, on the " +
+                        "hardware when the setting says so.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 4.dp),
@@ -342,15 +356,44 @@ fun ConvertScreen(
         }
     }
     if (report != null) {
-        ExtendedFloatingActionButton(
-            onClick = { picker.launch(arrayOf("video/*", "audio/*")) },
-            icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-            text = { Text("Add files") },
+        // The action stack, floating above the navigation pill:
+        // Add files on top; Start below it, present only while
+        // picked files are waiting. Nothing converts until Start.
+        Column(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .tourTarget(TourKeys.ADD_FILES)
-                .padding(end = 16.dp, bottom = 104.dp),
-        )
+                .padding(end = 16.dp, bottom = 96.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.End,
+        ) {
+            ExtendedFloatingActionButton(
+                onClick = { picker.launch(arrayOf("video/*", "audio/*")) },
+                icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                text = { Text("Add files") },
+                modifier = Modifier.tourTarget(TourKeys.ADD_FILES),
+            )
+            if (awaitingStart) {
+                ExtendedFloatingActionButton(
+                    onClick = {
+                        queueViewModel.start(context)
+                        onStartPressed()
+                    },
+                    icon = { Icon(Icons.Filled.PlayArrow, contentDescription = null) },
+                    text = {
+                        Text(
+                            if (waitingCount == 1) {
+                                "Start conversion"
+                            } else {
+                                "Start $waitingCount conversions"
+                            },
+                        )
+                    },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.tourTarget(TourKeys.START),
+                )
+            }
+        }
     }
     }
 }

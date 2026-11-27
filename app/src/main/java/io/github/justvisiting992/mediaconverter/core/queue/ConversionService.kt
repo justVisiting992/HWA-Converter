@@ -148,14 +148,20 @@ class ConversionService : Service() {
                     running?.inputInfo?.durationMs, status?.fraction, status?.speed,
                 )?.let { " · $it" } ?: ""
                 val sizeText = status?.sizeBytes?.let { " · ${formatSizeBytes(it)}" } ?: ""
+                val waiting = running == null && queue.awaitingStart.value
                 val text = when {
+                    waiting -> "$queuedCount waiting — tap Start in the app"
                     running == null -> "Starting…"
                     percent != null -> "$percent%$speedText$etaText$sizeText$queueText"
                     else -> "Converting…$speedText$sizeText$queueText"
                 }
                 notify(
                     buildNotification(
-                        title = "Converting ${running?.inputName ?: "files"}",
+                        title = if (waiting) {
+                            "Ready to convert"
+                        } else {
+                            "Converting ${running?.inputName ?: "files"}"
+                        },
                         text = text,
                         percent = percent,
                     ),

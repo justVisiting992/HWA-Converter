@@ -139,7 +139,7 @@ class MainActivity : ComponentActivity() {
                             Tab.CONVERT -> ConvertScreen(
                                 reportState.value,
                                 Modifier.fillMaxSize().statusBarsPadding(),
-                                onJobsAdded = { tab = Tab.QUEUE },
+                                onStartPressed = { tab = Tab.QUEUE },
                             )
                             Tab.QUEUE -> QueueScreen(
                                 modifier = Modifier.fillMaxSize().statusBarsPadding(),

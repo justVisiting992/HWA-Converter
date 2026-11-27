@@ -50,6 +50,7 @@ import kotlin.math.roundToInt
 /** Anchor keys for the UI elements the tour points at. */
 object TourKeys {
     const val ADD_FILES = "add_files"
+    const val START = "start"
     const val PRESETS = "presets"
     const val NAV_QUEUE = "nav_queue"
     const val HARDWARE_HERO = "hardware_hero"
@@ -104,7 +105,8 @@ private val TOUR_STEPS = listOf(
         tab = Tab.CONVERT, targetKey = TourKeys.ADD_FILES,
         title = "Add files",
         body = "Tap this button and pick the videos or audio files you " +
-            "want to convert.",
+            "want to convert. Picking files starts nothing — they wait " +
+            "for you.",
     ),
     TourStep(
         tab = Tab.CONVERT, targetKey = TourKeys.PRESETS,
@@ -113,6 +115,14 @@ private val TOUR_STEPS = listOf(
             "easy on the battery. Software presets trade speed for " +
             "maximum quality, and Custom lets you set everything " +
             "yourself. Tap a category to open it.",
+    ),
+    TourStep(
+        tab = Tab.CONVERT, targetKey = TourKeys.START,
+        title = "Start when you're ready",
+        body = "Once you've added files, a Start button appears under " +
+            "Add files. Tap it and the conversions run, one at a time. " +
+            "Until then, everything just waits — nothing converts " +
+            "behind your back.",
     ),
     TourStep(
         tab = Tab.CONVERT, targetKey = TourKeys.NAV_QUEUE,

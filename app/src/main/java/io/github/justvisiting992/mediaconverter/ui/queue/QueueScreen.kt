@@ -3,6 +3,7 @@ package io.github.justvisiting992.mediaconverter.ui.queue
 import android.content.Intent
 import android.webkit.MimeTypeMap
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,6 +26,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Queue
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
@@ -74,6 +76,7 @@ fun QueueScreen(
     queueViewModel: ConversionQueueViewModel = viewModel(),
 ) {
     val jobs by queueViewModel.jobs.collectAsState()
+    val awaitingStart by queueViewModel.awaitingStart.collectAsState()
     val context = LocalContext.current
     LaunchedEffect(Unit) { queueViewModel.attach(context) }
 
@@ -97,6 +100,16 @@ fun QueueScreen(
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f),
                 )
+                if (awaitingStart) {
+                    TextButton(onClick = { queueViewModel.start(context) }) {
+                        Icon(
+                            Icons.Filled.PlayArrow,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp),
+                        )
+                        Text(" Start")
+                    }
+                }
                 if (hasFinished) {
                     TextButton(onClick = { queueViewModel.clearFinished() }) {
                         Text("Clear finished")
@@ -124,8 +137,8 @@ fun QueueScreen(
                         style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
-                        "Add files from the Convert tab and they will " +
-                            "run here, one at a time.",
+                        "Add files from the Convert tab, tap Start, and " +
+                            "they will run here, one at a time.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -135,6 +148,7 @@ fun QueueScreen(
         items(jobs, key = { it.id }) { job ->
             JobCard(
                 job,
+                waitingToStart = awaitingStart,
                 onCancel = { queueViewModel.cancel(job.id) },
                 onSaveLog = { queueViewModel.saveLog(job.id) },
             )
@@ -146,6 +160,7 @@ fun QueueScreen(
 @Composable
 private fun JobCard(
     job: ConversionJob,
+    waitingToStart: Boolean = false,
     onCancel: () -> Unit,
     onSaveLog: () -> Unit = {},
 ) {
@@ -266,7 +281,10 @@ private fun JobCard(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Column {
-                        Text("Queued", style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            if (waitingToStart) "Waiting for Start" else "Queued",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                         estimateOutputBytes(job.command, info?.durationMs)?.let {
                             Text(
                                 "≈ ${formatSizeBytes(it)} output",
@@ -283,6 +301,7 @@ private fun JobCard(
                     if (status.fraction != null) {
                         val animatedFraction by animateFloatAsState(
                             targetValue = status.fraction,
+                            animationSpec = tween(400),
                             label = "jobProgress",
                         )
                         Row(

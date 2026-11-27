@@ -101,9 +101,10 @@ first-class citizens here.
   and decoder on your device, what it can do, and which engine vendor made it
 - 🧵 **Background conversions** — a foreground service keeps jobs alive with
   a live notification: progress, speed, ETA, output size, and a Cancel button
-- 📋 **A real queue** — jobs run one at a time (hardware encoders are scarce
-  silicon), each card showing live progress, the *exact* ffmpeg command that
-  ran, and the output estimate before you start
+- 📋 **A real queue, on your say-so** — picked files wait until you tap
+  **Start**; nothing converts behind your back. Jobs then run one at a time
+  (hardware encoders are scarce silicon), each card showing live progress,
+  the *exact* ffmpeg command that ran, and the output estimate before you start
 - 🗂️ **Tidy output** — finished files land in `Movies`, `Music` or
   `Pictures` under a **HWA Converter** folder; failed jobs clean up after
   themselves, no half-written files
