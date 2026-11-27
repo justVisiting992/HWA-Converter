@@ -38,15 +38,23 @@ Early development. What exists today:
   capped at 2x the source bitrate, so a low-bitrate source doesn't
   balloon
 - A working Convert tab (`core/engine/ConversionEngine.kt`, `core/queue/`,
-  `ui/convert/`): pick files, choose a preset, convert. Jobs run one at a
+  `ui/convert/`): pick files, choose a preset, convert. The jobs live in
+  their own Queue tab (`ui/queue/`) and run one at a
   time through the vendored FFmpeg with live progress and cancel; inputs
   and outputs move through SAF/MediaStore (outputs in Movies/HWA Converter,
   Music/ for audio), and a failed or cancelled job leaves no half-written
   file behind
+- A first-run feature tour with guide lines that point at the real
+  controls — add files, presets, the Queue, your hardware, settings —
+  replayable any time from the Settings tab
 - A debug log per finished job: device and app info, the probed input
   (codec, resolution, bitrates), the exact command and the full FFmpeg
-  log, written to Download/HWA Converter with a Share log button on the
-  job card
+  log. It stays in memory on the job card — tapping the log saves it to
+  Download/HWA Converter, and Share log saves-then-shares; nothing is
+  written to the device automatically
+- Ten selectable launcher icons in the Settings tab — the default
+  artwork and nine variants, all drawn by the maintainer — switched at
+  runtime through launcher aliases, no reinstall
 - A Settings tab with appearance choices: System/Light/Dark mode and
   seven color scheme templates (Material You plus six fixed palettes,
   each in light and dark), saved between launches

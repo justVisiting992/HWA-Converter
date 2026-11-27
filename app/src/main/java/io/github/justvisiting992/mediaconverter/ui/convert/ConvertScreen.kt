@@ -78,6 +78,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.engine.ConversionPreset
+import io.github.justvisiting992.mediaconverter.ui.tour.TourKeys
+import io.github.justvisiting992.mediaconverter.ui.tour.tourTarget
 import io.github.justvisiting992.mediaconverter.core.engine.PresetCommands
 import io.github.justvisiting992.mediaconverter.core.queue.ConversionJob
 import io.github.justvisiting992.mediaconverter.core.queue.ConversionQueueViewModel
@@ -145,8 +147,8 @@ fun ConvertScreen(
     report: DeviceCodecReport?,
     modifier: Modifier = Modifier,
     queueViewModel: ConversionQueueViewModel = viewModel(),
+    onJobsAdded: () -> Unit = {},
 ) {
-    val jobs by queueViewModel.jobs.collectAsState()
     val context = LocalContext.current
 
     // Connect the screen to the process-wide queue (the same one the
@@ -220,6 +222,7 @@ fun ConvertScreen(
                 trimEndSeconds = trimEnd.toDoubleOrNull(),
                 manual = manual,
             )
+            onJobsAdded()
         }
     }
 
@@ -240,18 +243,28 @@ fun ConvertScreen(
                 )
             }
             items(categories, key = { it.title }) { category ->
-                CategoryCard(
-                    category = category,
-                    selected = selected,
-                    expanded = expandedTitle == category.title,
-                    onToggle = {
-                        expandedTitle =
-                            if (expandedTitle == category.title) null else category.title
-                    },
-                    onSelect = { preset ->
-                        selectedPresetId = preset.id
-                    },
-                )
+                // The first category card doubles as the tour's
+                // "presets" anchor.
+                val card: @Composable () -> Unit = {
+                    CategoryCard(
+                        category = category,
+                        selected = selected,
+                        expanded = expandedTitle == category.title,
+                        onToggle = {
+                            expandedTitle =
+                                if (expandedTitle == category.title) null
+                                else category.title
+                        },
+                        onSelect = { preset ->
+                            selectedPresetId = preset.id
+                        },
+                    )
+                }
+                if (category == categories.first()) {
+                    Box(Modifier.tourTarget(TourKeys.PRESETS)) { card() }
+                } else {
+                    card()
+                }
             }
             item {
                 AnimatedVisibility(
@@ -315,25 +328,15 @@ fun ConvertScreen(
             }
         }
 
-        if (jobs.isNotEmpty()) {
+        if (report != null) {
             item {
                 Text(
-                    "Queue",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(top = 8.dp),
-                )
-            }
-            items(jobs, key = { it.id }) { job ->
-                JobCard(job, onCancel = { queueViewModel.cancel(job.id) })
-            }
-        } else if (report != null) {
-            item {
-                Text(
-                    "Nothing queued yet. Pick a conversion, add files, and " +
-                        "the jobs run here — one at a time, on the hardware " +
+                    "Pick a conversion, add files, and the jobs run in " +
+                        "the Queue tab — one at a time, on the hardware " +
                         "when the setting says so.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp),
                 )
             }
         }
@@ -345,6 +348,7 @@ fun ConvertScreen(
             text = { Text("Add files") },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
+                .tourTarget(TourKeys.ADD_FILES)
                 .padding(end = 16.dp, bottom = 104.dp),
         )
     }
@@ -370,6 +374,7 @@ private fun CategoryCard(
         "Hardware encode" -> scheme.primaryContainer to scheme.onPrimaryContainer
         "Software encode" -> scheme.tertiaryContainer to scheme.onTertiaryContainer
         "Audio only" -> scheme.secondaryContainer to scheme.onSecondaryContainer
+        "No re-encode" -> scheme.tertiaryContainer to scheme.onTertiaryContainer
         "Create" -> scheme.primaryContainer to scheme.onPrimaryContainer
         else -> scheme.surfaceContainerHigh to scheme.onSurfaceVariant
     }
@@ -678,253 +683,6 @@ private fun PanelLabel(text: String) {
         style = MaterialTheme.typography.labelLarge,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-private fun JobCard(job: ConversionJob, onCancel: () -> Unit) {
-    val context = LocalContext.current
-    val info = job.inputInfo
-    var thumb by remember(job.id) { mutableStateOf(Thumbnails.cached(job.inputUri)) }
-    if (info?.videoCodec != null && thumb == null) {
-        LaunchedEffect(job.id) { thumb = Thumbnails.load(context, job.inputUri) }
-    }
-    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
-        Column(
-            Modifier.padding(14.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.Top,
-            ) {
-                if (info?.videoCodec != null) {
-                    val bitmap = thumb
-                    if (bitmap != null) {
-                        Image(
-                            bitmap.asImageBitmap(),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(72.dp)
-                                .clip(RoundedCornerShape(16.dp)),
-                            contentScale = ContentScale.Crop,
-                        )
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .size(72.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceContainerHigh,
-                                ),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Icon(
-                                Icons.Filled.Movie,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    }
-                }
-                Column(
-                    Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(3.dp),
-                ) {
-                    Text(
-                        job.inputName,
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Medium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    Text(
-                        job.preset.label,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                    if (info != null) {
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                            verticalArrangement = Arrangement.spacedBy(6.dp),
-                        ) {
-                            info.videoCodec?.let { InfoChip(it.uppercase()) }
-                            if (info.width != null && info.height != null) {
-                                InfoChip("${info.width}×${info.height}")
-                            }
-                            info.durationMs?.let { InfoChip(formatDurationMs(it)) }
-                            info.sizeBytes?.let { InfoChip(formatSizeBytes(it)) }
-                            info.audioCodec?.let { InfoChip(it.uppercase()) }
-                        }
-                    }
-                }
-            }
-            if (job.note.isNotEmpty()) {
-                Text(
-                    job.note,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            if (job.command.isNotEmpty()) {
-                var commandExpanded by remember { mutableStateOf(false) }
-                Text(
-                    "ffmpeg " + PresetCommands.displayCommand(job.command),
-                    style = MaterialTheme.typography.bodySmall,
-                    fontFamily = FontFamily.Monospace,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = if (commandExpanded) Int.MAX_VALUE else 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.clickable { commandExpanded = !commandExpanded },
-                )
-            }
-            when (val status = job.status) {
-                is JobStatus.Queued -> Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Column {
-                        Text("Queued", style = MaterialTheme.typography.bodyMedium)
-                        estimateOutputBytes(job.command, info?.durationMs)?.let {
-                            Text(
-                                "≈ ${formatSizeBytes(it)} output",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    }
-                    TextButton(onClick = onCancel) { Text("Cancel") }
-                }
-                is JobStatus.Running -> Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                ) {
-                    if (status.fraction != null) {
-                        val animatedFraction by animateFloatAsState(
-                            targetValue = status.fraction,
-                            label = "jobProgress",
-                        )
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        ) {
-                            Text(
-                                "${(status.fraction * 100).toInt()}%",
-                                style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary,
-                            )
-                            Column(Modifier.weight(1f)) {
-                                LinearProgressIndicator(
-                                    progress = { animatedFraction },
-                                    modifier = Modifier.fillMaxWidth(),
-                                )
-                                val eta = formatEtaLeft(
-                                    info?.durationMs, status.fraction, status.speed,
-                                )
-                                Text(
-                                    listOfNotNull(
-                                        status.speed?.let { "%.1f× speed".format(it) },
-                                        eta,
-                                        status.sizeBytes?.let { formatSizeBytes(it) },
-                                    ).joinToString(" · ").ifEmpty { "Converting…" },
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
-                            }
-                        }
-                    } else {
-                        LinearProgressIndicator(Modifier.fillMaxWidth())
-                        Text(
-                            "Converting…" +
-                                (status.speed?.let { " · %.1f× speed".format(it) } ?: "") +
-                                (status.sizeBytes?.let { " · ${formatSizeBytes(it)}" } ?: ""),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                    }
-                    TextButton(onClick = onCancel) { Text("Cancel") }
-                }
-                is JobStatus.Done -> Column {
-                    Text(
-                        "Saved to ${job.outputFolder}/${job.outputName}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                    val outUri = job.outputUri
-                    if (outUri != null) {
-                        val outMime = MimeTypeMap.getSingleton()
-                            .getMimeTypeFromExtension(
-                                job.outputName.substringAfterLast('.').lowercase(),
-                            ) ?: "video/*"
-                        Row {
-                            TextButton(onClick = {
-                                runCatching {
-                                    context.startActivity(
-                                        Intent(Intent.ACTION_VIEW).apply {
-                                            setDataAndType(outUri, outMime)
-                                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                        },
-                                    )
-                                }
-                            }) {
-                                Icon(
-                                    Icons.AutoMirrored.Filled.OpenInNew,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(16.dp),
-                                )
-                                Text(" Open", style = MaterialTheme.typography.labelLarge)
-                            }
-                            TextButton(onClick = {
-                                runCatching {
-                                    val send = Intent(Intent.ACTION_SEND).apply {
-                                        type = outMime
-                                        putExtra(Intent.EXTRA_STREAM, outUri)
-                                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                    }
-                                    context.startActivity(
-                                        Intent.createChooser(send, "Share converted file"),
-                                    )
-                                }
-                            }) {
-                                Icon(
-                                    Icons.Filled.Share,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(16.dp),
-                                )
-                                Text(" Share", style = MaterialTheme.typography.labelLarge)
-                            }
-                        }
-                    }
-                }
-                is JobStatus.Failed -> Text(
-                    status.reason,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error,
-                )
-                is JobStatus.Cancelled -> Text(
-                    "Cancelled",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            if (job.logUri != null) {
-                TextButton(
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_SEND).apply {
-                            type = "text/plain"
-                            putExtra(Intent.EXTRA_STREAM, job.logUri)
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        }
-                        context.startActivity(
-                            Intent.createChooser(intent, "Share debug log"),
-                        )
-                    },
-                ) {
-                    Text("Share log")
-                }
-            }
-        }
-    }
 }
 
 /**

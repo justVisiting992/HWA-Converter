@@ -1,8 +1,8 @@
 package io.github.justvisiting992.mediaconverter.ui.theme
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -38,18 +38,33 @@ object ThemePrefs {
     }
 }
 
+/**
+ * Whether the PHONE is currently in dark mode, read from the
+ * application context's configuration. The activity's own
+ * configuration — what isSystemInDarkTheme() reads — can be
+ * overridden per app: HyperOS's per-app dark mode does exactly that,
+ * holding an app in night mode while the phone itself is light.
+ * The application context reports the system-wide state, which is
+ * what the System mode promises to follow.
+ */
+internal fun systemUsesDarkTheme(context: Context): Boolean {
+    val uiMode = context.applicationContext.resources.configuration.uiMode
+    return (uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+        Configuration.UI_MODE_NIGHT_YES
+}
+
 @Composable
 fun MediaConverterTheme(
     template: ThemeTemplate = ThemeTemplate.DYNAMIC,
     mode: ThemeMode = ThemeMode.SYSTEM,
     content: @Composable () -> Unit,
 ) {
+    val context = LocalContext.current
     val darkTheme = when (mode) {
-        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        ThemeMode.SYSTEM -> systemUsesDarkTheme(context)
         ThemeMode.LIGHT -> false
         ThemeMode.DARK -> true
     }
-    val context = LocalContext.current
     val colorScheme = template.scheme(darkTheme) ?: when {
         // DYNAMIC: Material You from the wallpaper (API 31+). Below
         // that, fall back to Ocean — the app's original palette.

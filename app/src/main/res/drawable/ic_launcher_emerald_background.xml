@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive-icon background for the emerald_script icon: its own gradient,
+     sampled from the artwork. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:type="linear"
+        android:angle="45"
+        android:startColor="#1F3C44"
+        android:centerColor="#2B4B48"
+        android:endColor="#EBEA90" />
+</shape>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive-icon background: the icon art's own gradient (sampled
+     from the artwork), so the slivers visible through the foreground's
+     rounded corners blend seamlessly. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:type="linear"
+        android:angle="45"
+        android:startColor="#275682"
+        android:centerColor="#32728D"
+        android:endColor="#FBE08F" />
+</shape>

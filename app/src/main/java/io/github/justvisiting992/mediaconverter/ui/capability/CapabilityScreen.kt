@@ -33,6 +33,8 @@ import io.github.justvisiting992.mediaconverter.core.capability.DecoderCapabilit
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.capability.EncoderCapability
 import io.github.justvisiting992.mediaconverter.ui.components.HeroPanel
+import io.github.justvisiting992.mediaconverter.ui.tour.TourKeys
+import io.github.justvisiting992.mediaconverter.ui.tour.tourTarget
 import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
 
 /**
@@ -63,7 +65,11 @@ fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) 
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 120.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        item { DeviceHero(report) }
+        item {
+            Box(Modifier.tourTarget(TourKeys.HARDWARE_HERO)) {
+                DeviceHero(report)
+            }
+        }
         item { BentoTiles(report) }
         item { EncodeCard(report) }
         item { DecodeCard(report) }

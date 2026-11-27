@@ -1,5 +1,16 @@
 package io.github.justvisiting992.mediaconverter.ui.settings
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.Apps
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,6 +34,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeMode
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeTemplate
+import io.github.justvisiting992.mediaconverter.ui.theme.systemUsesDarkTheme
 
 /**
  * Appearance settings: light/dark mode and the color scheme template.
@@ -45,8 +58,11 @@ fun SettingsScreen(
     mode: ThemeMode,
     onTemplateChange: (ThemeTemplate) -> Unit,
     onModeChange: (ThemeMode) -> Unit,
+    onReplayTour: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+    var appIcon by remember { mutableStateOf(IconPrefs.load(context)) }
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 120.dp),
@@ -89,6 +105,19 @@ fun SettingsScreen(
                 )
             }
         }
+        if (mode == ThemeMode.SYSTEM) {
+            item {
+                Text(
+                    if (systemUsesDarkTheme(context)) {
+                        "Following your phone — it's in dark mode right now."
+                    } else {
+                        "Following your phone — it's in light mode right now."
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
         item {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -124,6 +153,89 @@ fun SettingsScreen(
                 modifier = Modifier.padding(top = 4.dp),
             )
         }
+        item {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.padding(top = 8.dp),
+            ) {
+                IconBadge(
+                    Icons.Filled.Apps,
+                    MaterialTheme.colorScheme.secondaryContainer,
+                    MaterialTheme.colorScheme.onSecondaryContainer,
+                    size = 32.dp,
+                )
+                Text("App icon", style = MaterialTheme.typography.titleMedium)
+            }
+        }
+        item {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                AppIcon.entries.forEach { entry ->
+                    IconChoice(
+                        entry = entry,
+                        selected = entry == appIcon,
+                        onClick = {
+                            appIcon = entry
+                            IconPrefs.apply(context, entry)
+                        },
+                    )
+                }
+            }
+        }
+        item {
+            Text(
+                "The home-screen icon may take a few seconds to change; " +
+                    "some launchers refresh it only after a restart.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+        }
+        item {
+            TextButton(onClick = onReplayTour) {
+                Text("Replay the feature tour")
+            }
+        }
+    }
+}
+
+@Composable
+private fun IconChoice(entry: AppIcon, selected: Boolean, onClick: () -> Unit) {
+    val shape = RoundedCornerShape(18.dp)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = Modifier.width(76.dp),
+    ) {
+        Image(
+            painter = painterResource(entry.mipmapRes),
+            contentDescription = entry.label,
+            modifier = Modifier
+                .size(64.dp)
+                .clip(shape)
+                .then(
+                    if (selected) {
+                        Modifier.border(2.5.dp, MaterialTheme.colorScheme.primary, shape)
+                    } else {
+                        Modifier
+                    },
+                )
+                .clickable(onClick = onClick),
+        )
+        Text(
+            entry.label,
+            style = MaterialTheme.typography.labelSmall,
+            textAlign = TextAlign.Center,
+            maxLines = 2,
+            color = if (selected) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            },
+        )
     }
 }
 

@@ -80,7 +80,13 @@ data class ConversionJob(
     /** The manual options for a CUSTOM job; null for preset jobs. */
     val manual: PresetCommands.ManualOptions? = null,
     val status: JobStatus,
-    /** The debug log file written when the job finished; null until then. */
+    /**
+     * The finished job's debug log text, composed when the job ended
+     * and held in memory only. It is written to the device solely when
+     * the user asks — tapping the log on the job card, or sharing it.
+     */
+    val debugLog: String? = null,
+    /** The saved log file; null until the user saves the log. */
     val logUri: Uri? = null,
 )
 
@@ -144,6 +150,15 @@ class ConversionQueue(private val appContext: Context) {
     }
 
     /** Cancel whatever is running right now (the notification's action). */
+    /** Drop every finished job (done, failed, cancelled) from the list. */
+    fun clearFinished() {
+        _jobs.update { list ->
+            list.filter {
+                it.status is JobStatus.Running || it.status is JobStatus.Queued
+            }
+        }
+    }
+
     fun cancelCurrent() {
         _jobs.value.firstOrNull { it.status is JobStatus.Running }
             ?.let { cancel(it.id) }
@@ -360,22 +375,42 @@ class ConversionQueue(private val appContext: Context) {
         }
     }
 
-    /** Write the finished job's debug log and point the job at it. */
-    private suspend fun finishWithLog(
+    /**
+     * Compose the finished job's debug log and keep it on the job, in
+     * memory. Nothing is written to the device here: the file lands in
+     * Downloads only when the user taps the log (or shares it) — see
+     * [saveLog].
+     */
+    private fun finishWithLog(
         job: ConversionJob,
         info: InputInfo?,
         collector: LogCollector,
         resultLine: String,
         elapsedSec: Double,
     ) {
-        val context = appContext
         val text = buildDebugLog(job, info, collector, resultLine, elapsedSec)
-        val uri = withContext(Dispatchers.IO) { DebugLogStore.write(context, job, text) }
-        if (uri != null) {
-            _jobs.update { jobs ->
-                jobs.map { if (it.id == job.id) it.copy(logUri = uri) else it }
-            }
+        _jobs.update { jobs ->
+            jobs.map { if (it.id == job.id) it.copy(debugLog = text) else it }
         }
+    }
+
+    /**
+     * Write a finished job's debug log to Download/HWA Converter and
+     * point the job at the file. Returns the file's URI (the existing
+     * one when the log was already saved), or null when the job has no
+     * log or the write is not possible.
+     */
+    suspend fun saveLog(jobId: Long): Uri? {
+        val job = _jobs.value.firstOrNull { it.id == jobId } ?: return null
+        job.logUri?.let { return it }
+        val text = job.debugLog ?: return null
+        val uri = withContext(Dispatchers.IO) {
+            DebugLogStore.write(appContext, job, text)
+        } ?: return null
+        _jobs.update { jobs ->
+            jobs.map { if (it.id == jobId) it.copy(logUri = uri) else it }
+        }
+        return uri
     }
 
     /**
@@ -654,6 +689,16 @@ class ConversionQueueViewModel : ViewModel() {
             uris, preset, report, trimStartSeconds, trimEndSeconds, manual,
         )
         ConversionService.start(context)
+    }
+
+    /** Drop every finished job from the list. */
+    fun clearFinished() {
+        queue?.clearFinished()
+    }
+
+    /** Save a finished job's debug log to the device, on the user's tap. */
+    fun saveLog(jobId: Long) {
+        viewModelScope.launch { queue?.saveLog(jobId) }
     }
 
     fun cancel(jobId: Long) {

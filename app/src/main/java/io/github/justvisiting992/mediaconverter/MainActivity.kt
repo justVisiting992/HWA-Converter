@@ -7,6 +7,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -25,7 +29,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Queue
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Icon
@@ -47,20 +53,28 @@ import androidx.compose.ui.unit.dp
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.capability.HardwareCodecProbe
 import io.github.justvisiting992.mediaconverter.ui.capability.CapabilityScreen
+import io.github.justvisiting992.mediaconverter.ui.about.AboutScreen
 import io.github.justvisiting992.mediaconverter.ui.convert.ConvertScreen
+import io.github.justvisiting992.mediaconverter.ui.queue.QueueScreen
 import io.github.justvisiting992.mediaconverter.ui.settings.SettingsScreen
 import io.github.justvisiting992.mediaconverter.ui.theme.MediaConverterTheme
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeMode
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemePrefs
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeTemplate
 import io.github.justvisiting992.mediaconverter.ui.theme.floatingSurface
+import io.github.justvisiting992.mediaconverter.ui.tour.FeatureTour
+import io.github.justvisiting992.mediaconverter.ui.tour.TourKeys
+import io.github.justvisiting992.mediaconverter.ui.tour.TourPrefs
+import io.github.justvisiting992.mediaconverter.ui.tour.tourTarget
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-private enum class Tab(val title: String, val icon: ImageVector) {
+internal enum class Tab(val title: String, val icon: ImageVector) {
     CONVERT("Convert", Icons.Filled.SwapHoriz),
+    QUEUE("Queue", Icons.Filled.Queue),
     HARDWARE("Your hardware", Icons.Filled.Memory),
     SETTINGS("Settings", Icons.Filled.Settings),
+    ABOUT("About", Icons.Filled.Info),
 }
 
 class MainActivity : ComponentActivity() {
@@ -85,6 +99,9 @@ class MainActivity : ComponentActivity() {
                     value = withContext(Dispatchers.Default) { HardwareCodecProbe.probe() }
                 }
                 var tab by remember { mutableStateOf(Tab.CONVERT) }
+                var tourOpen by remember {
+                    mutableStateOf(!TourPrefs.seen(applicationContext))
+                }
                 // Floating chrome: content fills the screen and scrolls
                 // under a floating navigation pill, instead of living
                 // between two fixed bars. The screens pad their own
@@ -101,21 +118,36 @@ class MainActivity : ComponentActivity() {
                         transitionSpec = {
                             val direction =
                                 if (targetState.ordinal > initialState.ordinal) 1 else -1
-                            (fadeIn() + slideInHorizontally { it / 6 * direction })
+                            (fadeIn(tween(180)) +
+                                slideInHorizontally(tween(180)) { it / 6 * direction })
                                 .togetherWith(
-                                    fadeOut() + slideOutHorizontally { -it / 6 * direction },
+                                    fadeOut(tween(120)) +
+                                        slideOutHorizontally(tween(180)) {
+                                            -it / 6 * direction
+                                        },
                                 )
                         },
                         label = "tab",
                     ) { currentTab ->
                         when (currentTab) {
-                            Tab.CONVERT -> ConvertScreen(reportState.value, Modifier.fillMaxSize().statusBarsPadding())
+                            Tab.CONVERT -> ConvertScreen(
+                                reportState.value,
+                                Modifier.fillMaxSize().statusBarsPadding(),
+                                onJobsAdded = { tab = Tab.QUEUE },
+                            )
+                            Tab.QUEUE -> QueueScreen(
+                                modifier = Modifier.fillMaxSize().statusBarsPadding(),
+                            )
                             Tab.HARDWARE -> CapabilityScreen(reportState.value, Modifier.fillMaxSize().statusBarsPadding())
                             Tab.SETTINGS -> SettingsScreen(
                                 template = template,
                                 mode = mode,
                                 onTemplateChange = { update(it, mode) },
                                 onModeChange = { update(template, it) },
+                                onReplayTour = { tourOpen = true },
+                                modifier = Modifier.fillMaxSize().statusBarsPadding(),
+                            )
+                            Tab.ABOUT -> AboutScreen(
                                 modifier = Modifier.fillMaxSize().statusBarsPadding(),
                             )
                         }
@@ -125,6 +157,16 @@ class MainActivity : ComponentActivity() {
                         onSelect = { tab = it },
                         modifier = Modifier.align(Alignment.BottomCenter),
                     )
+                    if (tourOpen) {
+                        FeatureTour(
+                            currentTab = tab,
+                            onSelectTab = { tab = it },
+                            onFinish = {
+                                TourPrefs.markSeen(applicationContext)
+                                tourOpen = false
+                            },
+                        )
+                    }
                 }
                 }
             }
@@ -186,24 +228,51 @@ private fun FloatingNavBar(
                 entry = entry,
                 selected = entry == selected,
                 onClick = { onSelect(entry) },
+                tourKey = when (entry) {
+                    Tab.QUEUE -> TourKeys.NAV_QUEUE
+                    Tab.SETTINGS -> TourKeys.NAV_SETTINGS
+                    else -> null
+                },
             )
         }
     }
 }
 
 @Composable
-private fun NavPillItem(entry: Tab, selected: Boolean, onClick: () -> Unit) {
+private fun NavPillItem(
+    entry: Tab,
+    selected: Boolean,
+    onClick: () -> Unit,
+    tourKey: String? = null,
+) {
     val shape = RoundedCornerShape(percent = 50)
+    // One motion language for the whole switch: a single 200 ms tween.
+    // The label used to expand on AnimatedVisibility's default spring,
+    // whose settle tail read as a stutter, while the colors snapped
+    // instantly beside it — now everything moves together, once.
+    val background by animateColorAsState(
+        if (selected) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else {
+            MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0f)
+        },
+        animationSpec = tween(200),
+        label = "navItemBackground",
+    )
+    val contentColor by animateColorAsState(
+        if (selected) {
+            MaterialTheme.colorScheme.onPrimaryContainer
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        },
+        animationSpec = tween(200),
+        label = "navItemContent",
+    )
     Row(
         modifier = Modifier
+            .then(if (tourKey != null) Modifier.tourTarget(tourKey) else Modifier)
             .clip(shape)
-            .background(
-                if (selected) {
-                    MaterialTheme.colorScheme.primaryContainer
-                } else {
-                    MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0f)
-                },
-            )
+            .background(background)
             .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -212,18 +281,18 @@ private fun NavPillItem(entry: Tab, selected: Boolean, onClick: () -> Unit) {
         Icon(
             entry.icon,
             contentDescription = entry.title,
-            tint = if (selected) {
-                MaterialTheme.colorScheme.onPrimaryContainer
-            } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
-            },
+            tint = contentColor,
         )
-        AnimatedVisibility(visible = selected) {
+        AnimatedVisibility(
+            visible = selected,
+            enter = fadeIn(tween(200)) + expandHorizontally(tween(200)),
+            exit = fadeOut(tween(120)) + shrinkHorizontally(tween(200)),
+        ) {
             Text(
                 entry.title,
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = contentColor,
             )
         }
     }
