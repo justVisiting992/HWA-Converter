@@ -66,7 +66,7 @@ import io.github.justvisiting992.mediaconverter.ui.components.formatEtaLeft
 import io.github.justvisiting992.mediaconverter.ui.components.formatSizeBytes
 
 /**
- * The Queue tab: every conversion, in its own place — queued, running
+ * The Queue tab: every conversion, in its own place, queued, running
  * and finished jobs as cards, with a way to clear the finished ones so
  * the list does not grow forever.
  */
@@ -411,10 +411,10 @@ private fun JobCard(
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
                         if (job.logUri == null) {
-                            "Debug log — tap the log to save it to " +
+                            "Debug log. Tap the log to save it to " +
                                 "Download/HWA Converter"
                         } else {
-                            "Debug log — saved to Download/HWA Converter"
+                            "Debug log. Saved to Download/HWA Converter"
                         },
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,

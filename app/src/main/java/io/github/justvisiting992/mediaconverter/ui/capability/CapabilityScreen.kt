@@ -38,7 +38,7 @@ import io.github.justvisiting992.mediaconverter.ui.tour.tourTarget
 import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
 
 /**
- * "Your hardware" — the app's promise made visible: exactly which encoders
+ * "Your hardware", the app's promise made visible: exactly which encoders
  * this phone's media engine offers, probed live. Every preset in the app
  * is built from this report, so the user can see the evidence the app is
  * working from. The report is probed once in MainActivity and shared with
@@ -171,13 +171,13 @@ private fun BentoTiles(report: DeviceCodecReport) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             BentoTile(
                 icon = Icons.Filled.Memory,
-                value = maxRes?.let { "${it.maxWidth}×${it.maxHeight}" } ?: "—",
+                value = maxRes?.let { "${it.maxWidth}×${it.maxHeight}" } ?: "Unknown",
                 label = "max hardware encode",
                 modifier = Modifier.weight(1f),
             )
             BentoTile(
                 icon = Icons.Filled.Speed,
-                value = maxBitrate?.let { "${it / 1_000_000} Mbps" } ?: "—",
+                value = maxBitrate?.let { "${it / 1_000_000} Mbps" } ?: "Unknown",
                 label = "top encoder bitrate",
                 modifier = Modifier.weight(1f),
             )

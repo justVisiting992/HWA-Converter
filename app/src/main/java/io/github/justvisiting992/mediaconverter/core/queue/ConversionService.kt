@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 /**
  * Keeps conversions alive while the app is in the background and shows
  * their progress as a permanent notification: percent, speed, and a
- * cancel action. Android kills background processes doing long work —
+ * cancel action. Android kills background processes doing long work,
  * a foreground service is the platform's contract for "this is still
  * working for the user, keep it running", and the notification is the
  * user's window into it.
@@ -107,7 +107,7 @@ class ConversionService : Service() {
     /**
      * Mirror the queue into the notification. Updates are throttled:
      * the notification is re-posted when the whole percent changes or
-     * every couple of seconds, whichever comes first — ffmpeg reports
+     * every couple of seconds, whichever comes first, ffmpeg reports
      * statistics several times a second and the user gains nothing
      * from the notification redrawing at that rate.
      */
@@ -117,8 +117,8 @@ class ConversionService : Service() {
         var lastPostAt = 0L
         // Jobs are created asynchronously (probing takes a moment), so
         // at startup the queue can legitimately read empty for a beat.
-        // Standing down on that first empty read killed the service —
-        // and its notification — before the first job even landed.
+        // Standing down on that first empty read killed the service,
+        // and its notification, before the first job even landed.
         // Only stand down once work has been seen and then drained, or
         // when every job already reached a finished state.
         var seenActive = false
@@ -150,7 +150,7 @@ class ConversionService : Service() {
                 val sizeText = status?.sizeBytes?.let { " · ${formatSizeBytes(it)}" } ?: ""
                 val waiting = running == null && queue.awaitingStart.value
                 val text = when {
-                    waiting -> "$queuedCount waiting — tap Start in the app"
+                    waiting -> "$queuedCount waiting. Tap Start in the app."
                     running == null -> "Starting…"
                     percent != null -> "$percent%$speedText$etaText$sizeText$queueText"
                     else -> "Converting…$speedText$sizeText$queueText"

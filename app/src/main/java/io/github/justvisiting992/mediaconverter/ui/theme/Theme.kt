@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 enum class ThemeMode { SYSTEM, LIGHT, DARK }
 
 /**
- * The user's appearance choices, persisted in SharedPreferences — two
+ * The user's appearance choices, persisted in SharedPreferences, two
  * small values don't justify a database or a DataStore dependency.
  */
 object ThemePrefs {
@@ -41,7 +41,7 @@ object ThemePrefs {
 /**
  * Whether the PHONE is currently in dark mode, read from the
  * application context's configuration. The activity's own
- * configuration — what isSystemInDarkTheme() reads — can be
+ * configuration, what isSystemInDarkTheme() reads, can be
  * overridden per app: HyperOS's per-app dark mode does exactly that,
  * holding an app in night mode while the phone itself is light.
  * The application context reports the system-wide state, which is
@@ -67,7 +67,7 @@ fun MediaConverterTheme(
     }
     val colorScheme = template.scheme(darkTheme) ?: when {
         // DYNAMIC: Material You from the wallpaper (API 31+). Below
-        // that, fall back to Ocean — the app's original palette.
+        // that, fall back to Ocean, the app's original palette.
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             if (darkTheme) dynamicDarkColorScheme(context)
             else dynamicLightColorScheme(context)

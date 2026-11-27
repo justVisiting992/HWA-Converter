@@ -113,7 +113,7 @@ class MainActivity : ComponentActivity() {
                 // between two fixed bars. The screens pad their own
                 // content clear of the pill.
                 // The root Surface also provides the theme's content
-                // color — without it, plain text falls back to black.
+                // color, without it, plain text falls back to black.
                 Surface(
                     color = MaterialTheme.colorScheme.background,
                     modifier = Modifier.fillMaxSize(),
@@ -184,7 +184,7 @@ class MainActivity : ComponentActivity() {
      * Phones with per-app refresh control (Xiaomi/HyperOS among them)
      * hold apps at 60 Hz unless the app requests a higher rate; this is
      * the platform's request mechanism. The system's per-app setting
-     * can still override it — nothing app-side can outrank that, and
+     * can still override it, nothing app-side can outrank that, and
      * the app doesn't pretend otherwise.
      */
     private fun requestHighestRefreshRate() {
@@ -215,7 +215,7 @@ class MainActivity : ComponentActivity() {
 /**
  * The floating navigation pill: all five tabs in a horizontally
  * sweepable row. The pill's width is fixed by the screen, never by
- * its content — a selected tab's expanding label used to widen the
+ * its content, a selected tab's expanding label used to widen the
  * whole pill, push the last tab off the screen's edge, and (when
  * the label wrapped mid-animation) balloon the pill's height before
  * dropping it back. Now the pill cannot resize at all: anything
@@ -270,7 +270,7 @@ private fun NavPillItem(
     // One motion language for the whole switch: a single 200 ms tween.
     // The label used to expand on AnimatedVisibility's default spring,
     // whose settle tail read as a stutter, while the colors snapped
-    // instantly beside it — now everything moves together, once.
+    // instantly beside it, now everything moves together, once.
     val background by animateColorAsState(
         if (selected) {
             MaterialTheme.colorScheme.primaryContainer
@@ -312,7 +312,7 @@ private fun NavPillItem(
         ) {
             // One line, never wrapping: during the expand animation
             // the label's width is clipped, and a wrapping label
-            // measured two lines tall mid-animation — the item (and
+            // measured two lines tall mid-animation, the item (and
             // the whole pill with it) jumped up, then dropped back
             // when the animation finished and the text unwrapped.
             Text(

@@ -21,14 +21,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
- * Small shared building blocks in the app's current design language —
+ * Small shared building blocks in the app's current design language,
  * the one borrowed from the friendliest modern Android apps: a big
  * gradient hero panel for the headline fact, tinted squircle icon
  * badges that color-code sections, and small tonal chips for facts.
  * All static shapes and brushes: no blur, no per-frame work.
  */
 
-/** A section's icon in a tinted squircle — the color-coding device. */
+/** A section's icon in a tinted squircle, the color-coding device. */
 @Composable
 fun IconBadge(
     icon: ImageVector,
@@ -116,7 +116,7 @@ fun formatSizeBytes(bytes: Long): String = when {
 /**
  * Time left for a running job, from how far it is and how fast it is
  * going: "≈ 45 s left", "≈ 3 min left", "≈ 1 h 5 min left". Null when
- * any input is missing — an estimate is never invented.
+ * any input is missing, an estimate is never invented.
  */
 fun formatEtaLeft(durationMs: Long?, fraction: Float?, speed: Double?): String? {
     if (durationMs == null || fraction == null || speed == null) return null
@@ -135,7 +135,7 @@ fun formatEtaLeft(durationMs: Long?, fraction: Float?, speed: Double?): String? 
  * Expected output size for a queued job, computed from the bitrates
  * pinned in its own command (-b:v / -b:a) times the input duration.
  * Null when the command pins no bitrate (CRF quality modes, stream
- * copy) — those sizes genuinely cannot be known up front.
+ * copy), those sizes genuinely cannot be known up front.
  */
 fun estimateOutputBytes(command: List<String>, durationMs: Long?): Long? {
     if (durationMs == null || durationMs <= 0) return null

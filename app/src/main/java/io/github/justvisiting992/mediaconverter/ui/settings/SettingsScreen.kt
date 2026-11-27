@@ -1,7 +1,6 @@
 package io.github.justvisiting992.mediaconverter.ui.settings
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.runtime.getValue
@@ -21,6 +20,8 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -109,11 +110,11 @@ fun SettingsScreen(
             item {
                 Text(
                     if (systemUsesDarkTheme(context)) {
-                        "Following your phone — it's in dark mode right now."
+                        "Following your phone. It is in dark mode right now."
                     } else {
-                        "Following your phone — it's in light mode right now."
+                        "Following your phone. It is in light mode right now."
                     },
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -148,7 +149,7 @@ fun SettingsScreen(
             Text(
                 "Material You follows your wallpaper. The other schemes " +
                     "are fixed palettes, each with a light and a dark variant.",
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 4.dp),
             )
@@ -169,27 +170,36 @@ fun SettingsScreen(
             }
         }
         item {
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                AppIcon.entries.forEach { entry ->
-                    IconChoice(
-                        entry = entry,
-                        selected = entry == appIcon,
-                        onClick = {
-                            appIcon = entry
-                            IconPrefs.apply(context, entry)
-                        },
-                    )
+            // A fixed 3-column grid: every cell takes an equal third
+            // of the full width, so the nine icons always form a
+            // symmetrical 3x3 block on any screen size.
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                AppIcon.entries.chunked(3).forEach { rowEntries ->
+                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        rowEntries.forEach { entry ->
+                            Box(Modifier.weight(1f)) {
+                                IconChoice(
+                                    entry = entry,
+                                    selected = entry == appIcon,
+                                    onClick = {
+                                        appIcon = entry
+                                        IconPrefs.apply(context, entry)
+                                    },
+                                )
+                            }
+                        }
+                        repeat(3 - rowEntries.size) {
+                            Spacer(Modifier.weight(1f))
+                        }
+                    }
                 }
             }
         }
         item {
             Text(
-                "The home-screen icon may take a few seconds to change; " +
-                    "some launchers refresh it only after a restart.",
-                style = MaterialTheme.typography.bodySmall,
+                "The home-screen icon may take a few seconds to change. " +
+                    "Some launchers refresh it only after a restart.",
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 4.dp),
             )
@@ -208,13 +218,14 @@ private fun IconChoice(entry: AppIcon, selected: Boolean, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.width(76.dp),
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Image(
             painter = painterResource(entry.previewRes),
             contentDescription = entry.label,
             modifier = Modifier
-                .size(64.dp)
+                .fillMaxWidth()
+                .aspectRatio(1f)
                 .clip(shape)
                 .then(
                     if (selected) {
@@ -245,7 +256,7 @@ private fun TemplateRow(
     selected: Boolean,
     onClick: () -> Unit,
 ) {
-    // Material You has no fixed palette — show the live scheme's colors.
+    // Material You has no fixed palette, show the live scheme's colors.
     val live = MaterialTheme.colorScheme
     val dots = entry.swatches().ifEmpty {
         listOf(live.primary, live.secondary, live.tertiary)

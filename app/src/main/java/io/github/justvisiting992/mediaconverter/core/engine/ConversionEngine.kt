@@ -39,7 +39,7 @@ data class InputInfo(
  * Collects one ffmpeg run's log lines for the debug log file. A long
  * encode logs thousands of progress lines, so the collector keeps the
  * first [HEAD_LINES] lines (input description, stream mapping, encoder
- * init — the diagnostic part) and the last [TAIL_LINES], and says in the
+ * init, the diagnostic part) and the last [TAIL_LINES], and says in the
  * output how many lines were elided between them.
  */
 class LogCollector {
@@ -77,7 +77,7 @@ class LogCollector {
  * and jobs; this file is the only place that touches FFmpegKit.
  *
  * Files arrive as SAF content URIs (the system picker never gives real
- * paths), so both input and output go through FFmpegKit's SAF parameters —
+ * paths), so both input and output go through FFmpegKit's SAF parameters,
  * pipe-backed paths ffmpeg can read and write.
  */
 object ConversionEngine {
@@ -121,7 +121,7 @@ object ConversionEngine {
 
     /**
      * Run one ffmpeg command to completion. [onProgress] receives a 0..1
-     * fraction when [totalDurationMs] is known (null when it is not —
+     * fraction when [totalDurationMs] is known (null when it is not,
      * statistics still arrive, they just cannot be turned into a
      * fraction), the current speed as a multiple of realtime, and the
      * output size written so far in bytes.

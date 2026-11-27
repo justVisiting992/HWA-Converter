@@ -42,7 +42,7 @@ sealed interface JobStatus {
     data object Queued : JobStatus
 
     /**
-     * [fraction] is null when the input duration is unknown —
+     * [fraction] is null when the input duration is unknown,
      * indeterminate, honestly. [speed] is realtime multiples (2.5 =
      * two and a half times realtime), null before ffmpeg reports any.
      */
@@ -85,7 +85,7 @@ data class ConversionJob(
     /**
      * The finished job's debug log text, composed when the job ended
      * and held in memory only. It is written to the device solely when
-     * the user asks — tapping the log on the job card, or sharing it.
+     * the user asks, tapping the log on the job card, or sharing it.
      */
     val debugLog: String? = null,
     /** The saved log file; null until the user saves the log. */
@@ -93,9 +93,9 @@ data class ConversionJob(
 )
 
 /**
- * The conversion queue. Jobs run strictly one at a time — hardware codec
+ * The conversion queue. Jobs run strictly one at a time, hardware codec
  * instances are scarce, and two encodes at once would fight over the same
- * media engine — in the order they were added.
+ * media engine, in the order they were added.
  *
  * Outputs are MediaStore entries created before the encode starts (ffmpeg
  * writes through the SAF write path) and published only on success; a
@@ -153,7 +153,7 @@ class ConversionQueue(private val appContext: Context) {
     /**
      * Queue one job per picked file, all with the same [preset]. A preset
      * that cannot run (e.g. trim without times) becomes a Failed job with
-     * the reason showing — visible, never silently dropped.
+     * the reason showing, visible, never silently dropped.
      */
     fun addJobs(
         uris: List<Uri>,
@@ -294,7 +294,7 @@ class ConversionQueue(private val appContext: Context) {
                     ?: break
                 // The Start gate: queued jobs wait here until the
                 // user taps Start. Jobs added while a batch is already
-                // running join it — the gate is open by then.
+                // running join it, the gate is open by then.
                 if (!gateOpen.value) {
                     gateOpen.first { it }
                 }
@@ -323,7 +323,7 @@ class ConversionQueue(private val appContext: Context) {
                 // state: ffmpeg statistics arrive several times a
                 // second, and every state write rebuilds the jobs
                 // list and recomposes every collector (job cards,
-                // the notification) — the app felt that churn, not
+                // the notification), the app felt that churn, not
                 // the conversion. At most one update per 500 ms,
                 // plus the first report and any whole-percent step.
                 var lastForwardAt = 0L
@@ -355,7 +355,7 @@ class ConversionQueue(private val appContext: Context) {
             var current = job
             var result = execute(current.command)
             // Decode retry ladder: a hardware decoder that rejects a
-            // file fails at startup, within seconds — a failure minutes
+            // file fails at startup, within seconds, a failure minutes
             // in is something else and is reported, not retried. The
             // retry rebuilds the same command with CPU decode, updates
             // the job so the card and the log show what actually ran,
@@ -436,7 +436,7 @@ class ConversionQueue(private val appContext: Context) {
     /**
      * Compose the finished job's debug log and keep it on the job, in
      * memory. Nothing is written to the device here: the file lands in
-     * Downloads only when the user taps the log (or shares it) — see
+     * Downloads only when the user taps the log (or shares it), see
      * [saveLog].
      */
     private fun finishWithLog(
@@ -473,8 +473,8 @@ class ConversionQueue(private val appContext: Context) {
 
     /**
      * The debug log's header: everything needed to diagnose a conversion
-     * without the phone in hand — device, app, the probed input, the
-     * exact command, the outcome — followed by the ffmpeg log itself.
+     * without the phone in hand, device, app, the probed input, the
+     * exact command, the outcome, followed by the ffmpeg log itself.
      */
     private fun buildDebugLog(
         job: ConversionJob,

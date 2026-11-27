@@ -3,7 +3,7 @@ package io.github.justvisiting992.mediaconverter.core.engine
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 
 /**
- * What the user wants done to a file — a goal, not an encoder. The engine
+ * What the user wants done to a file, a goal, not an encoder. The engine
  * decides which encoder serves the goal, from the live [DeviceCodecReport].
  *
  * The rule this file exists to enforce: a preset is only offered when the
@@ -49,7 +49,7 @@ enum class ConversionPreset(
     AV1_HARDWARE(
         id = "av1-hw",
         label = "AV1 · hardware",
-        description = "Hardware AV1. Rare — only a few media engines encode AV1; this preset appears only on those phones.",
+        description = "Hardware AV1. Only a few media engines can encode AV1, so this preset appears only on those phones.",
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
@@ -81,7 +81,7 @@ enum class ConversionPreset(
     AV1_SOFTWARE(
         id = "av1-sw",
         label = "AV1 · software",
-        description = "Newest codec, smallest files. Very slow CPU encode — short clips only.",
+        description = "Newest codec, smallest files. Very slow on CPU. Best for short clips.",
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
@@ -168,7 +168,7 @@ enum class ConversionPreset(
     ),
 }
 
-/** Which engine runs the job — shown to the user, never hidden. */
+/** Which engine runs the job, shown to the user, never hidden. */
 enum class EngineKind {
     HARDWARE,
     SOFTWARE,
@@ -194,17 +194,17 @@ sealed interface PresetCommand {
 /**
  * Turns a preset + a live capability report into the exact ffmpeg command
  * the app will run. This is the layer in front of FFmpeg: it picks the
- * encoder, pins it by component name, and refuses — loudly — when the
+ * encoder, pins it by component name, and refuses, loudly, when the
  * hardware the preset needs is not there.
  *
  * The command is also input-aware. Decoding is half the pipeline: a
  * hardware encoder fed by a software decoder still pegs the CPU (a
  * 1080p AV1 WebM decodes through libdav1d at ~70% CPU while the media
- * engine idles between frames — measured on-device, 2026-11-26). So
+ * engine idles between frames, measured on-device, 2026-11-26). So
  * when the probe found a hardware decoder for the input's codec, the
  * command selects FFmpeg's matching `*_mediacodec` decoder. If that
  * decoder rejects the file it fails within seconds, and the queue
- * retries once with software decode and says so — see ConversionQueue.
+ * retries once with software decode and says so, see ConversionQueue.
  *
  * FFmpeg facts this relies on (ffmpeg-kit-full-gpl 8.1.9, FFmpeg 8.1.2):
  * - The MediaCodec wrappers (`h264_mediacodec`, `hevc_mediacodec`,
@@ -212,9 +212,9 @@ sealed interface PresetCommand {
  *   encode) are in every ffmpeg-kit variant. The encoder's `codec_name`
  *   option selects the backend via MediaCodec createCodecByName (NULL by
  *   default = createEncoderByType, i.e. the platform's pick). Decoders
- *   have no equivalent pin — the wrapper resolves the platform decoder
+ *   have no equivalent pin, the wrapper resolves the platform decoder
  *   for the codec, which on a probed device is the hardware component.
- * - Hardware encoders take no CRF — bitrate only (`-b:v`). 8-bit input
+ * - Hardware encoders take no CRF, bitrate only (`-b:v`). 8-bit input
  *   only, hence `-pix_fmt yuv420p`.
  * - The software path is libx264/libx265, which is why this app is GPL.
  */
@@ -245,7 +245,7 @@ object PresetCommands {
      *
      * [input] is the probed description of the source file; when present
      * it drives the decoder choice and the bitrate (see [hardwareBitrate]).
-     * [softwareDecode] forces CPU decode — the queue sets it when it
+     * [softwareDecode] forces CPU decode, the queue sets it when it
      * retries a job whose hardware decoder failed fast. [trimStartSeconds]
      * / [trimEndSeconds] are only read by [ConversionPreset.TRIM_COPY].
      */
@@ -374,7 +374,7 @@ object PresetCommands {
                     "-threads", "0",
                     // libaom is the AV1 encoder in this FFmpeg build (no
                     // SVT-AV1); cpu-used 5 is the usable speed/quality
-                    // point, and it is still slow — hence the label.
+                    // point, and it is still slow, hence the label.
                     "-c:v", "libaom-av1", "-crf", "32", "-b:v", "0",
                     "-cpu-used", "5", "-row-mt", "1",
                     "-pix_fmt", "yuv420p",
@@ -477,7 +477,7 @@ object PresetCommands {
                 trimEndSeconds <= trimStartSeconds
             ) {
                 PresetCommand.Unavailable(
-                    "Pick a start and end time first — trim needs both.",
+                    "Pick a start and end time first. Trim needs both.",
                 )
             } else {
                 PresetCommand.Ready(
@@ -526,7 +526,7 @@ object PresetCommands {
                 "-i", inputPath,
                 "-threads", "0",
                 "-c:v", ffmpegEncoder,
-                // Pin the exact component the probe found — never let the
+                // Pin the exact component the probe found, never let the
                 // platform silently pick a software encoder instead.
                 "-codec_name", encoder.componentName,
                 "-b:v", bitrate.toString(),
@@ -550,7 +550,7 @@ object PresetCommands {
 
     /**
      * Pick the decoder for the input's video codec. Hardware when the
-     * probe found a hardware decoder for it — decode output is
+     * probe found a hardware decoder for it, decode output is
      * bit-identical either way, so this costs no quality. Falls back to
      * CPU decode, and says so, when there is no hardware decoder, the
      * codec has no MediaCodec wrapper, the input is unknown, or the
@@ -600,14 +600,14 @@ object PresetCommands {
     /**
      * The bitrate for a hardware encode: a per-resolution table value,
      * then capped against the source. Hardware encoders have no CRF, so
-     * the table is the quality knob — but a flat table value against an
+     * the table is the quality knob, but a flat table value against an
      * ultra-low-bitrate source (a 0.25 Mbps AV1 WebM) inflates the
      * output several-fold for nothing. The cap is 2x the source video
      * bitrate: a newer source codec (AV1) needs roughly 1.3–1.5x its
      * bitrate re-encoded as HEVC/H.264 at equal quality, plus headroom
      * for the hardware encoder being less efficient than a software one.
      * When the video stream doesn't report its own bitrate (WebM often
-     * doesn't), the file's overall bitrate stands in — it slightly
+     * doesn't), the file's overall bitrate stands in, it slightly
      * overstates the video share, which only loosens the cap a little.
      * The result is also clamped to what the encoder component accepts.
      */
@@ -642,7 +642,7 @@ object PresetCommands {
 
     // ------------------------------------------------------------------
     // Manual mode: the user picks container, codecs, quality and size.
-    // Same honesty rules as the presets — hardware choices are checked
+    // Same honesty rules as the presets, hardware choices are checked
     // against the probe, impossible combinations are refused in words.
     // ------------------------------------------------------------------
 
@@ -654,7 +654,7 @@ object PresetCommands {
     }
 
     enum class ManualVideoCodec(val label: String) {
-        COPY("Copy — no re-encode"),
+        COPY("Copy (no re-encode)"),
         H264_HW("H.264 · hardware"),
         HEVC_HW("H.265 · hardware"),
         VP9_HW("VP9 · hardware"),
@@ -663,7 +663,7 @@ object PresetCommands {
         HEVC_SW("H.265 · software"),
         VP9_SW("VP9 · software"),
         AV1_SW("AV1 · software"),
-        NONE("No video — audio only"),
+        NONE("No video (audio only)"),
     }
 
     enum class ManualAudioCodec(
@@ -672,7 +672,7 @@ object PresetCommands {
         val extension: String,
         val mimeType: String,
     ) {
-        COPY("Copy — no re-encode", "", ""),
+        COPY("Copy (no re-encode)", "", ""),
         AAC("AAC", "m4a", "audio/mp4"),
         MP3("MP3", "mp3", "audio/mpeg"),
         OPUS("Opus", "opus", "audio/opus"),
@@ -721,7 +721,7 @@ object PresetCommands {
                 options.audio == ManualAudioCodec.NONE
             ) {
                 return PresetCommand.Unavailable(
-                    "Audio-only output needs an audio codec — pick AAC, MP3 or Opus.",
+                    "Audio-only output needs an audio codec. Pick AAC, MP3 or Opus.",
                 )
             }
             val encoder = when (options.audio) {
@@ -745,14 +745,14 @@ object PresetCommands {
             options.video != ManualVideoCodec.COPY
         ) {
             return PresetCommand.Unavailable(
-                "WebM holds VP9 or AV1 video — pick one of those, or an MP4/MKV container.",
+                "WebM holds VP9 or AV1 video. Pick one of those, or use an MP4 or MKV container.",
             )
         }
         if (options.container == ManualContainer.WEBM &&
             (options.audio == ManualAudioCodec.AAC || options.audio == ManualAudioCodec.MP3)
         ) {
             return PresetCommand.Unavailable(
-                "WebM audio must be Opus (or copied / none) — AAC and MP3 don't fit WebM.",
+                "WebM audio must be Opus, copied, or none. AAC and MP3 do not fit WebM.",
             )
         }
 

@@ -12,8 +12,8 @@ android {
         applicationId = "io.github.justvisiting992.mediaconverter"
         minSdk = 24
         targetSdk = 35
-        versionCode = 4
-        versionName = "0.2.2"
+        versionCode = 5
+        versionName = "0.2.3"
     }
 
     // One APK per ABI the FFmpegKit engine actually ships, plus a

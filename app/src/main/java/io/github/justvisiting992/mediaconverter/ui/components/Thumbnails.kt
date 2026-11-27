@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 
 /**
  * Video thumbnails for job cards, from the platform's own frame
- * grabber — no image library, no new dependencies. Frames are decoded
+ * grabber, no image library, no new dependencies. Frames are decoded
  * off the main thread, downscaled to card size before caching, and
  * kept in a small in-memory cache (24 entries), so scrolling a long
  * queue costs nothing after the first pass.

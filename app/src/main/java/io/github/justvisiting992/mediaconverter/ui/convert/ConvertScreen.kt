@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -95,7 +96,7 @@ import io.github.justvisiting992.mediaconverter.ui.components.formatDurationMs
 import io.github.justvisiting992.mediaconverter.ui.components.formatEtaLeft
 import io.github.justvisiting992.mediaconverter.ui.components.formatSizeBytes
 
-/** Preset groups, in display order — the Convert tab's menu structure. */
+/** Preset groups, in display order, the Convert tab's menu structure. */
 private data class PresetCategory(
     val title: String,
     val icon: androidx.compose.ui.graphics.vector.ImageVector,
@@ -167,7 +168,7 @@ fun ConvertScreen(
     // The Start gate, read through derived state: the queue's job
     // list changes on every progress tick while a conversion runs,
     // and this screen should only react when the waiting count or
-    // the gate itself changes — not several times a second.
+    // the gate itself changes, not several times a second.
     val jobs by queueViewModel.jobs.collectAsState()
     val awaitingStart by queueViewModel.awaitingStart.collectAsState()
     val waitingCount by remember {
@@ -344,11 +345,9 @@ fun ConvertScreen(
         if (report != null) {
             item {
                 Text(
-                    "Pick a conversion, add files, then tap Start — " +
-                        "nothing runs until you say so. Jobs then work " +
-                        "through the Queue tab one at a time, on the " +
-                        "hardware when the setting says so.",
-                    style = MaterialTheme.typography.bodyMedium,
+                    "Pick a conversion, add files, then tap Start. " +
+                        "Nothing runs until you say so.",
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 4.dp),
                 )
@@ -359,10 +358,17 @@ fun ConvertScreen(
         // The action stack, floating above the navigation pill:
         // Add files on top; Start below it, present only while
         // picked files are waiting. Nothing converts until Start.
+        // The stack is measured from the same navigation-bar inset
+        // the pill floats above, not from the screen's edge: the
+        // pill is 60 dp tall with a 12 dp margin, so 84 dp leaves
+        // a 12 dp gap on every phone. A flat offset from the edge
+        // put the buttons under the pill on Samsung, whose nav
+        // inset is much larger than Xiaomi's gesture bar.
         Column(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = 96.dp),
+                .navigationBarsPadding()
+                .padding(end = 16.dp, bottom = 84.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.End,
         ) {
@@ -498,7 +504,7 @@ private fun PresetRow(
             ) {
                 Text(
                     preset.description,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 2.dp),
                 )
@@ -613,7 +619,7 @@ private fun ManualPanel(
                 OutlinedTextField(
                     value = bitrate,
                     onValueChange = onBitrate,
-                    label = { Text("Video bitrate (kbps) — blank = auto") },
+                    label = { Text("Video bitrate (kbps). Blank means auto") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -630,7 +636,7 @@ private fun ManualPanel(
                 OutlinedTextField(
                     value = crf,
                     onValueChange = onCrf,
-                    label = { Text("Quality (CRF) — blank = default, lower = better") },
+                    label = { Text("Quality (CRF). Blank means default. Lower is better") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -729,7 +735,7 @@ private fun PanelLabel(text: String) {
 }
 
 /**
- * The Convert tab's hero: the app's whole pitch in one panel — whose
+ * The Convert tab's hero: the app's whole pitch in one panel, whose
  * media engine this is, and which hardware paths it unlocks. Built
  * from the same probe report the presets are built from.
  */
@@ -756,9 +762,9 @@ private fun ConvertHero(report: DeviceCodecReport) {
                     color = scheme.onPrimaryContainer,
                 )
                 Text(
-                    "Hardware acceleration is on for this phone — " +
-                        "conversions run on the media engine, not the CPU.",
-                    style = MaterialTheme.typography.bodySmall,
+                    "Hardware acceleration is on for this phone. " +
+                        "Conversions run on the media engine, not the CPU.",
+                    style = MaterialTheme.typography.bodyMedium,
                     color = scheme.onPrimaryContainer.copy(alpha = 0.8f),
                 )
             }

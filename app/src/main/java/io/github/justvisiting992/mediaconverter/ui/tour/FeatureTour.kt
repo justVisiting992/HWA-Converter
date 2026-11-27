@@ -97,69 +97,64 @@ private val TOUR_STEPS = listOf(
     TourStep(
         tab = null, targetKey = null,
         title = "Welcome to HWA Converter",
-        body = "This app converts video and audio on your phone — on its " +
-            "media engine first, not the CPU. A quick tour of where " +
-            "things are.",
+        body = "This app converts video and audio on your phone. It uses " +
+            "the media engine first, not the CPU. Here is a quick look " +
+            "around.",
     ),
     TourStep(
         tab = Tab.CONVERT, targetKey = TourKeys.ADD_FILES,
         title = "Add files",
-        body = "Tap this button and pick the videos or audio files you " +
-            "want to convert. Picking files starts nothing — they wait " +
-            "for you.",
+        body = "Tap this button and pick your files. Nothing starts yet. " +
+            "They wait until you tap Start.",
     ),
     TourStep(
         tab = Tab.CONVERT, targetKey = TourKeys.PRESETS,
         title = "Pick a conversion",
-        body = "Hardware presets run on the media engine: fast, cool, " +
-            "easy on the battery. Software presets trade speed for " +
-            "maximum quality, and Custom lets you set everything " +
-            "yourself. Tap a category to open it.",
+        body = "Hardware presets are fast and easy on the battery. " +
+            "Software presets are slower but give the best quality. " +
+            "Custom lets you set everything yourself.",
     ),
     TourStep(
         tab = Tab.CONVERT, targetKey = TourKeys.START,
         title = "Start when you're ready",
-        body = "Once you've added files, a Start button appears under " +
-            "Add files. Tap it and the conversions run, one at a time. " +
-            "Until then, everything just waits — nothing converts " +
-            "behind your back.",
+        body = "After you add files, a Start button appears under Add " +
+            "files. Tap it to begin. Until then, nothing runs.",
     ),
     TourStep(
         tab = Tab.CONVERT, targetKey = TourKeys.NAV_QUEUE,
         title = "The Queue tab",
-        body = "Every conversion lives in the Queue: live progress and " +
-            "speed, the exact command that ran, and the debug log — " +
-            "tap a finished job's log there to save it.",
+        body = "All your conversions live here. You can watch progress " +
+            "and speed, see the exact command that ran, and save a " +
+            "job's debug log.",
     ),
     TourStep(
         tab = Tab.HARDWARE, targetKey = TourKeys.HARDWARE_HERO,
         title = "Your hardware",
-        body = "This is your phone's real media engine, probed on this " +
-            "device. The presets you are offered are built from this " +
-            "— if a hardware path isn't listed, the chip doesn't " +
-            "have it. Nothing is faked.",
+        body = "This is the media engine inside your phone, probed on " +
+            "this device. Your presets are built from it. If a " +
+            "hardware path is not listed, your chip does not have it.",
     ),
     TourStep(
         tab = Tab.SETTINGS, targetKey = TourKeys.NAV_SETTINGS,
         title = "Settings",
-        body = "Themes, color schemes, and ten launcher icons to choose " +
-            "from live here — plus a replay of this tour.",
+        body = "Themes, color schemes, and nine launcher icons live " +
+            "here. You can also replay this tour.",
     ),
     TourStep(
         tab = null, targetKey = null,
         title = "That's it",
-        body = "One promise: the app has no network permission at all. " +
-            "Your files never leave your phone.",
+        body = "One last thing. The app has no network permission, so " +
+            "your files never leave your phone.",
     ),
 )
 
 /**
  * The first-run feature tour, in the style of Google's app tours:
  * the screen dims, the element a step is about stays lit in a clean
- * rounded spotlight, and a simple card sits right against it — title,
+ * rounded spotlight, and a simple card sits right against it, title,
  * one short text, step dots, and Skip / Next (Got it on the last
  * step) inside the card. No guide lines, no detached captions.
- * Deliberately light — one canvas, no blur, no animation loops.
+ * Deliberately light, one canvas, no blur, no animation loops.
  */
 @Composable
 internal fun FeatureTour(
@@ -194,7 +189,7 @@ internal fun FeatureTour(
         val gapPx = with(density) { 12.dp.toPx() }
         val padPx = with(density) { 6.dp.toPx() }
 
-        // Card placement: right against the target — just below it
+        // Card placement: right against the target, just below it
         // when it sits in the top half of the screen, just above it
         // otherwise; centered when the step has no target.
         val placeBelow = hole != null && hole.center.y < screenH * 0.5f
@@ -237,8 +232,8 @@ internal fun FeatureTour(
                 modifier = Modifier.padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Text(step.title, style = MaterialTheme.typography.titleMedium)
-                Text(step.body, style = MaterialTheme.typography.bodyMedium)
+                Text(step.title, style = MaterialTheme.typography.titleLarge)
+                Text(step.body, style = MaterialTheme.typography.bodyLarge)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,

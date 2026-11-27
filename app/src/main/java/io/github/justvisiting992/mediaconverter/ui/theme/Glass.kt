@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
  * The floating bars' surface: a plain, solid Material container color
  * with a standard elevation shadow. This file used to hold a simulated
  * "liquid glass" (translucency, sheen, hairline edge). It was removed
- * on sight — it read as mere transparency, and real backdrop blur
+ * on sight, it read as mere transparency, and real backdrop blur
  * would cost a GPU pass per frame on a phone whose battery this app
  * exists to save. Material's own floating surfaces are the standard;
  * this is that, nothing fancier.

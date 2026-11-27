@@ -96,20 +96,17 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
-                    "Most converter apps encode on the CPU and never touch " +
-                        "the media engine sitting in your phone. HWA Converter " +
-                        "works the other way around: it probes the hardware " +
-                        "first — MediaTek, Qualcomm, Exynos, Kirin — and " +
-                        "encodes and decodes on the media engine whenever " +
-                        "the chip offers it, with the software path kept for " +
-                        "maximum quality and for whatever the hardware " +
-                        "cannot do. Nothing is faked and nothing falls back " +
-                        "silently: every job shows the exact command that " +
-                        "ran, and the Hardware tab shows what your device " +
-                        "can actually do. The app is free and open source, " +
-                        "and it asks for no network permission — your files " +
-                        "never leave the phone.",
-                    style = MaterialTheme.typography.bodyMedium,
+                    "HWA Converter puts your phone's media engine to work. " +
+                        "Most converter apps ignore it and encode on the CPU. " +
+                        "This app probes the chip first and uses the hardware " +
+                        "whenever it can. The software path stays for maximum " +
+                        "quality and for jobs the hardware cannot do. Nothing " +
+                        "falls back silently. Every job shows the exact " +
+                        "command that ran, and the Hardware tab shows what " +
+                        "your phone can do. The app is free and open source, " +
+                        "and it has no network permission. Your files never " +
+                        "leave your phone.",
+                    style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(18.dp),
                 )
             }
@@ -140,9 +137,9 @@ fun AboutScreen(modifier: Modifier = Modifier) {
         }
         item {
             Text(
-                "Built on FFmpeg through FFmpegKit (GPL). Conversion engine: " +
-                    "your phone's media hardware, whenever it offers one.",
-                style = MaterialTheme.typography.bodySmall,
+                "Built on FFmpeg through FFmpegKit (GPL), running on your " +
+                    "phone's media hardware.",
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 4.dp),
             )
@@ -178,7 +175,7 @@ private fun LinkRow(
             )
             Text(
                 subtitle,
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }

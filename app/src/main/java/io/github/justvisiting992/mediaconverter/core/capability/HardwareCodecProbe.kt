@@ -95,7 +95,7 @@ data class DeviceCodecReport(
  * Runtime capability detection, modelled on the patterns that survived in
  * LiTr and Media3 Transformer: ask the platform what the encoder actually
  * advertises, never assume from the chipset name. The Dimensity 9400+ can
- * encode HEVC at 4K, but the platform only *guarantees* far less — so this
+ * encode HEVC at 4K, but the platform only *guarantees* far less, so this
  * probe, not a spec sheet, is what our presets are built from.
  *
  * The probe is vendor-neutral by construction: MediaTek (c2.mtk.*),
