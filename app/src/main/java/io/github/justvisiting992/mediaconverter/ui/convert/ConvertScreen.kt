@@ -23,12 +23,10 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,7 +35,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Movie
@@ -69,6 +66,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -483,15 +481,37 @@ private fun PresetRow(
     selected: Boolean,
     onClick: () -> Unit,
 ) {
+    val scheme = MaterialTheme.colorScheme
+    val shape = RoundedCornerShape(16.dp)
+    // The chosen preset wears a full rounded highlight instead of a
+    // check mark: a soft gradient in the hero panel's style, but in
+    // the theme's secondary family, so the two never read as the
+    // same element. Both colors come from the theme, so every color
+    // scheme recolors the highlight with it.
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 2.dp)
+            .clip(shape)
+            .then(
+                if (selected) {
+                    Modifier.background(
+                        Brush.linearGradient(
+                            listOf(
+                                scheme.secondaryContainer,
+                                scheme.primaryContainer,
+                            ),
+                        ),
+                    )
+                } else {
+                    Modifier
+                },
+            )
             .clickable(onClick = onClick)
-            .padding(horizontal = 14.dp, vertical = 10.dp),
+            .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.Top,
     ) {
-        Box2(selected)
-        Column(Modifier.padding(start = 10.dp)) {
+        Column {
             Text(
                 preset.label,
                 style = MaterialTheme.typography.bodyMedium,
@@ -510,21 +530,6 @@ private fun PresetRow(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun Box2(selected: Boolean) {
-    if (selected) {
-        Icon(
-            Icons.Filled.Check,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(top = 2.dp),
-        )
-    } else {
-        // Same footprint as the check icon, so rows stay aligned.
-        Spacer(Modifier.size(24.dp))
     }
 }
 

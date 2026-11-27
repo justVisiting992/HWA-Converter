@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.heightIn
@@ -30,6 +31,7 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Queue
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -45,6 +47,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -90,29 +94,27 @@ fun QueueScreen(
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 120.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    "Queue",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.weight(1f),
-                )
-                if (awaitingStart) {
-                    TextButton(onClick = { queueViewModel.start(context) }) {
-                        Icon(
-                            Icons.Filled.PlayArrow,
-                            contentDescription = null,
-                            modifier = Modifier.size(16.dp),
-                        )
-                        Text(" Start")
+        if (awaitingStart || hasFinished) {
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    if (awaitingStart) {
+                        TextButton(onClick = { queueViewModel.start(context) }) {
+                            Icon(
+                                Icons.Filled.PlayArrow,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                            )
+                            Text(" Start")
+                        }
                     }
-                }
-                if (hasFinished) {
-                    TextButton(onClick = { queueViewModel.clearFinished() }) {
-                        Text("Clear finished")
+                    if (hasFinished) {
+                        TextButton(onClick = { queueViewModel.clearFinished() }) {
+                            Text("Clear finished")
+                        }
                     }
                 }
             }
@@ -185,9 +187,20 @@ private fun JobCard(
     if (info?.videoCodec != null && thumb == null) {
         LaunchedEffect(job.id) { thumb = Thumbnails.load(context, job.inputUri) }
     }
-    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
+    val scheme = MaterialTheme.colorScheme
+    Card(
+        Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+    ) {
         Column(
-            Modifier.padding(14.dp),
+            Modifier
+                .background(
+                    Brush.linearGradient(
+                        listOf(scheme.primaryContainer, scheme.secondaryContainer),
+                    ),
+                )
+                .padding(14.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Row(
