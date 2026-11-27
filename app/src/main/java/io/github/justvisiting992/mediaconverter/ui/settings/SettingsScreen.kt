@@ -39,6 +39,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -208,7 +209,11 @@ fun SettingsScreen(
 
 @Composable
 private fun IconChoice(entry: AppIcon, selected: Boolean, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(18.dp)
+    // The artwork's own corner radius is 23 percent of its size. A
+    // fixed dp radius cannot match it at every cell size: the ring
+    // then cuts across the artwork at the corners. A percent shape
+    // scales with the cell, like the launcher ring does.
+    val shape = RoundedCornerShape(percent = 23)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -228,8 +233,13 @@ private fun IconChoice(entry: AppIcon, selected: Boolean, onClick: () -> Unit) {
                 // icon's frame is simply thicker.
                 .border(
                     width = if (selected) 3.5.dp else 2.dp,
+                    // The icons carry their light tone at the top
+                    // right and their deep tone at the bottom left;
+                    // run the ring's gradient the same way.
                     brush = Brush.linearGradient(
-                        listOf(entry.ringLight, entry.ringDeep),
+                        listOf(entry.ringDeep, entry.ringLight),
+                        start = Offset(0f, Float.POSITIVE_INFINITY),
+                        end = Offset(Float.POSITIVE_INFINITY, 0f),
                     ),
                     shape = shape,
                 )

@@ -4,6 +4,14 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+// Two editions, one codebase. The normal build links the maintained
+// FFmpegKit 8.1.9 (arm64-v8a + x86_64). A build passed -PlegacyBuild
+// links the retired FFmpegKit 6.0 instead: it is the last engine that
+// ever shipped an armeabi-v7a build, so the legacy edition exists for
+// old 32-bit phones. The app code is identical; BuildConfig.LEGACY_ENGINE
+// tells the preset layer which hardware wrappers the engine has.
+val legacyBuild = providers.gradleProperty("legacyBuild").isPresent
+
 android {
     namespace = "io.github.justvisiting992.mediaconverter"
     compileSdk = 35
@@ -12,20 +20,25 @@ android {
         applicationId = "io.github.justvisiting992.mediaconverter"
         minSdk = 24
         targetSdk = 35
-        versionCode = 7
-        versionName = "0.2.5"
+        versionCode = 8
+        versionName = "0.2.6"
+        buildConfigField("boolean", "LEGACY_ENGINE", legacyBuild.toString())
     }
 
-    // One APK per ABI the FFmpegKit engine actually ships, plus a
-    // universal APK carrying both: app-arm64-v8a, app-x86_64,
-    // app-universal. (armeabi-v7a does not exist in any maintained
-    // FFmpegKit build — the fork ships arm64-v8a + x86_64 only.)
+    // One APK per ABI the linked engine actually ships, plus a
+    // universal APK for the normal edition: app-arm64-v8a, app-x86_64,
+    // app-universal. The legacy edition builds only app-armeabi-v7a.
     splits {
         abi {
             isEnable = true
             reset()
-            include("arm64-v8a", "x86_64")
-            isUniversalApk = true
+            if (legacyBuild) {
+                include("armeabi-v7a")
+                isUniversalApk = false
+            } else {
+                include("arm64-v8a", "x86_64")
+                isUniversalApk = true
+            }
         }
     }
 
@@ -89,11 +102,18 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    // FFmpegKit (maintained fork) is vendored as an AAR in app/libs — see
-    // VENDORED.md. It is deliberately NOT a Maven dependency: when the
-    // original FFmpegKit's binaries vanished from Maven Central in 2025,
-    // every app that depended on them stopped building.
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
+    // FFmpegKit is vendored as an AAR in app/libs — see VENDORED.md. It
+    // is deliberately NOT a Maven dependency: when the original
+    // FFmpegKit's binaries vanished from Maven Central in 2025, every
+    // app that depended on them stopped building. Exactly one AAR is
+    // linked: the maintained 8.1.9 normally, the retired 6.0 for the
+    // legacy (armeabi-v7a) edition.
+    implementation(
+        files(
+            if (legacyBuild) "libs/ffmpeg-kit-full-gpl-6.0.aar"
+            else "libs/ffmpeg-kit-full-gpl-8.1.9.aar"
+        )
+    )
     // FFmpegKit's only transitive dependency.
     implementation("com.arthenica:smart-exception-java:0.2.1")
 }

@@ -27,14 +27,23 @@ what its media engine can actually do, and builds its presets from the answer.
 
 ## ⬇️ Download
 
-Grab the latest APK from the **[Releases page](https://github.com/justVisiting992/HWA-Converter/releases)**:
+Tap a button to download the APK from the **latest release**:
 
-| APK | Pick this if… |
+| OS | Download |
 |---|---|
-| `app-arm64-v8a-debug.apk` | You have a normal Android phone. This is almost everyone, including all recent MediaTek, Qualcomm, Exynos and Tensor devices |
-| `app-x86_64-debug.apk` | You run an emulator or an x86 Chromebook |
-| `app-universal-debug.apk` | You're not sure. It works everywhere, it's just bigger |
+| Android | <a href="https://github.com/justVisiting992/HWA-Converter/releases/latest/download/app-universal-debug.apk"><img alt="APK Universal" src="https://img.shields.io/badge/APK-Universal-1F7A3D?style=for-the-badge&logo=android&logoColor=3DDC84&labelColor=404040"></a><br><a href="https://github.com/justVisiting992/HWA-Converter/releases/latest/download/app-arm64-v8a-debug.apk"><img alt="APK ARMv8" src="https://img.shields.io/badge/APK-ARMv8-2EA043?style=for-the-badge&logo=android&logoColor=3DDC84&labelColor=404040"></a><br><a href="https://github.com/justVisiting992/HWA-Converter/releases/latest/download/app-armeabi-v7a-debug.apk"><img alt="APK ARMv7" src="https://img.shields.io/badge/APK-ARMv7-3FB950?style=for-the-badge&logo=android&logoColor=3DDC84&labelColor=404040"></a><br><a href="https://github.com/justVisiting992/HWA-Converter/releases/latest/download/app-x86_64-debug.apk"><img alt="APK x64" src="https://img.shields.io/badge/APK-x64-57AB5A?style=for-the-badge&logo=android&logoColor=3DDC84&labelColor=404040"></a> |
 
+Which one?
+
+- **ARMv8** is the right pick for almost every phone, including all
+  recent MediaTek, Qualcomm, Exynos and Tensor devices
+- **Universal** works everywhere if you're not sure. It's just bigger
+- **ARMv7** is the legacy edition for old 32-bit phones. Same app, but
+  built on the older FFmpeg 6.0 engine, the last one that ever shipped
+  a 32-bit build, so it has no VP9 or AV1 hardware presets
+- **x64** is for emulators and x86 Chromebooks
+
+Older releases live on the **[Releases page](https://github.com/justVisiting992/HWA-Converter/releases)**.
 Requires **Android 7.0 (API 24)** or newer.
 
 ---

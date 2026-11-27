@@ -1,5 +1,6 @@
 package io.github.justvisiting992.mediaconverter.core.engine
 
+import io.github.justvisiting992.mediaconverter.BuildConfig
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 
 /**
@@ -233,9 +234,15 @@ object PresetCommands {
                 ConversionPreset.HEVC_HARDWARE ->
                     report.hasHardwareEncoder(DeviceCodecReport.MIME_HEVC)
                 ConversionPreset.VP9_HARDWARE ->
-                    report.hasHardwareEncoder(DeviceCodecReport.MIME_VP9)
+                    // FFmpeg's VP9/AV1 MediaCodec encoder wrappers arrived
+                    // in FFmpeg 6.1; the legacy edition's FFmpeg 6.0 does
+                    // not have them, so these presets are never offered
+                    // there, whatever the probe finds.
+                    !BuildConfig.LEGACY_ENGINE &&
+                        report.hasHardwareEncoder(DeviceCodecReport.MIME_VP9)
                 ConversionPreset.AV1_HARDWARE ->
-                    report.hasHardwareEncoder(DeviceCodecReport.MIME_AV1)
+                    !BuildConfig.LEGACY_ENGINE &&
+                        report.hasHardwareEncoder(DeviceCodecReport.MIME_AV1)
                 else -> true
             }
         }
@@ -774,6 +781,16 @@ object PresetCommands {
             }
             ManualVideoCodec.H264_HW, ManualVideoCodec.HEVC_HW,
             ManualVideoCodec.VP9_HW, ManualVideoCodec.AV1_HW -> {
+                if (BuildConfig.LEGACY_ENGINE &&
+                    (options.video == ManualVideoCodec.VP9_HW ||
+                        options.video == ManualVideoCodec.AV1_HW)
+                ) {
+                    return PresetCommand.Unavailable(
+                        "The legacy engine (FFmpeg 6.0) has no VP9 or AV1 " +
+                            "hardware encoder. Pick the software option, or " +
+                            "H.264 / HEVC hardware.",
+                    )
+                }
                 val (mime, wrapper, shortName) = when (options.video) {
                     ManualVideoCodec.HEVC_HW ->
                         Triple(DeviceCodecReport.MIME_HEVC, "hevc_mediacodec", "HEVC")
