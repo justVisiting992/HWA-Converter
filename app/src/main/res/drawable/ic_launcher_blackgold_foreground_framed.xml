@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The launcher foreground: the icon artwork (inset to the middle
+    of the canvas) with its gradient frame ring drawn over the rim.
+    See ic_launcher_blackgold_ring for the ring itself.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_launcher_blackgold_foreground_inset" />
+    <item android:drawable="@drawable/ic_launcher_blackgold_ring" />
+</layer-list>
