@@ -1,119 +1,148 @@
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/justVisiting992/HWA-Converter/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="128" alt="HWA Converter icon">
+
 # HWA Converter
 
-An all-in-one multimedia converter for Android that encodes on your phone's
-hardware first.
+**The Android media converter that encodes on your phone's hardware first.**
 
-Every converter app on Android ships FFmpeg presets that encode on the CPU,
-even though the phone has a dedicated media engine that can encode H.264 and
-H.265 in hardware. This app asks the device what its media engine can actually
-do — at runtime, through MediaCodec — and builds its presets from the answer.
-Hardware where it exists, an honest software "max quality" mode where it
-doesn't, and no silent fallbacks: if a conversion can't use the path you
-picked, the app says so.
+Every other converter app encodes on the CPU — even though your phone has a
+dedicated media engine built for exactly this. HWA Converter asks the device
+what its media engine can actually do, and builds its presets from the answer.
 
-## Status
+[![Release](https://img.shields.io/github/v/release/justVisiting992/HWA-Converter?style=for-the-badge&labelColor=404040)](https://github.com/justVisiting992/HWA-Converter/releases)
+[![Downloads](https://img.shields.io/github/downloads/justVisiting992/HWA-Converter/total?style=for-the-badge&labelColor=404040)](https://github.com/justVisiting992/HWA-Converter/releases)
+[![Stars](https://img.shields.io/github/stars/justVisiting992/HWA-Converter?style=for-the-badge&labelColor=404040)](https://github.com/justVisiting992/HWA-Converter)
+[![License](https://img.shields.io/github/license/justVisiting992/HWA-Converter?style=for-the-badge&labelColor=404040)](https://github.com/justVisiting992/HWA-Converter/blob/main/LICENSE)
 
-Early development. What exists today:
+![Hardware first](https://img.shields.io/badge/HARDWARE--FIRST-MEDIACODEC-00C853?style=for-the-badge&labelColor=404040)
+![Internet permission](https://img.shields.io/badge/INTERNET_PERMISSION-NONE-1E88E5?style=for-the-badge&labelColor=404040)
 
-- Project scaffold (Kotlin + Jetpack Compose, Material 3, arm64-v8a only)
-- A "Your hardware" screen that probes the device's MediaCodec codecs live —
-  encoders and decoders, component names, hardware vs software, max
-  resolution, bitrate range, profiles — the capability report every preset
-  is built from
-- A preset-to-command builder (`core/engine/PresetCommands.kt`): seventeen
-  presets — H.264/HEVC/VP9/AV1 hardware (each shown only when the
-  phone's media engine has it: MediaTek, Qualcomm, Samsung Exynos,
-  HiSilicon Kirin and Google Tensor are all probed the same way, with
-  no vendor settings anywhere — the app detects the hardware and adapts
-  on its own), H.264/HEVC software max-quality, VP9
-  (WebM), AV1, audio extraction to AAC/MP3/Opus/FLAC/WAV, remux to
-  MP4/MKV without re-encoding, trim, and GIF — turned into exact ffmpeg
-  commands from the live report and a probe of the actual input file —
-  hardware presets pin the
-  probed encoder by name and refuse honestly when the hardware is missing;
-  decoding uses the hardware decoder for the input's codec when the
-  device has one (a software decode feeding a hardware encode still pegs
-  the CPU), with one visible retry on CPU decode if the hardware decoder
-  rejects a file; hardware bitrates come from a per-resolution table
-  capped at 2x the source bitrate, so a low-bitrate source doesn't
-  balloon
-- A working Convert tab (`core/engine/ConversionEngine.kt`, `core/queue/`,
-  `ui/convert/`): pick files, choose a preset, convert. The jobs live in
-  their own Queue tab (`ui/queue/`) and run one at a
-  time through the vendored FFmpeg with live progress and cancel; inputs
-  and outputs move through SAF/MediaStore (outputs in Movies/HWA Converter,
-  Music/ for audio), and a failed or cancelled job leaves no half-written
-  file behind
-- A first-run feature tour with guide lines that point at the real
-  controls — add files, presets, the Queue, your hardware, settings —
-  replayable any time from the Settings tab
-- A debug log per finished job: device and app info, the probed input
-  (codec, resolution, bitrates), the exact command and the full FFmpeg
-  log. It stays in memory on the job card — tapping the log saves it to
-  Download/HWA Converter, and Share log saves-then-shares; nothing is
-  written to the device automatically
-- Ten selectable launcher icons in the Settings tab — the default
-  artwork and nine variants, all drawn by the maintainer — switched at
-  runtime through launcher aliases, no reinstall
-- A Settings tab with appearance choices: System/Light/Dark mode and
-  seven color scheme templates (Material You plus six fixed palettes,
-  each in light and dark), saved between launches
-- The app requests the display's highest refresh rate at its native
-  resolution (120 Hz on the 15T Pro) instead of accepting a 60 Hz cap
-- Presets live in categorized, animated menus (Hardware encode, Software
-  encode, Audio only, No re-encode, Create), and a Custom preset opens a
-  manual panel: container (MP4/MKV/WebM), video codec (copy, hardware
-  H.264/HEVC, software H.264/HEVC/VP9/AV1, none), bitrate or CRF, max
-  height, audio codec and bitrate, and a hardware-decode toggle —
-  impossible combinations are refused in plain words, like the presets
-- Software encoders are told explicitly to use every CPU core
-  (`-threads 0`, row-mt where the encoder needs it)
-- Floating chrome in plain Material surfaces: the navigation is a
-  pill floating over the content, and Add files is a floating button. (A simulated-glass treatment shipped for one build
-  and was removed — it read as plain transparency, and real backdrop
-  blur costs a GPU pass per frame for no functional gain.)
-- A friendly face: a gradient hero panel names your media engine and
-  the hardware paths it unlocks, sections are color-coded with icon
-  badges, the Hardware tab leads with bento tiles (encoder/decoder
-  counts, max resolution, top bitrate), and job cards carry a video
-  thumbnail and fact chips (codec, resolution, duration, size)
-- Conversions keep running in the background: a foreground service
-  holds a permanent notification with the progress bar, the percent,
-  the speed, the time left, the output size so far, and a cancel
-  button. Job cards show the
-  same numbers, an estimated output size before a job starts (when
-  the command pins a bitrate), the exact ffmpeg command that ran, and
-  Open / Share buttons when a file is done
-- FFmpeg 8.1.2 (ffmpeg-kit-full-gpl 8.1.9) vendored in `app/libs`, MediaCodec
-  included
+![Conversion](https://img.shields.io/badge/CONVERSION-100%25_ON--DEVICE-FF9800?style=for-the-badge&labelColor=404040)
+![Engine](https://img.shields.io/badge/ENGINE-FFMPEG_8.1-00ACC1?style=for-the-badge&labelColor=404040)
 
-First target device: Xiaomi 15T Pro (Dimensity 9400+). MediaTek hardware
-encoding is the case this app is built for, not an afterthought.
+</div>
 
-## Design notes
+---
 
-The full research and architecture write-up — a survey of ~30 open-source
-converter apps and libraries, and the blueprint this project follows — is in
-[ANALYSIS.md](ANALYSIS.md), with the raw research passes in `research/`.
+## ⬇️ Download
 
-Short version: Pick → Configure → Queue → Service → Engine → Output; a Kotlin
-capability layer (probe → rank → explicit hardware encoder → probe encode →
-reported fallback ladder) in front of FFmpeg; stream-copy remux as a fast
-path; no INTERNET permission, everything happens on-device.
+Grab the latest APK from the **[Releases page](https://github.com/justVisiting992/HWA-Converter/releases)**:
 
-## Building
+| APK | Pick this if… |
+|---|---|
+| `app-arm64-v8a-debug.apk` | You have a normal Android phone — this is almost everyone, including all recent MediaTek, Qualcomm, Exynos and Tensor devices |
+| `app-x86_64-debug.apk` | You run an emulator or an x86 Chromebook |
+| `app-universal-debug.apk` | You're not sure — it works everywhere, it's just bigger |
 
-Open in Android Studio, or:
+Requires **Android 7.0 (API 24)** or newer.
 
-```
-./gradlew assembleDebug
-```
+---
 
-Requires JDK 17 and Android SDK 35. The FFmpegKit AAR is vendored, so the
-build does not depend on it staying on Maven Central — see
-`app/libs/VENDORED.md` for provenance and the hash.
+## 🤔 Why hardware-first?
 
-## License
+Your phone's chip has a media engine: fixed-function silicon that encodes and
+decodes video far faster and cooler than the CPU. On a Dimensity 9400+, a
+25-minute 1080p AV1 → HEVC conversion ran at **8.3× realtime** with *both*
+decode and encode on the media engine — the CPU mostly watched.
 
-GPL-3.0. The full-gpl FFmpeg build links libx264 and libx265, so the app is
-GPL from the first commit.
+Converter apps almost never use it. They ship FFmpeg presets that default to
+software encoding, so your phone heats up, the battery drains, and the media
+engine sits idle.
+
+HWA Converter flips the default:
+
+1. **Probe** — at startup it enumerates the device's MediaCodec encoders and
+   decoders: component names, hardware vs software, max resolution, bitrate
+   range, profiles. MediaTek, Qualcomm, Samsung Exynos, HiSilicon Kirin and
+   Google Tensor are all probed the same way.
+2. **Offer only what's real** — a hardware preset appears only if your chip
+   actually has that encoder. No AV1 hardware preset on a chip with no AV1
+   encoder. Nothing is faked.
+3. **Convert on the engine** — hardware decode into hardware encode wherever
+   the device allows it, with bitrates sized to the input and capped by what
+   the encoder component itself reports.
+4. **Never fall back silently** — if a path you picked isn't available, the
+   job says so in plain language. If a hardware-decoded job fails in its
+   first seconds, it retries once on CPU decode — and tells you it did.
+
+There are no vendor settings anywhere. The app detects the hardware and
+adapts on its own.
+
+---
+
+## 🎛️ Presets
+
+Seventeen presets in five families, plus a full manual mode:
+
+| Family | Presets |
+|---|---|
+| ⚡ **Hardware encode** | H.264 · H.265/HEVC · VP9 (WebM) · AV1 (WebM) — each shown only when your media engine has it |
+| 🎓 **Software encode** | H.264 max quality (libx264, CRF 18) · H.265/HEVC max quality (libx265, CRF 22) · VP9 (WebM) · AV1 |
+| 🎵 **Audio only** | AAC · MP3 · Opus · FLAC · WAV |
+| 📦 **No re-encode** | Remux to MP4 · Remux to MKV · Trim — stream copy, seconds-fast, quality untouched |
+| 🎨 **Create** | Animated GIF |
+
+**Custom mode** puts it all in your hands: container (MP4/MKV/WebM), video
+codec (copy, hardware, software, or none), audio codec, bitrate or CRF,
+downscale to 1080p/720p/480p/360p, and a hardware-decode toggle.
+Combinations that can't work are refused up front, with the reason written
+out — never a silent skip.
+
+Hardware encoding is for speed, sharing and everyday converts. Software
+max-quality mode is for archiving, where every detail matters. Both are
+first-class citizens here.
+
+---
+
+## ✨ Features
+
+- 🔍 **Your hardware screen** — the full probe report: every video encoder
+  and decoder on your device, what it can do, and which engine vendor made it
+- 🧵 **Background conversions** — a foreground service keeps jobs alive with
+  a live notification: progress, speed, ETA, output size, and a Cancel button
+- 📋 **A real queue** — jobs run one at a time (hardware encoders are scarce
+  silicon), each card showing live progress, the *exact* ffmpeg command that
+  ran, and the output estimate before you start
+- 🗂️ **Tidy output** — finished files land in `Movies`, `Music` or
+  `Pictures` under a **HWA Converter** folder; failed jobs clean up after
+  themselves, no half-written files
+- 🪵 **Honest debug logs** — every finished job keeps its full log in memory;
+  tap it to save to `Download/HWA Converter`, or share it straight from the card
+- 🎨 **Make it yours** — Material You plus six fixed color schemes, light /
+  dark / follow-the-phone, and **ten launcher icons** to pick from in Settings
+- 🧭 **A guided first run** — a short tour points at where things live;
+  replay it any time from Settings
+- 🖼️ **Thumbnails and facts** — queue cards show a frame from your video,
+  its duration, resolution, codec and size at a glance
+
+---
+
+## 🔒 Privacy
+
+The app has **no `INTERNET` permission** — check the
+[manifest](https://github.com/justVisiting992/HWA-Converter/blob/main/app/src/main/AndroidManifest.xml)
+yourself. No uploads, no analytics, no ads, no accounts. Your files are
+converted on your phone and stay on your phone.
+
+---
+
+## 🛠️ Building from source
+
+- Kotlin + Jetpack Compose (Material 3), minSdk 24, targetSdk 35
+- Engine: [FFmpegKit](https://github.com/ffmpegkit-maintained/ffmpeg) full-GPL
+  8.1.9 (FFmpeg 8.1.2 — libx264, libx265, libvpx, libaom, LAME, Opus), fetched
+  from Maven Central by CI against a pinned SHA-256
+- `./gradlew assembleDebug` with JDK 17 — or just read the GitHub Actions
+  workflow, which builds every push and attaches split APKs to tagged releases
+
+---
+
+## 📜 License & credits
+
+GPL-3.0 — see [LICENSE](https://github.com/justVisiting992/HWA-Converter/blob/main/LICENSE).
+The GPL is inherited from the full-GPL FFmpeg build, and it's embraced, not
+tolerated: an app built on free software stays free.
+
+Launcher icon artwork by the maintainer. FFmpeg is a trademark of Fabrice
+Bellard; this project is not affiliated with the FFmpeg project.
