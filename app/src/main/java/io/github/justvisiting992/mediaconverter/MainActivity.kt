@@ -58,6 +58,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.capability.HardwareCodecProbe
+import io.github.justvisiting992.mediaconverter.core.update.UpdateController
 import io.github.justvisiting992.mediaconverter.ui.capability.CapabilityScreen
 import io.github.justvisiting992.mediaconverter.ui.about.AboutScreen
 import io.github.justvisiting992.mediaconverter.ui.convert.ConvertScreen
@@ -68,6 +69,7 @@ import io.github.justvisiting992.mediaconverter.ui.theme.ThemeMode
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemePrefs
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeTemplate
 import io.github.justvisiting992.mediaconverter.ui.theme.floatingSurface
+import io.github.justvisiting992.mediaconverter.ui.update.UpdateDialog
 import io.github.justvisiting992.mediaconverter.ui.tour.FeatureTour
 import io.github.justvisiting992.mediaconverter.ui.tour.TourKeys
 import io.github.justvisiting992.mediaconverter.ui.tour.TourPrefs
@@ -79,7 +81,7 @@ internal enum class Tab(val title: String, val icon: ImageVector) {
     CONVERT("Convert", Icons.Filled.SwapHoriz),
     QUEUE("Queue", Icons.Filled.Queue),
     HARDWARE("Your hardware", Icons.Filled.Memory),
-    SETTINGS("Settings", Icons.Filled.Settings),
+    SETTINGS("Look & Feel", Icons.Filled.Settings),
     ABOUT("About", Icons.Filled.Info),
 }
 
@@ -108,6 +110,13 @@ class MainActivity : ComponentActivity() {
                 var tourOpen by remember {
                     mutableStateOf(!TourPrefs.seen(applicationContext))
                 }
+                // The update checker: created once, checked quietly
+                // on launch (its own rules decide whether to run),
+                // and shared with the About tab and the dialog.
+                val updateController = remember {
+                    UpdateController(applicationContext)
+                }
+                LaunchedEffect(Unit) { updateController.maybeAutoCheck() }
                 // Floating chrome: content fills the screen and scrolls
                 // under a floating navigation pill, instead of living
                 // between two fixed bars. The screens pad their own
@@ -150,10 +159,11 @@ class MainActivity : ComponentActivity() {
                                 mode = mode,
                                 onTemplateChange = { update(it, mode) },
                                 onModeChange = { update(template, it) },
-                                onReplayTour = { tourOpen = true },
                                 modifier = Modifier.fillMaxSize().statusBarsPadding(),
                             )
                             Tab.ABOUT -> AboutScreen(
+                                updateController = updateController,
+                                onReplayTour = { tourOpen = true },
                                 modifier = Modifier.fillMaxSize().statusBarsPadding(),
                             )
                         }
@@ -173,6 +183,7 @@ class MainActivity : ComponentActivity() {
                             },
                         )
                     }
+                    UpdateDialog(updateController)
                 }
                 }
             }

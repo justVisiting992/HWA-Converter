@@ -35,11 +35,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -59,7 +59,6 @@ fun SettingsScreen(
     mode: ThemeMode,
     onTemplateChange: (ThemeTemplate) -> Unit,
     onModeChange: (ThemeMode) -> Unit,
-    onReplayTour: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -204,11 +203,6 @@ fun SettingsScreen(
                 modifier = Modifier.padding(top = 4.dp),
             )
         }
-        item {
-            TextButton(onClick = onReplayTour) {
-                Text("Replay the feature tour")
-            }
-        }
     }
 }
 
@@ -227,12 +221,17 @@ private fun IconChoice(entry: AppIcon, selected: Boolean, onClick: () -> Unit) {
                 .fillMaxWidth()
                 .aspectRatio(1f)
                 .clip(shape)
-                .then(
-                    if (selected) {
-                        Modifier.border(2.5.dp, MaterialTheme.colorScheme.primary, shape)
-                    } else {
-                        Modifier
-                    },
+                // A narrow frame in the icon's own gradient sits
+                // on the artwork's rim and covers its rough
+                // hand-cropped edge, so the border is one clean
+                // line that matches the icon itself. The selected
+                // icon's frame is simply thicker.
+                .border(
+                    width = if (selected) 3.5.dp else 2.dp,
+                    brush = Brush.linearGradient(
+                        listOf(entry.ringLight, entry.ringDeep),
+                    ),
+                    shape = shape,
                 )
                 .clickable(onClick = onClick),
         )

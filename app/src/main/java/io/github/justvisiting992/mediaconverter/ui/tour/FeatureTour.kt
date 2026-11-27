@@ -136,15 +136,16 @@ private val TOUR_STEPS = listOf(
     ),
     TourStep(
         tab = Tab.SETTINGS, targetKey = TourKeys.NAV_SETTINGS,
-        title = "Settings",
+        title = "Look & Feel",
         body = "Themes, color schemes, and nine launcher icons live " +
-            "here. You can also replay this tour.",
+            "here.",
     ),
     TourStep(
         tab = null, targetKey = null,
         title = "That's it",
-        body = "One last thing. The app has no network permission, so " +
-            "your files never leave your phone.",
+        body = "One last thing. Conversions run entirely on your " +
+            "phone. The only thing the app ever downloads is its " +
+            "own updates.",
     ),
 )
 

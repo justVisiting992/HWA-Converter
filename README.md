@@ -16,7 +16,7 @@ what its media engine can actually do, and builds its presets from the answer.
 [![License](https://img.shields.io/github/license/justVisiting992/HWA-Converter?style=for-the-badge&labelColor=404040)](https://github.com/justVisiting992/HWA-Converter/blob/main/LICENSE)
 
 ![Hardware first](https://img.shields.io/badge/HARDWARE--FIRST-MEDIACODEC-00C853?style=for-the-badge&labelColor=404040)
-![Internet permission](https://img.shields.io/badge/INTERNET_PERMISSION-NONE-1E88E5?style=for-the-badge&labelColor=404040)
+![Updates](https://img.shields.io/badge/UPDATES-VIA_GITHUB-1E88E5?style=for-the-badge&labelColor=404040)
 
 ![Conversion](https://img.shields.io/badge/CONVERSION-100%25_ON--DEVICE-FF9800?style=for-the-badge&labelColor=404040)
 ![Engine](https://img.shields.io/badge/ENGINE-FFMPEG_8.1-00ACC1?style=for-the-badge&labelColor=404040)
@@ -111,9 +111,13 @@ first-class citizens here.
 - 🪵 **Honest debug logs.** Every finished job keeps its full log in memory;
   tap it to save to `Download/HWA Converter`, or share it straight from the card
 - 🎨 **Make it yours.** Material You plus six fixed color schemes, light /
-  dark / follow-the-phone, and **ten launcher icons** to pick from in Settings
+  dark / follow-the-phone, and **nine launcher icons** to pick from in
+  Look & Feel
+- 🔄 **Updates from GitHub.** The app checks this repo's releases once a
+  day and offers a new version in a floating card: Download & Install, or
+  Download Later. On by default, switchable in About
 - 🧭 **A guided first run.** A short tour points at where things live;
-  replay it any time from Settings
+  replay it any time from About
 - 🖼️ **Thumbnails and facts.** Queue cards show a frame from your video,
   its duration, resolution, codec and size at a glance
 
@@ -121,10 +125,13 @@ first-class citizens here.
 
 ## 🔒 Privacy
 
-The app has **no `INTERNET` permission**. Check the
-[manifest](https://github.com/justVisiting992/HWA-Converter/blob/main/app/src/main/AndroidManifest.xml)
-yourself. No uploads, no analytics, no ads, no accounts. Your files are
-converted on your phone and stay on your phone.
+The app's one network use is updates: it checks this repo's GitHub
+releases and, when you tap Download & Install, downloads the new APK.
+That is what the `INTERNET` permission is for, and nothing else. The
+automatic check is on by default, can be switched off in About, and
+disables itself when the app has no network access. No uploads, no
+analytics, no ads, no accounts. Your files are converted on your phone
+and stay on your phone.
 
 ---
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    What the FileProvider may share: only the updates folder in the
+    cache, which holds the APK the update checker downloaded, so the
+    system installer can read it.
+-->
+<paths>
+    <cache-path
+        name="updates"
+        path="updates/" />
+</paths>

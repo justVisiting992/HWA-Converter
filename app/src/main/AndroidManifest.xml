@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Deliberately NO android.permission.INTERNET: every conversion happens
-         on-device. This is a feature, and it stays. -->
+    <!-- Internet is used for exactly one thing: the update checker
+         asking GitHub for a newer release, and downloading that
+         release's APK when the user taps Download & Install.
+         Conversions themselves never leave the device. Installing
+         the downloaded APK needs the install-packages permission. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!-- Keeping conversions alive in the background: the foreground
          service permission, its data-sync type, and notifications. -->
@@ -137,6 +142,18 @@
             android:name=".core.queue.ConversionService"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
+
+        <!-- Shares the downloaded update APK with the system
+             installer, and nothing else (see res/xml/file_paths.xml). -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>
