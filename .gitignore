@@ -3,6 +3,9 @@
 # with a pinned SHA-256 (see .github/workflows/build.yml); for a local build,
 # drop it into app/libs/ yourself — provenance and hash in app/libs/VENDORED.md.
 /app/libs/*.aar
+# The release keystore is decoded from a CI secret at build time and
+# must never be committed.
+/app/release.keystore
 .gradle/
 /local.properties
 /.idea/

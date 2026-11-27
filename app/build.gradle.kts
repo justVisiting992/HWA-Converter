@@ -29,8 +29,26 @@ android {
         }
     }
 
+    // Release signing. The keystore is never in git: on a tagged build
+    // the workflow decodes it from the KEYSTORE_BASE64 secret into
+    // app/release.keystore and passes the passwords as environment
+    // variables. Without that file — every local build — the release
+    // build type stays unsigned instead of failing, and debug builds
+    // are never affected.
+    signingConfigs {
+        create("release") {
+            storeFile = file("release.keystore")
+            storePassword = System.getenv("KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("KEY_ALIAS")
+            keyPassword = System.getenv("KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
+            if (file("release.keystore").exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
