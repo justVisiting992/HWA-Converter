@@ -21,12 +21,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -39,6 +44,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
@@ -206,7 +212,16 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/** The floating navigation pill: three tabs, selected one filled. */
+/**
+ * The floating navigation pill: all five tabs in a horizontally
+ * sweepable row. The pill's width is fixed by the screen, never by
+ * its content — a selected tab's expanding label used to widen the
+ * whole pill, push the last tab off the screen's edge, and (when
+ * the label wrapped mid-animation) balloon the pill's height before
+ * dropping it back. Now the pill cannot resize at all: anything
+ * that doesn't fit is a swipe away inside the pill, and selecting
+ * a tab scrolls it fully into view on its own.
+ */
 @Composable
 private fun FloatingNavBar(
     selected: Tab,
@@ -214,16 +229,22 @@ private fun FloatingNavBar(
     modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(percent = 50)
-    Row(
+    val listState = rememberLazyListState()
+    LaunchedEffect(selected) {
+        listState.animateScrollToItem(selected.ordinal)
+    }
+    LazyRow(
+        state = listState,
         modifier = modifier
             .navigationBarsPadding()
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .floatingSurface(shape)
-            .padding(6.dp),
+            .clip(shape),
+        contentPadding = PaddingValues(6.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Tab.entries.forEach { entry ->
+        items(Tab.entries, key = { it.name }) { entry ->
             NavPillItem(
                 entry = entry,
                 selected = entry == selected,
@@ -271,10 +292,11 @@ private fun NavPillItem(
     Row(
         modifier = Modifier
             .then(if (tourKey != null) Modifier.tourTarget(tourKey) else Modifier)
+            .height(48.dp)
             .clip(shape)
             .background(background)
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
@@ -288,11 +310,18 @@ private fun NavPillItem(
             enter = fadeIn(tween(200)) + expandHorizontally(tween(200)),
             exit = fadeOut(tween(120)) + shrinkHorizontally(tween(200)),
         ) {
+            // One line, never wrapping: during the expand animation
+            // the label's width is clipped, and a wrapping label
+            // measured two lines tall mid-animation — the item (and
+            // the whole pill with it) jumped up, then dropped back
+            // when the animation finished and the text unwrapped.
             Text(
                 entry.title,
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = contentColor,
+                maxLines = 1,
+                softWrap = false,
             )
         }
     }

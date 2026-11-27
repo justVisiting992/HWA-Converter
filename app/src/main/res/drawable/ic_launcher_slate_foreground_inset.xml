@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive-icon foreground, inset into the safe zone: launchers
+     only ever show the centre ~72dp of the 108dp foreground canvas
+     (and mask it further), so full-canvas artwork had its edges —
+     the H, the C, the wordmark — clipped by every launcher mask.
+     A 19% inset on every side scales the artwork to the centre 62%,
+     inside the zone every mask keeps. The background gradient
+     (sampled from the same artwork) fills the ring around it. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@mipmap/ic_launcher_slate_foreground"
+    android:inset="19%" />

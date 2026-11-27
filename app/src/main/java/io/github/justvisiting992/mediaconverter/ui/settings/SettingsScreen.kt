@@ -211,7 +211,7 @@ private fun IconChoice(entry: AppIcon, selected: Boolean, onClick: () -> Unit) {
         modifier = Modifier.width(76.dp),
     ) {
         Image(
-            painter = painterResource(entry.mipmapRes),
+            painter = painterResource(entry.previewRes),
             contentDescription = entry.label,
             modifier = Modifier
                 .size(64.dp)
