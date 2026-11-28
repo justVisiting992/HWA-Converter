@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Display
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivityResultRegistryOwner
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContent
@@ -126,7 +127,11 @@ class MainActivity : ComponentActivity() {
                 mutableStateOf(AppLocale.selectedTag(applicationContext))
             }
             val localizedContext = remember(languageTag) {
-                AppLocale.wrap(applicationContext, languageTag)
+                // Wrap the ACTIVITY, never the application context: the
+                // wrapped context must keep the activity in its chain, or
+                // the activity-result registry owner is lost and the file
+                // picker crashes the app (proven by the v0.3.1 crash log).
+                AppLocale.wrap(this@MainActivity, languageTag)
             }
             val layoutDirection = if (AppLocale.isRtl(applicationContext, languageTag)) {
                 LayoutDirection.Rtl
@@ -151,6 +156,10 @@ class MainActivity : ComponentActivity() {
               CompositionLocalProvider(
                 LocalContext provides localizedContext,
                 LocalLayoutDirection provides layoutDirection,
+                // Belt and braces for the same v0.3.1 crash: the result
+                // registry owner is handed down explicitly, so the file
+                // picker finds it no matter how contexts are wrapped.
+                LocalActivityResultRegistryOwner provides this@MainActivity,
               ) {
                 // The capability report is probed once here and shared:
                 // the Convert tab builds its presets from the same report
