@@ -17,7 +17,9 @@ import io.github.justvisiting992.mediaconverter.core.engine.InputInfo
 import io.github.justvisiting992.mediaconverter.core.engine.LogCollector
 import io.github.justvisiting992.mediaconverter.core.engine.MediaKind
 import io.github.justvisiting992.mediaconverter.core.engine.PresetCommand
+import io.github.justvisiting992.mediaconverter.R
 import io.github.justvisiting992.mediaconverter.core.engine.PresetCommands
+import io.github.justvisiting992.mediaconverter.core.locale.Strings
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -238,7 +240,7 @@ class ConversionQueue(private val appContext: Context) {
                 outputUri = null, outputName = outputName,
                 outputFolder = MediaStoreOutput.folderLabel(outKind),
                 command = emptyList(), note = "", inputInfo = inputInfo,
-                status = JobStatus.Failed("Could not create the output file in MediaStore."),
+                status = JobStatus.Failed(Strings.get(R.string.queue_output_create_failed)),
             )
         }
         return when (
@@ -526,7 +528,7 @@ class ConversionQueue(private val appContext: Context) {
         } else {
             sb.appendLine("Input probe: unavailable")
         }
-        sb.appendLine("Preset: ${job.preset.id} (${job.preset.label})")
+        sb.appendLine("Preset: ${job.preset.id} (${Strings.get(job.preset.labelRes)})")
         sb.appendLine("Note: ${job.note}")
         sb.appendLine("Command: ffmpeg " + PresetCommands.displayCommand(job.command))
         sb.appendLine("Result: $resultLine")
@@ -554,9 +556,9 @@ class ConversionQueue(private val appContext: Context) {
     private fun failureReason(logTail: String): String {
         val lastLine = logTail.lineSequence().map { it.trim() }.lastOrNull { it.isNotEmpty() }
         return if (lastLine != null) {
-            "Conversion failed. ffmpeg said: $lastLine"
+            Strings.get(R.string.queue_conversion_failed, lastLine)
         } else {
-            "Conversion failed (ffmpeg gave no message)."
+            Strings.get(R.string.queue_conversion_failed_silent)
         }
     }
 

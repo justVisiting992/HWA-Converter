@@ -1,7 +1,10 @@
 package io.github.justvisiting992.mediaconverter.core.engine
 
+import androidx.annotation.StringRes
 import io.github.justvisiting992.mediaconverter.BuildConfig
+import io.github.justvisiting992.mediaconverter.R
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
+import io.github.justvisiting992.mediaconverter.core.locale.Strings
 
 /**
  * What the user wants done to a file, a goal, not an encoder. The engine
@@ -17,152 +20,152 @@ enum class MediaKind { VIDEO, AUDIO, IMAGE }
 
 enum class ConversionPreset(
     val id: String,
-    val label: String,
-    val description: String,
+    @StringRes val labelRes: Int,
+    @StringRes val descriptionRes: Int,
     val outputExtension: String,
     val kind: MediaKind,
     val mimeType: String,
 ) {
     H264_HARDWARE(
         id = "h264-hw",
-        label = "H.264 · hardware",
-        description = "Fast, small, plays everywhere. Uses this phone's media engine.",
+        labelRes = R.string.preset_h264_hw_label,
+        descriptionRes = R.string.preset_h264_hw_desc,
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
     ),
     HEVC_HARDWARE(
         id = "hevc-hw",
-        label = "H.265 / HEVC · hardware",
-        description = "About half the size of H.264 at the same quality. Uses this phone's media engine.",
+        labelRes = R.string.preset_hevc_hw_label,
+        descriptionRes = R.string.preset_hevc_hw_desc,
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
     ),
     VP9_HARDWARE(
         id = "vp9-hw",
-        label = "VP9 · hardware",
-        description = "Hardware VP9 in a WebM file. Only on phones whose media engine encodes VP9.",
+        labelRes = R.string.preset_vp9_hw_label,
+        descriptionRes = R.string.preset_vp9_hw_desc,
         outputExtension = "webm",
         kind = MediaKind.VIDEO,
         mimeType = "video/webm",
     ),
     AV1_HARDWARE(
         id = "av1-hw",
-        label = "AV1 · hardware",
-        description = "Hardware AV1. Only a few media engines can encode AV1, so this preset appears only on those phones.",
+        labelRes = R.string.preset_av1_hw_label,
+        descriptionRes = R.string.preset_av1_hw_desc,
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
     ),
     H264_SOFTWARE(
         id = "h264-sw-max",
-        label = "H.264 · max quality (software)",
-        description = "Slow CPU encode with libx264, best quality per byte. For masters and HDR.",
+        labelRes = R.string.preset_h264_sw_label,
+        descriptionRes = R.string.preset_h264_sw_desc,
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
     ),
     HEVC_SOFTWARE(
         id = "hevc-sw-max",
-        label = "H.265 / HEVC · max quality (software)",
-        description = "Smaller than H.264 at the same quality. Slow CPU encode with libx265.",
+        labelRes = R.string.preset_hevc_sw_label,
+        descriptionRes = R.string.preset_hevc_sw_desc,
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
     ),
     VP9_SOFTWARE(
         id = "vp9-sw",
-        label = "VP9 · software (WebM)",
-        description = "The web's codec, in a WebM file. CPU encode with libvpx.",
+        labelRes = R.string.preset_vp9_sw_label,
+        descriptionRes = R.string.preset_vp9_sw_desc,
         outputExtension = "webm",
         kind = MediaKind.VIDEO,
         mimeType = "video/webm",
     ),
     AV1_SOFTWARE(
         id = "av1-sw",
-        label = "AV1 · software",
-        description = "Newest codec, smallest files. Very slow on CPU. Best for short clips.",
+        labelRes = R.string.preset_av1_sw_label,
+        descriptionRes = R.string.preset_av1_sw_desc,
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
     ),
     AUDIO_AAC(
         id = "audio-aac",
-        label = "Audio only · AAC",
-        description = "Extract the audio track to AAC.",
+        labelRes = R.string.preset_audio_aac_label,
+        descriptionRes = R.string.preset_audio_aac_desc,
         outputExtension = "m4a",
         kind = MediaKind.AUDIO,
         mimeType = "audio/mp4",
     ),
     AUDIO_MP3(
         id = "audio-mp3",
-        label = "Audio only · MP3",
-        description = "Extract the audio track to MP3. Plays everywhere.",
+        labelRes = R.string.preset_audio_mp3_label,
+        descriptionRes = R.string.preset_audio_mp3_desc,
         outputExtension = "mp3",
         kind = MediaKind.AUDIO,
         mimeType = "audio/mpeg",
     ),
     AUDIO_OPUS(
         id = "audio-opus",
-        label = "Audio only · Opus",
-        description = "Extract the audio track to Opus. Smallest at the same quality.",
+        labelRes = R.string.preset_audio_opus_label,
+        descriptionRes = R.string.preset_audio_opus_desc,
         outputExtension = "opus",
         kind = MediaKind.AUDIO,
         mimeType = "audio/opus",
     ),
     AUDIO_FLAC(
         id = "audio-flac",
-        label = "Audio only · FLAC",
-        description = "Extract the audio track losslessly to FLAC.",
+        labelRes = R.string.preset_audio_flac_label,
+        descriptionRes = R.string.preset_audio_flac_desc,
         outputExtension = "flac",
         kind = MediaKind.AUDIO,
         mimeType = "audio/flac",
     ),
     AUDIO_WAV(
         id = "audio-wav",
-        label = "Audio only · WAV",
-        description = "Extract the audio track uncompressed to WAV, for editing.",
+        labelRes = R.string.preset_audio_wav_label,
+        descriptionRes = R.string.preset_audio_wav_desc,
         outputExtension = "wav",
         kind = MediaKind.AUDIO,
         mimeType = "audio/wav",
     ),
     REMUX_MP4(
         id = "remux-mp4",
-        label = "Remux to MP4 · no re-encode",
-        description = "Same picture and sound, new MP4 container. Instant.",
+        labelRes = R.string.preset_remux_mp4_label,
+        descriptionRes = R.string.preset_remux_mp4_desc,
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
     ),
     REMUX_MKV(
         id = "remux-mkv",
-        label = "Remux to MKV · no re-encode",
-        description = "Same picture and sound, new MKV container. Instant.",
+        labelRes = R.string.preset_remux_mkv_label,
+        descriptionRes = R.string.preset_remux_mkv_desc,
         outputExtension = "mkv",
         kind = MediaKind.VIDEO,
         mimeType = "video/x-matroska",
     ),
     TRIM_COPY(
         id = "trim-copy",
-        label = "Trim · no re-encode",
-        description = "Cut a section out without touching the picture. Cuts land on keyframes.",
+        labelRes = R.string.preset_trim_label,
+        descriptionRes = R.string.preset_trim_desc,
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
     ),
     GIF(
         id = "gif",
-        label = "GIF · animated image",
-        description = "Turn a clip into an animated GIF (12 fps, 480 px wide). Short clips only.",
+        labelRes = R.string.preset_gif_label,
+        descriptionRes = R.string.preset_gif_desc,
         outputExtension = "gif",
         kind = MediaKind.IMAGE,
         mimeType = "image/gif",
     ),
     CUSTOM(
         id = "custom",
-        label = "Custom · manual settings",
-        description = "Your own format: container, codecs, bitrate, resolution.",
+        labelRes = R.string.preset_custom_label,
+        descriptionRes = R.string.preset_custom_desc,
         outputExtension = "mp4",
         kind = MediaKind.VIDEO,
         mimeType = "video/mp4",
@@ -331,8 +334,7 @@ object PresetCommands {
                     outputPath,
                 ),
                 engine = EngineKind.SOFTWARE,
-                note = "Software encode (libx264, CRF 18, slow preset). " +
-                    "Slow, best quality per byte. Decode: ${decode.label}.",
+                note = Strings.get(R.string.note_sw_x264, decode.label),
                 usedHardwareDecode = decode.hardware,
             )
         }
@@ -349,8 +351,7 @@ object PresetCommands {
                     outputPath,
                 ),
                 engine = EngineKind.SOFTWARE,
-                note = "Software encode (libx265, CRF 22, medium preset). " +
-                    "Decode: ${decode.label}.",
+                note = Strings.get(R.string.note_sw_x265, decode.label),
                 usedHardwareDecode = decode.hardware,
             )
         }
@@ -368,8 +369,7 @@ object PresetCommands {
                     outputPath,
                 ),
                 engine = EngineKind.SOFTWARE,
-                note = "Software encode (libvpx-vp9, CRF 30) to WebM. " +
-                    "Decode: ${decode.label}.",
+                note = Strings.get(R.string.note_sw_vp9, decode.label),
                 usedHardwareDecode = decode.hardware,
             )
         }
@@ -390,13 +390,12 @@ object PresetCommands {
                     outputPath,
                 ),
                 engine = EngineKind.SOFTWARE,
-                note = "Software encode (libaom-av1, CRF 32). AV1 on CPU " +
-                    "is very slow. Decode: ${decode.label}.",
+                note = Strings.get(R.string.note_sw_av1, decode.label),
                 usedHardwareDecode = decode.hardware,
             )
         }
         ConversionPreset.CUSTOM -> PresetCommand.Unavailable(
-            "Custom jobs are built from the manual options, not the preset path.",
+            Strings.get(R.string.refusal_custom_path),
         )
         ConversionPreset.AUDIO_AAC -> PresetCommand.Ready(
             command = listOf(
@@ -405,7 +404,7 @@ object PresetCommands {
                 outputPath,
             ),
             engine = EngineKind.SOFTWARE,
-            note = "Audio extraction to AAC 192k. No video encoder involved.",
+            note = Strings.get(R.string.note_audio_aac),
         )
         ConversionPreset.AUDIO_MP3 -> PresetCommand.Ready(
             command = listOf(
@@ -414,7 +413,7 @@ object PresetCommands {
                 outputPath,
             ),
             engine = EngineKind.SOFTWARE,
-            note = "Audio extraction to MP3 192k. No video encoder involved.",
+            note = Strings.get(R.string.note_audio_mp3),
         )
         ConversionPreset.AUDIO_OPUS -> PresetCommand.Ready(
             command = listOf(
@@ -423,7 +422,7 @@ object PresetCommands {
                 outputPath,
             ),
             engine = EngineKind.SOFTWARE,
-            note = "Audio extraction to Opus 128k. No video encoder involved.",
+            note = Strings.get(R.string.note_audio_opus),
         )
         ConversionPreset.AUDIO_FLAC -> PresetCommand.Ready(
             command = listOf(
@@ -432,7 +431,7 @@ object PresetCommands {
                 outputPath,
             ),
             engine = EngineKind.SOFTWARE,
-            note = "Audio extraction to FLAC (lossless). No video encoder involved.",
+            note = Strings.get(R.string.note_audio_flac),
         )
         ConversionPreset.AUDIO_WAV -> PresetCommand.Ready(
             command = listOf(
@@ -441,7 +440,7 @@ object PresetCommands {
                 outputPath,
             ),
             engine = EngineKind.SOFTWARE,
-            note = "Audio extraction to WAV (uncompressed). No video encoder involved.",
+            note = Strings.get(R.string.note_audio_wav),
         )
         ConversionPreset.REMUX_MP4 -> PresetCommand.Ready(
             command = listOf(
@@ -451,7 +450,7 @@ object PresetCommands {
                 outputPath,
             ),
             engine = EngineKind.COPY,
-            note = "Remux to MP4: streams copied, nothing re-encoded.",
+            note = Strings.get(R.string.note_remux_mp4),
         )
         ConversionPreset.REMUX_MKV -> PresetCommand.Ready(
             command = listOf(
@@ -460,7 +459,7 @@ object PresetCommands {
                 outputPath,
             ),
             engine = EngineKind.COPY,
-            note = "Remux to MKV: streams copied, nothing re-encoded.",
+            note = Strings.get(R.string.note_remux_mkv),
         )
         ConversionPreset.GIF -> {
             val decode = decodeChoice(report, input, softwareDecode)
@@ -474,8 +473,7 @@ object PresetCommands {
                     outputPath,
                 ),
                 engine = EngineKind.SOFTWARE,
-                note = "Animated GIF at 12 fps, 480 px wide. " +
-                    "Decode: ${decode.label}.",
+                note = Strings.get(R.string.note_gif, decode.label),
                 usedHardwareDecode = decode.hardware,
             )
         }
@@ -484,7 +482,7 @@ object PresetCommands {
                 trimEndSeconds <= trimStartSeconds
             ) {
                 PresetCommand.Unavailable(
-                    "Pick a start and end time first. Trim needs both.",
+                    Strings.get(R.string.refusal_trim_times),
                 )
             } else {
                 PresetCommand.Ready(
@@ -498,8 +496,7 @@ object PresetCommands {
                         outputPath,
                     ),
                     engine = EngineKind.COPY,
-                    note = "Stream copy, no re-encode. Cuts land on keyframes, " +
-                        "so the edges may shift a few frames.",
+                    note = Strings.get(R.string.note_trim),
                 )
             }
         }
@@ -521,9 +518,7 @@ object PresetCommands {
     ): PresetCommand {
         val encoder = report.bestHardwareEncoder(mimeType)
             ?: return PresetCommand.Unavailable(
-                "This phone has no hardware $codecLabel encoder, so the " +
-                    "hardware preset cannot run. The software preset can " +
-                    "still do this conversion on the CPU.",
+                Strings.get(R.string.refusal_no_hw_encoder, codecLabel),
             )
         val decode = decodeChoice(report, input, softwareDecode)
         val bitrate = videoBitrateBps
@@ -540,8 +535,13 @@ object PresetCommands {
                 "-pix_fmt", "yuv420p",
             ) + extraVideoArgs + audioArgs + containerArgs + listOf(outputPath),
             engine = EngineKind.HARDWARE,
-            note = "Hardware encode ($codecLabel) on ${encoder.componentName} " +
-                "at ${"%.1f".format(bitrate / 1e6)} Mbps. Decode: ${decode.label}.",
+            note = Strings.get(
+                R.string.note_hw_encode,
+                codecLabel,
+                encoder.componentName,
+                "%.1f".format(bitrate / 1e6),
+                decode.label,
+            ),
             usedHardwareDecode = decode.hardware,
         )
     }
@@ -567,7 +567,7 @@ object PresetCommands {
         report: DeviceCodecReport,
         input: InputInfo?,
         softwareDecode: Boolean,
-        softwareLabel: String = "CPU (retried after the hardware decoder failed)",
+        softwareLabel: String? = null,
     ): DecodeChoice {
         val codec = input?.videoCodec?.lowercase()
         val (wrapper, mime) = when (codec) {
@@ -581,26 +581,33 @@ object PresetCommands {
             return DecodeChoice(
                 args = emptyList(),
                 hardware = false,
-                label = softwareLabel,
+                label = softwareLabel
+                    ?: Strings.get(R.string.decode_cpu_retry),
             )
         }
         if (wrapper == null || mime == null) {
             return DecodeChoice(
                 args = emptyList(),
                 hardware = false,
-                label = "CPU (no hardware decoder path for ${codec ?: "this input"})",
+                label = Strings.get(
+                    R.string.decode_cpu_no_path,
+                    codec ?: Strings.get(R.string.decode_this_input),
+                ),
             )
         }
         val decoder = report.bestHardwareDecoder(mime)
             ?: return DecodeChoice(
                 args = emptyList(),
                 hardware = false,
-                label = "CPU (this phone has no hardware ${codec?.uppercase()} decoder)",
+                label = Strings.get(
+                    R.string.decode_cpu_no_decoder,
+                    codec?.uppercase() ?: "",
+                ),
             )
         return DecodeChoice(
             args = listOf("-c:v", wrapper),
             hardware = true,
-            label = "hardware ($wrapper on ${decoder.componentName})",
+            label = Strings.get(R.string.decode_hw, wrapper, decoder.componentName),
         )
     }
 
@@ -660,30 +667,30 @@ object PresetCommands {
         WEBM("WebM", "webm", "video/webm"),
     }
 
-    enum class ManualVideoCodec(val label: String) {
-        COPY("Copy (no re-encode)"),
-        H264_HW("H.264 · hardware"),
-        HEVC_HW("H.265 · hardware"),
-        VP9_HW("VP9 · hardware"),
-        AV1_HW("AV1 · hardware"),
-        H264_SW("H.264 · software"),
-        HEVC_SW("H.265 · software"),
-        VP9_SW("VP9 · software"),
-        AV1_SW("AV1 · software"),
-        NONE("No video (audio only)"),
+    enum class ManualVideoCodec(@StringRes val labelRes: Int) {
+        COPY(R.string.mc_copy),
+        H264_HW(R.string.mc_h264_hw),
+        HEVC_HW(R.string.mc_hevc_hw),
+        VP9_HW(R.string.mc_vp9_hw),
+        AV1_HW(R.string.mc_av1_hw),
+        H264_SW(R.string.mc_h264_sw),
+        HEVC_SW(R.string.mc_hevc_sw),
+        VP9_SW(R.string.mc_vp9_sw),
+        AV1_SW(R.string.mc_av1_sw),
+        NONE(R.string.mc_none),
     }
 
     enum class ManualAudioCodec(
-        val label: String,
+        @StringRes val labelRes: Int,
         /** Output file shape when the job is audio-only. */
         val extension: String,
         val mimeType: String,
     ) {
-        COPY("Copy (no re-encode)", "", ""),
-        AAC("AAC", "m4a", "audio/mp4"),
-        MP3("MP3", "mp3", "audio/mpeg"),
-        OPUS("Opus", "opus", "audio/opus"),
-        NONE("No audio", "", ""),
+        COPY(R.string.ma_copy, "", ""),
+        AAC(R.string.ma_aac, "m4a", "audio/mp4"),
+        MP3(R.string.ma_mp3, "mp3", "audio/mpeg"),
+        OPUS(R.string.ma_opus, "opus", "audio/opus"),
+        NONE(R.string.ma_none, "", ""),
     }
 
     /** Everything the manual panel lets the user choose. */
@@ -728,20 +735,25 @@ object PresetCommands {
                 options.audio == ManualAudioCodec.NONE
             ) {
                 return PresetCommand.Unavailable(
-                    "Audio-only output needs an audio codec. Pick AAC, MP3 or Opus.",
+                    Strings.get(R.string.refusal_audio_only_codec),
                 )
             }
             val encoder = when (options.audio) {
                 ManualAudioCodec.AAC -> listOf("-c:a", "aac", "-b:a", "${options.audioBitrateKbps}k")
                 ManualAudioCodec.MP3 -> listOf("-c:a", "libmp3lame", "-b:a", "${options.audioBitrateKbps}k")
                 ManualAudioCodec.OPUS -> listOf("-c:a", "libopus", "-b:a", "${options.audioBitrateKbps}k")
-                else -> return PresetCommand.Unavailable("Pick an audio codec.")
+                else -> return PresetCommand.Unavailable(
+                    Strings.get(R.string.refusal_pick_audio),
+                )
             }
             return PresetCommand.Ready(
                 command = listOf("-y", "-i", inputPath, "-vn") + encoder + listOf(outputPath),
                 engine = EngineKind.SOFTWARE,
-                note = "Custom: audio only (${options.audio.label} " +
-                    "${options.audioBitrateKbps}k).",
+                note = Strings.get(
+                    R.string.note_custom_audio,
+                    Strings.get(options.audio.labelRes),
+                    options.audioBitrateKbps,
+                ),
             )
         }
         if (options.container == ManualContainer.WEBM &&
@@ -752,21 +764,21 @@ object PresetCommands {
             options.video != ManualVideoCodec.COPY
         ) {
             return PresetCommand.Unavailable(
-                "WebM holds VP9 or AV1 video. Pick one of those, or use an MP4 or MKV container.",
+                Strings.get(R.string.refusal_webm_video),
             )
         }
         if (options.container == ManualContainer.WEBM &&
             (options.audio == ManualAudioCodec.AAC || options.audio == ManualAudioCodec.MP3)
         ) {
             return PresetCommand.Unavailable(
-                "WebM audio must be Opus, copied, or none. AAC and MP3 do not fit WebM.",
+                Strings.get(R.string.refusal_webm_audio),
             )
         }
 
         val decode = decodeChoice(
             report, input,
             softwareDecode = !options.hardwareDecode,
-            softwareLabel = "CPU (your choice in Custom settings)",
+            softwareLabel = Strings.get(R.string.decode_cpu_choice),
         )
         val args = mutableListOf("-y")
         args += decode.args
@@ -786,9 +798,7 @@ object PresetCommands {
                         options.video == ManualVideoCodec.AV1_HW)
                 ) {
                     return PresetCommand.Unavailable(
-                        "The legacy engine (FFmpeg 6.0) has no VP9 or AV1 " +
-                            "hardware encoder. Pick the software option, or " +
-                            "H.264 / HEVC hardware.",
+                        Strings.get(R.string.refusal_legacy_vp9_av1),
                     )
                 }
                 val (mime, wrapper, shortName) = when (options.video) {
@@ -803,8 +813,7 @@ object PresetCommands {
                 }
                 val encoder = report.bestHardwareEncoder(mime)
                     ?: return PresetCommand.Unavailable(
-                        "This phone has no hardware $shortName " +
-                            "encoder, so this custom setting cannot run.",
+                        Strings.get(R.string.refusal_no_hw_encoder_manual, shortName),
                     )
                 val bitrate = options.videoBitrateKbps?.let { it * 1000L }
                     ?: hardwareBitrate(mime, input, encoder.maxBitrate)
@@ -869,8 +878,13 @@ object PresetCommands {
         return PresetCommand.Ready(
             command = args,
             engine = engine,
-            note = "Custom: ${options.container.label} · video ${options.video.label} · " +
-                "audio ${options.audio.label}. Decode: ${decode.label}.",
+            note = Strings.get(
+                R.string.note_custom_full,
+                options.container.label,
+                Strings.get(options.video.labelRes),
+                Strings.get(options.audio.labelRes),
+                decode.label,
+            ),
             usedHardwareDecode = decode.hardware,
         )
     }

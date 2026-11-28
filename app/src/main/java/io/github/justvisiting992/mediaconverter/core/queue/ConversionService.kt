@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import io.github.justvisiting992.mediaconverter.MainActivity
+import io.github.justvisiting992.mediaconverter.core.locale.AppLocale
 import io.github.justvisiting992.mediaconverter.R
 import io.github.justvisiting992.mediaconverter.ui.components.formatEtaLeft
 import io.github.justvisiting992.mediaconverter.ui.components.formatSizeBytes
@@ -50,11 +51,12 @@ class ConversionService : Service() {
             manager.createNotificationChannel(
                 NotificationChannel(
                     CHANNEL_ID,
-                    "Conversions",
+                    AppLocale.wrap(this@ConversionService)
+                        .getString(R.string.notif_channel_name),
                     NotificationManager.IMPORTANCE_LOW,
                 ).apply {
-                    description =
-                        "Progress of running conversions while the app is in the background."
+                    description = AppLocale.wrap(this@ConversionService)
+                        .getString(R.string.notif_channel_desc)
                 },
             )
         }
@@ -71,7 +73,11 @@ class ConversionService : Service() {
         ServiceCompat.startForeground(
             this,
             NOTIFICATION_ID,
-            buildNotification(title = "Converting…", text = "Starting…", percent = null),
+            buildNotification(
+            title = AppLocale.wrap(this).getString(R.string.notif_converting),
+            text = AppLocale.wrap(this).getString(R.string.notif_starting),
+            percent = null,
+        ),
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
             } else {
@@ -142,25 +148,39 @@ class ConversionService : Service() {
             if (percent != lastPercent || now - lastPostAt >= 2_000) {
                 lastPercent = percent ?: -1
                 lastPostAt = now
-                val speedText = status?.speed?.let { " · %.1f×".format(it) } ?: ""
-                val queueText = if (queuedCount > 0) " · $queuedCount more queued" else ""
-                val etaText = formatEtaLeft(
-                    running?.inputInfo?.durationMs, status?.fraction, status?.speed,
-                )?.let { " · $it" } ?: ""
-                val sizeText = status?.sizeBytes?.let { " · ${formatSizeBytes(it)}" } ?: ""
+                val ctx = AppLocale.wrap(this@ConversionService)
+                val parts = buildList {
+                    if (percent != null) add("$percent%")
+                    status?.speed?.let { add("%.1f×".format(it)) }
+                    formatEtaLeft(
+                        ctx,
+                        running?.inputInfo?.durationMs,
+                        status?.fraction,
+                        status?.speed,
+                    )?.let { add(it) }
+                    status?.sizeBytes?.let { add(formatSizeBytes(it)) }
+                    if (queuedCount > 0) {
+                        add(ctx.getString(R.string.notif_more_queued, queuedCount))
+                    }
+                }
                 val waiting = running == null && queue.awaitingStart.value
                 val text = when {
-                    waiting -> "$queuedCount waiting. Tap Start in the app."
-                    running == null -> "Starting…"
-                    percent != null -> "$percent%$speedText$etaText$sizeText$queueText"
-                    else -> "Converting…$speedText$sizeText$queueText"
+                    waiting -> ctx.getString(R.string.notif_waiting, queuedCount)
+                    running == null -> ctx.getString(R.string.notif_starting)
+                    percent != null -> parts.joinToString(" · ")
+                    else -> (listOf(ctx.getString(R.string.notif_converting)) + parts)
+                        .joinToString(" · ")
                 }
                 notify(
                     buildNotification(
                         title = if (waiting) {
-                            "Ready to convert"
+                            ctx.getString(R.string.notif_ready_title)
                         } else {
-                            "Converting ${running?.inputName ?: "files"}"
+                            ctx.getString(
+                                R.string.notif_converting_file,
+                                running?.inputName
+                                    ?: ctx.getString(R.string.notif_files),
+                            )
                         },
                         text = text,
                         percent = percent,
@@ -202,7 +222,7 @@ class ConversionService : Service() {
             .setContentIntent(openApp)
             .addAction(
                 android.R.drawable.ic_menu_close_clear_cancel,
-                "Cancel",
+                AppLocale.wrap(this).getString(R.string.notif_cancel),
                 cancel,
             )
             .build()

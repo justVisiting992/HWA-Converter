@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lithuanian translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Konvertuoti</string>
+    <string name="tab_queue">Eilė</string>
+    <string name="tab_hardware">Jūsų aparatinė įranga</string>
+    <string name="tab_settings">Išvaizda</string>
+    <string name="tab_about">Apie</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">Tikrinamas šio įrenginio medijos variklis…</string>
+    <string name="convert_hero_engine">%1$s medijos variklis</string>
+    <string name="convert_hero_engine_fallback">Medijos variklis</string>
+    <string name="convert_hero_body">Šiame telefone įjungtas aparatinis spartinimas. Konvertavimas vyksta medijos varikliu, o ne procesoriumi.</string>
+    <string name="chip_h264_hw_encode">H.264 HW kodavimas</string>
+    <string name="chip_hevc_hw_encode">HEVC HW kodavimas</string>
+    <string name="chip_vp9_hw_encode">VP9 HW kodavimas</string>
+    <string name="chip_av1_hw_encode">AV1 HW kodavimas</string>
+    <string name="chip_hevc_hw_decode">HEVC HW dekodavimas</string>
+    <string name="chip_av1_hw_decode">AV1 HW dekodavimas</string>
+    <string name="convert_with">Konvertuoti naudojant</string>
+    <string name="category_hardware">Aparatinis kodavimas</string>
+    <string name="category_software">Programinis kodavimas</string>
+    <string name="category_audio">Tik garsas</string>
+    <string name="category_no_reencode">Be perkodavimo</string>
+    <string name="category_create">Kurti</string>
+    <string name="convert_helper">Pasirinkite konvertavimą, pridėkite failus ir palieskite „Pradėti“. Nieko nevyksta, kol nepasakysite.</string>
+    <string name="trim_start">Pradžia (sekundės)</string>
+    <string name="trim_end">Pabaiga (sekundės)</string>
+    <string name="add_files">Pridėti failus</string>
+    <string name="start_conversion">Pradėti konvertavimą</string>
+    <string name="start_conversions_n">Pradėti %1$d konvertavimus</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Rankiniai nustatymai</string>
+    <string name="manual_video">Vaizdas</string>
+    <string name="manual_container">Konteineris</string>
+    <string name="manual_bitrate_label">Vaizdo bitų sparta (kbps). Tuščia reiškia automatiškai</string>
+    <string name="manual_crf_label">Kokybė (CRF). Tuščia reiškia numatytąją. Mažesnė yra geresnė</string>
+    <string name="manual_max_height">Maks. aukštis</string>
+    <string name="manual_original">Originalas</string>
+    <string name="manual_audio">Garsas</string>
+    <string name="manual_audio_bitrate">Garso bitų sparta (kbps)</string>
+    <string name="manual_hw_decode">Aparatinis dekodavimas</string>
+    <string name="manual_hw_decode_body">Dekoduoti medijos varikliu, kai telefonas turi failo kodeko dekoderį.</string>
+    <string name="mc_copy">Kopijuoti (be perkodavimo)</string>
+    <string name="mc_h264_hw">H.264 · aparatinis</string>
+    <string name="mc_hevc_hw">H.265 · aparatinis</string>
+    <string name="mc_vp9_hw">VP9 · aparatinis</string>
+    <string name="mc_av1_hw">AV1 · aparatinis</string>
+    <string name="mc_h264_sw">H.264 · programinis</string>
+    <string name="mc_hevc_sw">H.265 · programinis</string>
+    <string name="mc_vp9_sw">VP9 · programinis</string>
+    <string name="mc_av1_sw">AV1 · programinis</string>
+    <string name="mc_none">Be vaizdo (tik garsas)</string>
+    <string name="ma_copy">Kopijuoti (be perkodavimo)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Be garso</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · aparatinis</string>
+    <string name="preset_h264_hw_desc">Greita, maža, grojama visur. Naudoja šio telefono medijos variklį.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · aparatinis</string>
+    <string name="preset_hevc_hw_desc">Maždaug perpus mažesnis nei H.264 esant tai pačiai kokybei. Naudoja šio telefono medijos variklį.</string>
+    <string name="preset_vp9_hw_label">VP9 · aparatinis</string>
+    <string name="preset_vp9_hw_desc">Aparatinis VP9 WebM faile. Tik telefonuose, kurių medijos variklis koduoja VP9.</string>
+    <string name="preset_av1_hw_label">AV1 · aparatinis</string>
+    <string name="preset_av1_hw_desc">Aparatinis AV1. Tik keli medijos varikliai gali koduoti AV1, todėl šis išankstinis nustatymas rodomas tik tokiuose telefonuose.</string>
+    <string name="preset_h264_sw_label">H.264 · maks. kokybė (programinis)</string>
+    <string name="preset_h264_sw_desc">Lėtas procesoriaus kodavimas su libx264, geriausia kokybė pagal baitą. Originalams ir HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · maks. kokybė (programinis)</string>
+    <string name="preset_hevc_sw_desc">Mažesnis nei H.264 esant tai pačiai kokybei. Lėtas procesoriaus kodavimas su libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · programinis (WebM)</string>
+    <string name="preset_vp9_sw_desc">Žiniatinklio kodekas WebM faile. Procesoriaus kodavimas su libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · programinis</string>
+    <string name="preset_av1_sw_desc">Naujausias kodekas, mažiausi failai. Labai lėtas procesoriuje. Geriausia trumpiems įrašams.</string>
+    <string name="preset_audio_aac_label">Tik garsas · AAC</string>
+    <string name="preset_audio_aac_desc">Išskleisti garso takelį į AAC.</string>
+    <string name="preset_audio_mp3_label">Tik garsas · MP3</string>
+    <string name="preset_audio_mp3_desc">Išskleisti garso takelį į MP3. Grojama visur.</string>
+    <string name="preset_audio_opus_label">Tik garsas · Opus</string>
+    <string name="preset_audio_opus_desc">Išskleisti garso takelį į Opus. Mažiausias esant tai pačiai kokybei.</string>
+    <string name="preset_audio_flac_label">Tik garsas · FLAC</string>
+    <string name="preset_audio_flac_desc">Išskleisti garso takelį be nuostolių į FLAC.</string>
+    <string name="preset_audio_wav_label">Tik garsas · WAV</string>
+    <string name="preset_audio_wav_desc">Išskleisti garso takelį nesuglaudintą į WAV, redagavimui.</string>
+    <string name="preset_remux_mp4_label">Perpakavimas į MP4 · be perkodavimo</string>
+    <string name="preset_remux_mp4_desc">Tas pats vaizdas ir garsas, naujas MP4 konteineris. Akimirksniu.</string>
+    <string name="preset_remux_mkv_label">Perpakavimas į MKV · be perkodavimo</string>
+    <string name="preset_remux_mkv_desc">Tas pats vaizdas ir garsas, naujas MKV konteineris. Akimirksniu.</string>
+    <string name="preset_trim_label">Apkarpymas · be perkodavimo</string>
+    <string name="preset_trim_desc">Iškirpti dalį neliečiant vaizdo. Pjūviai tenka pagrindiniams kadrams.</string>
+    <string name="preset_gif_label">GIF · animuotas vaizdas</string>
+    <string name="preset_gif_desc">Paverskite įrašą animuotu GIF (12 fps, 480 px pločio). Tik trumpiems įrašams.</string>
+    <string name="preset_custom_label">Pasirinktinis · rankiniai nustatymai</string>
+    <string name="preset_custom_desc">Jūsų formatas: konteineris, kodekai, bitų sparta, raiška.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Programinis kodavimas (libx264, CRF 18, lėtas išankstinis nustatymas). Lėtas, geriausia kokybė pagal baitą. Dekodavimas: %1$s.</string>
+    <string name="note_sw_x265">Programinis kodavimas (libx265, CRF 22, vidutinis išankstinis nustatymas). Dekodavimas: %1$s.</string>
+    <string name="note_sw_vp9">Programinis kodavimas (libvpx-vp9, CRF 30) į WebM. Dekodavimas: %1$s.</string>
+    <string name="note_sw_av1">Programinis kodavimas (libaom-av1, CRF 32). AV1 procesoriuje yra labai lėtas. Dekodavimas: %1$s.</string>
+    <string name="note_audio_aac">Garso išskleidimas į AAC 192k. Vaizdo koduotuvas nedalyvauja.</string>
+    <string name="note_audio_mp3">Garso išskleidimas į MP3 192k. Vaizdo koduotuvas nedalyvauja.</string>
+    <string name="note_audio_opus">Garso išskleidimas į Opus 128k. Vaizdo koduotuvas nedalyvauja.</string>
+    <string name="note_audio_flac">Garso išskleidimas į FLAC (be nuostolių). Vaizdo koduotuvas nedalyvauja.</string>
+    <string name="note_audio_wav">Garso išskleidimas į WAV (nesuglaudintas). Vaizdo koduotuvas nedalyvauja.</string>
+    <string name="note_remux_mp4">Perpakavimas į MP4: srautai kopijuojami, niekas neperkoduojama.</string>
+    <string name="note_remux_mkv">Perpakavimas į MKV: srautai kopijuojami, niekas neperkoduojama.</string>
+    <string name="note_gif">Animuotas GIF esant 12 fps, 480 px pločio. Dekodavimas: %1$s.</string>
+    <string name="note_trim">Srautų kopijavimas, be perkodavimo. Pjūviai tenka pagrindiniams kadrams, todėl kraštai gali pasislinkti keliais kadrais.</string>
+    <string name="note_hw_encode">Aparatinis kodavimas (%1$s) įrenginyje %2$s esant %3$s Mbps. Dekodavimas: %4$s.</string>
+    <string name="note_custom_audio">Pasirinktinis: tik garsas (%1$s %2$dk).</string>
+    <string name="note_custom_full">Pasirinktinis: %1$s · vaizdas %2$s · garsas %3$s. Dekodavimas: %4$s.</string>
+    <string name="refusal_custom_path">Pasirinktinės užduotys kuriamos iš rankinių parinkčių, o ne iš išankstinių nustatymų kelio.</string>
+    <string name="refusal_trim_times">Pirmiausia pasirinkite pradžios ir pabaigos laiką. Apkarpymui reikia abiejų.</string>
+    <string name="refusal_no_hw_encoder">Šis telefonas neturi aparatinio %1$s koduotojo, todėl aparatinis išankstinis nustatymas negali veikti. Programinis nustatymas vis tiek gali atlikti šį konvertavimą procesoriuje.</string>
+    <string name="refusal_no_hw_encoder_manual">Šis telefonas neturi aparatinio %1$s koduotojo, todėl šis pasirinktinis nustatymas negali veikti.</string>
+    <string name="refusal_legacy_vp9_av1">Senasis variklis (FFmpeg 6.0) neturi aparatinio VP9 ar AV1 koduotojo. Pasirinkite programinę parinktį arba aparatinį H.264 / HEVC.</string>
+    <string name="refusal_audio_only_codec">Tik garso išvestis reikalauja garso kodeko. Pasirinkite AAC, MP3 arba Opus.</string>
+    <string name="refusal_pick_audio">Pasirinkite garso kodeką.</string>
+    <string name="refusal_webm_video">WebM talpina VP9 arba AV1 vaizdą. Pasirinkite vieną iš jų arba naudokite MP4 ar MKV konteinerį.</string>
+    <string name="refusal_webm_audio">WebM garsas turi būti Opus, kopijuotas arba jokio. AAC ir MP3 netinka WebM.</string>
+    <string name="decode_hw">aparatinis (%1$s įrenginyje %2$s)</string>
+    <string name="decode_cpu_retry">Procesorius (pakartota po aparatinio dekoderio gedimo)</string>
+    <string name="decode_cpu_choice">Procesorius (jūsų pasirinkimas pasirinktiniuose nustatymuose)</string>
+    <string name="decode_cpu_no_path">Procesorius (nėra aparatinio dekoderio kelio %1$s)</string>
+    <string name="decode_this_input">šiai įvesčiai</string>
+    <string name="decode_cpu_no_decoder">Procesorius (šis telefonas neturi aparatinio %1$s dekoderio)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Pradėti</string>
+    <string name="queue_clear_finished">Išvalyti baigtus</string>
+    <string name="queue_empty_title">Kol kas konvertavimų nėra</string>
+    <string name="queue_empty_body">Pridėkite failų skirtuke „Konvertuoti“, palieskite „Pradėti“ ir jie bus vykdomi čia, po vieną.</string>
+    <string name="job_waiting">Laukiama pradžios</string>
+    <string name="job_queued">Eilėje</string>
+    <string name="job_est_output">≈ %1$s išvestis</string>
+    <string name="job_cancel">Atšaukti</string>
+    <string name="job_converting">Konvertuojama…</string>
+    <string name="job_speed">%1$s× greitis</string>
+    <string name="job_saved_to">Įrašyta į %1$s/%2$s</string>
+    <string name="job_open">Atidaryti</string>
+    <string name="job_share">Bendrinti</string>
+    <string name="job_cancelled">Atšaukta</string>
+    <string name="job_failed">Nepavyko</string>
+    <string name="job_debug_log_save">Derinimo žurnalas. Palieskite žurnalą, kad įrašytumėte jį į Download/HWA Converter</string>
+    <string name="job_debug_log_saved">Derinimo žurnalas. Įrašytas į Download/HWA Converter</string>
+    <string name="job_share_log">Bendrinti žurnalą</string>
+    <string name="share_debug_log_title">Bendrinti derinimo žurnalą</string>
+    <string name="share_file_title">Bendrinti konvertuotą failą</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">Nepavyko sukurti išvesties failo MediaStore.</string>
+    <string name="queue_conversion_failed">Konvertavimas nepavyko. ffmpeg pasakė: %1$s</string>
+    <string name="queue_conversion_failed_silent">Konvertavimas nepavyko (ffmpeg nepateikė pranešimo).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">Tikrinamas šio įrenginio medijos variklis…</string>
+    <string name="hw_video_encoders">Vaizdo koduotojai</string>
+    <string name="hw_audio_encoders">Garso koduotojai</string>
+    <string name="hw_video_decoders">Vaizdo dekoderiai</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Medijos variklis: %1$s</string>
+    <string name="hw_tile_hw_encoders">aparatiniai koduotojai</string>
+    <string name="hw_tile_hw_decoders">aparatiniai dekoderiai</string>
+    <string name="hw_tile_max_encode">maks. aparatinis kodavimas</string>
+    <string name="hw_tile_top_bitrate">didžiausia koduotojo bitų sparta</string>
+    <string name="hw_unknown">Nežinoma</string>
+    <string name="hw_encoding_title">Aparatinis kodavimas</string>
+    <string name="hw_decoding_title">Aparatinis dekodavimas</string>
+    <string name="hw_software_only">tik programinis</string>
+    <string name="hw_badge_hardware">APARATINIS</string>
+    <string name="hw_badge_software">PROGRAMINIS</string>
+    <string name="hw_up_to">iki %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Tema</string>
+    <string name="theme_system">Sisteminė</string>
+    <string name="theme_light">Šviesi</string>
+    <string name="theme_dark">Tamsi</string>
+    <string name="theme_following_dark">Seka jūsų telefoną. Šiuo metu jis veikia tamsiuoju režimu.</string>
+    <string name="theme_following_light">Seka jūsų telefoną. Šiuo metu jis veikia šviesiuoju režimu.</string>
+    <string name="settings_color_scheme">Spalvų schema</string>
+    <string name="settings_color_note">Material You seka jūsų ekrano foną. Kitos schemos yra fiksuotos paletės, kiekviena su šviesiu ir tamsiu variantu.</string>
+    <string name="settings_app_icon">Programos piktograma</string>
+    <string name="settings_icon_note">Pradžios ekrano piktograma gali pasikeisti po kelių sekundžių. Kai kurie paleidikliai ją atnaujina tik po paleidimo iš naujo.</string>
+    <string name="settings_language">Kalba</string>
+    <string name="language_system">Sistemos kalba</string>
+
+    <!-- About -->
+    <string name="about_tagline">Medijos konvertavimas su aparatinės įrangos prioritetu</string>
+    <string name="about_version">Versija %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter priverčia jūsų telefono medijos variklį dirbti. Dauguma konvertavimo programų jį ignoruoja ir koduoja procesoriuje. Ši programa pirmiausia patikrina lustą ir naudoja aparatinę įrangą, kai tik gali. Programinis kelias lieka maksimaliai kokybei ir užduotims, kurių aparatinė įranga atlikti negali. Niekas tyliai nepakeičiama. Kiekviena užduotis rodo tiksliai vykdytą komandą, o skirtukas „Aparatinė įranga“ rodo, ką jūsų telefonas gali. Programa yra nemokama ir atvirojo kodo. Jūsų failai niekada nepalieka telefono: vienintelis dalykas, kurį programa atsisiunčia, yra jos pačios naujiniai iš GitHub.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Šaltinio kodas, problemos ir projekto puslapis</string>
+    <string name="about_releases">Versijos</string>
+    <string name="about_releases_sub">Atsisiųskite naujausius APK</string>
+    <string name="about_check_updates">Tikrinti, ar yra naujinių</string>
+    <string name="about_check_updates_sub">Patikrinkite GitHub, ar yra naujesnė versija</string>
+    <string name="about_auto_check">Automatinis naujinių tikrinimas</string>
+    <string name="about_auto_off">Išjungta. Programa neturi prieigos prie tinklo.</string>
+    <string name="about_auto_daily">Kartą per dieną, kai programa atidaroma</string>
+    <string name="about_internet_note">Interneto leidimas suteikiamas įdiegiant ir naudojamas tik naujiniams GitHub tikrinti. Jei naujinių tikrinimo nereikia, išjunkite automatinį tikrinimą. Jei programa negali pasiekti interneto, tikrintojas išsijungia pats, kol galės.</string>
+    <string name="about_replay_tour">Pakartoti apžvalgą</string>
+    <string name="about_replay_tour_sub">Dar kartą peržiūrėkite funkcijų apžvalgą</string>
+    <string name="about_footer">Sukurta naudojant FFmpeg per FFmpegKit (GPL), veikia jūsų telefono medijos aparatinėje įrangoje.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Sveiki atvykę į HWA Converter</string>
+    <string name="tour_welcome_body">Ši programa konvertuoja vaizdą ir garsą jūsų telefone. Ji pirmiausia naudoja medijos variklį, o ne procesorių. Štai trumpa apžvalga.</string>
+    <string name="tour_add_title">Pridėti failus</string>
+    <string name="tour_add_body">Palieskite šį mygtuką ir pasirinkite failus. Dar niekas neprasideda. Jie laukia, kol paliesite „Pradėti“.</string>
+    <string name="tour_pick_title">Pasirinkite konvertavimą</string>
+    <string name="tour_pick_body">Aparatiniai nustatymai yra greiti ir tausoja akumuliatorių. Programiniai nustatymai lėtesni, bet suteikia geriausią kokybę. „Pasirinktinis“ leidžia viską nustatyti patiems.</string>
+    <string name="tour_start_title">Pradėkite, kai būsite pasirengę</string>
+    <string name="tour_start_body">Pridėjus failų, po „Pridėti failus“ atsiranda mygtukas „Pradėti“. Palieskite jį, kad pradėtumėte. Iki tol niekas nevyksta.</string>
+    <string name="tour_queue_title">Skirtukas „Eilė“</string>
+    <string name="tour_queue_body">Čia yra visi jūsų konvertavimai. Galite stebėti eigą ir greitį, matyti tiksliai vykdytą komandą ir įrašyti užduoties derinimo žurnalą.</string>
+    <string name="tour_hardware_title">Jūsų aparatinė įranga</string>
+    <string name="tour_hardware_body">Tai medijos variklis jūsų telefone, patikrintas šiame įrenginyje. Jūsų nustatymai sukurti pagal jį. Jei aparatinio kelio sąraše nėra, jūsų lustas jo neturi.</string>
+    <string name="tour_settings_title">Išvaizda</string>
+    <string name="tour_settings_body">Čia yra temos, spalvų schemos, kalba ir devynios paleidiklio piktogramos.</string>
+    <string name="tour_done_title">Tai viskas</string>
+    <string name="tour_done_body">Dar vienas dalykas. Konvertavimas vyksta visiškai jūsų telefone. Vienintelis dalykas, kurį programa atsisiunčia, yra jos pačios naujiniai.</string>
+    <string name="tour_skip">Praleisti</string>
+    <string name="tour_next">Kitas</string>
+    <string name="tour_got_it">Supratau</string>
+
+    <!-- Updates -->
+    <string name="update_available">Yra naujinys</string>
+    <string name="update_on_github">GitHub yra nauja versija.</string>
+    <string name="update_version">Versija %1$s</string>
+    <string name="update_downloading">Atsisiunčiama… %1$d%%</string>
+    <string name="update_downloading_short">Atsisiunčiama…</string>
+    <string name="update_later">Atsisiųsti vėliau</string>
+    <string name="update_install">Atsisiųsti ir įdiegti</string>
+    <string name="update_status_checking">Tikrinama GitHub…</string>
+    <string name="update_status_available">Versija %1$s yra prieinama.</string>
+    <string name="update_status_uptodate">Naudojate naujausią versiją.</string>
+    <string name="update_no_files">Prie šios versijos nėra pridėtų failų.</string>
+    <string name="update_no_apk">Prie šios versijos nėra pridėto APK.</string>
+    <string name="update_unreachable">Nepavyko pasiekti GitHub. Patikrinkite ryšį ir bandykite dar kartą.</string>
+    <string name="update_check_failed">Tikrinant kažkas nepavyko. Bandykite vėliau dar kartą.</string>
+    <string name="update_download_failed">Atsisiuntimas nepavyko. Patikrinkite ryšį ir bandykite dar kartą.</string>
+    <string name="update_allow_installs">Leiskite diegti iš šios programos, tada dar kartą palieskite „Atsisiųsti ir įdiegti“.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Konvertavimai</string>
+    <string name="notif_channel_desc">Vykstančių konvertavimų eiga, kol programa veikia fone.</string>
+    <string name="notif_converting">Konvertuojama…</string>
+    <string name="notif_starting">Paleidžiama…</string>
+    <string name="notif_ready_title">Pasirengta konvertuoti</string>
+    <string name="notif_waiting">Laukia %1$d. Palieskite „Pradėti“ programoje.</string>
+    <string name="notif_converting_file">Konvertuojama: %1$s</string>
+    <string name="notif_files">failai</string>
+    <string name="notif_more_queued">dar %1$d eilėje</string>
+    <string name="notif_cancel">Atšaukti</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ baigta</string>
+    <string name="eta_sec_left">≈ liko %1$d s</string>
+    <string name="eta_min_left">≈ liko %1$d min</string>
+    <string name="eta_h_min_left">≈ liko %1$d val. %2$d min</string>
+</resources>

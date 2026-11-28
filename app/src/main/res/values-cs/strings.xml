@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Převést</string>
+    <string name="tab_queue">Fronta</string>
+    <string name="tab_hardware">Váš hardware</string>
+    <string name="tab_settings">Vzhled</string>
+    <string name="tab_about">O aplikaci</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">Zjišťuje se mediální engine tohoto zařízení…</string>
+    <string name="convert_hero_engine">Mediální engine %1$s</string>
+    <string name="convert_hero_engine_fallback">Mediální engine</string>
+    <string name="convert_hero_body">Hardwarová akcelerace je na tomto telefonu zapnutá. Převody běží na mediálním enginu, ne na procesoru.</string>
+    <string name="chip_h264_hw_encode">Kódování HW H.264</string>
+    <string name="chip_hevc_hw_encode">Kódování HW HEVC</string>
+    <string name="chip_vp9_hw_encode">Kódování HW VP9</string>
+    <string name="chip_av1_hw_encode">Kódování HW AV1</string>
+    <string name="chip_hevc_hw_decode">Dekódování HW HEVC</string>
+    <string name="chip_av1_hw_decode">Dekódování HW AV1</string>
+    <string name="convert_with">Převést pomocí</string>
+    <string name="category_hardware">Hardwarové kódování</string>
+    <string name="category_software">Softwarové kódování</string>
+    <string name="category_audio">Pouze zvuk</string>
+    <string name="category_no_reencode">Bez překódování</string>
+    <string name="category_create">Vytvořit</string>
+    <string name="convert_helper">Vyberte převod, přidejte soubory a klepněte na Start. Nic se nespustí, dokud neřeknete.</string>
+    <string name="trim_start">Začátek (sekundy)</string>
+    <string name="trim_end">Konec (sekundy)</string>
+    <string name="add_files">Přidat soubory</string>
+    <string name="start_conversion">Spustit převod</string>
+    <string name="start_conversions_n">Spustit %1$d převodů</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Ruční nastavení</string>
+    <string name="manual_video">Video</string>
+    <string name="manual_container">Kontejner</string>
+    <string name="manual_bitrate_label">Datový tok videa (kb/s). Prázdné znamená automaticky</string>
+    <string name="manual_crf_label">Kvalita (CRF). Prázdné znamená výchozí. Nižší je lepší</string>
+    <string name="manual_max_height">Maximální výška</string>
+    <string name="manual_original">Původní</string>
+    <string name="manual_audio">Zvuk</string>
+    <string name="manual_audio_bitrate">Datový tok zvuku (kb/s)</string>
+    <string name="manual_hw_decode">Hardwarové dekódování</string>
+    <string name="manual_hw_decode_body">Dekódování na mediálním enginu, když má telefon dekodér pro kodek souboru.</string>
+    <string name="mc_copy">Kopírovat (bez překódování)</string>
+    <string name="mc_h264_hw">H.264 · hardware</string>
+    <string name="mc_hevc_hw">H.265 · hardware</string>
+    <string name="mc_vp9_hw">VP9 · hardware</string>
+    <string name="mc_av1_hw">AV1 · hardware</string>
+    <string name="mc_h264_sw">H.264 · software</string>
+    <string name="mc_hevc_sw">H.265 · software</string>
+    <string name="mc_vp9_sw">VP9 · software</string>
+    <string name="mc_av1_sw">AV1 · software</string>
+    <string name="mc_none">Bez videa (pouze zvuk)</string>
+    <string name="ma_copy">Kopírovat (bez překódování)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Bez zvuku</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · hardware</string>
+    <string name="preset_h264_hw_desc">Rychlé, malé, přehraje se všude. Využívá mediální engine tohoto telefonu.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · hardware</string>
+    <string name="preset_hevc_hw_desc">Zhruba poloviční velikost oproti H.264 při stejné kvalitě. Využívá mediální engine tohoto telefonu.</string>
+    <string name="preset_vp9_hw_label">VP9 · hardware</string>
+    <string name="preset_vp9_hw_desc">Hardwarové VP9 v souboru WebM. Jen na telefonech, jejichž mediální engine kóduje VP9.</string>
+    <string name="preset_av1_hw_label">AV1 · hardware</string>
+    <string name="preset_av1_hw_desc">Hardwarové AV1. Jen málo mediálních enginů umí kódovat AV1, takže se tato předvolba zobrazuje jen na těchto telefonech.</string>
+    <string name="preset_h264_sw_label">H.264 · max. kvalita (software)</string>
+    <string name="preset_h264_sw_desc">Pomalé kódování na procesoru s libx264, nejlepší kvalita na bajt. Pro mastery a HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · max. kvalita (software)</string>
+    <string name="preset_hevc_sw_desc">Menší než H.264 při stejné kvalitě. Pomalé kódování na procesoru s libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · software (WebM)</string>
+    <string name="preset_vp9_sw_desc">Kodek webu, v souboru WebM. Kódování na procesoru s libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · software</string>
+    <string name="preset_av1_sw_desc">Nejnovější kodek, nejmenší soubory. Na procesoru velmi pomalé. Nejlepší pro krátké klipy.</string>
+    <string name="preset_audio_aac_label">Pouze zvuk · AAC</string>
+    <string name="preset_audio_aac_desc">Extrahuje zvukovou stopu do AAC.</string>
+    <string name="preset_audio_mp3_label">Pouze zvuk · MP3</string>
+    <string name="preset_audio_mp3_desc">Extrahuje zvukovou stopu do MP3. Přehraje se všude.</string>
+    <string name="preset_audio_opus_label">Pouze zvuk · Opus</string>
+    <string name="preset_audio_opus_desc">Extrahuje zvukovou stopu do Opus. Nejmenší při stejné kvalitě.</string>
+    <string name="preset_audio_flac_label">Pouze zvuk · FLAC</string>
+    <string name="preset_audio_flac_desc">Extrahuje zvukovou stopu bezeztrátově do FLAC.</string>
+    <string name="preset_audio_wav_label">Pouze zvuk · WAV</string>
+    <string name="preset_audio_wav_desc">Extrahuje zvukovou stopu nekomprimovaně do WAV, pro úpravy.</string>
+    <string name="preset_remux_mp4_label">Remux do MP4 · bez překódování</string>
+    <string name="preset_remux_mp4_desc">Stejný obraz i zvuk, nový kontejner MP4. Okamžitě.</string>
+    <string name="preset_remux_mkv_label">Remux do MKV · bez překódování</string>
+    <string name="preset_remux_mkv_desc">Stejný obraz i zvuk, nový kontejner MKV. Okamžitě.</string>
+    <string name="preset_trim_label">Střih · bez překódování</string>
+    <string name="preset_trim_desc">Vystřihne část, aniž by sáhla na obraz. Střihy padají na klíčové snímky.</string>
+    <string name="preset_gif_label">GIF · animovaný obrázek</string>
+    <string name="preset_gif_desc">Promění klip v animovaný GIF (12 fps, šířka 480 px). Jen krátké klipy.</string>
+    <string name="preset_custom_label">Vlastní · ruční nastavení</string>
+    <string name="preset_custom_desc">Váš vlastní formát: kontejner, kodeky, datový tok, rozlišení.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Softwarové kódování (libx264, CRF 18, pomalá předvolba). Pomalé, nejlepší kvalita na bajt. Dekódování: %1$s.</string>
+    <string name="note_sw_x265">Softwarové kódování (libx265, CRF 22, střední předvolba). Dekódování: %1$s.</string>
+    <string name="note_sw_vp9">Softwarové kódování (libvpx-vp9, CRF 30) do WebM. Dekódování: %1$s.</string>
+    <string name="note_sw_av1">Softwarové kódování (libaom-av1, CRF 32). AV1 na procesoru je velmi pomalé. Dekódování: %1$s.</string>
+    <string name="note_audio_aac">Extrakce zvuku do AAC 192k. Bez zapojení video kodéru.</string>
+    <string name="note_audio_mp3">Extrakce zvuku do MP3 192k. Bez zapojení video kodéru.</string>
+    <string name="note_audio_opus">Extrakce zvuku do Opus 128k. Bez zapojení video kodéru.</string>
+    <string name="note_audio_flac">Extrakce zvuku do FLAC (bezeztrátově). Bez zapojení video kodéru.</string>
+    <string name="note_audio_wav">Extrakce zvuku do WAV (nekomprimovaně). Bez zapojení video kodéru.</string>
+    <string name="note_remux_mp4">Remux do MP4: streamy zkopírovány, nic se nepřekódovalo.</string>
+    <string name="note_remux_mkv">Remux do MKV: streamy zkopírovány, nic se nepřekódovalo.</string>
+    <string name="note_gif">Animovaný GIF při 12 fps, šířka 480 px. Dekódování: %1$s.</string>
+    <string name="note_trim">Kopie streamu, bez překódování. Střihy padají na klíčové snímky, takže se okraje mohou posunout o pár snímků.</string>
+    <string name="note_hw_encode">Hardwarové kódování (%1$s) na %2$s při %3$s Mbps. Dekódování: %4$s.</string>
+    <string name="note_custom_audio">Vlastní: pouze zvuk (%1$s %2$dk).</string>
+    <string name="note_custom_full">Vlastní: %1$s · video %2$s · zvuk %3$s. Dekódování: %4$s.</string>
+    <string name="refusal_custom_path">Vlastní úlohy se sestavují z ručních možností, ne z cesty předvoleb.</string>
+    <string name="refusal_trim_times">Nejprve vyberte čas začátku a konce. Střih potřebuje oba.</string>
+    <string name="refusal_no_hw_encoder">Tento telefon nemá hardwarový kodér %1$s, takže hardwarová předvolba nemůže běžet. Softwarová předvolba tento převod na procesoru zvládne.</string>
+    <string name="refusal_no_hw_encoder_manual">Tento telefon nemá hardwarový kodér %1$s, takže toto vlastní nastavení nemůže běžet.</string>
+    <string name="refusal_legacy_vp9_av1">Starší engine (FFmpeg 6.0) nemá hardwarový kodér VP9 ani AV1. Zvolte softwarovou možnost, nebo hardware H.264 / HEVC.</string>
+    <string name="refusal_audio_only_codec">Výstup pouze se zvukem potřebuje zvukový kodek. Vyberte AAC, MP3 nebo Opus.</string>
+    <string name="refusal_pick_audio">Vyberte zvukový kodek.</string>
+    <string name="refusal_webm_video">WebM pojme video VP9 nebo AV1. Vyberte jedno z nich, nebo použijte kontejner MP4 či MKV.</string>
+    <string name="refusal_webm_audio">Zvuk ve WebM musí být Opus, kopírovaný, nebo žádný. AAC a MP3 se do WebM nevejdou.</string>
+    <string name="decode_hw">hardware (%1$s na %2$s)</string>
+    <string name="decode_cpu_retry">Procesor (zkusilo se znovu po selhání hardwarového dekodéru)</string>
+    <string name="decode_cpu_choice">Procesor (vaše volba ve vlastním nastavení)</string>
+    <string name="decode_cpu_no_path">Procesor (žádná cesta hardwarového dekódování pro %1$s)</string>
+    <string name="decode_this_input">tento vstup</string>
+    <string name="decode_cpu_no_decoder">Procesor (tento telefon nemá hardwarový dekodér %1$s)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Start</string>
+    <string name="queue_clear_finished">Vymazat dokončené</string>
+    <string name="queue_empty_title">Zatím žádné převody</string>
+    <string name="queue_empty_body">Přidejte soubory z karty Převést, klepněte na Start a poběží tady, jeden po druhém.</string>
+    <string name="job_waiting">Čeká na Start</string>
+    <string name="job_queued">Ve frontě</string>
+    <string name="job_est_output">≈ výstup %1$s</string>
+    <string name="job_cancel">Zrušit</string>
+    <string name="job_converting">Převádí se…</string>
+    <string name="job_speed">rychlost %1$s×</string>
+    <string name="job_saved_to">Uloženo do %1$s/%2$s</string>
+    <string name="job_open">Otevřít</string>
+    <string name="job_share">Sdílet</string>
+    <string name="job_cancelled">Zrušeno</string>
+    <string name="job_failed">Selhalo</string>
+    <string name="job_debug_log_save">Protokol ladění. Klepnutím na protokol ho uložíte do Download/HWA Converter</string>
+    <string name="job_debug_log_saved">Protokol ladění. Uloženo do Download/HWA Converter</string>
+    <string name="job_share_log">Sdílet protokol</string>
+    <string name="share_debug_log_title">Sdílet protokol ladění</string>
+    <string name="share_file_title">Sdílet převedený soubor</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">Výstupní soubor se v MediaStore nepodařilo vytvořit.</string>
+    <string name="queue_conversion_failed">Převod selhal. ffmpeg řekl: %1$s</string>
+    <string name="queue_conversion_failed_silent">Převod selhal (ffmpeg nevydal žádnou zprávu).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">Zjišťuje se mediální engine tohoto zařízení…</string>
+    <string name="hw_video_encoders">Video kodéry</string>
+    <string name="hw_audio_encoders">Zvukové kodéry</string>
+    <string name="hw_video_decoders">Video dekodéry</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Mediální engine: %1$s</string>
+    <string name="hw_tile_hw_encoders">hardwarové kodéry</string>
+    <string name="hw_tile_hw_decoders">hardwarové dekodéry</string>
+    <string name="hw_tile_max_encode">max. hardwarové kódování</string>
+    <string name="hw_tile_top_bitrate">nejvyšší datový tok kodéru</string>
+    <string name="hw_unknown">Neznámé</string>
+    <string name="hw_encoding_title">Hardwarové kódování</string>
+    <string name="hw_decoding_title">Hardwarové dekódování</string>
+    <string name="hw_software_only">pouze software</string>
+    <string name="hw_badge_hardware">HARDWARE</string>
+    <string name="hw_badge_software">SOFTWARE</string>
+    <string name="hw_up_to">až %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Motiv</string>
+    <string name="theme_system">Systém</string>
+    <string name="theme_light">Světlý</string>
+    <string name="theme_dark">Tmavý</string>
+    <string name="theme_following_dark">Řídí se telefonem. Právě je v tmavém režimu.</string>
+    <string name="theme_following_light">Řídí se telefonem. Právě je ve světlém režimu.</string>
+    <string name="settings_color_scheme">Barevné schéma</string>
+    <string name="settings_color_note">Material You se řídí vaší tapetou. Ostatní schémata jsou pevné palety, každá se světlou a tmavou variantou.</string>
+    <string name="settings_app_icon">Ikona aplikace</string>
+    <string name="settings_icon_note">Změna ikony na domovské obrazovce může trvat pár sekund. Některé spouštěče ji obnoví až po restartu.</string>
+    <string name="settings_language">Jazyk</string>
+    <string name="language_system">Jazyk systému</string>
+
+    <!-- About -->
+    <string name="about_tagline">Převod médií s prioritou hardwaru</string>
+    <string name="about_version">Verze %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter nechá pracovat mediální engine vašeho telefonu. Většina převodních aplikací ho ignoruje a kóduje na procesoru. Tato aplikace nejprve prozkoumá čip a používá hardware, kdykoli to jde. Softwarová cesta zůstává pro maximální kvalitu a pro úlohy, které hardware nezvládne. Nic tiše nepřepadá jinam. Každá úloha ukazuje přesný příkaz, který běžel, a karta Hardware ukazuje, co váš telefon umí. Aplikace je zdarma a open source. Vaše soubory nikdy neopustí telefon: jediné, co aplikace kdy stahuje, jsou její vlastní aktualizace, z GitHubu.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Zdrojový kód, problémy a stránka projektu</string>
+    <string name="about_releases">Vydání</string>
+    <string name="about_releases_sub">Stáhnout nejnovější APK</string>
+    <string name="about_check_updates">Zkontrolovat aktualizace</string>
+    <string name="about_check_updates_sub">Zkontrolovat na GitHubu novější verzi</string>
+    <string name="about_auto_check">Automatická kontrola aktualizací</string>
+    <string name="about_auto_off">Vypnuto. Aplikace nemá přístup k síti.</string>
+    <string name="about_auto_daily">Jednou denně, když se aplikace otevře</string>
+    <string name="about_internet_note">Oprávnění k internetu je součástí instalace a používá se jen ke kontrole aktualizací na GitHubu. Pokud kontroly aktualizací nepotřebujete, vypněte automatickou kontrolu. Pokud aplikace nedosáhne na internet, kontrola se sama vypne, dokud to nepůjde.</string>
+    <string name="about_replay_tour">Zopakovat prohlídku</string>
+    <string name="about_replay_tour_sub">Zobrazit prohlídku funkcí znovu</string>
+    <string name="about_footer">Postaveno na FFmpeg přes FFmpegKit (GPL), běží na mediálním hardwaru vašeho telefonu.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Vítejte v HWA Converter</string>
+    <string name="tour_welcome_body">Tato aplikace převádí video a zvuk ve vašem telefonu. Používá nejprve mediální engine, ne procesor. Tady je rychlý přehled.</string>
+    <string name="tour_add_title">Přidat soubory</string>
+    <string name="tour_add_body">Klepněte na toto tlačítko a vyberte soubory. Ještě se nic nespustí. Čekají, dokud neklepnete na Start.</string>
+    <string name="tour_pick_title">Vyberte převod</string>
+    <string name="tour_pick_body">Hardwarové předvolby jsou rychlé a šetrné k baterii. Softwarové předvolby jsou pomalejší, ale dávají nejlepší kvalitu. Vlastní vám umožní nastavit vše sami.</string>
+    <string name="tour_start_title">Spusťte, až budete připraveni</string>
+    <string name="tour_start_body">Po přidání souborů se pod Přidat soubory objeví tlačítko Start. Klepnutím začnete. Do té doby nic neběží.</string>
+    <string name="tour_queue_title">Karta Fronta</string>
+    <string name="tour_queue_body">Tady žijí všechny vaše převody. Můžete sledovat průběh a rychlost, vidět přesný příkaz, který běžel, a uložit protokol ladění úlohy.</string>
+    <string name="tour_hardware_title">Váš hardware</string>
+    <string name="tour_hardware_body">Tohle je mediální engine uvnitř vašeho telefonu, prozkoumaný na tomto zařízení. Vaše předvolby jsou z něj postavené. Pokud tu hardwarová cesta není, váš čip ji nemá.</string>
+    <string name="tour_settings_title">Vzhled</string>
+    <string name="tour_settings_body">Motivy, barevná schémata, jazyk a devět ikon spouštěče žijí tady.</string>
+    <string name="tour_done_title">To je vše</string>
+    <string name="tour_done_body">Ještě jedna věc. Převody běží celé ve vašem telefonu. Jediné, co aplikace kdy stahuje, jsou její vlastní aktualizace.</string>
+    <string name="tour_skip">Přeskočit</string>
+    <string name="tour_next">Další</string>
+    <string name="tour_got_it">Rozumím</string>
+
+    <!-- Updates -->
+    <string name="update_available">Je dostupná aktualizace</string>
+    <string name="update_on_github">Na GitHubu je nová verze.</string>
+    <string name="update_version">Verze %1$s</string>
+    <string name="update_downloading">Stahuje se… %1$d%%</string>
+    <string name="update_downloading_short">Stahuje se…</string>
+    <string name="update_later">Stáhnout později</string>
+    <string name="update_install">Stáhnout a nainstalovat</string>
+    <string name="update_status_checking">Kontroluje se GitHub…</string>
+    <string name="update_status_available">Je dostupná verze %1$s.</string>
+    <string name="update_status_uptodate">Máte aktuální verzi.</string>
+    <string name="update_no_files">Toto vydání nemá připojené žádné soubory.</string>
+    <string name="update_no_apk">Toto vydání nemá připojené žádné APK.</string>
+    <string name="update_unreachable">GitHub se nepodařilo dosáhnout. Zkontrolujte připojení a zkuste to znovu.</string>
+    <string name="update_check_failed">Při kontrole se něco pokazilo. Zkuste to znovu později.</string>
+    <string name="update_download_failed">Stahování selhalo. Zkontrolujte připojení a zkuste to znovu.</string>
+    <string name="update_allow_installs">Povolte instalace z této aplikace a pak znovu klepněte na Stáhnout a nainstalovat.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Převody</string>
+    <string name="notif_channel_desc">Průběh běžících převodů, zatímco je aplikace na pozadí.</string>
+    <string name="notif_converting">Převádí se…</string>
+    <string name="notif_starting">Spouští se…</string>
+    <string name="notif_ready_title">Připraveno k převodu</string>
+    <string name="notif_waiting">Čeká: %1$d. Klepněte na Start v aplikaci.</string>
+    <string name="notif_converting_file">Převádí se %1$s</string>
+    <string name="notif_files">soubory</string>
+    <string name="notif_more_queued">dalších %1$d ve frontě</string>
+    <string name="notif_cancel">Zrušit</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ hotovo</string>
+    <string name="eta_sec_left">≈ zbývá %1$d s</string>
+    <string name="eta_min_left">≈ zbývá %1$d min</string>
+    <string name="eta_h_min_left">≈ zbývá %1$d h %2$d min</string>
+</resources>

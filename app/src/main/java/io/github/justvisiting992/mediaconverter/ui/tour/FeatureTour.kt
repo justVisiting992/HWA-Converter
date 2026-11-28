@@ -1,6 +1,7 @@
 package io.github.justvisiting992.mediaconverter.ui.tour
 
 import android.content.Context
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,8 +43,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import io.github.justvisiting992.mediaconverter.R
 import io.github.justvisiting992.mediaconverter.Tab
 import kotlin.math.roundToInt
 
@@ -89,63 +92,50 @@ object TourPrefs {
 private data class TourStep(
     val tab: Tab?,
     val targetKey: String?,
-    val title: String,
-    val body: String,
+    @StringRes val titleRes: Int,
+    @StringRes val bodyRes: Int,
 )
 
 private val TOUR_STEPS = listOf(
     TourStep(
         tab = null, targetKey = null,
-        title = "Welcome to HWA Converter",
-        body = "This app converts video and audio on your phone. It uses " +
-            "the media engine first, not the CPU. Here is a quick look " +
-            "around.",
+        titleRes = R.string.tour_welcome_title,
+        bodyRes = R.string.tour_welcome_body,
     ),
     TourStep(
         tab = Tab.CONVERT, targetKey = TourKeys.ADD_FILES,
-        title = "Add files",
-        body = "Tap this button and pick your files. Nothing starts yet. " +
-            "They wait until you tap Start.",
+        titleRes = R.string.tour_add_title,
+        bodyRes = R.string.tour_add_body,
     ),
     TourStep(
         tab = Tab.CONVERT, targetKey = TourKeys.PRESETS,
-        title = "Pick a conversion",
-        body = "Hardware presets are fast and easy on the battery. " +
-            "Software presets are slower but give the best quality. " +
-            "Custom lets you set everything yourself.",
+        titleRes = R.string.tour_pick_title,
+        bodyRes = R.string.tour_pick_body,
     ),
     TourStep(
         tab = Tab.CONVERT, targetKey = TourKeys.START,
-        title = "Start when you're ready",
-        body = "After you add files, a Start button appears under Add " +
-            "files. Tap it to begin. Until then, nothing runs.",
+        titleRes = R.string.tour_start_title,
+        bodyRes = R.string.tour_start_body,
     ),
     TourStep(
         tab = Tab.CONVERT, targetKey = TourKeys.NAV_QUEUE,
-        title = "The Queue tab",
-        body = "All your conversions live here. You can watch progress " +
-            "and speed, see the exact command that ran, and save a " +
-            "job's debug log.",
+        titleRes = R.string.tour_queue_title,
+        bodyRes = R.string.tour_queue_body,
     ),
     TourStep(
         tab = Tab.HARDWARE, targetKey = TourKeys.HARDWARE_HERO,
-        title = "Your hardware",
-        body = "This is the media engine inside your phone, probed on " +
-            "this device. Your presets are built from it. If a " +
-            "hardware path is not listed, your chip does not have it.",
+        titleRes = R.string.tour_hardware_title,
+        bodyRes = R.string.tour_hardware_body,
     ),
     TourStep(
         tab = Tab.SETTINGS, targetKey = TourKeys.NAV_SETTINGS,
-        title = "Look & Feel",
-        body = "Themes, color schemes, and nine launcher icons live " +
-            "here.",
+        titleRes = R.string.tour_settings_title,
+        bodyRes = R.string.tour_settings_body,
     ),
     TourStep(
         tab = null, targetKey = null,
-        title = "That's it",
-        body = "One last thing. Conversions run entirely on your " +
-            "phone. The only thing the app ever downloads is its " +
-            "own updates.",
+        titleRes = R.string.tour_done_title,
+        bodyRes = R.string.tour_done_body,
     ),
 )
 
@@ -233,8 +223,8 @@ internal fun FeatureTour(
                 modifier = Modifier.padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Text(step.title, style = MaterialTheme.typography.titleLarge)
-                Text(step.body, style = MaterialTheme.typography.bodyLarge)
+                Text(stringResource(step.titleRes), style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(step.bodyRes), style = MaterialTheme.typography.bodyLarge)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
@@ -263,11 +253,11 @@ internal fun FeatureTour(
                         }
                     }
                     Spacer(Modifier.weight(1f))
-                    TextButton(onClick = onFinish) { Text("Skip") }
+                    TextButton(onClick = onFinish) { Text(stringResource(R.string.tour_skip)) }
                     Button(
                         onClick = { if (isLast) onFinish() else index++ },
                     ) {
-                        Text(if (isLast) "Got it" else "Next")
+                        Text(stringResource(if (isLast) R.string.tour_got_it else R.string.tour_next))
                     }
                 }
             }

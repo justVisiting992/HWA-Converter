@@ -14,11 +14,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.justvisiting992.mediaconverter.R
+
+/**
+ * The legibility shadow for text that sits on the app's gradient
+ * surfaces (hero panels, gradient job cards, the update card): a
+ * whisper, black at 22 percent, two pixels down, slightly blurred.
+ * A gradient's contrast changes behind the text, so a flat color
+ * alone cannot guarantee readability everywhere on it; this can,
+ * without ever looking like an effect. Text on plain surfaces gets
+ * no shadow at all. (Legibility pass, user request, 2026-11-28.)
+ */
+val OnGradientTextShadow = Shadow(
+    color = Color.Black.copy(alpha = 0.22f),
+    offset = Offset(0f, 2f),
+    blurRadius = 4f,
+)
 
 /**
  * Small shared building blocks in the app's current design language,
@@ -116,18 +134,28 @@ fun formatSizeBytes(bytes: Long): String = when {
 /**
  * Time left for a running job, from how far it is and how fast it is
  * going: "≈ 45 s left", "≈ 3 min left", "≈ 1 h 5 min left". Null when
- * any input is missing, an estimate is never invented.
+ * any input is missing, an estimate is never invented. Resolved
+ * through [context] so the words follow the app's language.
  */
-fun formatEtaLeft(durationMs: Long?, fraction: Float?, speed: Double?): String? {
+fun formatEtaLeft(
+    context: android.content.Context,
+    durationMs: Long?,
+    fraction: Float?,
+    speed: Double?,
+): String? {
     if (durationMs == null || fraction == null || speed == null) return null
     if (fraction <= 0f || speed <= 0) return null
     val remainingSec = (durationMs / 1000.0) * (1f - fraction) / speed
-    if (remainingSec < 1) return "≈ done"
+    if (remainingSec < 1) return context.getString(R.string.eta_done)
     val total = remainingSec.toLong()
     return when {
-        total < 60 -> "≈ $total s left"
-        total < 3600 -> "≈ ${total / 60} min left"
-        else -> "≈ ${total / 3600} h ${(total % 3600) / 60} min left"
+        total < 60 -> context.getString(R.string.eta_sec_left, total)
+        total < 3600 -> context.getString(R.string.eta_min_left, total / 60)
+        else -> context.getString(
+            R.string.eta_h_min_left,
+            total / 3600,
+            (total % 3600) / 60,
+        )
     }
 }
 

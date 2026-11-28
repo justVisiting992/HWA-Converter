@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Serbian translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Конвертовање</string>
+    <string name="tab_queue">Ред чекања</string>
+    <string name="tab_hardware">Ваш хардвер</string>
+    <string name="tab_settings">Изглед</string>
+    <string name="tab_about">О апликацији</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">Провера медијског мотора овог уређаја…</string>
+    <string name="convert_hero_engine">Медијски мотор %1$s</string>
+    <string name="convert_hero_engine_fallback">Медијски мотор</string>
+    <string name="convert_hero_body">Хардверско убрзање је укључено за овај телефон. Конверзије се изводе на медијском мотору, а не на процесору.</string>
+    <string name="chip_h264_hw_encode">H.264 HW кодирање</string>
+    <string name="chip_hevc_hw_encode">HEVC HW кодирање</string>
+    <string name="chip_vp9_hw_encode">VP9 HW кодирање</string>
+    <string name="chip_av1_hw_encode">AV1 HW кодирање</string>
+    <string name="chip_hevc_hw_decode">HEVC HW декодирање</string>
+    <string name="chip_av1_hw_decode">AV1 HW декодирање</string>
+    <string name="convert_with">Конвертуј помоћу</string>
+    <string name="category_hardware">Хардверско кодирање</string>
+    <string name="category_software">Софтверско кодирање</string>
+    <string name="category_audio">Само звук</string>
+    <string name="category_no_reencode">Без поновног кодирања</string>
+    <string name="category_create">Креирање</string>
+    <string name="convert_helper">Изаберите конверзију, додајте датотеке, па додирните „Старт“. Ништа се не покреће док ви то не кажете.</string>
+    <string name="trim_start">Почетак (секунде)</string>
+    <string name="trim_end">Крај (секунде)</string>
+    <string name="add_files">Додај датотеке</string>
+    <string name="start_conversion">Започни конверзију</string>
+    <string name="start_conversions_n">Започни %1$d конверзије</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Ручна подешавања</string>
+    <string name="manual_video">Видео</string>
+    <string name="manual_container">Контејнер</string>
+    <string name="manual_bitrate_label">Битрејт видеа (kbps). Празно значи аутоматски</string>
+    <string name="manual_crf_label">Квалитет (CRF). Празно значи подразумевано. Ниже је боље</string>
+    <string name="manual_max_height">Макс. висина</string>
+    <string name="manual_original">Оригинал</string>
+    <string name="manual_audio">Звук</string>
+    <string name="manual_audio_bitrate">Битрејт звука (kbps)</string>
+    <string name="manual_hw_decode">Хардверско декодирање</string>
+    <string name="manual_hw_decode_body">Декодирање на медијском мотору када телефон има декодер за кодек ове датотеке.</string>
+    <string name="mc_copy">Копирај (без поновног кодирања)</string>
+    <string name="mc_h264_hw">H.264 · хардвер</string>
+    <string name="mc_hevc_hw">H.265 · хардвер</string>
+    <string name="mc_vp9_hw">VP9 · хардвер</string>
+    <string name="mc_av1_hw">AV1 · хардвер</string>
+    <string name="mc_h264_sw">H.264 · софтвер</string>
+    <string name="mc_hevc_sw">H.265 · софтвер</string>
+    <string name="mc_vp9_sw">VP9 · софтвер</string>
+    <string name="mc_av1_sw">AV1 · софтвер</string>
+    <string name="mc_none">Без видеа (само звук)</string>
+    <string name="ma_copy">Копирај (без поновног кодирања)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Без звука</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · хардвер</string>
+    <string name="preset_h264_hw_desc">Брзо, мало, пушта се свуда. Користи медијски мотор овог телефона.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · хардвер</string>
+    <string name="preset_hevc_hw_desc">Отприлике упола мање од H.264 при истом квалитету. Користи медијски мотор овог телефона.</string>
+    <string name="preset_vp9_hw_label">VP9 · хардвер</string>
+    <string name="preset_vp9_hw_desc">Хардверски VP9 у WebM датотеци. Само на телефонима чији медијски мотор кодира VP9.</string>
+    <string name="preset_av1_hw_label">AV1 · хардвер</string>
+    <string name="preset_av1_hw_desc">Хардверски AV1. Само неколико медијских мотора може да кодира AV1, па се ово подешавање појављује само на тим телефонима.</string>
+    <string name="preset_h264_sw_label">H.264 · макс. квалитет (софтвер)</string>
+    <string name="preset_h264_sw_desc">Споро кодирање на процесору помоћу libx264, најбољи квалитет по бајту. За мастер копије и HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · макс. квалитет (софтвер)</string>
+    <string name="preset_hevc_sw_desc">Мање од H.264 при истом квалитету. Споро кодирање на процесору помоћу libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · софтвер (WebM)</string>
+    <string name="preset_vp9_sw_desc">Кодек веба, у WebM датотеци. Кодирање на процесору помоћу libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · софтвер</string>
+    <string name="preset_av1_sw_desc">Најновији кодек, најмање датотеке. Веома споро на процесору. Најбоље за кратке снимке.</string>
+    <string name="preset_audio_aac_label">Само звук · AAC</string>
+    <string name="preset_audio_aac_desc">Издвојите звучни запис у AAC.</string>
+    <string name="preset_audio_mp3_label">Само звук · MP3</string>
+    <string name="preset_audio_mp3_desc">Издвојите звучни запис у MP3. Пушта се свуда.</string>
+    <string name="preset_audio_opus_label">Само звук · Opus</string>
+    <string name="preset_audio_opus_desc">Издвојите звучни запис у Opus. Најмање при истом квалитету.</string>
+    <string name="preset_audio_flac_label">Само звук · FLAC</string>
+    <string name="preset_audio_flac_desc">Издвојите звучни запис без губитака у FLAC.</string>
+    <string name="preset_audio_wav_label">Само звук · WAV</string>
+    <string name="preset_audio_wav_desc">Издвојите звучни запис без компресије у WAV, за уређивање.</string>
+    <string name="preset_remux_mp4_label">Препакивање у MP4 · без поновног кодирања</string>
+    <string name="preset_remux_mp4_desc">Иста слика и звук, нови MP4 контејнер. Тренутно.</string>
+    <string name="preset_remux_mkv_label">Препакивање у MKV · без поновног кодирања</string>
+    <string name="preset_remux_mkv_desc">Иста слика и звук, нови MKV контејнер. Тренутно.</string>
+    <string name="preset_trim_label">Скраћивање · без поновног кодирања</string>
+    <string name="preset_trim_desc">Исеца део без дирања слике. Резови падају на кључне кадрове.</string>
+    <string name="preset_gif_label">GIF · анимирана слика</string>
+    <string name="preset_gif_desc">Претворите снимак у анимирани GIF (12 fps, ширина 480 px). Само кратки снимци.</string>
+    <string name="preset_custom_label">Прилагођено · ручна подешавања</string>
+    <string name="preset_custom_desc">Ваш формат: контејнер, кодеци, битрејт, резолуција.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Софтверско кодирање (libx264, CRF 18, спори пресет). Споро, најбољи квалитет по бајту. Декодирање: %1$s.</string>
+    <string name="note_sw_x265">Софтверско кодирање (libx265, CRF 22, средњи пресет). Декодирање: %1$s.</string>
+    <string name="note_sw_vp9">Софтверско кодирање (libvpx-vp9, CRF 30) у WebM. Декодирање: %1$s.</string>
+    <string name="note_sw_av1">Софтверско кодирање (libaom-av1, CRF 32). AV1 на процесору је веома спор. Декодирање: %1$s.</string>
+    <string name="note_audio_aac">Издвајање звука у AAC 192k. Видео енкодер није укључен.</string>
+    <string name="note_audio_mp3">Издвајање звука у MP3 192k. Видео енкодер није укључен.</string>
+    <string name="note_audio_opus">Издвајање звука у Opus 128k. Видео енкодер није укључен.</string>
+    <string name="note_audio_flac">Издвајање звука у FLAC (без губитака). Видео енкодер није укључен.</string>
+    <string name="note_audio_wav">Издвајање звука у WAV (без компресије). Видео енкодер није укључен.</string>
+    <string name="note_remux_mp4">Препакивање у MP4: токови се копирају, ништа се поново не кодира.</string>
+    <string name="note_remux_mkv">Препакивање у MKV: токови се копирају, ништа се поново не кодира.</string>
+    <string name="note_gif">Анимирани GIF при 12 fps, ширина 480 px. Декодирање: %1$s.</string>
+    <string name="note_trim">Копирање токова, без поновног кодирања. Резови падају на кључне кадрове, па се ивице могу померити за неколико кадрова.</string>
+    <string name="note_hw_encode">Хардверско кодирање (%1$s) на %2$s при %3$s Mbps. Декодирање: %4$s.</string>
+    <string name="note_custom_audio">Прилагођено: само звук (%1$s %2$dk).</string>
+    <string name="note_custom_full">Прилагођено: %1$s · видео %2$s · звук %3$s. Декодирање: %4$s.</string>
+    <string name="refusal_custom_path">Прилагођени послови се праве од ручних опција, а не путем пресета.</string>
+    <string name="refusal_trim_times">Прво изаберите време почетка и краја. За скраћивање је потребно обоје.</string>
+    <string name="refusal_no_hw_encoder">Овај телефон нема хардверски енкодер %1$s, па хардверски пресет не може да се покрене. Софтверски пресет и даље може да обави ову конверзију на процесору.</string>
+    <string name="refusal_no_hw_encoder_manual">Овај телефон нема хардверски енкодер %1$s, па ово прилагођено подешавање не може да се покрене.</string>
+    <string name="refusal_legacy_vp9_av1">Застарели мотор (FFmpeg 6.0) нема хардверски енкодер за VP9 ни AV1. Изаберите софтверску опцију или хардверски H.264 / HEVC.</string>
+    <string name="refusal_audio_only_codec">За излаз само са звуком потребан је аудио кодек. Изаберите AAC, MP3 или Opus.</string>
+    <string name="refusal_pick_audio">Изаберите аудио кодек.</string>
+    <string name="refusal_webm_video">WebM садржи VP9 или AV1 видео. Изаберите један од њих или користите MP4 или MKV контејнер.</string>
+    <string name="refusal_webm_audio">Звук у WebM-у мора бити Opus, копиран или никакав. AAC и MP3 не стају у WebM.</string>
+    <string name="decode_hw">хардвер (%1$s на %2$s)</string>
+    <string name="decode_cpu_retry">Процесор (поновни покушај након неуспеха хардверског декодера)</string>
+    <string name="decode_cpu_choice">Процесор (ваш избор у прилагођеним подешавањима)</string>
+    <string name="decode_cpu_no_path">Процесор (нема хардверске путање декодера за %1$s)</string>
+    <string name="decode_this_input">овај улаз</string>
+    <string name="decode_cpu_no_decoder">Процесор (овај телефон нема хардверски декодер %1$s)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Старт</string>
+    <string name="queue_clear_finished">Обриши завршене</string>
+    <string name="queue_empty_title">Још нема конверзија</string>
+    <string name="queue_empty_body">Додајте датотеке на картици „Конвертовање“, додирните „Старт“ и оне ће се овде изводити, једна по једна.</string>
+    <string name="job_waiting">Чека се старт</string>
+    <string name="job_queued">У реду чекања</string>
+    <string name="job_est_output">≈ %1$s излаз</string>
+    <string name="job_cancel">Откажи</string>
+    <string name="job_converting">Конвертовање…</string>
+    <string name="job_speed">Брзина %1$s×</string>
+    <string name="job_saved_to">Сачувано у %1$s/%2$s</string>
+    <string name="job_open">Отвори</string>
+    <string name="job_share">Дели</string>
+    <string name="job_cancelled">Отказано</string>
+    <string name="job_failed">Неуспело</string>
+    <string name="job_debug_log_save">Дневник за отклањање грешака. Додирните дневник да бисте га сачували у Download/HWA Converter</string>
+    <string name="job_debug_log_saved">Дневник за отклањање грешака. Сачуван у Download/HWA Converter</string>
+    <string name="job_share_log">Дели дневник</string>
+    <string name="share_debug_log_title">Дели дневник за отклањање грешака</string>
+    <string name="share_file_title">Дели конвертовану датотеку</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">Излазна датотека није могла да се направи у MediaStore-у.</string>
+    <string name="queue_conversion_failed">Конверзија није успела. ffmpeg је рекао: %1$s</string>
+    <string name="queue_conversion_failed_silent">Конверзија није успела (ffmpeg није дао поруку).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">Провера медијског мотора овог уређаја…</string>
+    <string name="hw_video_encoders">Видео енкодери</string>
+    <string name="hw_audio_encoders">Аудио енкодери</string>
+    <string name="hw_video_decoders">Видео декодери</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Медијски мотор: %1$s</string>
+    <string name="hw_tile_hw_encoders">хардверски енкодери</string>
+    <string name="hw_tile_hw_decoders">хардверски декодери</string>
+    <string name="hw_tile_max_encode">макс. хардверско кодирање</string>
+    <string name="hw_tile_top_bitrate">највећи битрејт енкодера</string>
+    <string name="hw_unknown">Непознато</string>
+    <string name="hw_encoding_title">Хардверско кодирање</string>
+    <string name="hw_decoding_title">Хардверско декодирање</string>
+    <string name="hw_software_only">само софтвер</string>
+    <string name="hw_badge_hardware">ХАРДВЕР</string>
+    <string name="hw_badge_software">СОФТВЕР</string>
+    <string name="hw_up_to">до %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Тема</string>
+    <string name="theme_system">Системска</string>
+    <string name="theme_light">Светла</string>
+    <string name="theme_dark">Тамна</string>
+    <string name="theme_following_dark">Прати ваш телефон. Тренутно је у тамном режиму.</string>
+    <string name="theme_following_light">Прати ваш телефон. Тренутно је у светлом режиму.</string>
+    <string name="settings_color_scheme">Шема боја</string>
+    <string name="settings_color_note">Material You прати вашу позадину. Остале шеме су фиксне палете, свака са светлом и тамном варијантом.</string>
+    <string name="settings_app_icon">Икона апликације</string>
+    <string name="settings_icon_note">Икона на почетном екрану може да се промени тек после неколико секунди. Неки покретачи је освежавају тек након поновног покретања.</string>
+    <string name="settings_language">Језик</string>
+    <string name="language_system">Системски језик</string>
+
+    <!-- About -->
+    <string name="about_tagline">Конверзија медија са приоритетом хардвера</string>
+    <string name="about_version">Верзија %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter ставља медијски мотор вашег телефона на посао. Већина апликација за конверзију га занемарује и кодира на процесору. Ова апликација прво проверава чип и користи хардвер кад год може. Софтверска путања остаје за максималан квалитет и за послове које хардвер не може да обави. Ништа се не замењује ћутке. Сваки посао приказује тачну команду која је извршена, а картица „Хардвер“ показује шта ваш телефон може. Апликација је бесплатна и отвореног кода. Ваше датотеке никада не напуштају телефон: једино што апликација преузима су њена сопствена ажурирања, са GitHub-а.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Изворни код, проблеми и страница пројекта</string>
+    <string name="about_releases">Издања</string>
+    <string name="about_releases_sub">Преузмите најновије APK датотеке</string>
+    <string name="about_check_updates">Провери ажурирања</string>
+    <string name="about_check_updates_sub">Проверите на GitHub-у да ли постоји новија верзија</string>
+    <string name="about_auto_check">Аутоматска провера ажурирања</string>
+    <string name="about_auto_off">Искључено. Апликација нема приступ мрежи.</string>
+    <string name="about_auto_daily">Једном дневно, када се апликација отвори</string>
+    <string name="about_internet_note">Дозвола за интернет долази са инсталацијом и користи се само за проверу ажурирања на GitHub-у. Ако вам провере ажурирања не требају, искључите аутоматску проверу. Ако апликација не може да приступи интернету, провера се сама искључује док не успе.</string>
+    <string name="about_replay_tour">Поново покрени обилазак</string>
+    <string name="about_replay_tour_sub">Поново погледајте обилазак функција</string>
+    <string name="about_footer">Направљено на FFmpeg-у кроз FFmpegKit (GPL), ради на медијском хардверу вашег телефона.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Добродошли у HWA Converter</string>
+    <string name="tour_welcome_body">Ова апликација конвертује видео и звук на вашем телефону. Прво користи медијски мотор, а не процесор. Ево кратког прегледа.</string>
+    <string name="tour_add_title">Додај датотеке</string>
+    <string name="tour_add_body">Додирните ово дугме и изаберите датотеке. Још ништа не почиње. Чекају док не додирнете „Старт“.</string>
+    <string name="tour_pick_title">Изаберите конверзију</string>
+    <string name="tour_pick_body">Хардверски пресети су брзи и штеде батерију. Софтверски пресети су спорији, али дају најбољи квалитет. „Прилагођено“ вам омогућава да све подесите сами.</string>
+    <string name="tour_start_title">Почните када будете спремни</string>
+    <string name="tour_start_body">Након што додате датотеке, испод „Додај датотеке“ појављује се дугме „Старт“. Додирните га да бисте почели. До тада се ништа не покреће.</string>
+    <string name="tour_queue_title">Картица „Ред чекања“</string>
+    <string name="tour_queue_body">Све ваше конверзије су овде. Можете пратити напредак и брзину, видети тачну команду која је извршена и сачувати дневник за отклањање грешака неког посла.</string>
+    <string name="tour_hardware_title">Ваш хардвер</string>
+    <string name="tour_hardware_body">Ово је медијски мотор у вашем телефону, проверен на овом уређају. Ваши пресети су направљени на основу њега. Ако нека хардверска путања није наведена, ваш чип је нема.</string>
+    <string name="tour_settings_title">Изглед</string>
+    <string name="tour_settings_body">Теме, шеме боја, језик и девет икона покретача налазе се овде.</string>
+    <string name="tour_done_title">То је све</string>
+    <string name="tour_done_body">Још једна ствар. Конверзије се у потпуности изводе на вашем телефону. Једино што апликација преузима су њена сопствена ажурирања.</string>
+    <string name="tour_skip">Прескочи</string>
+    <string name="tour_next">Даље</string>
+    <string name="tour_got_it">Разумем</string>
+
+    <!-- Updates -->
+    <string name="update_available">Доступно је ажурирање</string>
+    <string name="update_on_github">Нова верзија је на GitHub-у.</string>
+    <string name="update_version">Верзија %1$s</string>
+    <string name="update_downloading">Преузимање… %1$d%%</string>
+    <string name="update_downloading_short">Преузимање…</string>
+    <string name="update_later">Преузми касније</string>
+    <string name="update_install">Преузми и инсталирај</string>
+    <string name="update_status_checking">Провера на GitHub-у…</string>
+    <string name="update_status_available">Верзија %1$s је доступна.</string>
+    <string name="update_status_uptodate">Имате најновију верзију.</string>
+    <string name="update_no_files">То издање нема приложене датотеке.</string>
+    <string name="update_no_apk">То издање нема приложен APK.</string>
+    <string name="update_unreachable">GitHub није могао да се достигне. Проверите везу и покушајте поново.</string>
+    <string name="update_check_failed">Нешто је пошло наопако при провери. Покушајте поново касније.</string>
+    <string name="update_download_failed">Преузимање није успело. Проверите везу и покушајте поново.</string>
+    <string name="update_allow_installs">Дозволите инсталације из ове апликације, па поново додирните „Преузми и инсталирај“.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Конверзије</string>
+    <string name="notif_channel_desc">Напредак конверзија које се изводе док је апликација у позадини.</string>
+    <string name="notif_converting">Конвертовање…</string>
+    <string name="notif_starting">Покретање…</string>
+    <string name="notif_ready_title">Спремно за конверзију</string>
+    <string name="notif_waiting">%1$d чека. Додирните „Старт“ у апликацији.</string>
+    <string name="notif_converting_file">Конвертовање: %1$s</string>
+    <string name="notif_files">датотеке</string>
+    <string name="notif_more_queued">још %1$d у реду</string>
+    <string name="notif_cancel">Откажи</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ готово</string>
+    <string name="eta_sec_left">≈ још %1$d с</string>
+    <string name="eta_min_left">≈ још %1$d мин</string>
+    <string name="eta_h_min_left">≈ још %1$d ч %2$d мин</string>
+</resources>

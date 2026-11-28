@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Конвертировать</string>
+    <string name="tab_queue">Очередь</string>
+    <string name="tab_hardware">Ваше оборудование</string>
+    <string name="tab_settings">Внешний вид</string>
+    <string name="tab_about">О приложении</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">Проверка медиадвижка этого устройства…</string>
+    <string name="convert_hero_engine">Медиадвижок %1$s</string>
+    <string name="convert_hero_engine_fallback">Медиадвижок</string>
+    <string name="convert_hero_body">Аппаратное ускорение включено на этом телефоне. Конвертации выполняются на медиадвижке, а не на CPU.</string>
+    <string name="chip_h264_hw_encode">Кодирование HW H.264</string>
+    <string name="chip_hevc_hw_encode">Кодирование HW HEVC</string>
+    <string name="chip_vp9_hw_encode">Кодирование HW VP9</string>
+    <string name="chip_av1_hw_encode">Кодирование HW AV1</string>
+    <string name="chip_hevc_hw_decode">Декодирование HW HEVC</string>
+    <string name="chip_av1_hw_decode">Декодирование HW AV1</string>
+    <string name="convert_with">Конвертировать с помощью</string>
+    <string name="category_hardware">Аппаратное кодирование</string>
+    <string name="category_software">Программное кодирование</string>
+    <string name="category_audio">Только аудио</string>
+    <string name="category_no_reencode">Без перекодирования</string>
+    <string name="category_create">Создать</string>
+    <string name="convert_helper">Выберите конвертацию, добавьте файлы и нажмите «Запуск». Ничего не начнётся, пока вы не скажете.</string>
+    <string name="trim_start">Начало (секунды)</string>
+    <string name="trim_end">Конец (секунды)</string>
+    <string name="add_files">Добавить файлы</string>
+    <string name="start_conversion">Начать конвертацию</string>
+    <string name="start_conversions_n">Начать конвертаций: %1$d</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Ручные настройки</string>
+    <string name="manual_video">Видео</string>
+    <string name="manual_container">Контейнер</string>
+    <string name="manual_bitrate_label">Битрейт видео (кбит/с). Пусто означает автоматически</string>
+    <string name="manual_crf_label">Качество (CRF). Пусто означает значение по умолчанию. Ниже значит лучше</string>
+    <string name="manual_max_height">Макс. высота</string>
+    <string name="manual_original">Оригинал</string>
+    <string name="manual_audio">Аудио</string>
+    <string name="manual_audio_bitrate">Битрейт аудио (кбит/с)</string>
+    <string name="manual_hw_decode">Аппаратное декодирование</string>
+    <string name="manual_hw_decode_body">Декодирует на медиадвижке, когда у этого телефона есть декодер для кодека файла.</string>
+    <string name="mc_copy">Копировать (без перекодирования)</string>
+    <string name="mc_h264_hw">H.264 · аппаратное</string>
+    <string name="mc_hevc_hw">H.265 · аппаратное</string>
+    <string name="mc_vp9_hw">VP9 · аппаратное</string>
+    <string name="mc_av1_hw">AV1 · аппаратное</string>
+    <string name="mc_h264_sw">H.264 · программное</string>
+    <string name="mc_hevc_sw">H.265 · программное</string>
+    <string name="mc_vp9_sw">VP9 · программное</string>
+    <string name="mc_av1_sw">AV1 · программное</string>
+    <string name="mc_none">Без видео (только аудио)</string>
+    <string name="ma_copy">Копировать (без перекодирования)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Без аудио</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · аппаратное</string>
+    <string name="preset_h264_hw_desc">Быстро, компактно, воспроизводится везде. Использует медиадвижок этого телефона.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · аппаратное</string>
+    <string name="preset_hevc_hw_desc">Примерно вдвое меньше H.264 при том же качестве. Использует медиадвижок этого телефона.</string>
+    <string name="preset_vp9_hw_label">VP9 · аппаратное</string>
+    <string name="preset_vp9_hw_desc">Аппаратный VP9 в файле WebM. Только на телефонах, чей медиадвижок кодирует VP9.</string>
+    <string name="preset_av1_hw_label">AV1 · аппаратное</string>
+    <string name="preset_av1_hw_desc">Аппаратный AV1. Лишь немногие медиадвижки умеют кодировать AV1, поэтому этот пресет появляется только на таких телефонах.</string>
+    <string name="preset_h264_sw_label">H.264 · макс. качество (программное)</string>
+    <string name="preset_h264_sw_desc">Медленное кодирование на CPU с libx264, лучшее качество на байт. Для мастеров и HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · макс. качество (программное)</string>
+    <string name="preset_hevc_sw_desc">Меньше, чем H.264, при том же качестве. Медленное кодирование на CPU с libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · программное (WebM)</string>
+    <string name="preset_vp9_sw_desc">Кодек веба в файле WebM. Кодирование на CPU с libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · программное</string>
+    <string name="preset_av1_sw_desc">Новейший кодек, самые маленькие файлы. Очень медленно на CPU. Лучше всего для коротких клипов.</string>
+    <string name="preset_audio_aac_label">Только аудио · AAC</string>
+    <string name="preset_audio_aac_desc">Извлечь аудиодорожку в AAC.</string>
+    <string name="preset_audio_mp3_label">Только аудио · MP3</string>
+    <string name="preset_audio_mp3_desc">Извлечь аудиодорожку в MP3. Воспроизводится везде.</string>
+    <string name="preset_audio_opus_label">Только аудио · Opus</string>
+    <string name="preset_audio_opus_desc">Извлечь аудиодорожку в Opus. Наименьший размер при том же качестве.</string>
+    <string name="preset_audio_flac_label">Только аудио · FLAC</string>
+    <string name="preset_audio_flac_desc">Извлечь аудиодорожку без потерь во FLAC.</string>
+    <string name="preset_audio_wav_label">Только аудио · WAV</string>
+    <string name="preset_audio_wav_desc">Извлечь аудиодорожку без сжатия в WAV, для редактирования.</string>
+    <string name="preset_remux_mp4_label">Ремукс в MP4 · без перекодирования</string>
+    <string name="preset_remux_mp4_desc">Те же изображение и звук, новый контейнер MP4. Мгновенно.</string>
+    <string name="preset_remux_mkv_label">Ремукс в MKV · без перекодирования</string>
+    <string name="preset_remux_mkv_desc">Те же изображение и звук, новый контейнер MKV. Мгновенно.</string>
+    <string name="preset_trim_label">Обрезка · без перекодирования</string>
+    <string name="preset_trim_desc">Вырезает фрагмент, не трогая изображение. Срезы попадают на ключевые кадры.</string>
+    <string name="preset_gif_label">GIF · анимированное изображение</string>
+    <string name="preset_gif_desc">Превращает клип в анимированный GIF (12 fps, ширина 480 px). Только короткие клипы.</string>
+    <string name="preset_custom_label">Своё · ручные настройки</string>
+    <string name="preset_custom_desc">Ваш собственный формат: контейнер, кодеки, битрейт, разрешение.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Программное кодирование (libx264, CRF 18, медленный пресет). Медленно, лучшее качество на байт. Декодирование: %1$s.</string>
+    <string name="note_sw_x265">Программное кодирование (libx265, CRF 22, средний пресет). Декодирование: %1$s.</string>
+    <string name="note_sw_vp9">Программное кодирование (libvpx-vp9, CRF 30) в WebM. Декодирование: %1$s.</string>
+    <string name="note_sw_av1">Программное кодирование (libaom-av1, CRF 32). AV1 на CPU очень медленный. Декодирование: %1$s.</string>
+    <string name="note_audio_aac">Извлечение аудио в AAC 192k. Видеокодер не задействован.</string>
+    <string name="note_audio_mp3">Извлечение аудио в MP3 192k. Видеокодер не задействован.</string>
+    <string name="note_audio_opus">Извлечение аудио в Opus 128k. Видеокодер не задействован.</string>
+    <string name="note_audio_flac">Извлечение аудио во FLAC (без потерь). Видеокодер не задействован.</string>
+    <string name="note_audio_wav">Извлечение аудио в WAV (без сжатия). Видеокодер не задействован.</string>
+    <string name="note_remux_mp4">Ремукс в MP4: потоки скопированы, ничего не перекодировано.</string>
+    <string name="note_remux_mkv">Ремукс в MKV: потоки скопированы, ничего не перекодировано.</string>
+    <string name="note_gif">Анимированный GIF при 12 fps, ширина 480 px. Декодирование: %1$s.</string>
+    <string name="note_trim">Копирование потока, без перекодирования. Срезы попадают на ключевые кадры, поэтому края могут сдвинуться на несколько кадров.</string>
+    <string name="note_hw_encode">Аппаратное кодирование (%1$s) на %2$s при %3$s Mbps. Декодирование: %4$s.</string>
+    <string name="note_custom_audio">Своё: только аудио (%1$s %2$dk).</string>
+    <string name="note_custom_full">Своё: %1$s · видео %2$s · аудио %3$s. Декодирование: %4$s.</string>
+    <string name="refusal_custom_path">Пользовательские задания создаются из ручных параметров, а не через путь пресетов.</string>
+    <string name="refusal_trim_times">Сначала выберите время начала и конца. Для обрезки нужны оба.</string>
+    <string name="refusal_no_hw_encoder">У этого телефона нет аппаратного кодера %1$s, поэтому аппаратный пресет не может работать. Программный пресет всё равно может выполнить эту конвертацию на CPU.</string>
+    <string name="refusal_no_hw_encoder_manual">У этого телефона нет аппаратного кодера %1$s, поэтому эта пользовательская настройка не может работать.</string>
+    <string name="refusal_legacy_vp9_av1">Устаревший движок (FFmpeg 6.0) не имеет аппаратного кодера VP9 или AV1. Выберите программный вариант или аппаратные H.264 / HEVC.</string>
+    <string name="refusal_audio_only_codec">Для вывода только аудио нужен аудиокодек. Выберите AAC, MP3 или Opus.</string>
+    <string name="refusal_pick_audio">Выберите аудиокодек.</string>
+    <string name="refusal_webm_video">WebM вмещает видео VP9 или AV1. Выберите одно из них или используйте контейнер MP4 или MKV.</string>
+    <string name="refusal_webm_audio">Аудио в WebM должно быть Opus, скопированным или отсутствовать. AAC и MP3 не подходят для WebM.</string>
+    <string name="decode_hw">аппаратное (%1$s на %2$s)</string>
+    <string name="decode_cpu_retry">CPU (повтор после сбоя аппаратного декодера)</string>
+    <string name="decode_cpu_choice">CPU (ваш выбор в пользовательских настройках)</string>
+    <string name="decode_cpu_no_path">CPU (нет пути аппаратного декодера для %1$s)</string>
+    <string name="decode_this_input">этого входного файла</string>
+    <string name="decode_cpu_no_decoder">CPU (у этого телефона нет аппаратного декодера %1$s)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Запуск</string>
+    <string name="queue_clear_finished">Очистить завершённые</string>
+    <string name="queue_empty_title">Конвертаций пока нет</string>
+    <string name="queue_empty_body">Добавьте файлы на вкладке «Конвертировать», нажмите «Запуск», и они будут выполняться здесь, по одной.</string>
+    <string name="job_waiting">Ожидание запуска</string>
+    <string name="job_queued">В очереди</string>
+    <string name="job_est_output">≈ выход %1$s</string>
+    <string name="job_cancel">Отмена</string>
+    <string name="job_converting">Конвертирование…</string>
+    <string name="job_speed">скорость %1$s×</string>
+    <string name="job_saved_to">Сохранено в %1$s/%2$s</string>
+    <string name="job_open">Открыть</string>
+    <string name="job_share">Поделиться</string>
+    <string name="job_cancelled">Отменено</string>
+    <string name="job_failed">Ошибка</string>
+    <string name="job_debug_log_save">Журнал отладки. Нажмите на журнал, чтобы сохранить его в Download/HWA Converter</string>
+    <string name="job_debug_log_saved">Журнал отладки. Сохранён в Download/HWA Converter</string>
+    <string name="job_share_log">Поделиться журналом</string>
+    <string name="share_debug_log_title">Поделиться журналом отладки</string>
+    <string name="share_file_title">Поделиться сконвертированным файлом</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">Не удалось создать выходной файл в MediaStore.</string>
+    <string name="queue_conversion_failed">Конвертация не удалась. ffmpeg сообщил: %1$s</string>
+    <string name="queue_conversion_failed_silent">Конвертация не удалась (ffmpeg не дал сообщения).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">Проверка медиадвижка этого устройства…</string>
+    <string name="hw_video_encoders">Видеокодеры</string>
+    <string name="hw_audio_encoders">Аудиокодеры</string>
+    <string name="hw_video_decoders">Видеодекодеры</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Медиадвижок: %1$s</string>
+    <string name="hw_tile_hw_encoders">аппаратные кодеры</string>
+    <string name="hw_tile_hw_decoders">аппаратные декодеры</string>
+    <string name="hw_tile_max_encode">макс. аппаратное кодирование</string>
+    <string name="hw_tile_top_bitrate">максимальный битрейт кодера</string>
+    <string name="hw_unknown">Неизвестно</string>
+    <string name="hw_encoding_title">Аппаратное кодирование</string>
+    <string name="hw_decoding_title">Аппаратное декодирование</string>
+    <string name="hw_software_only">только программное</string>
+    <string name="hw_badge_hardware">АППАРАТНОЕ</string>
+    <string name="hw_badge_software">ПРОГРАММНОЕ</string>
+    <string name="hw_up_to">до %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Тема</string>
+    <string name="theme_system">Системная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="theme_following_dark">Следует за телефоном. Сейчас он в тёмном режиме.</string>
+    <string name="theme_following_light">Следует за телефоном. Сейчас он в светлом режиме.</string>
+    <string name="settings_color_scheme">Цветовая схема</string>
+    <string name="settings_color_note">Material You следует за вашими обоями. Остальные схемы являются фиксированными палитрами, каждая со светлым и тёмным вариантом.</string>
+    <string name="settings_app_icon">Значок приложения</string>
+    <string name="settings_icon_note">Смена значка на главном экране может занять несколько секунд. Некоторые лаунчеры обновляют его только после перезапуска.</string>
+    <string name="settings_language">Язык</string>
+    <string name="language_system">Системный язык</string>
+
+    <!-- About -->
+    <string name="about_tagline">Конвертация медиа с приоритетом аппаратного ускорения</string>
+    <string name="about_version">Версия %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter заставляет медиадвижок вашего телефона работать. Большинство конвертеров игнорируют его и кодируют на CPU. Это приложение сначала проверяет чип и использует аппаратное ускорение, когда может. Программный путь остаётся для максимального качества и задач, которые оборудование выполнить не может. Ничего не переключается молча. Каждое задание показывает точную команду, которая выполнялась, а вкладка «Ваше оборудование» показывает, что умеет ваш телефон. Приложение бесплатное и с открытым исходным кодом. Ваши файлы никогда не покидают телефон: единственное, что приложение загружает, это собственные обновления с GitHub.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Исходный код, обращения и страница проекта</string>
+    <string name="about_releases">Релизы</string>
+    <string name="about_releases_sub">Скачать новейшие APK</string>
+    <string name="about_check_updates">Проверить обновления</string>
+    <string name="about_check_updates_sub">Проверить более новую версию на GitHub</string>
+    <string name="about_auto_check">Автоматическая проверка обновлений</string>
+    <string name="about_auto_off">Выключено. У приложения нет доступа к сети.</string>
+    <string name="about_auto_daily">Раз в день, когда приложение открывается</string>
+    <string name="about_internet_note">Разрешение на интернет выдаётся при установке и используется только для проверки обновлений на GitHub. Если проверка обновлений вам не нужна, отключите автоматическую проверку. Если приложение не может выйти в интернет, проверка отключится сама, пока доступ не появится.</string>
+    <string name="about_replay_tour">Повторить обзор</string>
+    <string name="about_replay_tour_sub">Посмотреть обзор функций ещё раз</string>
+    <string name="about_footer">Создано на FFmpeg через FFmpegKit (GPL), работает на медиаоборудовании вашего телефона.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Добро пожаловать в HWA Converter</string>
+    <string name="tour_welcome_body">Это приложение конвертирует видео и аудио на вашем телефоне. Сначала оно использует медиадвижок, а не CPU. Вот короткий обзор.</string>
+    <string name="tour_add_title">Добавить файлы</string>
+    <string name="tour_add_body">Нажмите эту кнопку и выберите файлы. Пока ничего не начинается. Они подождут, пока вы не нажмёте «Запуск».</string>
+    <string name="tour_pick_title">Выберите конвертацию</string>
+    <string name="tour_pick_body">Аппаратные пресеты быстрые и экономят заряд. Программные пресеты медленнее, но дают лучшее качество. «Своё» позволяет настроить всё самостоятельно.</string>
+    <string name="tour_start_title">Начинайте, когда будете готовы</string>
+    <string name="tour_start_body">После добавления файлов под кнопкой «Добавить файлы» появится кнопка «Запуск». Нажмите её, чтобы начать. До этого ничего не работает.</string>
+    <string name="tour_queue_title">Вкладка «Очередь»</string>
+    <string name="tour_queue_body">Здесь живут все ваши конвертации. Вы можете следить за прогрессом и скоростью, видеть точную команду, которая выполнялась, и сохранять журнал отладки задания.</string>
+    <string name="tour_hardware_title">Ваше оборудование</string>
+    <string name="tour_hardware_body">Это медиадвижок внутри вашего телефона, проверенный на этом устройстве. Ваши пресеты созданы на его основе. Если аппаратного пути нет в списке, у вашего чипа его нет.</string>
+    <string name="tour_settings_title">Внешний вид</string>
+    <string name="tour_settings_body">Здесь темы, цветовые схемы, язык и девять значков лаунчера.</string>
+    <string name="tour_done_title">Это всё</string>
+    <string name="tour_done_body">Последнее. Конвертации выполняются полностью на вашем телефоне. Единственное, что приложение когда-либо загружает, это собственные обновления.</string>
+    <string name="tour_skip">Пропустить</string>
+    <string name="tour_next">Далее</string>
+    <string name="tour_got_it">Понятно</string>
+
+    <!-- Updates -->
+    <string name="update_available">Доступно обновление</string>
+    <string name="update_on_github">Новая версия уже на GitHub.</string>
+    <string name="update_version">Версия %1$s</string>
+    <string name="update_downloading">Загрузка… %1$d%%</string>
+    <string name="update_downloading_short">Загрузка…</string>
+    <string name="update_later">Загрузить позже</string>
+    <string name="update_install">Загрузить и установить</string>
+    <string name="update_status_checking">Проверка GitHub…</string>
+    <string name="update_status_available">Доступна версия %1$s.</string>
+    <string name="update_status_uptodate">У вас новейшая версия.</string>
+    <string name="update_no_files">К этому релизу не прикреплено файлов.</string>
+    <string name="update_no_apk">К этому релизу не прикреплён APK.</string>
+    <string name="update_unreachable">Не удалось связаться с GitHub. Проверьте подключение и попробуйте снова.</string>
+    <string name="update_check_failed">При проверке что-то пошло не так. Попробуйте позже.</string>
+    <string name="update_download_failed">Загрузка не удалась. Проверьте подключение и попробуйте снова.</string>
+    <string name="update_allow_installs">Разрешите установки из этого приложения, затем снова нажмите «Загрузить и установить».</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Конвертации</string>
+    <string name="notif_channel_desc">Прогресс выполняющихся конвертаций, пока приложение в фоне.</string>
+    <string name="notif_converting">Конвертирование…</string>
+    <string name="notif_starting">Запуск…</string>
+    <string name="notif_ready_title">Готово к конвертации</string>
+    <string name="notif_waiting">Ожидает: %1$d. Нажмите «Запуск» в приложении.</string>
+    <string name="notif_converting_file">Конвертирование: %1$s</string>
+    <string name="notif_files">файлы</string>
+    <string name="notif_more_queued">ещё %1$d в очереди</string>
+    <string name="notif_cancel">Отмена</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ готово</string>
+    <string name="eta_sec_left">≈ осталось %1$d с</string>
+    <string name="eta_min_left">≈ осталось %1$d мин</string>
+    <string name="eta_h_min_left">≈ осталось %1$d ч %2$d мин</string>
+</resources>

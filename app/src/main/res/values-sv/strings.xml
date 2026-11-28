@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Swedish translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Konvertera</string>
+    <string name="tab_queue">Kö</string>
+    <string name="tab_hardware">Din maskinvara</string>
+    <string name="tab_settings">Utseende</string>
+    <string name="tab_about">Om</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">Undersöker den här enhetens mediemotor…</string>
+    <string name="convert_hero_engine">%1$s mediemotor</string>
+    <string name="convert_hero_engine_fallback">Mediemotor</string>
+    <string name="convert_hero_body">Maskinvaruacceleration är på på den här telefonen. Konverteringar körs på mediemotorn, inte på processorn.</string>
+    <string name="chip_h264_hw_encode">H.264 HW-kodning</string>
+    <string name="chip_hevc_hw_encode">HEVC HW-kodning</string>
+    <string name="chip_vp9_hw_encode">VP9 HW-kodning</string>
+    <string name="chip_av1_hw_encode">AV1 HW-kodning</string>
+    <string name="chip_hevc_hw_decode">HEVC HW-avkodning</string>
+    <string name="chip_av1_hw_decode">AV1 HW-avkodning</string>
+    <string name="convert_with">Konvertera med</string>
+    <string name="category_hardware">Maskinvarukodning</string>
+    <string name="category_software">Programvarukodning</string>
+    <string name="category_audio">Endast ljud</string>
+    <string name="category_no_reencode">Ingen omkodning</string>
+    <string name="category_create">Skapa</string>
+    <string name="convert_helper">Välj en konvertering, lägg till filer och tryck sedan på Start. Inget körs förrän du säger till.</string>
+    <string name="trim_start">Start (sekunder)</string>
+    <string name="trim_end">Slut (sekunder)</string>
+    <string name="add_files">Lägg till filer</string>
+    <string name="start_conversion">Starta konvertering</string>
+    <string name="start_conversions_n">Starta %1$d konverteringar</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Manuella inställningar</string>
+    <string name="manual_video">Video</string>
+    <string name="manual_container">Behållare</string>
+    <string name="manual_bitrate_label">Videobithastighet (kbps). Tomt betyder automatiskt</string>
+    <string name="manual_crf_label">Kvalitet (CRF). Tomt betyder standard. Lägre är bättre</string>
+    <string name="manual_max_height">Maxhöjd</string>
+    <string name="manual_original">Original</string>
+    <string name="manual_audio">Ljud</string>
+    <string name="manual_audio_bitrate">Ljudbithastighet (kbps)</string>
+    <string name="manual_hw_decode">Maskinvaruavkodning</string>
+    <string name="manual_hw_decode_body">Avkoda på mediemotorn när telefonen har en avkodare för filens kodek.</string>
+    <string name="mc_copy">Kopiera (ingen omkodning)</string>
+    <string name="mc_h264_hw">H.264 · maskinvara</string>
+    <string name="mc_hevc_hw">H.265 · maskinvara</string>
+    <string name="mc_vp9_hw">VP9 · maskinvara</string>
+    <string name="mc_av1_hw">AV1 · maskinvara</string>
+    <string name="mc_h264_sw">H.264 · programvara</string>
+    <string name="mc_hevc_sw">H.265 · programvara</string>
+    <string name="mc_vp9_sw">VP9 · programvara</string>
+    <string name="mc_av1_sw">AV1 · programvara</string>
+    <string name="mc_none">Ingen video (endast ljud)</string>
+    <string name="ma_copy">Kopiera (ingen omkodning)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Inget ljud</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · maskinvara</string>
+    <string name="preset_h264_hw_desc">Snabb, liten, spelas överallt. Använder telefonens mediemotor.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · maskinvara</string>
+    <string name="preset_hevc_hw_desc">Ungefär hälften så stor som H.264 vid samma kvalitet. Använder telefonens mediemotor.</string>
+    <string name="preset_vp9_hw_label">VP9 · maskinvara</string>
+    <string name="preset_vp9_hw_desc">Maskinvaru-VP9 i en WebM-fil. Endast på telefoner vars mediemotor kodar VP9.</string>
+    <string name="preset_av1_hw_label">AV1 · maskinvara</string>
+    <string name="preset_av1_hw_desc">Maskinvaru-AV1. Endast ett fåtal mediemotorer kan koda AV1, så den här förinställningen visas bara på de telefonerna.</string>
+    <string name="preset_h264_sw_label">H.264 · maxkvalitet (programvara)</string>
+    <string name="preset_h264_sw_desc">Långsam processorkodning med libx264, bästa kvalitet per byte. För mastrar och HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · maxkvalitet (programvara)</string>
+    <string name="preset_hevc_sw_desc">Mindre än H.264 vid samma kvalitet. Långsam processorkodning med libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · programvara (WebM)</string>
+    <string name="preset_vp9_sw_desc">Webbens kodek, i en WebM-fil. Processorkodning med libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · programvara</string>
+    <string name="preset_av1_sw_desc">Nyaste kodeken, minsta filerna. Mycket långsam på processorn. Bäst för korta klipp.</string>
+    <string name="preset_audio_aac_label">Endast ljud · AAC</string>
+    <string name="preset_audio_aac_desc">Extrahera ljudspåret till AAC.</string>
+    <string name="preset_audio_mp3_label">Endast ljud · MP3</string>
+    <string name="preset_audio_mp3_desc">Extrahera ljudspåret till MP3. Spelas överallt.</string>
+    <string name="preset_audio_opus_label">Endast ljud · Opus</string>
+    <string name="preset_audio_opus_desc">Extrahera ljudspåret till Opus. Minst vid samma kvalitet.</string>
+    <string name="preset_audio_flac_label">Endast ljud · FLAC</string>
+    <string name="preset_audio_flac_desc">Extrahera ljudspåret förlustfritt till FLAC.</string>
+    <string name="preset_audio_wav_label">Endast ljud · WAV</string>
+    <string name="preset_audio_wav_desc">Extrahera ljudspåret okomprimerat till WAV, för redigering.</string>
+    <string name="preset_remux_mp4_label">Remux till MP4 · ingen omkodning</string>
+    <string name="preset_remux_mp4_desc">Samma bild och ljud, ny MP4-behållare. Direkt.</string>
+    <string name="preset_remux_mkv_label">Remux till MKV · ingen omkodning</string>
+    <string name="preset_remux_mkv_desc">Samma bild och ljud, ny MKV-behållare. Direkt.</string>
+    <string name="preset_trim_label">Klipp · ingen omkodning</string>
+    <string name="preset_trim_desc">Klipp ut ett avsnitt utan att röra bilden. Klipp hamnar på nyckelbilder.</string>
+    <string name="preset_gif_label">GIF · animerad bild</string>
+    <string name="preset_gif_desc">Gör ett klipp till en animerad GIF (12 fps, 480 px bred). Endast korta klipp.</string>
+    <string name="preset_custom_label">Anpassad · manuella inställningar</string>
+    <string name="preset_custom_desc">Ditt eget format: behållare, kodekar, bithastighet, upplösning.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Programvarukodning (libx264, CRF 18, långsam förinställning). Långsam, bästa kvalitet per byte. Avkodning: %1$s.</string>
+    <string name="note_sw_x265">Programvarukodning (libx265, CRF 22, medelförinställning). Avkodning: %1$s.</string>
+    <string name="note_sw_vp9">Programvarukodning (libvpx-vp9, CRF 30) till WebM. Avkodning: %1$s.</string>
+    <string name="note_sw_av1">Programvarukodning (libaom-av1, CRF 32). AV1 på processorn är mycket långsamt. Avkodning: %1$s.</string>
+    <string name="note_audio_aac">Ljudextraktion till AAC 192k. Ingen videokodare inblandad.</string>
+    <string name="note_audio_mp3">Ljudextraktion till MP3 192k. Ingen videokodare inblandad.</string>
+    <string name="note_audio_opus">Ljudextraktion till Opus 128k. Ingen videokodare inblandad.</string>
+    <string name="note_audio_flac">Ljudextraktion till FLAC (förlustfritt). Ingen videokodare inblandad.</string>
+    <string name="note_audio_wav">Ljudextraktion till WAV (okomprimerat). Ingen videokodare inblandad.</string>
+    <string name="note_remux_mp4">Remux till MP4: strömmar kopierade, inget omkodat.</string>
+    <string name="note_remux_mkv">Remux till MKV: strömmar kopierade, inget omkodat.</string>
+    <string name="note_gif">Animerad GIF med 12 fps, 480 px bred. Avkodning: %1$s.</string>
+    <string name="note_trim">Strömkopia, ingen omkodning. Klipp hamnar på nyckelbilder, så kanterna kan flyttas några bildrutor.</string>
+    <string name="note_hw_encode">Maskinvarukodning (%1$s) på %2$s med %3$s Mbps. Avkodning: %4$s.</string>
+    <string name="note_custom_audio">Anpassad: endast ljud (%1$s %2$dk).</string>
+    <string name="note_custom_full">Anpassad: %1$s · video %2$s · ljud %3$s. Avkodning: %4$s.</string>
+    <string name="refusal_custom_path">Anpassade jobb byggs från de manuella alternativen, inte från förinställningsvägen.</string>
+    <string name="refusal_trim_times">Välj en start- och sluttid först. Klippning behöver båda.</string>
+    <string name="refusal_no_hw_encoder">Den här telefonen har ingen maskinvarukodare för %1$s, så maskinvaruförinställningen kan inte köras. Programvaruförinställningen kan fortfarande göra den här konverteringen på processorn.</string>
+    <string name="refusal_no_hw_encoder_manual">Den här telefonen har ingen maskinvarukodare för %1$s, så den här anpassade inställningen kan inte köras.</string>
+    <string name="refusal_legacy_vp9_av1">Den gamla motorn (FFmpeg 6.0) har ingen maskinvarukodare för VP9 eller AV1. Välj programvarualternativet, eller H.264 / HEVC-maskinvara.</string>
+    <string name="refusal_audio_only_codec">Utdata med endast ljud behöver en ljudkodek. Välj AAC, MP3 eller Opus.</string>
+    <string name="refusal_pick_audio">Välj en ljudkodek.</string>
+    <string name="refusal_webm_video">WebM rymmer VP9- eller AV1-video. Välj en av dem, eller använd en MP4- eller MKV-behållare.</string>
+    <string name="refusal_webm_audio">WebM-ljud måste vara Opus, kopierat eller inget. AAC och MP3 får inte plats i WebM.</string>
+    <string name="decode_hw">maskinvara (%1$s på %2$s)</string>
+    <string name="decode_cpu_retry">Processor (försökte igen efter att maskinvaruavkodaren misslyckades)</string>
+    <string name="decode_cpu_choice">Processor (ditt val i Anpassade inställningar)</string>
+    <string name="decode_cpu_no_path">Processor (ingen maskinvaruavkodningsväg för %1$s)</string>
+    <string name="decode_this_input">den här inmatningen</string>
+    <string name="decode_cpu_no_decoder">Processor (den här telefonen har ingen maskinvaruavkodare för %1$s)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Start</string>
+    <string name="queue_clear_finished">Rensa slutförda</string>
+    <string name="queue_empty_title">Inga konverteringar ännu</string>
+    <string name="queue_empty_body">Lägg till filer från fliken Konvertera, tryck på Start, så körs de här, en i taget.</string>
+    <string name="job_waiting">Väntar på Start</string>
+    <string name="job_queued">I kö</string>
+    <string name="job_est_output">≈ %1$s utdata</string>
+    <string name="job_cancel">Avbryt</string>
+    <string name="job_converting">Konverterar…</string>
+    <string name="job_speed">%1$s× hastighet</string>
+    <string name="job_saved_to">Sparad i %1$s/%2$s</string>
+    <string name="job_open">Öppna</string>
+    <string name="job_share">Dela</string>
+    <string name="job_cancelled">Avbruten</string>
+    <string name="job_failed">Misslyckades</string>
+    <string name="job_debug_log_save">Felsökningslogg. Tryck på loggen för att spara den i Download/HWA Converter</string>
+    <string name="job_debug_log_saved">Felsökningslogg. Sparad i Download/HWA Converter</string>
+    <string name="job_share_log">Dela logg</string>
+    <string name="share_debug_log_title">Dela felsökningslogg</string>
+    <string name="share_file_title">Dela konverterad fil</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">Det gick inte att skapa utdatafilen i MediaStore.</string>
+    <string name="queue_conversion_failed">Konverteringen misslyckades. ffmpeg sa: %1$s</string>
+    <string name="queue_conversion_failed_silent">Konverteringen misslyckades (ffmpeg gav inget meddelande).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">Undersöker den här enhetens mediemotor…</string>
+    <string name="hw_video_encoders">Videokodare</string>
+    <string name="hw_audio_encoders">Ljudkodare</string>
+    <string name="hw_video_decoders">Videoavkodare</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Mediemotor: %1$s</string>
+    <string name="hw_tile_hw_encoders">maskinvarukodare</string>
+    <string name="hw_tile_hw_decoders">maskinvaruavkodare</string>
+    <string name="hw_tile_max_encode">max maskinvarukodning</string>
+    <string name="hw_tile_top_bitrate">högsta kodarbithastighet</string>
+    <string name="hw_unknown">Okänd</string>
+    <string name="hw_encoding_title">Maskinvarukodning</string>
+    <string name="hw_decoding_title">Maskinvaruavkodning</string>
+    <string name="hw_software_only">endast programvara</string>
+    <string name="hw_badge_hardware">HARDWARE</string>
+    <string name="hw_badge_software">SOFTWARE</string>
+    <string name="hw_up_to">upp till %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Tema</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Ljust</string>
+    <string name="theme_dark">Mörkt</string>
+    <string name="theme_following_dark">Följer din telefon. Den är i mörkt läge just nu.</string>
+    <string name="theme_following_light">Följer din telefon. Den är i ljust läge just nu.</string>
+    <string name="settings_color_scheme">Färgschema</string>
+    <string name="settings_color_note">Material You följer din bakgrundsbild. De andra schemana är fasta paletter, var och en med en ljus och en mörk variant.</string>
+    <string name="settings_app_icon">Appikon</string>
+    <string name="settings_icon_note">Ikonen på startskärmen kan ta några sekunder att ändra. Vissa startprogram uppdaterar den först efter en omstart.</string>
+    <string name="settings_language">Språk</string>
+    <string name="language_system">Systemspråk</string>
+
+    <!-- About -->
+    <string name="about_tagline">Mediekonvertering med maskinvara först</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter sätter telefonens mediemotor i arbete. De flesta konverteringsappar ignorerar den och kodar på processorn. Den här appen undersöker chippet först och använder maskinvaran när den kan. Programvaruvägen finns kvar för maximal kvalitet och för jobb som maskinvaran inte klarar. Inget faller tyst tillbaka. Varje jobb visar det exakta kommandot som kördes, och fliken Maskinvara visar vad din telefon klarar. Appen är gratis och öppen källkod. Dina filer lämnar aldrig telefonen: det enda appen någonsin hämtar är sina egna uppdateringar, från GitHub.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Källkod, ärenden och projektsidan</string>
+    <string name="about_releases">Versioner</string>
+    <string name="about_releases_sub">Ladda ner de senaste APK:erna</string>
+    <string name="about_check_updates">Sök efter uppdateringar</string>
+    <string name="about_check_updates_sub">Sök på GitHub efter en nyare version</string>
+    <string name="about_auto_check">Automatisk uppdateringssökning</string>
+    <string name="about_auto_off">Av. Appen har ingen nätverksåtkomst.</string>
+    <string name="about_auto_daily">En gång om dagen, när appen öppnas</string>
+    <string name="about_internet_note">Internetbehörigheten följer med installationen och används bara för att söka efter uppdateringar på GitHub. Om du inte behöver uppdateringssökningar, stäng av den automatiska sökningen. Om appen inte når internet stänger sökningen av sig själv tills den kan.</string>
+    <string name="about_replay_tour">Spela upp rundturen igen</string>
+    <string name="about_replay_tour_sub">Se funktionsrundturen igen</string>
+    <string name="about_footer">Byggd på FFmpeg genom FFmpegKit (GPL), körs på telefonens mediemaskinvara.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Välkommen till HWA Converter</string>
+    <string name="tour_welcome_body">Den här appen konverterar video och ljud på din telefon. Den använder mediemotorn först, inte processorn. Här är en snabb titt runt.</string>
+    <string name="tour_add_title">Lägg till filer</string>
+    <string name="tour_add_body">Tryck på den här knappen och välj dina filer. Inget startar ännu. De väntar tills du trycker på Start.</string>
+    <string name="tour_pick_title">Välj en konvertering</string>
+    <string name="tour_pick_body">Maskinvaruförinställningar är snabba och snälla mot batteriet. Programvaruförinställningar är långsammare men ger bästa kvalitet. Anpassad låter dig ställa in allt själv.</string>
+    <string name="tour_start_title">Starta när du är redo</string>
+    <string name="tour_start_body">När du har lagt till filer visas en Start-knapp under Lägg till filer. Tryck på den för att börja. Fram till dess körs inget.</string>
+    <string name="tour_queue_title">Fliken Kö</string>
+    <string name="tour_queue_body">Alla dina konverteringar bor här. Du kan följa förlopp och hastighet, se det exakta kommandot som kördes och spara ett jobbs felsökningslogg.</string>
+    <string name="tour_hardware_title">Din maskinvara</string>
+    <string name="tour_hardware_body">Det här är mediemotorn inuti din telefon, undersökt på den här enheten. Dina förinställningar byggs från den. Om en maskinvaruväg inte finns med har ditt chip den inte.</string>
+    <string name="tour_settings_title">Utseende</string>
+    <string name="tour_settings_body">Teman, färgscheman, språk och nio startprogramsikoner bor här.</string>
+    <string name="tour_done_title">Det var allt</string>
+    <string name="tour_done_body">En sista sak. Konverteringar körs helt på din telefon. Det enda appen någonsin laddar ner är sina egna uppdateringar.</string>
+    <string name="tour_skip">Hoppa över</string>
+    <string name="tour_next">Nästa</string>
+    <string name="tour_got_it">Uppfattat</string>
+
+    <!-- Updates -->
+    <string name="update_available">Uppdatering tillgänglig</string>
+    <string name="update_on_github">En ny version finns på GitHub.</string>
+    <string name="update_version">Version %1$s</string>
+    <string name="update_downloading">Laddar ner… %1$d%%</string>
+    <string name="update_downloading_short">Laddar ner…</string>
+    <string name="update_later">Ladda ner senare</string>
+    <string name="update_install">Ladda ner och installera</string>
+    <string name="update_status_checking">Söker på GitHub…</string>
+    <string name="update_status_available">Version %1$s är tillgänglig.</string>
+    <string name="update_status_uptodate">Du är uppdaterad.</string>
+    <string name="update_no_files">Den versionen har inga bifogade filer.</string>
+    <string name="update_no_apk">Den versionen har ingen bifogad APK.</string>
+    <string name="update_unreachable">Det gick inte att nå GitHub. Kontrollera anslutningen och försök igen.</string>
+    <string name="update_check_failed">Något gick fel vid sökningen. Försök igen senare.</string>
+    <string name="update_download_failed">Nedladdningen misslyckades. Kontrollera anslutningen och försök igen.</string>
+    <string name="update_allow_installs">Tillåt installationer från den här appen och tryck sedan på Ladda ner och installera igen.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Konverteringar</string>
+    <string name="notif_channel_desc">Förlopp för pågående konverteringar medan appen är i bakgrunden.</string>
+    <string name="notif_converting">Konverterar…</string>
+    <string name="notif_starting">Startar…</string>
+    <string name="notif_ready_title">Redo att konvertera</string>
+    <string name="notif_waiting">%1$d väntar. Tryck på Start i appen.</string>
+    <string name="notif_converting_file">Konverterar %1$s</string>
+    <string name="notif_files">filer</string>
+    <string name="notif_more_queued">%1$d till i kö</string>
+    <string name="notif_cancel">Avbryt</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ klart</string>
+    <string name="eta_sec_left">≈ %1$d s kvar</string>
+    <string name="eta_min_left">≈ %1$d min kvar</string>
+    <string name="eta_h_min_left">≈ %1$d h %2$d min kvar</string>
+</resources>

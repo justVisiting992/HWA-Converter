@@ -7,6 +7,8 @@ import android.os.Build
 import android.provider.Settings
 import androidx.core.content.FileProvider
 import io.github.justvisiting992.mediaconverter.BuildConfig
+import io.github.justvisiting992.mediaconverter.R
+import io.github.justvisiting992.mediaconverter.core.locale.Strings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -64,7 +66,7 @@ object UpdateChecker {
                 }
                 val assets = json.optJSONArray("assets")
                     ?: return@withContext UpdateCheckResult.Failed(
-                        "That release has no files attached.",
+                        Strings.get(R.string.update_no_files),
                     )
                 val abi = Build.SUPPORTED_ABIS.firstOrNull().orEmpty()
                 var byAbi: JSONObject? = null
@@ -80,7 +82,7 @@ object UpdateChecker {
                 }
                 val chosen = byAbi ?: universal ?: firstApk
                     ?: return@withContext UpdateCheckResult.Failed(
-                        "That release has no APK attached.",
+                        Strings.get(R.string.update_no_apk),
                     )
                 UpdateCheckResult.Available(
                     UpdateInfo(
@@ -96,12 +98,12 @@ object UpdateChecker {
                 )
             } catch (e: java.io.IOException) {
                 UpdateCheckResult.Failed(
-                    "Could not reach GitHub. Check your connection and try again.",
+                    Strings.get(R.string.update_unreachable),
                     noNetwork = true,
                 )
             } catch (e: Exception) {
                 UpdateCheckResult.Failed(
-                    "Something went wrong while checking. Try again later.",
+                    Strings.get(R.string.update_check_failed),
                 )
             }
         }
@@ -297,17 +299,17 @@ class UpdateController(context: Context) {
     fun checkManually() {
         if (checking) return
         checking = true
-        _status.value = "Checking GitHub…"
+        _status.value = Strings.get(R.string.update_status_checking)
         scope.launch {
             when (val result = UpdateChecker.check(BuildConfig.VERSION_NAME)) {
                 is UpdateCheckResult.Available -> {
                     noteReached()
-                    _status.value = "Version ${result.info.version} is available."
+                    _status.value = Strings.get(R.string.update_status_available, result.info.version)
                     _dialogInfo.value = result.info
                 }
                 UpdateCheckResult.UpToDate -> {
                     noteReached()
-                    _status.value = "You are up to date."
+                    _status.value = Strings.get(R.string.update_status_uptodate)
                 }
                 is UpdateCheckResult.Failed -> {
                     if (result.noNetwork) noteUnreachable()
@@ -346,7 +348,7 @@ class UpdateController(context: Context) {
             } catch (e: Exception) {
                 _progress.value = null
                 _status.value =
-                    "The download failed. Check your connection and try again."
+                    Strings.get(R.string.update_download_failed)
                 _dialogInfo.value = null
             }
         }
@@ -357,7 +359,7 @@ class UpdateController(context: Context) {
             !appContext.packageManager.canRequestPackageInstalls()
         ) {
             _status.value =
-                "Allow installs from this app, then tap Download & Install again."
+                Strings.get(R.string.update_allow_installs)
             _dialogInfo.value = null
             val settings = Intent(
                 Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,

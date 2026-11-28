@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese (Simplified) translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">转换</string>
+    <string name="tab_queue">队列</string>
+    <string name="tab_hardware">您的硬件</string>
+    <string name="tab_settings">外观</string>
+    <string name="tab_about">关于</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">正在检测此设备的媒体引擎…</string>
+    <string name="convert_hero_engine">%1$s 媒体引擎</string>
+    <string name="convert_hero_engine_fallback">媒体引擎</string>
+    <string name="convert_hero_body">此手机已启用硬件加速。转换在媒体引擎上运行，而不是 CPU。</string>
+    <string name="chip_h264_hw_encode">H.264 HW 编码</string>
+    <string name="chip_hevc_hw_encode">HEVC HW 编码</string>
+    <string name="chip_vp9_hw_encode">VP9 HW 编码</string>
+    <string name="chip_av1_hw_encode">AV1 HW 编码</string>
+    <string name="chip_hevc_hw_decode">HEVC HW 解码</string>
+    <string name="chip_av1_hw_decode">AV1 HW 解码</string>
+    <string name="convert_with">转换方式</string>
+    <string name="category_hardware">硬件编码</string>
+    <string name="category_software">软件编码</string>
+    <string name="category_audio">仅音频</string>
+    <string name="category_no_reencode">不重新编码</string>
+    <string name="category_create">创建</string>
+    <string name="convert_helper">选择一种转换，添加文件，然后点按开始。在您点按开始之前，不会运行任何任务。</string>
+    <string name="trim_start">开始（秒）</string>
+    <string name="trim_end">结束（秒）</string>
+    <string name="add_files">添加文件</string>
+    <string name="start_conversion">开始转换</string>
+    <string name="start_conversions_n">开始 %1$d 个转换</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">手动设置</string>
+    <string name="manual_video">视频</string>
+    <string name="manual_container">容器</string>
+    <string name="manual_bitrate_label">视频码率 (kbps)。留空表示自动</string>
+    <string name="manual_crf_label">质量 (CRF)。留空表示默认。数值越低越好</string>
+    <string name="manual_max_height">最大高度</string>
+    <string name="manual_original">原始</string>
+    <string name="manual_audio">音频</string>
+    <string name="manual_audio_bitrate">音频码率 (kbps)</string>
+    <string name="manual_hw_decode">硬件解码</string>
+    <string name="manual_hw_decode_body">当此手机有对应文件编解码器的解码器时，在媒体引擎上解码。</string>
+    <string name="mc_copy">复制（不重新编码）</string>
+    <string name="mc_h264_hw">H.264 · 硬件</string>
+    <string name="mc_hevc_hw">H.265 · 硬件</string>
+    <string name="mc_vp9_hw">VP9 · 硬件</string>
+    <string name="mc_av1_hw">AV1 · 硬件</string>
+    <string name="mc_h264_sw">H.264 · 软件</string>
+    <string name="mc_hevc_sw">H.265 · 软件</string>
+    <string name="mc_vp9_sw">VP9 · 软件</string>
+    <string name="mc_av1_sw">AV1 · 软件</string>
+    <string name="mc_none">无视频（仅音频）</string>
+    <string name="ma_copy">复制（不重新编码）</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">无音频</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · 硬件</string>
+    <string name="preset_h264_hw_desc">快速、体积小、到处可播放。使用此手机的媒体引擎。</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · 硬件</string>
+    <string name="preset_hevc_hw_desc">相同质量下，体积约为 H.264 的一半。使用此手机的媒体引擎。</string>
+    <string name="preset_vp9_hw_label">VP9 · 硬件</string>
+    <string name="preset_vp9_hw_desc">WebM 文件中的硬件 VP9。仅适用于媒体引擎可编码 VP9 的手机。</string>
+    <string name="preset_av1_hw_label">AV1 · 硬件</string>
+    <string name="preset_av1_hw_desc">硬件 AV1。只有少数媒体引擎可以编码 AV1，因此此预设仅在这些手机上显示。</string>
+    <string name="preset_h264_sw_label">H.264 · 最高质量（软件）</string>
+    <string name="preset_h264_sw_desc">使用 libx264 的慢速 CPU 编码，每字节质量最佳。适用于母带和 HDR。</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · 最高质量（软件）</string>
+    <string name="preset_hevc_sw_desc">相同质量下比 H.264 更小。使用 libx265 的慢速 CPU 编码。</string>
+    <string name="preset_vp9_sw_label">VP9 · 软件 (WebM)</string>
+    <string name="preset_vp9_sw_desc">网络编解码器，封装为 WebM 文件。使用 libvpx 的 CPU 编码。</string>
+    <string name="preset_av1_sw_label">AV1 · 软件</string>
+    <string name="preset_av1_sw_desc">最新的编解码器，文件最小。CPU 编码非常慢。最适合短片。</string>
+    <string name="preset_audio_aac_label">仅音频 · AAC</string>
+    <string name="preset_audio_aac_desc">将音轨提取为 AAC。</string>
+    <string name="preset_audio_mp3_label">仅音频 · MP3</string>
+    <string name="preset_audio_mp3_desc">将音轨提取为 MP3。到处可播放。</string>
+    <string name="preset_audio_opus_label">仅音频 · Opus</string>
+    <string name="preset_audio_opus_desc">将音轨提取为 Opus。相同质量下体积最小。</string>
+    <string name="preset_audio_flac_label">仅音频 · FLAC</string>
+    <string name="preset_audio_flac_desc">将音轨无损提取为 FLAC。</string>
+    <string name="preset_audio_wav_label">仅音频 · WAV</string>
+    <string name="preset_audio_wav_desc">将音轨以未压缩形式提取为 WAV，用于编辑。</string>
+    <string name="preset_remux_mp4_label">重新封装为 MP4 · 不重新编码</string>
+    <string name="preset_remux_mp4_desc">画面和声音不变，换上新的 MP4 容器。即时完成。</string>
+    <string name="preset_remux_mkv_label">重新封装为 MKV · 不重新编码</string>
+    <string name="preset_remux_mkv_desc">画面和声音不变，换上新的 MKV 容器。即时完成。</string>
+    <string name="preset_trim_label">裁剪 · 不重新编码</string>
+    <string name="preset_trim_desc">不触动画面地剪出一段。剪切点落在关键帧上。</string>
+    <string name="preset_gif_label">GIF · 动图</string>
+    <string name="preset_gif_desc">将片段转换为动图 GIF（12 fps，宽 480 px）。仅适合短片。</string>
+    <string name="preset_custom_label">自定义 · 手动设置</string>
+    <string name="preset_custom_desc">您自己的格式：容器、编解码器、码率、分辨率。</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">软件编码（libx264，CRF 18，慢速预设）。速度慢，但每字节质量最佳。解码：%1$s。</string>
+    <string name="note_sw_x265">软件编码（libx265，CRF 22，中速预设）。解码：%1$s。</string>
+    <string name="note_sw_vp9">软件编码（libvpx-vp9，CRF 30）到 WebM。解码：%1$s。</string>
+    <string name="note_sw_av1">软件编码（libaom-av1，CRF 32）。CPU 上的 AV1 非常慢。解码：%1$s。</string>
+    <string name="note_audio_aac">提取音频为 AAC 192k。不涉及视频编码器。</string>
+    <string name="note_audio_mp3">提取音频为 MP3 192k。不涉及视频编码器。</string>
+    <string name="note_audio_opus">提取音频为 Opus 128k。不涉及视频编码器。</string>
+    <string name="note_audio_flac">提取音频为 FLAC（无损）。不涉及视频编码器。</string>
+    <string name="note_audio_wav">提取音频为 WAV（未压缩）。不涉及视频编码器。</string>
+    <string name="note_remux_mp4">重新封装为 MP4：复制流，不重新编码。</string>
+    <string name="note_remux_mkv">重新封装为 MKV：复制流，不重新编码。</string>
+    <string name="note_gif">12 fps、宽 480 px 的动图 GIF。解码：%1$s。</string>
+    <string name="note_trim">流复制，不重新编码。剪切点落在关键帧上，因此边缘可能会偏移几帧。</string>
+    <string name="note_hw_encode">在 %2$s 上进行硬件编码（%1$s），%3$s Mbps。解码：%4$s。</string>
+    <string name="note_custom_audio">自定义：仅音频（%1$s %2$dk）。</string>
+    <string name="note_custom_full">自定义：%1$s · 视频 %2$s · 音频 %3$s。解码：%4$s。</string>
+    <string name="refusal_custom_path">自定义任务由手动选项构建，而不是通过预设路径。</string>
+    <string name="refusal_trim_times">请先选择开始和结束时间。裁剪两者都需要。</string>
+    <string name="refusal_no_hw_encoder">此手机没有硬件 %1$s 编码器，因此硬件预设无法运行。软件预设仍可在 CPU 上完成此转换。</string>
+    <string name="refusal_no_hw_encoder_manual">此手机没有硬件 %1$s 编码器，因此此自定义设置无法运行。</string>
+    <string name="refusal_legacy_vp9_av1">旧版引擎（FFmpeg 6.0）没有 VP9 和 AV1 硬件编码器。请选择软件选项，或 H.264 / HEVC 硬件。</string>
+    <string name="refusal_audio_only_codec">仅音频输出需要音频编解码器。请选择 AAC、MP3 或 Opus。</string>
+    <string name="refusal_pick_audio">请选择音频编解码器。</string>
+    <string name="refusal_webm_video">WebM 只能容纳 VP9 或 AV1 视频。请选择其中之一，或使用 MP4 或 MKV 容器。</string>
+    <string name="refusal_webm_audio">WebM 音频必须是 Opus、复制或无。AAC 和 MP3 不适合 WebM。</string>
+    <string name="decode_hw">硬件（%2$s 上的 %1$s）</string>
+    <string name="decode_cpu_retry">CPU（硬件解码器失败后重试）</string>
+    <string name="decode_cpu_choice">CPU（您在自定义设置中的选择）</string>
+    <string name="decode_cpu_no_path">CPU（没有 %1$s 的硬件解码路径）</string>
+    <string name="decode_this_input">此输入</string>
+    <string name="decode_cpu_no_decoder">CPU（此手机没有硬件 %1$s 解码器）</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">开始</string>
+    <string name="queue_clear_finished">清除已完成</string>
+    <string name="queue_empty_title">尚无转换</string>
+    <string name="queue_empty_body">在转换选项卡中添加文件并点按开始，它们会在这里逐个运行。</string>
+    <string name="job_waiting">等待开始</string>
+    <string name="job_queued">排队中</string>
+    <string name="job_est_output">≈ 输出 %1$s</string>
+    <string name="job_cancel">取消</string>
+    <string name="job_converting">正在转换…</string>
+    <string name="job_speed">%1$s× 速度</string>
+    <string name="job_saved_to">已保存到 %1$s/%2$s</string>
+    <string name="job_open">打开</string>
+    <string name="job_share">分享</string>
+    <string name="job_cancelled">已取消</string>
+    <string name="job_failed">失败</string>
+    <string name="job_debug_log_save">调试日志。点按日志将其保存到 Download/HWA Converter</string>
+    <string name="job_debug_log_saved">调试日志。已保存到 Download/HWA Converter</string>
+    <string name="job_share_log">分享日志</string>
+    <string name="share_debug_log_title">分享调试日志</string>
+    <string name="share_file_title">分享转换后的文件</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">无法在 MediaStore 中创建输出文件。</string>
+    <string name="queue_conversion_failed">转换失败。ffmpeg 输出：%1$s</string>
+    <string name="queue_conversion_failed_silent">转换失败（ffmpeg 没有给出消息）。</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">正在检测此设备的媒体引擎…</string>
+    <string name="hw_video_encoders">视频编码器</string>
+    <string name="hw_audio_encoders">音频编码器</string>
+    <string name="hw_video_decoders">视频解码器</string>
+    <string name="hw_soc_line">%1$s · Android %2$s（API %3$d）</string>
+    <string name="hw_media_engine">媒体引擎：%1$s</string>
+    <string name="hw_tile_hw_encoders">硬件编码器</string>
+    <string name="hw_tile_hw_decoders">硬件解码器</string>
+    <string name="hw_tile_max_encode">最大硬件编码</string>
+    <string name="hw_tile_top_bitrate">编码器最高码率</string>
+    <string name="hw_unknown">未知</string>
+    <string name="hw_encoding_title">硬件编码</string>
+    <string name="hw_decoding_title">硬件解码</string>
+    <string name="hw_software_only">仅软件</string>
+    <string name="hw_badge_hardware">硬件</string>
+    <string name="hw_badge_software">软件</string>
+    <string name="hw_up_to">最高 %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">主题</string>
+    <string name="theme_system">系统</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_following_dark">跟随您的手机。目前处于深色模式。</string>
+    <string name="theme_following_light">跟随您的手机。目前处于浅色模式。</string>
+    <string name="settings_color_scheme">配色方案</string>
+    <string name="settings_color_note">Material You 跟随您的壁纸。其他方案是固定调色板，每种都有浅色和深色变体。</string>
+    <string name="settings_app_icon">应用图标</string>
+    <string name="settings_icon_note">主屏幕图标可能需要几秒钟才会更改。某些启动器只有在重启后才会刷新。</string>
+    <string name="settings_language">语言</string>
+    <string name="language_system">系统语言</string>
+
+    <!-- About -->
+    <string name="about_tagline">硬件优先的媒体转换</string>
+    <string name="about_version">版本 %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter 充分利用您手机的媒体引擎。大多数转换应用会忽略它并在 CPU 上编码。此应用会先检测芯片，并尽可能使用硬件。软件路径则保留用于最高质量以及硬件无法完成的任务。不会有任何静默回退。每个任务都会显示实际运行的确切命令，硬件选项卡会显示您手机的功能。此应用免费且开源。您的文件永远不会离开您的手机：此应用唯一获取的是从 GitHub 获取的自身更新。</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">源代码、问题和项目页面</string>
+    <string name="about_releases">发布</string>
+    <string name="about_releases_sub">下载最新的 APK</string>
+    <string name="about_check_updates">检查更新</string>
+    <string name="about_check_updates_sub">在 GitHub 上查看是否有新版本</string>
+    <string name="about_auto_check">自动检查更新</string>
+    <string name="about_auto_off">已关闭。此应用无法访问网络。</string>
+    <string name="about_auto_daily">每天在应用打开时一次</string>
+    <string name="about_internet_note">互联网权限随安装一起提供，仅用于在 GitHub 上检查更新。如果您不需要更新检查，请关闭自动检查。如果应用无法访问互联网，检查器会自行停用，直到可以访问为止。</string>
+    <string name="about_replay_tour">重播导览</string>
+    <string name="about_replay_tour_sub">再次查看功能导览</string>
+    <string name="about_footer">通过 FFmpegKit (GPL) 基于 FFmpeg 构建，在您手机的媒体硬件上运行。</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">欢迎使用 HWA Converter</string>
+    <string name="tour_welcome_body">此应用在您的手机上转换视频和音频。它优先使用媒体引擎，而不是 CPU。快速了解一下。</string>
+    <string name="tour_add_title">添加文件</string>
+    <string name="tour_add_body">点按此按钮并选择您的文件。还不会开始。它们会等待您点按开始。</string>
+    <string name="tour_pick_title">选择转换</string>
+    <string name="tour_pick_body">硬件预设快速且省电。软件预设较慢，但质量最佳。自定义可让您自己设置一切。</string>
+    <string name="tour_start_title">准备好后开始</string>
+    <string name="tour_start_body">添加文件后，添加文件按钮下方会出现开始按钮。点按它即可开始。在此之前，不会运行任何任务。</string>
+    <string name="tour_queue_title">队列选项卡</string>
+    <string name="tour_queue_body">您的所有转换都在这里。您可以查看进度和速度、查看实际运行的确切命令，并保存任务的调试日志。</string>
+    <string name="tour_hardware_title">您的硬件</string>
+    <string name="tour_hardware_body">这是您手机内部的媒体引擎，已在此设备上检测。您的预设就是基于它构建的。如果某个硬件路径未列出，说明您的芯片没有它。</string>
+    <string name="tour_settings_title">外观</string>
+    <string name="tour_settings_body">主题、配色方案、语言和九个启动器图标都在这里。</string>
+    <string name="tour_done_title">就是这样</string>
+    <string name="tour_done_body">最后一件事。转换完全在您的手机上运行。此应用唯一下载的是它自己的更新。</string>
+    <string name="tour_skip">跳过</string>
+    <string name="tour_next">下一步</string>
+    <string name="tour_got_it">知道了</string>
+
+    <!-- Updates -->
+    <string name="update_available">有可用更新</string>
+    <string name="update_on_github">GitHub 上有新版本。</string>
+    <string name="update_version">版本 %1$s</string>
+    <string name="update_downloading">正在下载… %1$d%%</string>
+    <string name="update_downloading_short">正在下载…</string>
+    <string name="update_later">稍后下载</string>
+    <string name="update_install">下载并安装</string>
+    <string name="update_status_checking">正在检查 GitHub…</string>
+    <string name="update_status_available">版本 %1$s 可用。</string>
+    <string name="update_status_uptodate">您已是最新版本。</string>
+    <string name="update_no_files">该发布没有附加文件。</string>
+    <string name="update_no_apk">该发布没有附加 APK。</string>
+    <string name="update_unreachable">无法连接到 GitHub。请检查您的连接，然后重试。</string>
+    <string name="update_check_failed">检查时出现问题。请稍后重试。</string>
+    <string name="update_download_failed">下载失败。请检查您的连接，然后重试。</string>
+    <string name="update_allow_installs">允许从此应用安装，然后再次点按下载并安装。</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">转换</string>
+    <string name="notif_channel_desc">应用在后台时正在运行的转换进度。</string>
+    <string name="notif_converting">正在转换…</string>
+    <string name="notif_starting">正在开始…</string>
+    <string name="notif_ready_title">准备转换</string>
+    <string name="notif_waiting">%1$d 个等待中。在应用中点按开始。</string>
+    <string name="notif_converting_file">正在转换 %1$s</string>
+    <string name="notif_files">文件</string>
+    <string name="notif_more_queued">还有 %1$d 个排队</string>
+    <string name="notif_cancel">取消</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ 已完成</string>
+    <string name="eta_sec_left">≈ 剩余 %1$d 秒</string>
+    <string name="eta_min_left">≈ 剩余 %1$d 分钟</string>
+    <string name="eta_h_min_left">≈ 剩余 %1$d 小时 %2$d 分钟</string>
+</resources>

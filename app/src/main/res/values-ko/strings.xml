@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Korean translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">변환</string>
+    <string name="tab_queue">대기열</string>
+    <string name="tab_hardware">내 하드웨어</string>
+    <string name="tab_settings">디자인</string>
+    <string name="tab_about">정보</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">이 기기의 미디어 엔진을 확인하는 중…</string>
+    <string name="convert_hero_engine">%1$s 미디어 엔진</string>
+    <string name="convert_hero_engine_fallback">미디어 엔진</string>
+    <string name="convert_hero_body">이 휴대전화에서는 하드웨어 가속이 켜져 있습니다. 변환은 CPU가 아닌 미디어 엔진에서 실행됩니다.</string>
+    <string name="chip_h264_hw_encode">H.264 HW 인코딩</string>
+    <string name="chip_hevc_hw_encode">HEVC HW 인코딩</string>
+    <string name="chip_vp9_hw_encode">VP9 HW 인코딩</string>
+    <string name="chip_av1_hw_encode">AV1 HW 인코딩</string>
+    <string name="chip_hevc_hw_decode">HEVC HW 디코딩</string>
+    <string name="chip_av1_hw_decode">AV1 HW 디코딩</string>
+    <string name="convert_with">변환 방식</string>
+    <string name="category_hardware">하드웨어 인코딩</string>
+    <string name="category_software">소프트웨어 인코딩</string>
+    <string name="category_audio">오디오만</string>
+    <string name="category_no_reencode">다시 인코딩 안 함</string>
+    <string name="category_create">만들기</string>
+    <string name="convert_helper">변환을 선택하고 파일을 추가한 뒤 시작을 누르세요. 시작하기 전에는 아무것도 실행되지 않습니다.</string>
+    <string name="trim_start">시작(초)</string>
+    <string name="trim_end">종료(초)</string>
+    <string name="add_files">파일 추가</string>
+    <string name="start_conversion">변환 시작</string>
+    <string name="start_conversions_n">변환 %1$d개 시작</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">수동 설정</string>
+    <string name="manual_video">동영상</string>
+    <string name="manual_container">컨테이너</string>
+    <string name="manual_bitrate_label">동영상 비트레이트(kbps). 비우면 자동</string>
+    <string name="manual_crf_label">품질(CRF). 비우면 기본값. 낮을수록 좋음</string>
+    <string name="manual_max_height">최대 높이</string>
+    <string name="manual_original">원본</string>
+    <string name="manual_audio">오디오</string>
+    <string name="manual_audio_bitrate">오디오 비트레이트(kbps)</string>
+    <string name="manual_hw_decode">하드웨어 디코딩</string>
+    <string name="manual_hw_decode_body">이 휴대전화에 파일 코덱용 디코더가 있으면 미디어 엔진에서 디코딩합니다.</string>
+    <string name="mc_copy">복사(다시 인코딩 안 함)</string>
+    <string name="mc_h264_hw">H.264 · 하드웨어</string>
+    <string name="mc_hevc_hw">H.265 · 하드웨어</string>
+    <string name="mc_vp9_hw">VP9 · 하드웨어</string>
+    <string name="mc_av1_hw">AV1 · 하드웨어</string>
+    <string name="mc_h264_sw">H.264 · 소프트웨어</string>
+    <string name="mc_hevc_sw">H.265 · 소프트웨어</string>
+    <string name="mc_vp9_sw">VP9 · 소프트웨어</string>
+    <string name="mc_av1_sw">AV1 · 소프트웨어</string>
+    <string name="mc_none">동영상 없음(오디오만)</string>
+    <string name="ma_copy">복사(다시 인코딩 안 함)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">오디오 없음</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · 하드웨어</string>
+    <string name="preset_h264_hw_desc">빠르고 작으며 어디서나 재생됩니다. 이 휴대전화의 미디어 엔진을 사용합니다.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · 하드웨어</string>
+    <string name="preset_hevc_hw_desc">같은 품질에서 H.264의 약 절반 크기입니다. 이 휴대전화의 미디어 엔진을 사용합니다.</string>
+    <string name="preset_vp9_hw_label">VP9 · 하드웨어</string>
+    <string name="preset_vp9_hw_desc">WebM 파일로 하드웨어 VP9 인코딩. 미디어 엔진이 VP9을 인코딩할 수 있는 휴대전화에서만 사용할 수 있습니다.</string>
+    <string name="preset_av1_hw_label">AV1 · 하드웨어</string>
+    <string name="preset_av1_hw_desc">하드웨어 AV1. AV1을 인코딩할 수 있는 미디어 엔진은 적어서, 이 프리셋은 해당 휴대전화에서만 표시됩니다.</string>
+    <string name="preset_h264_sw_label">H.264 · 최고 품질(소프트웨어)</string>
+    <string name="preset_h264_sw_desc">libx264를 이용한 느린 CPU 인코딩, 바이트당 최고의 품질. 마스터와 HDR용.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · 최고 품질(소프트웨어)</string>
+    <string name="preset_hevc_sw_desc">같은 품질에서 H.264보다 작습니다. libx265를 이용한 느린 CPU 인코딩.</string>
+    <string name="preset_vp9_sw_label">VP9 · 소프트웨어(WebM)</string>
+    <string name="preset_vp9_sw_desc">웹의 코덱을 WebM 파일로. libvpx를 이용한 CPU 인코딩.</string>
+    <string name="preset_av1_sw_label">AV1 · 소프트웨어</string>
+    <string name="preset_av1_sw_desc">최신 코덱, 가장 작은 파일. CPU에서는 매우 느립니다. 짧은 클립에 적합.</string>
+    <string name="preset_audio_aac_label">오디오만 · AAC</string>
+    <string name="preset_audio_aac_desc">오디오 트랙을 AAC로 추출합니다.</string>
+    <string name="preset_audio_mp3_label">오디오만 · MP3</string>
+    <string name="preset_audio_mp3_desc">오디오 트랙을 MP3로 추출합니다. 어디서나 재생됩니다.</string>
+    <string name="preset_audio_opus_label">오디오만 · Opus</string>
+    <string name="preset_audio_opus_desc">오디오 트랙을 Opus로 추출합니다. 같은 품질에서 가장 작습니다.</string>
+    <string name="preset_audio_flac_label">오디오만 · FLAC</string>
+    <string name="preset_audio_flac_desc">오디오 트랙을 FLAC로 무손실 추출합니다.</string>
+    <string name="preset_audio_wav_label">오디오만 · WAV</string>
+    <string name="preset_audio_wav_desc">오디오 트랙을 WAV로 무압축 추출합니다. 편집용.</string>
+    <string name="preset_remux_mp4_label">MP4로 리먹스 · 다시 인코딩 안 함</string>
+    <string name="preset_remux_mp4_desc">영상과 소리는 그대로, 새 MP4 컨테이너로. 즉시 완료됩니다.</string>
+    <string name="preset_remux_mkv_label">MKV로 리먹스 · 다시 인코딩 안 함</string>
+    <string name="preset_remux_mkv_desc">영상과 소리는 그대로, 새 MKV 컨테이너로. 즉시 완료됩니다.</string>
+    <string name="preset_trim_label">자르기 · 다시 인코딩 안 함</string>
+    <string name="preset_trim_desc">영상을 건드리지 않고 구간을 잘라냅니다. 자르는 위치는 키프레임에 맞춰집니다.</string>
+    <string name="preset_gif_label">GIF · 움직이는 이미지</string>
+    <string name="preset_gif_desc">클립을 움직이는 GIF(12 fps, 너비 480 px)로 만듭니다. 짧은 클립 전용.</string>
+    <string name="preset_custom_label">사용자 지정 · 수동 설정</string>
+    <string name="preset_custom_desc">직접 정하는 형식: 컨테이너, 코덱, 비트레이트, 해상도.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">소프트웨어 인코딩(libx264, CRF 18, slow 프리셋). 느리지만 바이트당 최고의 품질. 디코딩: %1$s.</string>
+    <string name="note_sw_x265">소프트웨어 인코딩(libx265, CRF 22, medium 프리셋). 디코딩: %1$s.</string>
+    <string name="note_sw_vp9">WebM으로 소프트웨어 인코딩(libvpx-vp9, CRF 30). 디코딩: %1$s.</string>
+    <string name="note_sw_av1">소프트웨어 인코딩(libaom-av1, CRF 32). CPU에서 AV1은 매우 느립니다. 디코딩: %1$s.</string>
+    <string name="note_audio_aac">AAC 192k로 오디오 추출. 동영상 인코더를 사용하지 않습니다.</string>
+    <string name="note_audio_mp3">MP3 192k로 오디오 추출. 동영상 인코더를 사용하지 않습니다.</string>
+    <string name="note_audio_opus">Opus 128k로 오디오 추출. 동영상 인코더를 사용하지 않습니다.</string>
+    <string name="note_audio_flac">FLAC(무손실)로 오디오 추출. 동영상 인코더를 사용하지 않습니다.</string>
+    <string name="note_audio_wav">WAV(무압축)로 오디오 추출. 동영상 인코더를 사용하지 않습니다.</string>
+    <string name="note_remux_mp4">MP4로 리먹스: 스트림을 복사하고 다시 인코딩하지 않습니다.</string>
+    <string name="note_remux_mkv">MKV로 리먹스: 스트림을 복사하고 다시 인코딩하지 않습니다.</string>
+    <string name="note_gif">12 fps, 너비 480 px의 움직이는 GIF. 디코딩: %1$s.</string>
+    <string name="note_trim">스트림 복사, 다시 인코딩 안 함. 자르는 위치가 키프레임에 맞춰져서 가장자리가 몇 프레임 이동할 수 있습니다.</string>
+    <string name="note_hw_encode">%2$s에서 하드웨어 인코딩(%1$s), %3$s Mbps. 디코딩: %4$s.</string>
+    <string name="note_custom_audio">사용자 지정: 오디오만(%1$s %2$dk).</string>
+    <string name="note_custom_full">사용자 지정: %1$s · 동영상 %2$s · 오디오 %3$s. 디코딩: %4$s.</string>
+    <string name="refusal_custom_path">사용자 지정 작업은 프리셋이 아닌 수동 옵션으로 만들어집니다.</string>
+    <string name="refusal_trim_times">먼저 시작 시간과 종료 시간을 선택하세요. 자르기에는 둘 다 필요합니다.</string>
+    <string name="refusal_no_hw_encoder">이 휴대전화에는 하드웨어 %1$s 인코더가 없어서 하드웨어 프리셋을 실행할 수 없습니다. 소프트웨어 프리셋으로는 CPU에서 이 변환을 계속할 수 있습니다.</string>
+    <string name="refusal_no_hw_encoder_manual">이 휴대전화에는 하드웨어 %1$s 인코더가 없어서 이 사용자 지정 설정을 실행할 수 없습니다.</string>
+    <string name="refusal_legacy_vp9_av1">레거시 엔진(FFmpeg 6.0)에는 VP9 및 AV1 하드웨어 인코더가 없습니다. 소프트웨어 옵션을 선택하거나 H.264 / HEVC 하드웨어를 선택하세요.</string>
+    <string name="refusal_audio_only_codec">오디오만 출력하려면 오디오 코덱이 필요합니다. AAC, MP3, Opus 중에서 선택하세요.</string>
+    <string name="refusal_pick_audio">오디오 코덱을 선택하세요.</string>
+    <string name="refusal_webm_video">WebM에는 VP9 또는 AV1 동영상이 들어갑니다. 둘 중 하나를 선택하거나 MP4 또는 MKV 컨테이너를 사용하세요.</string>
+    <string name="refusal_webm_audio">WebM 오디오는 Opus, 복사, 없음 중 하나여야 합니다. AAC와 MP3는 WebM에 들어가지 않습니다.</string>
+    <string name="decode_hw">하드웨어(%2$s의 %1$s)</string>
+    <string name="decode_cpu_retry">CPU(하드웨어 디코더 실패 후 재시도)</string>
+    <string name="decode_cpu_choice">CPU(사용자 지정 설정에서 선택)</string>
+    <string name="decode_cpu_no_path">CPU(%1$s용 하드웨어 디코더 경로 없음)</string>
+    <string name="decode_this_input">이 입력</string>
+    <string name="decode_cpu_no_decoder">CPU(이 휴대전화에 하드웨어 %1$s 디코더 없음)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">시작</string>
+    <string name="queue_clear_finished">완료된 항목 지우기</string>
+    <string name="queue_empty_title">아직 변환이 없습니다</string>
+    <string name="queue_empty_body">변환 탭에서 파일을 추가하고 시작을 누르면 여기에서 하나씩 실행됩니다.</string>
+    <string name="job_waiting">시작 대기 중</string>
+    <string name="job_queued">대기 중</string>
+    <string name="job_est_output">≈ 출력 %1$s</string>
+    <string name="job_cancel">취소</string>
+    <string name="job_converting">변환 중…</string>
+    <string name="job_speed">%1$s× 속도</string>
+    <string name="job_saved_to">%1$s/%2$s에 저장됨</string>
+    <string name="job_open">열기</string>
+    <string name="job_share">공유</string>
+    <string name="job_cancelled">취소됨</string>
+    <string name="job_failed">실패</string>
+    <string name="job_debug_log_save">디버그 로그. 로그를 누르면 Download/HWA Converter에 저장됩니다</string>
+    <string name="job_debug_log_saved">디버그 로그. Download/HWA Converter에 저장됨</string>
+    <string name="job_share_log">로그 공유</string>
+    <string name="share_debug_log_title">디버그 로그 공유</string>
+    <string name="share_file_title">변환된 파일 공유</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">MediaStore에 출력 파일을 만들 수 없습니다.</string>
+    <string name="queue_conversion_failed">변환에 실패했습니다. ffmpeg 출력: %1$s</string>
+    <string name="queue_conversion_failed_silent">변환에 실패했습니다(ffmpeg 메시지가 없음).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">이 기기의 미디어 엔진을 확인하는 중…</string>
+    <string name="hw_video_encoders">동영상 인코더</string>
+    <string name="hw_audio_encoders">오디오 인코더</string>
+    <string name="hw_video_decoders">동영상 디코더</string>
+    <string name="hw_soc_line">%1$s · Android %2$s(API %3$d)</string>
+    <string name="hw_media_engine">미디어 엔진: %1$s</string>
+    <string name="hw_tile_hw_encoders">하드웨어 인코더</string>
+    <string name="hw_tile_hw_decoders">하드웨어 디코더</string>
+    <string name="hw_tile_max_encode">최대 하드웨어 인코딩</string>
+    <string name="hw_tile_top_bitrate">인코더 최고 비트레이트</string>
+    <string name="hw_unknown">알 수 없음</string>
+    <string name="hw_encoding_title">하드웨어 인코딩</string>
+    <string name="hw_decoding_title">하드웨어 디코딩</string>
+    <string name="hw_software_only">소프트웨어만</string>
+    <string name="hw_badge_hardware">HARDWARE</string>
+    <string name="hw_badge_software">SOFTWARE</string>
+    <string name="hw_up_to">최대 %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">테마</string>
+    <string name="theme_system">시스템</string>
+    <string name="theme_light">라이트</string>
+    <string name="theme_dark">다크</string>
+    <string name="theme_following_dark">휴대전화 설정을 따릅니다. 지금은 다크 모드입니다.</string>
+    <string name="theme_following_light">휴대전화 설정을 따릅니다. 지금은 라이트 모드입니다.</string>
+    <string name="settings_color_scheme">색상 구성</string>
+    <string name="settings_color_note">Material You는 배경화면을 따릅니다. 다른 구성은 고정 팔레트이며 각각 라이트와 다크 변형이 있습니다.</string>
+    <string name="settings_app_icon">앱 아이콘</string>
+    <string name="settings_icon_note">홈 화면 아이콘이 바뀌는 데 몇 초 걸릴 수 있습니다. 일부 런처는 재시작 후에만 새로고침합니다.</string>
+    <string name="settings_language">언어</string>
+    <string name="language_system">시스템 언어</string>
+
+    <!-- About -->
+    <string name="about_tagline">하드웨어 우선 미디어 변환</string>
+    <string name="about_version">버전 %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter는 휴대전화의 미디어 엔진을 활용합니다. 대부분의 변환 앱은 이를 무시하고 CPU로 인코딩합니다. 이 앱은 먼저 칩을 확인하고 가능할 때마다 하드웨어를 사용합니다. 소프트웨어 경로는 최고 품질을 위해, 그리고 하드웨어가 할 수 없는 작업을 위해 남아 있습니다. 조용히 대체되는 경우는 없습니다. 모든 작업에는 실제 실행된 명령이 표시되고, 하드웨어 탭에서는 휴대전화의 성능을 볼 수 있습니다. 이 앱은 무료 오픈 소스입니다. 파일이 휴대전화 밖으로 나가는 일은 없습니다. 이 앱이 가져오는 것은 GitHub에서 받는 자체 업데이트뿐입니다.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">소스 코드, 이슈, 프로젝트 페이지</string>
+    <string name="about_releases">릴리스</string>
+    <string name="about_releases_sub">최신 APK 다운로드</string>
+    <string name="about_check_updates">업데이트 확인</string>
+    <string name="about_check_updates_sub">GitHub에서 새 버전 확인</string>
+    <string name="about_auto_check">자동 업데이트 확인</string>
+    <string name="about_auto_off">꺼짐. 이 앱에는 네트워크 액세스 권한이 없습니다.</string>
+    <string name="about_auto_daily">앱을 열 때 하루에 한 번</string>
+    <string name="about_internet_note">인터넷 권한은 설치 시 함께 제공되며 GitHub에서 업데이트를 확인하는 데만 사용됩니다. 업데이트 확인이 필요 없으면 자동 확인을 끄세요. 앱이 인터넷에 연결할 수 없으면, 연결할 수 있을 때까지 확인 기능이 자동으로 비활성화됩니다.</string>
+    <string name="about_replay_tour">둘러보기 다시 보기</string>
+    <string name="about_replay_tour_sub">기능 둘러보기를 다시 봅니다</string>
+    <string name="about_footer">FFmpegKit(GPL)를 통한 FFmpeg로 만들었으며, 휴대전화의 미디어 하드웨어에서 실행됩니다.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">HWA Converter에 오신 것을 환영합니다</string>
+    <string name="tour_welcome_body">이 앱은 휴대전화에서 동영상과 오디오를 변환합니다. CPU가 아닌 미디어 엔진을 먼저 사용합니다. 간단히 둘러보겠습니다.</string>
+    <string name="tour_add_title">파일 추가</string>
+    <string name="tour_add_body">이 버튼을 눌러 파일을 선택하세요. 아직 시작되지 않습니다. 시작을 누를 때까지 기다립니다.</string>
+    <string name="tour_pick_title">변환 선택</string>
+    <string name="tour_pick_body">하드웨어 프리셋은 빠르고 배터리에 부담이 적습니다. 소프트웨어 프리셋은 느리지만 최고의 품질을 제공합니다. 사용자 지정에서는 모든 것을 직접 설정할 수 있습니다.</string>
+    <string name="tour_start_title">준비되면 시작</string>
+    <string name="tour_start_body">파일을 추가하면 파일 추가 버튼 아래에 시작 버튼이 나타납니다. 누르면 시작됩니다. 그전에는 아무것도 실행되지 않습니다.</string>
+    <string name="tour_queue_title">대기열 탭</string>
+    <string name="tour_queue_body">모든 변환이 여기에 있습니다. 진행률과 속도를 보고, 실행된 정확한 명령을 확인하고, 작업의 디버그 로그를 저장할 수 있습니다.</string>
+    <string name="tour_hardware_title">내 하드웨어</string>
+    <string name="tour_hardware_body">이 기기에서 확인한, 휴대전화 내부의 미디어 엔진입니다. 프리셋은 이를 바탕으로 만들어집니다. 하드웨어 경로가 목록에 없으면 칩에 없는 것입니다.</string>
+    <string name="tour_settings_title">디자인</string>
+    <string name="tour_settings_body">테마, 색상 구성, 언어, 9개의 런처 아이콘이 여기에 있습니다.</string>
+    <string name="tour_done_title">여기까지입니다</string>
+    <string name="tour_done_body">마지막으로 한 가지. 변환은 전적으로 휴대전화에서 실행됩니다. 이 앱이 다운로드하는 것은 자체 업데이트뿐입니다.</string>
+    <string name="tour_skip">건너뛰기</string>
+    <string name="tour_next">다음</string>
+    <string name="tour_got_it">확인</string>
+
+    <!-- Updates -->
+    <string name="update_available">업데이트 있음</string>
+    <string name="update_on_github">GitHub에 새 버전이 있습니다.</string>
+    <string name="update_version">버전 %1$s</string>
+    <string name="update_downloading">다운로드 중… %1$d%%</string>
+    <string name="update_downloading_short">다운로드 중…</string>
+    <string name="update_later">나중에 다운로드</string>
+    <string name="update_install">다운로드 및 설치</string>
+    <string name="update_status_checking">GitHub 확인 중…</string>
+    <string name="update_status_available">버전 %1$s을 사용할 수 있습니다.</string>
+    <string name="update_status_uptodate">최신 상태입니다.</string>
+    <string name="update_no_files">해당 릴리스에는 첨부된 파일이 없습니다.</string>
+    <string name="update_no_apk">해당 릴리스에는 첨부된 APK가 없습니다.</string>
+    <string name="update_unreachable">GitHub에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.</string>
+    <string name="update_check_failed">확인하는 중 문제가 발생했습니다. 나중에 다시 시도하세요.</string>
+    <string name="update_download_failed">다운로드에 실패했습니다. 연결을 확인하고 다시 시도하세요.</string>
+    <string name="update_allow_installs">이 앱에서 설치를 허용한 뒤 다운로드 및 설치를 다시 누르세요.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">변환</string>
+    <string name="notif_channel_desc">앱이 백그라운드에 있는 동안 실행 중인 변환의 진행률.</string>
+    <string name="notif_converting">변환 중…</string>
+    <string name="notif_starting">시작 중…</string>
+    <string name="notif_ready_title">변환 준비 완료</string>
+    <string name="notif_waiting">%1$d개 대기 중. 앱에서 시작을 누르세요.</string>
+    <string name="notif_converting_file">%1$s 변환 중</string>
+    <string name="notif_files">파일</string>
+    <string name="notif_more_queued">%1$d개 더 대기 중</string>
+    <string name="notif_cancel">취소</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ 완료</string>
+    <string name="eta_sec_left">≈ %1$d초 남음</string>
+    <string name="eta_min_left">≈ %1$d분 남음</string>
+    <string name="eta_h_min_left">≈ %1$d시간 %2$d분 남음</string>
+</resources>

@@ -75,8 +75,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.annotation.StringRes
+import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import io.github.justvisiting992.mediaconverter.R
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.engine.ConversionPreset
 import io.github.justvisiting992.mediaconverter.ui.tour.TourKeys
@@ -88,6 +91,7 @@ import io.github.justvisiting992.mediaconverter.core.queue.JobStatus
 import io.github.justvisiting992.mediaconverter.ui.components.HeroPanel
 import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
 import io.github.justvisiting992.mediaconverter.ui.components.InfoChip
+import io.github.justvisiting992.mediaconverter.ui.components.OnGradientTextShadow
 import io.github.justvisiting992.mediaconverter.ui.components.Thumbnails
 import io.github.justvisiting992.mediaconverter.ui.components.estimateOutputBytes
 import io.github.justvisiting992.mediaconverter.ui.components.formatDurationMs
@@ -96,41 +100,41 @@ import io.github.justvisiting992.mediaconverter.ui.components.formatSizeBytes
 
 /** Preset groups, in display order, the Convert tab's menu structure. */
 private data class PresetCategory(
-    val title: String,
+    @StringRes val titleRes: Int,
     val icon: androidx.compose.ui.graphics.vector.ImageVector,
     val members: List<ConversionPreset>,
 )
 
 private fun categoriesFor(available: List<ConversionPreset>): List<PresetCategory> {
     fun group(
-        title: String,
+        @StringRes titleRes: Int,
         icon: androidx.compose.ui.graphics.vector.ImageVector,
         vararg members: ConversionPreset,
-    ) = PresetCategory(title, icon, members.filter { it in available })
+    ) = PresetCategory(titleRes, icon, members.filter { it in available })
     return listOf(
         group(
-            "Hardware encode", Icons.Filled.Bolt,
+            R.string.category_hardware, Icons.Filled.Bolt,
             ConversionPreset.H264_HARDWARE, ConversionPreset.HEVC_HARDWARE,
             ConversionPreset.VP9_HARDWARE, ConversionPreset.AV1_HARDWARE,
         ),
         group(
-            "Software encode", Icons.Filled.Code,
+            R.string.category_software, Icons.Filled.Code,
             ConversionPreset.H264_SOFTWARE, ConversionPreset.HEVC_SOFTWARE,
             ConversionPreset.VP9_SOFTWARE, ConversionPreset.AV1_SOFTWARE,
         ),
         group(
-            "Audio only", Icons.Filled.MusicNote,
+            R.string.category_audio, Icons.Filled.MusicNote,
             ConversionPreset.AUDIO_AAC, ConversionPreset.AUDIO_MP3,
             ConversionPreset.AUDIO_OPUS, ConversionPreset.AUDIO_FLAC,
             ConversionPreset.AUDIO_WAV,
         ),
         group(
-            "No re-encode", Icons.Filled.ContentCopy,
+            R.string.category_no_reencode, Icons.Filled.ContentCopy,
             ConversionPreset.REMUX_MP4, ConversionPreset.REMUX_MKV,
             ConversionPreset.TRIM_COPY,
         ),
         group(
-            "Create", Icons.Filled.AutoAwesome,
+            R.string.category_create, Icons.Filled.AutoAwesome,
             ConversionPreset.GIF, ConversionPreset.CUSTOM,
         ),
     ).filter { it.members.isNotEmpty() }
@@ -181,7 +185,7 @@ fun ConvertScreen(
     val selected = presets.firstOrNull { it.id == selectedPresetId } ?: presets.firstOrNull()
     var expandedTitle by remember(categories) {
         mutableStateOf(
-            categories.firstOrNull { cat -> cat.members.any { it == selected } }?.title,
+            categories.firstOrNull { cat -> cat.members.any { it == selected } }?.titleRes,
         )
     }
 
@@ -245,27 +249,27 @@ fun ConvertScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         if (report == null) {
-            item { Text("Probing this device's media engine…") }
+            item { Text(stringResource(R.string.convert_probing)) }
         } else {
             item { ConvertHero(report) }
             item {
                 Text(
-                    "Convert with",
+                    stringResource(R.string.convert_with),
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
-            items(categories, key = { it.title }) { category ->
+            items(categories, key = { it.titleRes }) { category ->
                 // The first category card doubles as the tour's
                 // "presets" anchor.
                 val card: @Composable () -> Unit = {
                     CategoryCard(
                         category = category,
                         selected = selected,
-                        expanded = expandedTitle == category.title,
+                        expanded = expandedTitle == category.titleRes,
                         onToggle = {
                             expandedTitle =
-                                if (expandedTitle == category.title) null
-                                else category.title
+                                if (expandedTitle == category.titleRes) null
+                                else category.titleRes
                         },
                         onSelect = { preset ->
                             selectedPresetId = preset.id
@@ -318,7 +322,7 @@ fun ConvertScreen(
                         OutlinedTextField(
                             value = trimStart,
                             onValueChange = { trimStart = it },
-                            label = { Text("Start (seconds)") },
+                            label = { Text(stringResource(R.string.trim_start)) },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal,
                             ),
@@ -328,7 +332,7 @@ fun ConvertScreen(
                         OutlinedTextField(
                             value = trimEnd,
                             onValueChange = { trimEnd = it },
-                            label = { Text("End (seconds)") },
+                            label = { Text(stringResource(R.string.trim_end)) },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Decimal,
                             ),
@@ -343,8 +347,7 @@ fun ConvertScreen(
         if (report != null) {
             item {
                 Text(
-                    "Pick a conversion, add files, then tap Start. " +
-                        "Nothing runs until you say so.",
+                    stringResource(R.string.convert_helper),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 4.dp),
@@ -373,7 +376,7 @@ fun ConvertScreen(
             ExtendedFloatingActionButton(
                 onClick = { picker.launch(arrayOf("video/*", "audio/*")) },
                 icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                text = { Text("Add files") },
+                text = { Text(stringResource(R.string.add_files)) },
                 modifier = Modifier.tourTarget(TourKeys.ADD_FILES),
             )
             if (awaitingStart) {
@@ -386,9 +389,12 @@ fun ConvertScreen(
                     text = {
                         Text(
                             if (waitingCount == 1) {
-                                "Start conversion"
+                                stringResource(R.string.start_conversion)
                             } else {
-                                "Start $waitingCount conversions"
+                                stringResource(
+                                    R.string.start_conversions_n,
+                                    waitingCount,
+                                )
                             },
                         )
                     },
@@ -417,12 +423,12 @@ private fun CategoryCard(
     )
     val chosen = category.members.firstOrNull { it == selected }
     val scheme = MaterialTheme.colorScheme
-    val (badgeContainer, badgeContent) = when (category.title) {
-        "Hardware encode" -> scheme.primaryContainer to scheme.onPrimaryContainer
-        "Software encode" -> scheme.tertiaryContainer to scheme.onTertiaryContainer
-        "Audio only" -> scheme.secondaryContainer to scheme.onSecondaryContainer
-        "No re-encode" -> scheme.tertiaryContainer to scheme.onTertiaryContainer
-        "Create" -> scheme.primaryContainer to scheme.onPrimaryContainer
+    val (badgeContainer, badgeContent) = when (category.titleRes) {
+        R.string.category_hardware -> scheme.primaryContainer to scheme.onPrimaryContainer
+        R.string.category_software -> scheme.tertiaryContainer to scheme.onTertiaryContainer
+        R.string.category_audio -> scheme.secondaryContainer to scheme.onSecondaryContainer
+        R.string.category_no_reencode -> scheme.tertiaryContainer to scheme.onTertiaryContainer
+        R.string.category_create -> scheme.primaryContainer to scheme.onPrimaryContainer
         else -> scheme.surfaceContainerHigh to scheme.onSurfaceVariant
     }
     Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
@@ -438,13 +444,13 @@ private fun CategoryCard(
                 IconBadge(category.icon, badgeContainer, badgeContent)
                 Column(Modifier.weight(1f)) {
                     Text(
-                        category.title,
+                        stringResource(category.titleRes),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold,
                     )
                     if (chosen != null) {
                         Text(
-                            chosen.label,
+                            stringResource(chosen.labelRes),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.primary,
                         )
@@ -513,7 +519,7 @@ private fun PresetRow(
     ) {
         Column {
             Text(
-                preset.label,
+                stringResource(preset.labelRes),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
             )
@@ -523,7 +529,7 @@ private fun PresetRow(
                 exit = shrinkVertically() + fadeOut(),
             ) {
                 Text(
-                    preset.description,
+                    stringResource(preset.descriptionRes),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 2.dp),
@@ -574,12 +580,12 @@ private fun ManualPanel(
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Text(
-                "Manual settings",
+                stringResource(R.string.manual_title),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
             )
 
-            PanelLabel("Video")
+            PanelLabel(stringResource(R.string.manual_video))
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -588,7 +594,7 @@ private fun ManualPanel(
                     FilterChip(
                         selected = video == codec,
                         onClick = { onVideo(codec) },
-                        label = { Text(codec.label) },
+                        label = { Text(stringResource(codec.labelRes)) },
                     )
                 }
             }
@@ -599,7 +605,7 @@ private fun ManualPanel(
                 exit = shrinkVertically() + fadeOut(),
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    PanelLabel("Container")
+                    PanelLabel(stringResource(R.string.manual_container))
                     FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -624,7 +630,7 @@ private fun ManualPanel(
                 OutlinedTextField(
                     value = bitrate,
                     onValueChange = onBitrate,
-                    label = { Text("Video bitrate (kbps). Blank means auto") },
+                    label = { Text(stringResource(R.string.manual_bitrate_label)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -641,7 +647,7 @@ private fun ManualPanel(
                 OutlinedTextField(
                     value = crf,
                     onValueChange = onCrf,
-                    label = { Text("Quality (CRF). Blank means default. Lower is better") },
+                    label = { Text(stringResource(R.string.manual_crf_label)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -654,7 +660,7 @@ private fun ManualPanel(
                 exit = shrinkVertically() + fadeOut(),
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    PanelLabel("Max height")
+                    PanelLabel(stringResource(R.string.manual_max_height))
                     FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -663,14 +669,19 @@ private fun ManualPanel(
                             FilterChip(
                                 selected = maxHeight == height,
                                 onClick = { onMaxHeight(height) },
-                                label = { Text(height?.let { "${it}p" } ?: "Original") },
+                                label = {
+                                    Text(
+                                        height?.let { "${it}p" }
+                                            ?: stringResource(R.string.manual_original),
+                                    )
+                                },
                             )
                         }
                     }
                 }
             }
 
-            PanelLabel("Audio")
+            PanelLabel(stringResource(R.string.manual_audio))
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -679,7 +690,7 @@ private fun ManualPanel(
                     FilterChip(
                         selected = audio == codec,
                         onClick = { onAudio(codec) },
-                        label = { Text(codec.label) },
+                        label = { Text(stringResource(codec.labelRes)) },
                     )
                 }
             }
@@ -693,7 +704,7 @@ private fun ManualPanel(
                 OutlinedTextField(
                     value = audioBitrate,
                     onValueChange = onAudioBitrate,
-                    label = { Text("Audio bitrate (kbps)") },
+                    label = { Text(stringResource(R.string.manual_audio_bitrate)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -713,12 +724,11 @@ private fun ManualPanel(
                 ) {
                     Column(Modifier.weight(1f)) {
                         Text(
-                            "Hardware decode",
+                            stringResource(R.string.manual_hw_decode),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Text(
-                            "Decode on the media engine when this phone has " +
-                                "a decoder for the file's codec.",
+                            stringResource(R.string.manual_hw_decode_body),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -761,37 +771,40 @@ private fun ConvertHero(report: DeviceCodecReport) {
             )
             Column {
                 Text(
-                    report.mediaVendor()?.let { "$it media engine" } ?: "Media engine",
-                    style = MaterialTheme.typography.titleLarge,
+                    report.mediaVendor()?.let {
+                        stringResource(R.string.convert_hero_engine, it)
+                    } ?: stringResource(R.string.convert_hero_engine_fallback),
+                    style = MaterialTheme.typography.titleLarge
+                        .copy(shadow = OnGradientTextShadow),
                     fontWeight = FontWeight.Bold,
                     color = scheme.onPrimaryContainer,
                 )
                 Text(
-                    "Hardware acceleration is on for this phone. " +
-                        "Conversions run on the media engine, not the CPU.",
-                    style = MaterialTheme.typography.bodyMedium,
+                    stringResource(R.string.convert_hero_body),
+                    style = MaterialTheme.typography.bodyMedium
+                        .copy(shadow = OnGradientTextShadow),
                     color = scheme.onPrimaryContainer.copy(alpha = 0.8f),
                 )
             }
         }
         val chips = buildList {
             if (report.bestHardwareEncoder(DeviceCodecReport.MIME_AVC) != null) {
-                add("H.264 HW encode")
+                add(stringResource(R.string.chip_h264_hw_encode))
             }
             if (report.bestHardwareEncoder(DeviceCodecReport.MIME_HEVC) != null) {
-                add("HEVC HW encode")
+                add(stringResource(R.string.chip_hevc_hw_encode))
             }
             if (report.bestHardwareEncoder(DeviceCodecReport.MIME_VP9) != null) {
-                add("VP9 HW encode")
+                add(stringResource(R.string.chip_vp9_hw_encode))
             }
             if (report.bestHardwareEncoder(DeviceCodecReport.MIME_AV1) != null) {
-                add("AV1 HW encode")
+                add(stringResource(R.string.chip_av1_hw_encode))
             }
             if (report.bestHardwareDecoder(DeviceCodecReport.MIME_AV1) != null) {
-                add("AV1 HW decode")
+                add(stringResource(R.string.chip_av1_hw_decode))
             }
             if (report.bestHardwareDecoder(DeviceCodecReport.MIME_HEVC) != null) {
-                add("HEVC HW decode")
+                add(stringResource(R.string.chip_hevc_hw_decode))
             }
         }
         if (chips.isNotEmpty()) {

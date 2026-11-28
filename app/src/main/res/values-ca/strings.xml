@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Catalan translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Converteix</string>
+    <string name="tab_queue">Cua</string>
+    <string name="tab_hardware">El teu maquinari</string>
+    <string name="tab_settings">Aspecte</string>
+    <string name="tab_about">Informació</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">S\'està analitzant el motor de mitjans d\'aquest dispositiu…</string>
+    <string name="convert_hero_engine">Motor de mitjans %1$s</string>
+    <string name="convert_hero_engine_fallback">Motor de mitjans</string>
+    <string name="convert_hero_body">L\'acceleració de maquinari està activada en aquest telèfon. Les conversions s\'executen al motor de mitjans, no a la CPU.</string>
+    <string name="chip_h264_hw_encode">H.264 codificació maquinari</string>
+    <string name="chip_hevc_hw_encode">HEVC codificació maquinari</string>
+    <string name="chip_vp9_hw_encode">VP9 codificació maquinari</string>
+    <string name="chip_av1_hw_encode">AV1 codificació maquinari</string>
+    <string name="chip_hevc_hw_decode">HEVC descodificació maquinari</string>
+    <string name="chip_av1_hw_decode">AV1 descodificació maquinari</string>
+    <string name="convert_with">Converteix amb</string>
+    <string name="category_hardware">Codificació per maquinari</string>
+    <string name="category_software">Codificació per programari</string>
+    <string name="category_audio">Només àudio</string>
+    <string name="category_no_reencode">Sense recodificar</string>
+    <string name="category_create">Crea</string>
+    <string name="convert_helper">Tria una conversió, afegeix fitxers i toca Inicia. No s\'executa res fins que tu ho diguis.</string>
+    <string name="trim_start">Inici (segons)</string>
+    <string name="trim_end">Final (segons)</string>
+    <string name="add_files">Afegeix fitxers</string>
+    <string name="start_conversion">Inicia la conversió</string>
+    <string name="start_conversions_n">Inicia %1$d conversions</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Configuració manual</string>
+    <string name="manual_video">Vídeo</string>
+    <string name="manual_container">Contenidor</string>
+    <string name="manual_bitrate_label">Taxa de bits de vídeo (kbps). En blanc vol dir automàtica</string>
+    <string name="manual_crf_label">Qualitat (CRF). En blanc vol dir el valor per defecte. Com més baix, millor</string>
+    <string name="manual_max_height">Alçada màxima</string>
+    <string name="manual_original">Original</string>
+    <string name="manual_audio">Àudio</string>
+    <string name="manual_audio_bitrate">Taxa de bits d\'àudio (kbps)</string>
+    <string name="manual_hw_decode">Descodificació per maquinari</string>
+    <string name="manual_hw_decode_body">Descodifica al motor de mitjans quan aquest telèfon té un descodificador per al còdec del fitxer.</string>
+    <string name="mc_copy">Copia (sense recodificar)</string>
+    <string name="mc_h264_hw">H.264 · maquinari</string>
+    <string name="mc_hevc_hw">H.265 · maquinari</string>
+    <string name="mc_vp9_hw">VP9 · maquinari</string>
+    <string name="mc_av1_hw">AV1 · maquinari</string>
+    <string name="mc_h264_sw">H.264 · programari</string>
+    <string name="mc_hevc_sw">H.265 · programari</string>
+    <string name="mc_vp9_sw">VP9 · programari</string>
+    <string name="mc_av1_sw">AV1 · programari</string>
+    <string name="mc_none">Sense vídeo (només àudio)</string>
+    <string name="ma_copy">Copia (sense recodificar)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Sense àudio</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · maquinari</string>
+    <string name="preset_h264_hw_desc">Ràpid, petit, es reprodueix a tot arreu. Fa servir el motor de mitjans d\'aquest telèfon.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · maquinari</string>
+    <string name="preset_hevc_hw_desc">Aproximadament la meitat de la mida de l\'H.264 amb la mateixa qualitat. Fa servir el motor de mitjans d\'aquest telèfon.</string>
+    <string name="preset_vp9_hw_label">VP9 · maquinari</string>
+    <string name="preset_vp9_hw_desc">VP9 per maquinari en un fitxer WebM. Només en telèfons el motor de mitjans dels quals codifica VP9.</string>
+    <string name="preset_av1_hw_label">AV1 · maquinari</string>
+    <string name="preset_av1_hw_desc">AV1 per maquinari. Només uns quants motors de mitjans poden codificar AV1, de manera que aquesta preconfiguració només apareix en aquests telèfons.</string>
+    <string name="preset_h264_sw_label">H.264 · qualitat màxima (programari)</string>
+    <string name="preset_h264_sw_desc">Codificació lenta per CPU amb libx264, la millor qualitat per byte. Per a originals i HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · qualitat màxima (programari)</string>
+    <string name="preset_hevc_sw_desc">Més petit que l\'H.264 amb la mateixa qualitat. Codificació lenta per CPU amb libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · programari (WebM)</string>
+    <string name="preset_vp9_sw_desc">El còdec del web, en un fitxer WebM. Codificació per CPU amb libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · programari</string>
+    <string name="preset_av1_sw_desc">El còdec més nou, els fitxers més petits. Molt lent a la CPU. Millor per a clips curts.</string>
+    <string name="preset_audio_aac_label">Només àudio · AAC</string>
+    <string name="preset_audio_aac_desc">Extreu la pista d\'àudio a AAC.</string>
+    <string name="preset_audio_mp3_label">Només àudio · MP3</string>
+    <string name="preset_audio_mp3_desc">Extreu la pista d\'àudio a MP3. Es reprodueix a tot arreu.</string>
+    <string name="preset_audio_opus_label">Només àudio · Opus</string>
+    <string name="preset_audio_opus_desc">Extreu la pista d\'àudio a Opus. El més petit amb la mateixa qualitat.</string>
+    <string name="preset_audio_flac_label">Només àudio · FLAC</string>
+    <string name="preset_audio_flac_desc">Extreu la pista d\'àudio a FLAC sense pèrdua.</string>
+    <string name="preset_audio_wav_label">Només àudio · WAV</string>
+    <string name="preset_audio_wav_desc">Extreu la pista d\'àudio a WAV sense comprimir, per editar.</string>
+    <string name="preset_remux_mp4_label">Reempaqueta a MP4 · sense recodificar</string>
+    <string name="preset_remux_mp4_desc">La mateixa imatge i el mateix so, un contenidor MP4 nou. Instantani.</string>
+    <string name="preset_remux_mkv_label">Reempaqueta a MKV · sense recodificar</string>
+    <string name="preset_remux_mkv_desc">La mateixa imatge i el mateix so, un contenidor MKV nou. Instantani.</string>
+    <string name="preset_trim_label">Retalla · sense recodificar</string>
+    <string name="preset_trim_desc">Retalla una secció sense tocar la imatge. Els talls cauen en fotogrames clau.</string>
+    <string name="preset_gif_label">GIF · imatge animada</string>
+    <string name="preset_gif_desc">Converteix un clip en un GIF animat (12 fps, 480 px d\'ample). Només clips curts.</string>
+    <string name="preset_custom_label">Personalitzat · configuració manual</string>
+    <string name="preset_custom_desc">El teu propi format: contenidor, còdecs, taxa de bits, resolució.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Codificació per programari (libx264, CRF 18, preconfiguració lenta). Lenta, la millor qualitat per byte. Descodificació: %1$s.</string>
+    <string name="note_sw_x265">Codificació per programari (libx265, CRF 22, preconfiguració mitjana). Descodificació: %1$s.</string>
+    <string name="note_sw_vp9">Codificació per programari (libvpx-vp9, CRF 30) a WebM. Descodificació: %1$s.</string>
+    <string name="note_sw_av1">Codificació per programari (libaom-av1, CRF 32). L\'AV1 és molt lent a la CPU. Descodificació: %1$s.</string>
+    <string name="note_audio_aac">Extracció d\'àudio a AAC 192k. No hi intervé cap codificador de vídeo.</string>
+    <string name="note_audio_mp3">Extracció d\'àudio a MP3 192k. No hi intervé cap codificador de vídeo.</string>
+    <string name="note_audio_opus">Extracció d\'àudio a Opus 128k. No hi intervé cap codificador de vídeo.</string>
+    <string name="note_audio_flac">Extracció d\'àudio a FLAC (sense pèrdua). No hi intervé cap codificador de vídeo.</string>
+    <string name="note_audio_wav">Extracció d\'àudio a WAV (sense comprimir). No hi intervé cap codificador de vídeo.</string>
+    <string name="note_remux_mp4">Reempaquetat a MP4: fluxos copiats, res recodificat.</string>
+    <string name="note_remux_mkv">Reempaquetat a MKV: fluxos copiats, res recodificat.</string>
+    <string name="note_gif">GIF animat a 12 fps, 480 px d\'ample. Descodificació: %1$s.</string>
+    <string name="note_trim">Còpia de flux, sense recodificar. Els talls cauen en fotogrames clau, de manera que les vores es poden desplaçar uns quants fotogrames.</string>
+    <string name="note_hw_encode">Codificació per maquinari (%1$s) a %2$s a %3$s Mbps. Descodificació: %4$s.</string>
+    <string name="note_custom_audio">Personalitzat: només àudio (%1$s %2$dk).</string>
+    <string name="note_custom_full">Personalitzat: %1$s · vídeo %2$s · àudio %3$s. Descodificació: %4$s.</string>
+    <string name="refusal_custom_path">Les tasques personalitzades es creen a partir de les opcions manuals, no del camí de preconfiguracions.</string>
+    <string name="refusal_trim_times">Tria primer una hora d\'inici i una de final. El retall necessita totes dues.</string>
+    <string name="refusal_no_hw_encoder">Aquest telèfon no té cap codificador de maquinari %1$s, de manera que la preconfiguració de maquinari no es pot executar. La preconfiguració de programari encara pot fer aquesta conversió a la CPU.</string>
+    <string name="refusal_no_hw_encoder_manual">Aquest telèfon no té cap codificador de maquinari %1$s, de manera que aquesta configuració personalitzada no es pot executar.</string>
+    <string name="refusal_legacy_vp9_av1">El motor heretat (FFmpeg 6.0) no té cap codificador de maquinari VP9 ni AV1. Tria l\'opció de programari, o el maquinari H.264 / HEVC.</string>
+    <string name="refusal_audio_only_codec">La sortida de només àudio necessita un còdec d\'àudio. Tria AAC, MP3 o Opus.</string>
+    <string name="refusal_pick_audio">Tria un còdec d\'àudio.</string>
+    <string name="refusal_webm_video">El WebM conté vídeo VP9 o AV1. Tria\'n un, o fes servir un contenidor MP4 o MKV.</string>
+    <string name="refusal_webm_audio">L\'àudio WebM ha de ser Opus, copiat o cap. L\'AAC i l\'MP3 no caben al WebM.</string>
+    <string name="decode_hw">maquinari (%1$s a %2$s)</string>
+    <string name="decode_cpu_retry">CPU (s\'ha tornat a provar després que el descodificador de maquinari fallés)</string>
+    <string name="decode_cpu_choice">CPU (la teva elecció a la configuració personalitzada)</string>
+    <string name="decode_cpu_no_path">CPU (cap camí de descodificador de maquinari per a %1$s)</string>
+    <string name="decode_this_input">aquesta entrada</string>
+    <string name="decode_cpu_no_decoder">CPU (aquest telèfon no té cap descodificador de maquinari %1$s)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Inicia</string>
+    <string name="queue_clear_finished">Esborra les acabades</string>
+    <string name="queue_empty_title">Encara no hi ha conversions</string>
+    <string name="queue_empty_body">Afegeix fitxers des de la pestanya Converteix, toca Inicia i s\'executaran aquí, d\'una en una.</string>
+    <string name="job_waiting">Esperant l\'inici</string>
+    <string name="job_queued">A la cua</string>
+    <string name="job_est_output">≈ %1$s de sortida</string>
+    <string name="job_cancel">Cancel·la</string>
+    <string name="job_converting">S\'està convertint…</string>
+    <string name="job_speed">%1$s× velocitat</string>
+    <string name="job_saved_to">Desat a %1$s/%2$s</string>
+    <string name="job_open">Obre</string>
+    <string name="job_share">Comparteix</string>
+    <string name="job_cancelled">Cancel·lada</string>
+    <string name="job_failed">Ha fallat</string>
+    <string name="job_debug_log_save">Registre de depuració. Toca el registre per desar-lo a Download/HWA Converter</string>
+    <string name="job_debug_log_saved">Registre de depuració. Desat a Download/HWA Converter</string>
+    <string name="job_share_log">Comparteix el registre</string>
+    <string name="share_debug_log_title">Comparteix el registre de depuració</string>
+    <string name="share_file_title">Comparteix el fitxer convertit</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">No s\'ha pogut crear el fitxer de sortida a MediaStore.</string>
+    <string name="queue_conversion_failed">La conversió ha fallat. ffmpeg ha dit: %1$s</string>
+    <string name="queue_conversion_failed_silent">La conversió ha fallat (ffmpeg no ha donat cap missatge).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">S\'està analitzant el motor de mitjans d\'aquest dispositiu…</string>
+    <string name="hw_video_encoders">Codificadors de vídeo</string>
+    <string name="hw_audio_encoders">Codificadors d\'àudio</string>
+    <string name="hw_video_decoders">Descodificadors de vídeo</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Motor de mitjans: %1$s</string>
+    <string name="hw_tile_hw_encoders">codificadors de maquinari</string>
+    <string name="hw_tile_hw_decoders">descodificadors de maquinari</string>
+    <string name="hw_tile_max_encode">codificació de maquinari màxima</string>
+    <string name="hw_tile_top_bitrate">taxa de bits màxima del codificador</string>
+    <string name="hw_unknown">Desconegut</string>
+    <string name="hw_encoding_title">Codificació per maquinari</string>
+    <string name="hw_decoding_title">Descodificació per maquinari</string>
+    <string name="hw_software_only">només programari</string>
+    <string name="hw_badge_hardware">MAQUINARI</string>
+    <string name="hw_badge_software">PROGRAMARI</string>
+    <string name="hw_up_to">fins a %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Tema</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Clar</string>
+    <string name="theme_dark">Fosc</string>
+    <string name="theme_following_dark">Segueix el teu telèfon. Ara és en mode fosc.</string>
+    <string name="theme_following_light">Segueix el teu telèfon. Ara és en mode clar.</string>
+    <string name="settings_color_scheme">Esquema de colors</string>
+    <string name="settings_color_note">Material You segueix el teu fons de pantalla. Els altres esquemes són paletes fixes, cadascun amb una variant clara i una de fosca.</string>
+    <string name="settings_app_icon">Icona de l\'aplicació</string>
+    <string name="settings_icon_note">La icona de la pantalla d\'inici pot trigar uns segons a canviar. Alguns llançadors només la refresquen després d\'un reinici.</string>
+    <string name="settings_language">Idioma</string>
+    <string name="language_system">Idioma del sistema</string>
+
+    <!-- About -->
+    <string name="about_tagline">Conversió de mitjans amb el maquinari primer</string>
+    <string name="about_version">Versió %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter posa a treballar el motor de mitjans del teu telèfon. La majoria d\'aplicacions de conversió l\'ignoren i codifiquen a la CPU. Aquesta aplicació analitza primer el xip i fa servir el maquinari sempre que pot. El camí de programari es manté per a la qualitat màxima i per a les tasques que el maquinari no pot fer. Res no es substitueix en silenci. Cada tasca mostra l\'ordre exacta que s\'ha executat, i la pestanya Maquinari mostra què pot fer el teu telèfon. L\'aplicació és gratuïta i de codi obert. Els teus fitxers no surten mai del telèfon: l\'única cosa que l\'aplicació baixa mai són les seves pròpies actualitzacions, des de GitHub.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Codi font, problemes i la pàgina del projecte</string>
+    <string name="about_releases">Versions</string>
+    <string name="about_releases_sub">Baixa els APK més recents</string>
+    <string name="about_check_updates">Comprova si hi ha actualitzacions</string>
+    <string name="about_check_updates_sub">Comprova a GitHub si hi ha una versió més nova</string>
+    <string name="about_auto_check">Comprovació automàtica d\'actualitzacions</string>
+    <string name="about_auto_off">Desactivada. L\'aplicació no té accés a la xarxa.</string>
+    <string name="about_auto_daily">Un cop al dia, quan s\'obre l\'aplicació</string>
+    <string name="about_internet_note">El permís d\'internet ve amb la instal·lació i només es fa servir per comprovar a GitHub si hi ha actualitzacions. Si no necessites les comprovacions d\'actualitzacions, desactiva la comprovació automàtica. Si l\'aplicació no pot arribar a internet, el comprovador es desactiva sol fins que pugui.</string>
+    <string name="about_replay_tour">Torna a reproduir la visita</string>
+    <string name="about_replay_tour_sub">Torna a veure la visita de funcions</string>
+    <string name="about_footer">Creat amb FFmpeg mitjançant FFmpegKit (GPL), executant-se al maquinari de mitjans del teu telèfon.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Benvingut a HWA Converter</string>
+    <string name="tour_welcome_body">Aquesta aplicació converteix vídeo i àudio al teu telèfon. Fa servir primer el motor de mitjans, no la CPU. Aquí tens una ullada ràpida.</string>
+    <string name="tour_add_title">Afegeix fitxers</string>
+    <string name="tour_add_body">Toca aquest botó i tria els teus fitxers. Encara no comença res. Esperen fins que toquis Inicia.</string>
+    <string name="tour_pick_title">Tria una conversió</string>
+    <string name="tour_pick_body">Les preconfiguracions de maquinari són ràpides i gasten poca bateria. Les de programari són més lentes però donen la millor qualitat. Personalitzat et deixa configurar-ho tot tu mateix.</string>
+    <string name="tour_start_title">Comença quan estiguis a punt</string>
+    <string name="tour_start_body">Després d\'afegir fitxers, apareix un botó Inicia a sota d\'Afegeix fitxers. Toca\'l per començar. Fins aleshores, no s\'executa res.</string>
+    <string name="tour_queue_title">La pestanya Cua</string>
+    <string name="tour_queue_body">Totes les teves conversions són aquí. Pots veure el progrés i la velocitat, veure l\'ordre exacta que s\'ha executat i desar el registre de depuració d\'una tasca.</string>
+    <string name="tour_hardware_title">El teu maquinari</string>
+    <string name="tour_hardware_body">Aquest és el motor de mitjans de dins del teu telèfon, analitzat en aquest dispositiu. Les teves preconfiguracions es creen a partir d\'ell. Si un camí de maquinari no apareix a la llista, el teu xip no el té.</string>
+    <string name="tour_settings_title">Aspecte</string>
+    <string name="tour_settings_body">Els temes, els esquemes de colors, l\'idioma i nou icones de llançador són aquí.</string>
+    <string name="tour_done_title">Això és tot</string>
+    <string name="tour_done_body">Una última cosa. Les conversions s\'executen completament al teu telèfon. L\'única cosa que l\'aplicació baixa mai són les seves pròpies actualitzacions.</string>
+    <string name="tour_skip">Omet</string>
+    <string name="tour_next">Següent</string>
+    <string name="tour_got_it">Entesos</string>
+
+    <!-- Updates -->
+    <string name="update_available">Hi ha una actualització disponible</string>
+    <string name="update_on_github">Hi ha una versió nova a GitHub.</string>
+    <string name="update_version">Versió %1$s</string>
+    <string name="update_downloading">S\'està baixant… %1$d%%</string>
+    <string name="update_downloading_short">S\'està baixant…</string>
+    <string name="update_later">Baixa més tard</string>
+    <string name="update_install">Baixa &amp; instal·la</string>
+    <string name="update_status_checking">S\'està comprovant GitHub…</string>
+    <string name="update_status_available">La versió %1$s està disponible.</string>
+    <string name="update_status_uptodate">Estàs al dia.</string>
+    <string name="update_no_files">Aquella versió no té cap fitxer adjunt.</string>
+    <string name="update_no_apk">Aquella versió no té cap APK adjunt.</string>
+    <string name="update_unreachable">No s\'ha pogut arribar a GitHub. Comprova la connexió i torna-ho a provar.</string>
+    <string name="update_check_failed">Alguna cosa ha anat malament en comprovar-ho. Torna-ho a provar més tard.</string>
+    <string name="update_download_failed">La baixada ha fallat. Comprova la connexió i torna-ho a provar.</string>
+    <string name="update_allow_installs">Permet les instal·lacions des d\'aquesta aplicació i després toca Baixa &amp; instal·la una altra vegada.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Conversions</string>
+    <string name="notif_channel_desc">Progrés de les conversions en execució mentre l\'aplicació és en segon pla.</string>
+    <string name="notif_converting">S\'està convertint…</string>
+    <string name="notif_starting">S\'està iniciant…</string>
+    <string name="notif_ready_title">A punt per convertir</string>
+    <string name="notif_waiting">%1$d en espera. Toca Inicia a l\'aplicació.</string>
+    <string name="notif_converting_file">S\'està convertint %1$s</string>
+    <string name="notif_files">fitxers</string>
+    <string name="notif_more_queued">%1$d més a la cua</string>
+    <string name="notif_cancel">Cancel·la</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ fet</string>
+    <string name="eta_sec_left">≈ falten %1$d s</string>
+    <string name="eta_min_left">≈ falten %1$d min</string>
+    <string name="eta_h_min_left">≈ falten %1$d h %2$d min</string>
+</resources>

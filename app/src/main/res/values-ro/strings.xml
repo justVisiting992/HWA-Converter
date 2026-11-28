@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Romanian translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Conversie</string>
+    <string name="tab_queue">Coadă</string>
+    <string name="tab_hardware">Hardware-ul tău</string>
+    <string name="tab_settings">Aspect</string>
+    <string name="tab_about">Despre</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">Se verifică motorul media al acestui dispozitiv…</string>
+    <string name="convert_hero_engine">Motor media %1$s</string>
+    <string name="convert_hero_engine_fallback">Motor media</string>
+    <string name="convert_hero_body">Accelerarea hardware este activă pe acest telefon. Conversiile rulează pe motorul media, nu pe procesor.</string>
+    <string name="chip_h264_hw_encode">Codare HW H.264</string>
+    <string name="chip_hevc_hw_encode">Codare HW HEVC</string>
+    <string name="chip_vp9_hw_encode">Codare HW VP9</string>
+    <string name="chip_av1_hw_encode">Codare HW AV1</string>
+    <string name="chip_hevc_hw_decode">Decodare HW HEVC</string>
+    <string name="chip_av1_hw_decode">Decodare HW AV1</string>
+    <string name="convert_with">Convertește cu</string>
+    <string name="category_hardware">Codare hardware</string>
+    <string name="category_software">Codare software</string>
+    <string name="category_audio">Doar audio</string>
+    <string name="category_no_reencode">Fără recodare</string>
+    <string name="category_create">Creare</string>
+    <string name="convert_helper">Alege o conversie, adaugă fișiere, apoi apasă Start. Nimic nu pornește până nu spui tu.</string>
+    <string name="trim_start">Început (secunde)</string>
+    <string name="trim_end">Sfârșit (secunde)</string>
+    <string name="add_files">Adaugă fișiere</string>
+    <string name="start_conversion">Pornește conversia</string>
+    <string name="start_conversions_n">Pornește %1$d conversii</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Setări manuale</string>
+    <string name="manual_video">Video</string>
+    <string name="manual_container">Container</string>
+    <string name="manual_bitrate_label">Bitrate video (kbps). Gol înseamnă automat</string>
+    <string name="manual_crf_label">Calitate (CRF). Gol înseamnă implicit. Mai mic e mai bun</string>
+    <string name="manual_max_height">Înălțime maximă</string>
+    <string name="manual_original">Original</string>
+    <string name="manual_audio">Audio</string>
+    <string name="manual_audio_bitrate">Bitrate audio (kbps)</string>
+    <string name="manual_hw_decode">Decodare hardware</string>
+    <string name="manual_hw_decode_body">Decodare pe motorul media atunci când telefonul are un decodor pentru codecul fișierului.</string>
+    <string name="mc_copy">Copiere (fără recodare)</string>
+    <string name="mc_h264_hw">H.264 · hardware</string>
+    <string name="mc_hevc_hw">H.265 · hardware</string>
+    <string name="mc_vp9_hw">VP9 · hardware</string>
+    <string name="mc_av1_hw">AV1 · hardware</string>
+    <string name="mc_h264_sw">H.264 · software</string>
+    <string name="mc_hevc_sw">H.265 · software</string>
+    <string name="mc_vp9_sw">VP9 · software</string>
+    <string name="mc_av1_sw">AV1 · software</string>
+    <string name="mc_none">Fără video (doar audio)</string>
+    <string name="ma_copy">Copiere (fără recodare)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Fără audio</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · hardware</string>
+    <string name="preset_h264_hw_desc">Rapid, mic, se redă oriunde. Folosește motorul media al telefonului.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · hardware</string>
+    <string name="preset_hevc_hw_desc">Cam jumătate din dimensiunea H.264 la aceeași calitate. Folosește motorul media al telefonului.</string>
+    <string name="preset_vp9_hw_label">VP9 · hardware</string>
+    <string name="preset_vp9_hw_desc">VP9 hardware într-un fișier WebM. Doar pe telefoanele al căror motor media codează VP9.</string>
+    <string name="preset_av1_hw_label">AV1 · hardware</string>
+    <string name="preset_av1_hw_desc">AV1 hardware. Doar câteva motoare media pot coda AV1, așa că această presetare apare doar pe acele telefoane.</string>
+    <string name="preset_h264_sw_label">H.264 · calitate maximă (software)</string>
+    <string name="preset_h264_sw_desc">Codare lentă pe procesor cu libx264, cea mai bună calitate pe octet. Pentru mastere și HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · calitate maximă (software)</string>
+    <string name="preset_hevc_sw_desc">Mai mic decât H.264 la aceeași calitate. Codare lentă pe procesor cu libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · software (WebM)</string>
+    <string name="preset_vp9_sw_desc">Codecul webului, într-un fișier WebM. Codare pe procesor cu libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · software</string>
+    <string name="preset_av1_sw_desc">Cel mai nou codec, cele mai mici fișiere. Foarte lent pe procesor. Ideal pentru clipuri scurte.</string>
+    <string name="preset_audio_aac_label">Doar audio · AAC</string>
+    <string name="preset_audio_aac_desc">Extrage pista audio în AAC.</string>
+    <string name="preset_audio_mp3_label">Doar audio · MP3</string>
+    <string name="preset_audio_mp3_desc">Extrage pista audio în MP3. Se redă oriunde.</string>
+    <string name="preset_audio_opus_label">Doar audio · Opus</string>
+    <string name="preset_audio_opus_desc">Extrage pista audio în Opus. Cel mai mic la aceeași calitate.</string>
+    <string name="preset_audio_flac_label">Doar audio · FLAC</string>
+    <string name="preset_audio_flac_desc">Extrage pista audio fără pierderi în FLAC.</string>
+    <string name="preset_audio_wav_label">Doar audio · WAV</string>
+    <string name="preset_audio_wav_desc">Extrage pista audio necomprimat în WAV, pentru editare.</string>
+    <string name="preset_remux_mp4_label">Remux în MP4 · fără recodare</string>
+    <string name="preset_remux_mp4_desc">Aceeași imagine și același sunet, container MP4 nou. Instant.</string>
+    <string name="preset_remux_mkv_label">Remux în MKV · fără recodare</string>
+    <string name="preset_remux_mkv_desc">Aceeași imagine și același sunet, container MKV nou. Instant.</string>
+    <string name="preset_trim_label">Tăiere · fără recodare</string>
+    <string name="preset_trim_desc">Taie o secțiune fără să atingă imaginea. Tăieturile cad pe cadrele cheie.</string>
+    <string name="preset_gif_label">GIF · imagine animată</string>
+    <string name="preset_gif_desc">Transformă un clip într-un GIF animat (12 fps, 480 px lățime). Doar clipuri scurte.</string>
+    <string name="preset_custom_label">Personalizat · setări manuale</string>
+    <string name="preset_custom_desc">Formatul tău: container, codecuri, bitrate, rezoluție.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Codare software (libx264, CRF 18, presetare lentă). Lent, cea mai bună calitate pe octet. Decodare: %1$s.</string>
+    <string name="note_sw_x265">Codare software (libx265, CRF 22, presetare medie). Decodare: %1$s.</string>
+    <string name="note_sw_vp9">Codare software (libvpx-vp9, CRF 30) în WebM. Decodare: %1$s.</string>
+    <string name="note_sw_av1">Codare software (libaom-av1, CRF 32). AV1 pe procesor este foarte lent. Decodare: %1$s.</string>
+    <string name="note_audio_aac">Extragere audio în AAC 192k. Niciun codor video implicat.</string>
+    <string name="note_audio_mp3">Extragere audio în MP3 192k. Niciun codor video implicat.</string>
+    <string name="note_audio_opus">Extragere audio în Opus 128k. Niciun codor video implicat.</string>
+    <string name="note_audio_flac">Extragere audio în FLAC (fără pierderi). Niciun codor video implicat.</string>
+    <string name="note_audio_wav">Extragere audio în WAV (necomprimat). Niciun codor video implicat.</string>
+    <string name="note_remux_mp4">Remux în MP4: fluxuri copiate, nimic recodat.</string>
+    <string name="note_remux_mkv">Remux în MKV: fluxuri copiate, nimic recodat.</string>
+    <string name="note_gif">GIF animat la 12 fps, 480 px lățime. Decodare: %1$s.</string>
+    <string name="note_trim">Copiere a fluxului, fără recodare. Tăieturile cad pe cadrele cheie, așa că marginile se pot deplasa cu câteva cadre.</string>
+    <string name="note_hw_encode">Codare hardware (%1$s) pe %2$s la %3$s Mbps. Decodare: %4$s.</string>
+    <string name="note_custom_audio">Personalizat: doar audio (%1$s %2$dk).</string>
+    <string name="note_custom_full">Personalizat: %1$s · video %2$s · audio %3$s. Decodare: %4$s.</string>
+    <string name="refusal_custom_path">Lucrările personalizate sunt construite din opțiunile manuale, nu din calea presetărilor.</string>
+    <string name="refusal_trim_times">Alege mai întâi un timp de început și unul de sfârșit. Tăierea are nevoie de ambele.</string>
+    <string name="refusal_no_hw_encoder">Acest telefon nu are un codor hardware %1$s, așa că presetarea hardware nu poate rula. Presetarea software poate face totuși această conversie pe procesor.</string>
+    <string name="refusal_no_hw_encoder_manual">Acest telefon nu are un codor hardware %1$s, așa că această setare personalizată nu poate rula.</string>
+    <string name="refusal_legacy_vp9_av1">Motorul vechi (FFmpeg 6.0) nu are codor hardware VP9 sau AV1. Alege opțiunea software sau hardware H.264 / HEVC.</string>
+    <string name="refusal_audio_only_codec">Ieșirea doar audio are nevoie de un codec audio. Alege AAC, MP3 sau Opus.</string>
+    <string name="refusal_pick_audio">Alege un codec audio.</string>
+    <string name="refusal_webm_video">WebM conține video VP9 sau AV1. Alege unul dintre ele sau folosește un container MP4 sau MKV.</string>
+    <string name="refusal_webm_audio">Audio WebM trebuie să fie Opus, copiat sau niciunul. AAC și MP3 nu încap în WebM.</string>
+    <string name="decode_hw">hardware (%1$s pe %2$s)</string>
+    <string name="decode_cpu_retry">Procesor (reîncercat după ce decodorul hardware a eșuat)</string>
+    <string name="decode_cpu_choice">Procesor (alegerea ta în setările personalizate)</string>
+    <string name="decode_cpu_no_path">Procesor (nicio cale de decodare hardware pentru %1$s)</string>
+    <string name="decode_this_input">această intrare</string>
+    <string name="decode_cpu_no_decoder">Procesor (acest telefon nu are decodor hardware %1$s)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Start</string>
+    <string name="queue_clear_finished">Șterge finalizate</string>
+    <string name="queue_empty_title">Nicio conversie încă</string>
+    <string name="queue_empty_body">Adaugă fișiere din fila Conversie, apasă Start și vor rula aici, unul câte unul.</string>
+    <string name="job_waiting">Se așteaptă Start</string>
+    <string name="job_queued">În coadă</string>
+    <string name="job_est_output">≈ %1$s ieșire</string>
+    <string name="job_cancel">Anulează</string>
+    <string name="job_converting">Se convertește…</string>
+    <string name="job_speed">%1$s× viteză</string>
+    <string name="job_saved_to">Salvat în %1$s/%2$s</string>
+    <string name="job_open">Deschide</string>
+    <string name="job_share">Partajează</string>
+    <string name="job_cancelled">Anulat</string>
+    <string name="job_failed">Eșuat</string>
+    <string name="job_debug_log_save">Jurnal de depanare. Atinge jurnalul ca să-l salvezi în Download/HWA Converter</string>
+    <string name="job_debug_log_saved">Jurnal de depanare. Salvat în Download/HWA Converter</string>
+    <string name="job_share_log">Partajează jurnalul</string>
+    <string name="share_debug_log_title">Partajează jurnalul de depanare</string>
+    <string name="share_file_title">Partajează fișierul convertit</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">Nu s-a putut crea fișierul de ieșire în MediaStore.</string>
+    <string name="queue_conversion_failed">Conversia a eșuat. ffmpeg a spus: %1$s</string>
+    <string name="queue_conversion_failed_silent">Conversia a eșuat (ffmpeg nu a dat niciun mesaj).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">Se verifică motorul media al acestui dispozitiv…</string>
+    <string name="hw_video_encoders">Codoare video</string>
+    <string name="hw_audio_encoders">Codoare audio</string>
+    <string name="hw_video_decoders">Decodoare video</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Motor media: %1$s</string>
+    <string name="hw_tile_hw_encoders">codoare hardware</string>
+    <string name="hw_tile_hw_decoders">decodoare hardware</string>
+    <string name="hw_tile_max_encode">codare hardware maximă</string>
+    <string name="hw_tile_top_bitrate">bitrate maxim al codorului</string>
+    <string name="hw_unknown">Necunoscut</string>
+    <string name="hw_encoding_title">Codare hardware</string>
+    <string name="hw_decoding_title">Decodare hardware</string>
+    <string name="hw_software_only">doar software</string>
+    <string name="hw_badge_hardware">HARDWARE</string>
+    <string name="hw_badge_software">SOFTWARE</string>
+    <string name="hw_up_to">până la %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Temă</string>
+    <string name="theme_system">Sistem</string>
+    <string name="theme_light">Luminos</string>
+    <string name="theme_dark">Întunecat</string>
+    <string name="theme_following_dark">Urmează telefonul. Acum este în modul întunecat.</string>
+    <string name="theme_following_light">Urmează telefonul. Acum este în modul luminos.</string>
+    <string name="settings_color_scheme">Schemă de culori</string>
+    <string name="settings_color_note">Material You urmează imaginea de fundal. Celelalte scheme sunt palete fixe, fiecare cu o variantă luminoasă și una întunecată.</string>
+    <string name="settings_app_icon">Pictograma aplicației</string>
+    <string name="settings_icon_note">Pictograma de pe ecranul principal se poate schimba după câteva secunde. Unele lansatoare o reîmprospătează doar după o repornire.</string>
+    <string name="settings_language">Limbă</string>
+    <string name="language_system">Limba sistemului</string>
+
+    <!-- About -->
+    <string name="about_tagline">Conversie media cu prioritate hardware</string>
+    <string name="about_version">Versiunea %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter pune motorul media al telefonului la treabă. Majoritatea aplicațiilor de conversie îl ignoră și codează pe procesor. Această aplicație verifică mai întâi cipul și folosește hardware-ul ori de câte ori poate. Calea software rămâne pentru calitate maximă și pentru lucrările pe care hardware-ul nu le poate face. Nimic nu revine silențios la altceva. Fiecare lucrare arată comanda exactă care a rulat, iar fila Hardware arată ce poate face telefonul tău. Aplicația este gratuită și cu sursă deschisă. Fișierele tale nu părăsesc niciodată telefonul: singurul lucru pe care aplicația îl descarcă vreodată sunt propriile actualizări, de pe GitHub.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Cod sursă, probleme și pagina proiectului</string>
+    <string name="about_releases">Versiuni</string>
+    <string name="about_releases_sub">Descarcă cele mai recente APK-uri</string>
+    <string name="about_check_updates">Verifică actualizări</string>
+    <string name="about_check_updates_sub">Verifică pe GitHub o versiune mai nouă</string>
+    <string name="about_auto_check">Verificare automată a actualizărilor</string>
+    <string name="about_auto_off">Dezactivat. Aplicația nu are acces la rețea.</string>
+    <string name="about_auto_daily">O dată pe zi, când se deschide aplicația</string>
+    <string name="about_internet_note">Permisiunea de internet vine odată cu instalarea și este folosită doar pentru a verifica actualizări pe GitHub. Dacă nu ai nevoie de verificări ale actualizărilor, dezactivează verificarea automată. Dacă aplicația nu poate ajunge la internet, verificatorul se dezactivează singur până când poate.</string>
+    <string name="about_replay_tour">Reia turul</string>
+    <string name="about_replay_tour_sub">Vezi din nou turul funcțiilor</string>
+    <string name="about_footer">Construit pe FFmpeg prin FFmpegKit (GPL), rulând pe hardware-ul media al telefonului tău.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Bun venit la HWA Converter</string>
+    <string name="tour_welcome_body">Această aplicație convertește video și audio pe telefonul tău. Folosește mai întâi motorul media, nu procesorul. Iată o privire rapidă.</string>
+    <string name="tour_add_title">Adaugă fișiere</string>
+    <string name="tour_add_body">Apasă acest buton și alege fișierele. Nimic nu pornește încă. Așteaptă până apeși Start.</string>
+    <string name="tour_pick_title">Alege o conversie</string>
+    <string name="tour_pick_body">Presetările hardware sunt rapide și blânde cu bateria. Presetările software sunt mai lente, dar oferă cea mai bună calitate. Personalizat îți permite să setezi totul singur.</string>
+    <string name="tour_start_title">Pornește când ești gata</string>
+    <string name="tour_start_body">După ce adaugi fișiere, un buton Start apare sub Adaugă fișiere. Apasă-l ca să începi. Până atunci, nimic nu rulează.</string>
+    <string name="tour_queue_title">Fila Coadă</string>
+    <string name="tour_queue_body">Toate conversiile tale sunt aici. Poți urmări progresul și viteza, poți vedea comanda exactă care a rulat și poți salva jurnalul de depanare al unei lucrări.</string>
+    <string name="tour_hardware_title">Hardware-ul tău</string>
+    <string name="tour_hardware_body">Acesta este motorul media din telefonul tău, verificat pe acest dispozitiv. Presetările tale sunt construite din el. Dacă o cale hardware nu este listată, cipul tău nu o are.</string>
+    <string name="tour_settings_title">Aspect</string>
+    <string name="tour_settings_body">Temele, schemele de culori, limba și nouă pictograme de lansator sunt aici.</string>
+    <string name="tour_done_title">Asta e tot</string>
+    <string name="tour_done_body">Un ultim lucru. Conversiile rulează în întregime pe telefonul tău. Singurul lucru pe care aplicația îl descarcă vreodată sunt propriile actualizări.</string>
+    <string name="tour_skip">Omite</string>
+    <string name="tour_next">Înainte</string>
+    <string name="tour_got_it">Am înțeles</string>
+
+    <!-- Updates -->
+    <string name="update_available">Actualizare disponibilă</string>
+    <string name="update_on_github">O versiune nouă este pe GitHub.</string>
+    <string name="update_version">Versiunea %1$s</string>
+    <string name="update_downloading">Se descarcă… %1$d%%</string>
+    <string name="update_downloading_short">Se descarcă…</string>
+    <string name="update_later">Descarcă mai târziu</string>
+    <string name="update_install">Descarcă și instalează</string>
+    <string name="update_status_checking">Se verifică pe GitHub…</string>
+    <string name="update_status_available">Versiunea %1$s este disponibilă.</string>
+    <string name="update_status_uptodate">Ai cea mai recentă versiune.</string>
+    <string name="update_no_files">Această versiune nu are fișiere atașate.</string>
+    <string name="update_no_apk">Această versiune nu are niciun APK atașat.</string>
+    <string name="update_unreachable">Nu s-a putut ajunge la GitHub. Verifică conexiunea și încearcă din nou.</string>
+    <string name="update_check_failed">Ceva nu a mers bine la verificare. Încearcă din nou mai târziu.</string>
+    <string name="update_download_failed">Descărcarea a eșuat. Verifică conexiunea și încearcă din nou.</string>
+    <string name="update_allow_installs">Permite instalările din această aplicație, apoi apasă din nou Descarcă și instalează.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Conversii</string>
+    <string name="notif_channel_desc">Progresul conversiilor în desfășurare cât timp aplicația este în fundal.</string>
+    <string name="notif_converting">Se convertește…</string>
+    <string name="notif_starting">Se pornește…</string>
+    <string name="notif_ready_title">Gata de conversie</string>
+    <string name="notif_waiting">%1$d în așteptare. Apasă Start în aplicație.</string>
+    <string name="notif_converting_file">Se convertește %1$s</string>
+    <string name="notif_files">fișiere</string>
+    <string name="notif_more_queued">încă %1$d în coadă</string>
+    <string name="notif_cancel">Anulează</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ gata</string>
+    <string name="eta_sec_left">≈ %1$d s rămase</string>
+    <string name="eta_min_left">≈ %1$d min rămase</string>
+    <string name="eta_h_min_left">≈ %1$d h %2$d min rămase</string>
+</resources>

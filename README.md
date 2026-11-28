@@ -17,6 +17,7 @@ what its media engine can actually do, and builds its presets from the answer.
 
 ![Hardware first](https://img.shields.io/badge/HARDWARE--FIRST-MEDIACODEC-00C853?style=for-the-badge&labelColor=404040)
 ![Updates](https://img.shields.io/badge/UPDATES-VIA_GITHUB-1E88E5?style=for-the-badge&labelColor=404040)
+![Languages](https://img.shields.io/badge/LANGUAGES-36-7B1FA2?style=for-the-badge&labelColor=404040)
 
 ![Conversion](https://img.shields.io/badge/CONVERSION-100%25_ON--DEVICE-FF9800?style=for-the-badge&labelColor=404040)
 ![Engine](https://img.shields.io/badge/ENGINE-FFMPEG_8.1-00ACC1?style=for-the-badge&labelColor=404040)
@@ -122,6 +123,11 @@ first-class citizens here.
 - 🎨 **Make it yours.** Material You plus six fixed color schemes, light /
   dark / follow-the-phone, and **nine launcher icons** to pick from in
   Look & Feel
+- 🌍 **36 languages.** The whole app speaks your language, picked in
+  Look & Feel: Europe's major languages, Brazilian Portuguese, Japanese,
+  Korean, Simplified and Traditional Chinese, and Persian with a full
+  right-to-left layout and the Vazirmatn typeface. Your phone's language
+  is the default
 - 🔄 **Updates from GitHub.** The app checks this repo's releases once a
   day and offers a new version in a floating card: Download & Install, or
   Download Later. On by default, switchable in About

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Japanese translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">変換</string>
+    <string name="tab_queue">キュー</string>
+    <string name="tab_hardware">ハードウェア</string>
+    <string name="tab_settings">外観</string>
+    <string name="tab_about">アプリについて</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">このデバイスのメディアエンジンを調べています…</string>
+    <string name="convert_hero_engine">%1$s メディアエンジン</string>
+    <string name="convert_hero_engine_fallback">メディアエンジン</string>
+    <string name="convert_hero_body">このスマートフォンではハードウェアアクセラレーションが有効です。変換は CPU ではなくメディアエンジンで実行されます。</string>
+    <string name="chip_h264_hw_encode">H.264 HW エンコード</string>
+    <string name="chip_hevc_hw_encode">HEVC HW エンコード</string>
+    <string name="chip_vp9_hw_encode">VP9 HW エンコード</string>
+    <string name="chip_av1_hw_encode">AV1 HW エンコード</string>
+    <string name="chip_hevc_hw_decode">HEVC HW デコード</string>
+    <string name="chip_av1_hw_decode">AV1 HW デコード</string>
+    <string name="convert_with">変換方法</string>
+    <string name="category_hardware">ハードウェアエンコード</string>
+    <string name="category_software">ソフトウェアエンコード</string>
+    <string name="category_audio">音声のみ</string>
+    <string name="category_no_reencode">再エンコードなし</string>
+    <string name="category_create">作成</string>
+    <string name="convert_helper">変換を選んでファイルを追加し、開始をタップしてください。開始するまで何も実行されません。</string>
+    <string name="trim_start">開始（秒）</string>
+    <string name="trim_end">終了（秒）</string>
+    <string name="add_files">ファイルを追加</string>
+    <string name="start_conversion">変換を開始</string>
+    <string name="start_conversions_n">%1$d 件の変換を開始</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">手動設定</string>
+    <string name="manual_video">動画</string>
+    <string name="manual_container">コンテナ</string>
+    <string name="manual_bitrate_label">動画ビットレート (kbps)。空欄で自動</string>
+    <string name="manual_crf_label">画質 (CRF)。空欄で既定値。小さいほど高画質</string>
+    <string name="manual_max_height">最大の高さ</string>
+    <string name="manual_original">元のサイズ</string>
+    <string name="manual_audio">音声</string>
+    <string name="manual_audio_bitrate">音声ビットレート (kbps)</string>
+    <string name="manual_hw_decode">ハードウェアデコード</string>
+    <string name="manual_hw_decode_body">このスマートフォンにファイルのコーデック用デコーダーがある場合、メディアエンジンでデコードします。</string>
+    <string name="mc_copy">コピー（再エンコードなし）</string>
+    <string name="mc_h264_hw">H.264 · ハードウェア</string>
+    <string name="mc_hevc_hw">H.265 · ハードウェア</string>
+    <string name="mc_vp9_hw">VP9 · ハードウェア</string>
+    <string name="mc_av1_hw">AV1 · ハードウェア</string>
+    <string name="mc_h264_sw">H.264 · ソフトウェア</string>
+    <string name="mc_hevc_sw">H.265 · ソフトウェア</string>
+    <string name="mc_vp9_sw">VP9 · ソフトウェア</string>
+    <string name="mc_av1_sw">AV1 · ソフトウェア</string>
+    <string name="mc_none">動画なし（音声のみ）</string>
+    <string name="ma_copy">コピー（再エンコードなし）</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">音声なし</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · ハードウェア</string>
+    <string name="preset_h264_hw_desc">高速で小さく、どこでも再生できます。このスマートフォンのメディアエンジンを使います。</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · ハードウェア</string>
+    <string name="preset_hevc_hw_desc">同じ画質で H.264 の約半分のサイズ。このスマートフォンのメディアエンジンを使います。</string>
+    <string name="preset_vp9_hw_label">VP9 · ハードウェア</string>
+    <string name="preset_vp9_hw_desc">WebM ファイルでのハードウェア VP9。メディアエンジンが VP9 をエンコードできるスマートフォンでのみ使えます。</string>
+    <string name="preset_av1_hw_label">AV1 · ハードウェア</string>
+    <string name="preset_av1_hw_desc">ハードウェア AV1。AV1 をエンコードできるメディアエンジンは少ないため、このプリセットは対応するスマートフォンでのみ表示されます。</string>
+    <string name="preset_h264_sw_label">H.264 · 最高画質（ソフトウェア）</string>
+    <string name="preset_h264_sw_desc">libx264 による低速な CPU エンコード。バイトあたりの画質は最良です。マスターや HDR に。</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · 最高画質（ソフトウェア）</string>
+    <string name="preset_hevc_sw_desc">同じ画質で H.264 より小さくなります。libx265 による低速な CPU エンコード。</string>
+    <string name="preset_vp9_sw_label">VP9 · ソフトウェア (WebM)</string>
+    <string name="preset_vp9_sw_desc">Web のコーデック、WebM ファイルに。libvpx による CPU エンコード。</string>
+    <string name="preset_av1_sw_label">AV1 · ソフトウェア</string>
+    <string name="preset_av1_sw_desc">最新のコーデック、最小のファイル。CPU では非常に低速です。短いクリップ向け。</string>
+    <string name="preset_audio_aac_label">音声のみ · AAC</string>
+    <string name="preset_audio_aac_desc">音声トラックを AAC に抽出します。</string>
+    <string name="preset_audio_mp3_label">音声のみ · MP3</string>
+    <string name="preset_audio_mp3_desc">音声トラックを MP3 に抽出します。どこでも再生できます。</string>
+    <string name="preset_audio_opus_label">音声のみ · Opus</string>
+    <string name="preset_audio_opus_desc">音声トラックを Opus に抽出します。同じ音質で最小のサイズ。</string>
+    <string name="preset_audio_flac_label">音声のみ · FLAC</string>
+    <string name="preset_audio_flac_desc">音声トラックを FLAC にロスレスで抽出します。</string>
+    <string name="preset_audio_wav_label">音声のみ · WAV</string>
+    <string name="preset_audio_wav_desc">音声トラックを WAV に無圧縮で抽出します。編集用に。</string>
+    <string name="preset_remux_mp4_label">MP4 にリマックス · 再エンコードなし</string>
+    <string name="preset_remux_mp4_desc">映像と音声はそのまま、新しい MP4 コンテナに。一瞬で終わります。</string>
+    <string name="preset_remux_mkv_label">MKV にリマックス · 再エンコードなし</string>
+    <string name="preset_remux_mkv_desc">映像と音声はそのまま、新しい MKV コンテナに。一瞬で終わります。</string>
+    <string name="preset_trim_label">トリミング · 再エンコードなし</string>
+    <string name="preset_trim_desc">映像に手を加えずに一部を切り出します。カットはキーフレームの位置になります。</string>
+    <string name="preset_gif_label">GIF · アニメーション画像</string>
+    <string name="preset_gif_desc">クリップをアニメーション GIF (12 fps、幅 480 px) に変換します。短いクリップ専用。</string>
+    <string name="preset_custom_label">カスタム · 手動設定</string>
+    <string name="preset_custom_desc">独自の形式: コンテナ、コーデック、ビットレート、解像度。</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">ソフトウェアエンコード (libx264、CRF 18、低速プリセット)。低速ですが、バイトあたりの画質は最良です。デコード: %1$s。</string>
+    <string name="note_sw_x265">ソフトウェアエンコード (libx265、CRF 22、中速プリセット)。デコード: %1$s。</string>
+    <string name="note_sw_vp9">WebM へのソフトウェアエンコード (libvpx-vp9、CRF 30)。デコード: %1$s。</string>
+    <string name="note_sw_av1">ソフトウェアエンコード (libaom-av1、CRF 32)。CPU での AV1 は非常に低速です。デコード: %1$s。</string>
+    <string name="note_audio_aac">AAC 192k への音声抽出。動画エンコーダーは使いません。</string>
+    <string name="note_audio_mp3">MP3 192k への音声抽出。動画エンコーダーは使いません。</string>
+    <string name="note_audio_opus">Opus 128k への音声抽出。動画エンコーダーは使いません。</string>
+    <string name="note_audio_flac">FLAC (ロスレス) への音声抽出。動画エンコーダーは使いません。</string>
+    <string name="note_audio_wav">WAV (無圧縮) への音声抽出。動画エンコーダーは使いません。</string>
+    <string name="note_remux_mp4">MP4 へのリマックス: ストリームをコピーし、再エンコードしません。</string>
+    <string name="note_remux_mkv">MKV へのリマックス: ストリームをコピーし、再エンコードしません。</string>
+    <string name="note_gif">12 fps、幅 480 px のアニメーション GIF。デコード: %1$s。</string>
+    <string name="note_trim">ストリームコピー、再エンコードなし。カットはキーフレームの位置になるため、端が数フレームずれることがあります。</string>
+    <string name="note_hw_encode">%2$s 上でのハードウェアエンコード (%1$s)、%3$s Mbps。デコード: %4$s。</string>
+    <string name="note_custom_audio">カスタム: 音声のみ (%1$s %2$dk)。</string>
+    <string name="note_custom_full">カスタム: %1$s · 動画 %2$s · 音声 %3$s。デコード: %4$s。</string>
+    <string name="refusal_custom_path">カスタムジョブはプリセットではなく手動オプションから構築されます。</string>
+    <string name="refusal_trim_times">先に開始時刻と終了時刻を選んでください。トリミングには両方が必要です。</string>
+    <string name="refusal_no_hw_encoder">このスマートフォンにはハードウェア %1$s エンコーダーがないため、ハードウェアプリセットは実行できません。ソフトウェアプリセットなら CPU でこの変換を行えます。</string>
+    <string name="refusal_no_hw_encoder_manual">このスマートフォンにはハードウェア %1$s エンコーダーがないため、このカスタム設定は実行できません。</string>
+    <string name="refusal_legacy_vp9_av1">レガシーエンジン (FFmpeg 6.0) には VP9 および AV1 のハードウェアエンコーダーがありません。ソフトウェアオプション、または H.264 / HEVC ハードウェアを選んでください。</string>
+    <string name="refusal_audio_only_codec">音声のみの出力には音声コーデックが必要です。AAC、MP3、Opus のいずれかを選んでください。</string>
+    <string name="refusal_pick_audio">音声コーデックを選んでください。</string>
+    <string name="refusal_webm_video">WebM に入れられる動画は VP9 または AV1 です。どちらかを選ぶか、MP4 または MKV コンテナを使ってください。</string>
+    <string name="refusal_webm_audio">WebM の音声は Opus、コピー、なしのいずれかです。AAC と MP3 は WebM に入りません。</string>
+    <string name="decode_hw">ハードウェア（%2$s の %1$s）</string>
+    <string name="decode_cpu_retry">CPU（ハードウェアデコーダーが失敗したため再試行）</string>
+    <string name="decode_cpu_choice">CPU（カスタム設定での選択）</string>
+    <string name="decode_cpu_no_path">CPU（%1$s に対応するハードウェアデコーダーがありません）</string>
+    <string name="decode_this_input">この入力</string>
+    <string name="decode_cpu_no_decoder">CPU（このスマートフォンにはハードウェア %1$s デコーダーがありません）</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">開始</string>
+    <string name="queue_clear_finished">完了分を消去</string>
+    <string name="queue_empty_title">まだ変換はありません</string>
+    <string name="queue_empty_body">変換タブからファイルを追加して開始をタップすると、ここで 1 件ずつ実行されます。</string>
+    <string name="job_waiting">開始待ち</string>
+    <string name="job_queued">キュー待ち</string>
+    <string name="job_est_output">≈ 出力 %1$s</string>
+    <string name="job_cancel">キャンセル</string>
+    <string name="job_converting">変換中…</string>
+    <string name="job_speed">%1$s× の速度</string>
+    <string name="job_saved_to">%1$s/%2$s に保存しました</string>
+    <string name="job_open">開く</string>
+    <string name="job_share">共有</string>
+    <string name="job_cancelled">キャンセル済み</string>
+    <string name="job_failed">失敗</string>
+    <string name="job_debug_log_save">デバッグログ。ログをタップすると Download/HWA Converter に保存されます</string>
+    <string name="job_debug_log_saved">デバッグログ。Download/HWA Converter に保存済みです</string>
+    <string name="job_share_log">ログを共有</string>
+    <string name="share_debug_log_title">デバッグログを共有</string>
+    <string name="share_file_title">変換したファイルを共有</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">MediaStore に出力ファイルを作成できませんでした。</string>
+    <string name="queue_conversion_failed">変換に失敗しました。ffmpeg の出力: %1$s</string>
+    <string name="queue_conversion_failed_silent">変換に失敗しました (ffmpeg からメッセージがありません)。</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">このデバイスのメディアエンジンを調べています…</string>
+    <string name="hw_video_encoders">動画エンコーダー</string>
+    <string name="hw_audio_encoders">音声エンコーダー</string>
+    <string name="hw_video_decoders">動画デコーダー</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">メディアエンジン: %1$s</string>
+    <string name="hw_tile_hw_encoders">ハードウェアエンコーダー</string>
+    <string name="hw_tile_hw_decoders">ハードウェアデコーダー</string>
+    <string name="hw_tile_max_encode">ハードウェアエンコード上限</string>
+    <string name="hw_tile_top_bitrate">エンコーダーの最大ビットレート</string>
+    <string name="hw_unknown">不明</string>
+    <string name="hw_encoding_title">ハードウェアエンコード</string>
+    <string name="hw_decoding_title">ハードウェアデコード</string>
+    <string name="hw_software_only">ソフトウェアのみ</string>
+    <string name="hw_badge_hardware">HARDWARE</string>
+    <string name="hw_badge_software">SOFTWARE</string>
+    <string name="hw_up_to">最大 %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">テーマ</string>
+    <string name="theme_system">システム</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="theme_following_dark">スマートフォンの設定に従います。現在はダークモードです。</string>
+    <string name="theme_following_light">スマートフォンの設定に従います。現在はライトモードです。</string>
+    <string name="settings_color_scheme">カラースキーム</string>
+    <string name="settings_color_note">Material You は壁紙に合わせます。その他のスキームは固定パレットで、それぞれにライトとダークのバリエーションがあります。</string>
+    <string name="settings_app_icon">アプリアイコン</string>
+    <string name="settings_icon_note">ホーム画面のアイコンが変わるまで数秒かかることがあります。ランチャーによっては再起動後に反映されます。</string>
+    <string name="settings_language">言語</string>
+    <string name="language_system">システムの言語</string>
+
+    <!-- About -->
+    <string name="about_tagline">ハードウェア優先のメディア変換</string>
+    <string name="about_version">バージョン %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter はスマートフォンのメディアエンジンを活用します。多くの変換アプリはこれを無視して CPU でエンコードします。このアプリはまずチップを調べ、可能な限りハードウェアを使います。ソフトウェア経路は最高画質のため、そしてハードウェアではできないジョブのために残してあります。黙ってフォールバックすることはありません。すべてのジョブで実際に実行されたコマンドが表示され、ハードウェアタブではお使いのスマートフォンの能力を確認できます。このアプリは無料でオープンソースです。ファイルがスマートフォンの外に出ることはありません。このアプリが取得するのは GitHub からの自身のアップデートだけです。</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">ソースコード、問題報告、プロジェクトページ</string>
+    <string name="about_releases">リリース</string>
+    <string name="about_releases_sub">最新の APK をダウンロード</string>
+    <string name="about_check_updates">アップデートを確認</string>
+    <string name="about_check_updates_sub">GitHub で新しいバージョンを確認</string>
+    <string name="about_auto_check">アップデートの自動確認</string>
+    <string name="about_auto_off">オフ。このアプリにはネットワークアクセスがありません。</string>
+    <string name="about_auto_daily">アプリを開いたときに 1 日 1 回</string>
+    <string name="about_internet_note">インターネット権限はインストール時に付与され、GitHub でアップデートを確認するためだけに使われます。アップデート確認が不要なら、自動確認をオフにしてください。インターネットに接続できない場合、確認機能は接続できるまで自動的に無効になります。</string>
+    <string name="about_replay_tour">ツアーを再生</string>
+    <string name="about_replay_tour_sub">機能ツアーをもう一度見る</string>
+    <string name="about_footer">FFmpegKit (GPL) を介した FFmpeg で構築され、お使いのスマートフォンのメディアハードウェアで動作します。</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">HWA Converter へようこそ</string>
+    <string name="tour_welcome_body">このアプリはスマートフォンで動画と音声を変換します。CPU ではなく、まずメディアエンジンを使います。簡単にご案内します。</string>
+    <string name="tour_add_title">ファイルを追加</string>
+    <string name="tour_add_body">このボタンをタップしてファイルを選んでください。まだ何も始まりません。開始をタップするまで待機します。</string>
+    <string name="tour_pick_title">変換を選ぶ</string>
+    <string name="tour_pick_body">ハードウェアプリセットは高速でバッテリーにも優しいです。ソフトウェアプリセットは低速ですが最高の画質が得られます。カスタムではすべてを自分で設定できます。</string>
+    <string name="tour_start_title">準備ができたら開始</string>
+    <string name="tour_start_body">ファイルを追加すると、ファイルを追加ボタンの下に開始ボタンが表示されます。タップすると始まります。それまでは何も実行されません。</string>
+    <string name="tour_queue_title">キュータブ</string>
+    <string name="tour_queue_body">すべての変換はここに集まります。進捗と速度の確認、実行されたコマンドの表示、ジョブのデバッグログの保存ができます。</string>
+    <string name="tour_hardware_title">お使いのハードウェア</string>
+    <string name="tour_hardware_body">これはお使いのスマートフォン内部のメディアエンジンで、このデバイスで調べたものです。プリセットはこれをもとに作られます。ハードウェア経路が一覧にない場合、そのチップには搭載されていません。</string>
+    <string name="tour_settings_title">外観</string>
+    <string name="tour_settings_body">テーマ、カラースキーム、言語、9 種類のランチャーアイコンはここにあります。</string>
+    <string name="tour_done_title">以上です</string>
+    <string name="tour_done_body">最後に 1 つ。変換はすべてスマートフォン上で実行されます。このアプリがダウンロードするのは自身のアップデートだけです。</string>
+    <string name="tour_skip">スキップ</string>
+    <string name="tour_next">次へ</string>
+    <string name="tour_got_it">OK</string>
+
+    <!-- Updates -->
+    <string name="update_available">アップデートがあります</string>
+    <string name="update_on_github">新しいバージョンが GitHub にあります。</string>
+    <string name="update_version">バージョン %1$s</string>
+    <string name="update_downloading">ダウンロード中… %1$d%%</string>
+    <string name="update_downloading_short">ダウンロード中…</string>
+    <string name="update_later">後でダウンロード</string>
+    <string name="update_install">ダウンロードしてインストール</string>
+    <string name="update_status_checking">GitHub を確認中…</string>
+    <string name="update_status_available">バージョン %1$s が利用できます。</string>
+    <string name="update_status_uptodate">最新の状態です。</string>
+    <string name="update_no_files">そのリリースにはファイルが添付されていません。</string>
+    <string name="update_no_apk">そのリリースには APK が添付されていません。</string>
+    <string name="update_unreachable">GitHub に接続できませんでした。接続を確認してもう一度お試しください。</string>
+    <string name="update_check_failed">確認中に問題が発生しました。後でもう一度お試しください。</string>
+    <string name="update_download_failed">ダウンロードに失敗しました。接続を確認してもう一度お試しください。</string>
+    <string name="update_allow_installs">このアプリからのインストールを許可してから、ダウンロードしてインストールをもう一度タップしてください。</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">変換</string>
+    <string name="notif_channel_desc">アプリがバックグラウンドにある間の変換の進捗。</string>
+    <string name="notif_converting">変換中…</string>
+    <string name="notif_starting">開始しています…</string>
+    <string name="notif_ready_title">変換の準備完了</string>
+    <string name="notif_waiting">%1$d 件が待機中。アプリで開始をタップしてください。</string>
+    <string name="notif_converting_file">%1$s を変換中</string>
+    <string name="notif_files">ファイル</string>
+    <string name="notif_more_queued">あと %1$d 件がキュー待ち</string>
+    <string name="notif_cancel">キャンセル</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ 完了</string>
+    <string name="eta_sec_left">≈ 残り %1$d 秒</string>
+    <string name="eta_min_left">≈ 残り %1$d 分</string>
+    <string name="eta_h_min_left">≈ 残り %1$d 時間 %2$d 分</string>
+</resources>

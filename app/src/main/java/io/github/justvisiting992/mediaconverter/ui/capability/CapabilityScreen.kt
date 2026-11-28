@@ -26,13 +26,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.github.justvisiting992.mediaconverter.R
 import io.github.justvisiting992.mediaconverter.core.capability.DecoderCapability
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.capability.EncoderCapability
 import io.github.justvisiting992.mediaconverter.ui.components.HeroPanel
+import io.github.justvisiting992.mediaconverter.ui.components.OnGradientTextShadow
 import io.github.justvisiting992.mediaconverter.ui.tour.TourKeys
 import io.github.justvisiting992.mediaconverter.ui.tour.tourTarget
 import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
@@ -53,7 +56,7 @@ fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) 
         ) {
             CircularProgressIndicator()
             Text(
-                "Probing this device's media engine…",
+                stringResource(R.string.hw_probing),
                 modifier = Modifier.padding(top = 16.dp),
             )
         }
@@ -75,7 +78,7 @@ fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) 
         item { DecodeCard(report) }
         item {
             Text(
-                "Video encoders",
+                stringResource(R.string.hw_video_encoders),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = 8.dp),
             )
@@ -85,7 +88,7 @@ fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) 
         }
         item {
             Text(
-                "Audio encoders",
+                stringResource(R.string.hw_audio_encoders),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = 8.dp),
             )
@@ -95,7 +98,7 @@ fun CapabilityScreen(report: DeviceCodecReport?, modifier: Modifier = Modifier) 
         }
         item {
             Text(
-                "Video decoders",
+                stringResource(R.string.hw_video_decoders),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = 8.dp),
             )
@@ -118,7 +121,8 @@ private fun DeviceHero(report: DeviceCodecReport) {
             Column {
                 Text(
                     "${Build.MANUFACTURER} ${Build.MODEL}",
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge
+                        .copy(shadow = OnGradientTextShadow),
                     fontWeight = FontWeight.Bold,
                     color = scheme.onPrimaryContainer,
                 )
@@ -128,14 +132,16 @@ private fun DeviceHero(report: DeviceCodecReport) {
                     Build.HARDWARE
                 }
                 Text(
-                    "$soc · Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})",
-                    style = MaterialTheme.typography.bodySmall,
+                    stringResource(R.string.hw_soc_line, soc, Build.VERSION.RELEASE, Build.VERSION.SDK_INT),
+                    style = MaterialTheme.typography.bodySmall
+                        .copy(shadow = OnGradientTextShadow),
                     color = scheme.onPrimaryContainer.copy(alpha = 0.8f),
                 )
                 report.mediaVendor()?.let { vendor ->
                     Text(
-                        "Media engine: $vendor",
-                        style = MaterialTheme.typography.bodySmall,
+                        stringResource(R.string.hw_media_engine, vendor),
+                        style = MaterialTheme.typography.bodySmall
+                            .copy(shadow = OnGradientTextShadow),
                         color = scheme.onPrimaryContainer.copy(alpha = 0.8f),
                     )
                 }
@@ -158,27 +164,27 @@ private fun BentoTiles(report: DeviceCodecReport) {
             BentoTile(
                 icon = Icons.Filled.Bolt,
                 value = "${hwEncoders.size}",
-                label = "hardware encoders",
+                label = stringResource(R.string.hw_tile_hw_encoders),
                 modifier = Modifier.weight(1f),
             )
             BentoTile(
                 icon = Icons.Filled.Movie,
                 value = "${hwDecoders.size}",
-                label = "hardware decoders",
+                label = stringResource(R.string.hw_tile_hw_decoders),
                 modifier = Modifier.weight(1f),
             )
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             BentoTile(
                 icon = Icons.Filled.Memory,
-                value = maxRes?.let { "${it.maxWidth}×${it.maxHeight}" } ?: "Unknown",
-                label = "max hardware encode",
+                value = maxRes?.let { "${it.maxWidth}×${it.maxHeight}" } ?: stringResource(R.string.hw_unknown),
+                label = stringResource(R.string.hw_tile_max_encode),
                 modifier = Modifier.weight(1f),
             )
             BentoTile(
                 icon = Icons.Filled.Speed,
-                value = maxBitrate?.let { "${it / 1_000_000} Mbps" } ?: "Unknown",
-                label = "top encoder bitrate",
+                value = maxBitrate?.let { stringResource(R.string.hw_mbps, it / 1_000_000) } ?: stringResource(R.string.hw_unknown),
+                label = stringResource(R.string.hw_tile_top_bitrate),
                 modifier = Modifier.weight(1f),
             )
         }
@@ -223,7 +229,7 @@ private fun EncodeCard(report: DeviceCodecReport) {
     Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(
-                "Hardware encoding",
+                stringResource(R.string.hw_encoding_title),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
             )
@@ -240,7 +246,7 @@ private fun DecodeCard(report: DeviceCodecReport) {
     Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(
-                "Hardware decoding",
+                stringResource(R.string.hw_decoding_title),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
             )
@@ -257,7 +263,7 @@ private fun DecoderSummaryRow(label: String, decoder: DecoderCapability?) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         Text(label, style = MaterialTheme.typography.bodyMedium)
         Text(
-            text = decoder?.componentName ?: "software only",
+            text = decoder?.componentName ?: stringResource(R.string.hw_software_only),
             style = MaterialTheme.typography.bodyMedium,
             fontFamily = FontFamily.Monospace,
             color = if (decoder != null) {
@@ -274,7 +280,7 @@ private fun SummaryRow(label: String, encoder: EncoderCapability?) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         Text(label, style = MaterialTheme.typography.bodyMedium)
         Text(
-            text = encoder?.componentName ?: "software only",
+            text = encoder?.componentName ?: stringResource(R.string.hw_software_only),
             style = MaterialTheme.typography.bodyMedium,
             fontFamily = FontFamily.Monospace,
             color = if (encoder != null) {
@@ -315,7 +321,7 @@ private fun DecoderCard(decoder: DecoderCapability) {
                         .padding(horizontal = 9.dp, vertical = 3.dp),
                 ) {
                     Text(
-                        if (decoder.isHardware) "HARDWARE" else "SOFTWARE",
+                        if (decoder.isHardware) stringResource(R.string.hw_badge_hardware) else stringResource(R.string.hw_badge_software),
                         style = MaterialTheme.typography.labelSmall,
                         color = if (decoder.isHardware) {
                             MaterialTheme.colorScheme.onPrimaryContainer
@@ -329,7 +335,7 @@ private fun DecoderCard(decoder: DecoderCapability) {
             val facts = buildList {
                 add(decoder.mimeType)
                 if (decoder.maxWidth != null && decoder.maxHeight != null) {
-                    add("up to ${decoder.maxWidth}×${decoder.maxHeight}")
+                    add(stringResource(R.string.hw_up_to, decoder.maxWidth, decoder.maxHeight))
                 }
             }
             Text(
@@ -370,7 +376,7 @@ private fun EncoderCard(encoder: EncoderCapability) {
                         .padding(horizontal = 9.dp, vertical = 3.dp),
                 ) {
                     Text(
-                        if (encoder.isHardware) "HARDWARE" else "SOFTWARE",
+                        if (encoder.isHardware) stringResource(R.string.hw_badge_hardware) else stringResource(R.string.hw_badge_software),
                         style = MaterialTheme.typography.labelSmall,
                         color = if (encoder.isHardware) {
                             MaterialTheme.colorScheme.onPrimaryContainer
@@ -384,9 +390,9 @@ private fun EncoderCard(encoder: EncoderCapability) {
             val facts = buildList {
                 add(encoder.mimeType)
                 if (encoder.maxWidth != null && encoder.maxHeight != null) {
-                    add("up to ${encoder.maxWidth}×${encoder.maxHeight}")
+                    add(stringResource(R.string.hw_up_to, encoder.maxWidth, encoder.maxHeight))
                 }
-                encoder.maxBitrate?.let { add("≤ ${it / 1_000_000} Mbps") }
+                encoder.maxBitrate?.let { add(stringResource(R.string.hw_bitrate_cap, it / 1_000_000)) }
                 if (encoder.profiles.isNotEmpty()) {
                     add(encoder.profiles.joinToString(", "))
                 }

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dutch translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Converteren</string>
+    <string name="tab_queue">Wachtrij</string>
+    <string name="tab_hardware">Je hardware</string>
+    <string name="tab_settings">Uiterlijk</string>
+    <string name="tab_about">Over</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">De media-engine van dit apparaat wordt onderzocht…</string>
+    <string name="convert_hero_engine">%1$s media-engine</string>
+    <string name="convert_hero_engine_fallback">Media-engine</string>
+    <string name="convert_hero_body">Hardwareversnelling is ingeschakeld voor deze telefoon. Conversies draaien op de media-engine, niet op de CPU.</string>
+    <string name="chip_h264_hw_encode">H.264 HW-codering</string>
+    <string name="chip_hevc_hw_encode">HEVC HW-codering</string>
+    <string name="chip_vp9_hw_encode">VP9 HW-codering</string>
+    <string name="chip_av1_hw_encode">AV1 HW-codering</string>
+    <string name="chip_hevc_hw_decode">HEVC HW-decodering</string>
+    <string name="chip_av1_hw_decode">AV1 HW-decodering</string>
+    <string name="convert_with">Converteren met</string>
+    <string name="category_hardware">Hardwarecodering</string>
+    <string name="category_software">Softwarecodering</string>
+    <string name="category_audio">Alleen audio</string>
+    <string name="category_no_reencode">Niet opnieuw coderen</string>
+    <string name="category_create">Maken</string>
+    <string name="convert_helper">Kies een conversie, voeg bestanden toe en tik op Start. Er gebeurt niets tot je het zegt.</string>
+    <string name="trim_start">Start (seconden)</string>
+    <string name="trim_end">Einde (seconden)</string>
+    <string name="add_files">Bestanden toevoegen</string>
+    <string name="start_conversion">Conversie starten</string>
+    <string name="start_conversions_n">%1$d conversies starten</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Handmatige instellingen</string>
+    <string name="manual_video">Video</string>
+    <string name="manual_container">Container</string>
+    <string name="manual_bitrate_label">Videobitrate (kbps). Leeg betekent automatisch</string>
+    <string name="manual_crf_label">Kwaliteit (CRF). Leeg betekent standaard. Lager is beter</string>
+    <string name="manual_max_height">Max. hoogte</string>
+    <string name="manual_original">Origineel</string>
+    <string name="manual_audio">Audio</string>
+    <string name="manual_audio_bitrate">Audiobitrate (kbps)</string>
+    <string name="manual_hw_decode">Hardwaredecodering</string>
+    <string name="manual_hw_decode_body">Decodeert op de media-engine als deze telefoon een decoder heeft voor de codec van het bestand.</string>
+    <string name="mc_copy">Kopiëren (niet opnieuw coderen)</string>
+    <string name="mc_h264_hw">H.264 · hardware</string>
+    <string name="mc_hevc_hw">H.265 · hardware</string>
+    <string name="mc_vp9_hw">VP9 · hardware</string>
+    <string name="mc_av1_hw">AV1 · hardware</string>
+    <string name="mc_h264_sw">H.264 · software</string>
+    <string name="mc_hevc_sw">H.265 · software</string>
+    <string name="mc_vp9_sw">VP9 · software</string>
+    <string name="mc_av1_sw">AV1 · software</string>
+    <string name="mc_none">Geen video (alleen audio)</string>
+    <string name="ma_copy">Kopiëren (niet opnieuw coderen)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Geen audio</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · hardware</string>
+    <string name="preset_h264_hw_desc">Snel, klein, speelt overal af. Gebruikt de media-engine van deze telefoon.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · hardware</string>
+    <string name="preset_hevc_hw_desc">Ongeveer de helft van de grootte van H.264 bij dezelfde kwaliteit. Gebruikt de media-engine van deze telefoon.</string>
+    <string name="preset_vp9_hw_label">VP9 · hardware</string>
+    <string name="preset_vp9_hw_desc">Hardware-VP9 in een WebM-bestand. Alleen op telefoons waarvan de media-engine VP9 codeert.</string>
+    <string name="preset_av1_hw_label">AV1 · hardware</string>
+    <string name="preset_av1_hw_desc">Hardware-AV1. Slechts een paar media-engines kunnen AV1 coderen, dus deze preset verschijnt alleen op die telefoons.</string>
+    <string name="preset_h264_sw_label">H.264 · max. kwaliteit (software)</string>
+    <string name="preset_h264_sw_desc">Langzame CPU-codering met libx264, beste kwaliteit per byte. Voor masters en HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · max. kwaliteit (software)</string>
+    <string name="preset_hevc_sw_desc">Kleiner dan H.264 bij dezelfde kwaliteit. Langzame CPU-codering met libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · software (WebM)</string>
+    <string name="preset_vp9_sw_desc">De codec van het web, in een WebM-bestand. CPU-codering met libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · software</string>
+    <string name="preset_av1_sw_desc">Nieuwste codec, kleinste bestanden. Erg langzaam op de CPU. Het beste voor korte clips.</string>
+    <string name="preset_audio_aac_label">Alleen audio · AAC</string>
+    <string name="preset_audio_aac_desc">Extraheer de audiotrack naar AAC.</string>
+    <string name="preset_audio_mp3_label">Alleen audio · MP3</string>
+    <string name="preset_audio_mp3_desc">Extraheer de audiotrack naar MP3. Speelt overal af.</string>
+    <string name="preset_audio_opus_label">Alleen audio · Opus</string>
+    <string name="preset_audio_opus_desc">Extraheer de audiotrack naar Opus. Kleinst bij dezelfde kwaliteit.</string>
+    <string name="preset_audio_flac_label">Alleen audio · FLAC</string>
+    <string name="preset_audio_flac_desc">Extraheer de audiotrack zonder kwaliteitsverlies naar FLAC.</string>
+    <string name="preset_audio_wav_label">Alleen audio · WAV</string>
+    <string name="preset_audio_wav_desc">Extraheer de audiotrack ongecomprimeerd naar WAV, om te bewerken.</string>
+    <string name="preset_remux_mp4_label">Remux naar MP4 · niet opnieuw coderen</string>
+    <string name="preset_remux_mp4_desc">Zelfde beeld en geluid, nieuwe MP4-container. Direct klaar.</string>
+    <string name="preset_remux_mkv_label">Remux naar MKV · niet opnieuw coderen</string>
+    <string name="preset_remux_mkv_desc">Zelfde beeld en geluid, nieuwe MKV-container. Direct klaar.</string>
+    <string name="preset_trim_label">Bijsnijden · niet opnieuw coderen</string>
+    <string name="preset_trim_desc">Knip een stuk eruit zonder het beeld aan te raken. Knipsels vallen op keyframes.</string>
+    <string name="preset_gif_label">GIF · bewegende afbeelding</string>
+    <string name="preset_gif_desc">Maak van een clip een bewegende GIF (12 fps, 480 px breed). Alleen korte clips.</string>
+    <string name="preset_custom_label">Aangepast · handmatige instellingen</string>
+    <string name="preset_custom_desc">Je eigen formaat: container, codecs, bitrate, resolutie.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Softwarecodering (libx264, CRF 18, langzame preset). Langzaam, beste kwaliteit per byte. Decodering: %1$s.</string>
+    <string name="note_sw_x265">Softwarecodering (libx265, CRF 22, gemiddelde preset). Decodering: %1$s.</string>
+    <string name="note_sw_vp9">Softwarecodering (libvpx-vp9, CRF 30) naar WebM. Decodering: %1$s.</string>
+    <string name="note_sw_av1">Softwarecodering (libaom-av1, CRF 32). AV1 op de CPU is erg langzaam. Decodering: %1$s.</string>
+    <string name="note_audio_aac">Audio-extractie naar AAC 192k. Geen video-encoder betrokken.</string>
+    <string name="note_audio_mp3">Audio-extractie naar MP3 192k. Geen video-encoder betrokken.</string>
+    <string name="note_audio_opus">Audio-extractie naar Opus 128k. Geen video-encoder betrokken.</string>
+    <string name="note_audio_flac">Audio-extractie naar FLAC (zonder verlies). Geen video-encoder betrokken.</string>
+    <string name="note_audio_wav">Audio-extractie naar WAV (ongecomprimeerd). Geen video-encoder betrokken.</string>
+    <string name="note_remux_mp4">Remux naar MP4: streams gekopieerd, niets opnieuw gecodeerd.</string>
+    <string name="note_remux_mkv">Remux naar MKV: streams gekopieerd, niets opnieuw gecodeerd.</string>
+    <string name="note_gif">Bewegende GIF met 12 fps, 480 px breed. Decodering: %1$s.</string>
+    <string name="note_trim">Streamkopie, niet opnieuw coderen. Knipsels vallen op keyframes, dus de randen kunnen een paar frames verschuiven.</string>
+    <string name="note_hw_encode">Hardwarecodering (%1$s) op %2$s met %3$s Mbps. Decodering: %4$s.</string>
+    <string name="note_custom_audio">Aangepast: alleen audio (%1$s %2$dk).</string>
+    <string name="note_custom_full">Aangepast: %1$s · video %2$s · audio %3$s. Decodering: %4$s.</string>
+    <string name="refusal_custom_path">Aangepaste taken worden gebouwd uit de handmatige opties, niet via het presetpad.</string>
+    <string name="refusal_trim_times">Kies eerst een begin- en eindtijd. Bijsnijden heeft beide nodig.</string>
+    <string name="refusal_no_hw_encoder">Deze telefoon heeft geen hardware-%1$s-encoder, dus de hardwarepreset kan niet draaien. De softwarepreset kan deze conversie nog wel op de CPU doen.</string>
+    <string name="refusal_no_hw_encoder_manual">Deze telefoon heeft geen hardware-%1$s-encoder, dus deze aangepaste instelling kan niet draaien.</string>
+    <string name="refusal_legacy_vp9_av1">De oude engine (FFmpeg 6.0) heeft geen VP9- of AV1-hardware-encoder. Kies de softwareoptie, of H.264 / HEVC-hardware.</string>
+    <string name="refusal_audio_only_codec">Uitvoer met alleen audio heeft een audiocodec nodig. Kies AAC, MP3 of Opus.</string>
+    <string name="refusal_pick_audio">Kies een audiocodec.</string>
+    <string name="refusal_webm_video">WebM bevat VP9- of AV1-video. Kies een van die, of gebruik een MP4- of MKV-container.</string>
+    <string name="refusal_webm_audio">WebM-audio moet Opus, gekopieerd of geen zijn. AAC en MP3 passen niet in WebM.</string>
+    <string name="decode_hw">hardware (%1$s op %2$s)</string>
+    <string name="decode_cpu_retry">CPU (opnieuw geprobeerd nadat de hardwaredecoder faalde)</string>
+    <string name="decode_cpu_choice">CPU (je keuze in Aangepaste instellingen)</string>
+    <string name="decode_cpu_no_path">CPU (geen hardwaredecoderpad voor %1$s)</string>
+    <string name="decode_this_input">deze invoer</string>
+    <string name="decode_cpu_no_decoder">CPU (deze telefoon heeft geen hardware-%1$s-decoder)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Start</string>
+    <string name="queue_clear_finished">Voltooide wissen</string>
+    <string name="queue_empty_title">Nog geen conversies</string>
+    <string name="queue_empty_body">Voeg bestanden toe op het tabblad Converteren, tik op Start en ze draaien hier, één voor één.</string>
+    <string name="job_waiting">Wachten op Start</string>
+    <string name="job_queued">In wachtrij</string>
+    <string name="job_est_output">≈ %1$s uitvoer</string>
+    <string name="job_cancel">Annuleren</string>
+    <string name="job_converting">Converteren…</string>
+    <string name="job_speed">%1$s× snelheid</string>
+    <string name="job_saved_to">Opgeslagen in %1$s/%2$s</string>
+    <string name="job_open">Openen</string>
+    <string name="job_share">Delen</string>
+    <string name="job_cancelled">Geannuleerd</string>
+    <string name="job_failed">Mislukt</string>
+    <string name="job_debug_log_save">Debuglog. Tik op het log om het op te slaan in Download/HWA Converter</string>
+    <string name="job_debug_log_saved">Debuglog. Opgeslagen in Download/HWA Converter</string>
+    <string name="job_share_log">Log delen</string>
+    <string name="share_debug_log_title">Debuglog delen</string>
+    <string name="share_file_title">Geconverteerd bestand delen</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">Het uitvoerbestand kon niet worden gemaakt in MediaStore.</string>
+    <string name="queue_conversion_failed">Conversie mislukt. ffmpeg zei: %1$s</string>
+    <string name="queue_conversion_failed_silent">Conversie mislukt (ffmpeg gaf geen melding).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">De media-engine van dit apparaat wordt onderzocht…</string>
+    <string name="hw_video_encoders">Video-encoders</string>
+    <string name="hw_audio_encoders">Audio-encoders</string>
+    <string name="hw_video_decoders">Videodecoders</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Media-engine: %1$s</string>
+    <string name="hw_tile_hw_encoders">hardware-encoders</string>
+    <string name="hw_tile_hw_decoders">hardwaredecoders</string>
+    <string name="hw_tile_max_encode">max. hardwarecodering</string>
+    <string name="hw_tile_top_bitrate">hoogste encoderbitrate</string>
+    <string name="hw_unknown">Onbekend</string>
+    <string name="hw_encoding_title">Hardwarecodering</string>
+    <string name="hw_decoding_title">Hardwaredecodering</string>
+    <string name="hw_software_only">alleen software</string>
+    <string name="hw_badge_hardware">HARDWARE</string>
+    <string name="hw_badge_software">SOFTWARE</string>
+    <string name="hw_up_to">tot %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Thema</string>
+    <string name="theme_system">Systeem</string>
+    <string name="theme_light">Licht</string>
+    <string name="theme_dark">Donker</string>
+    <string name="theme_following_dark">Volgt je telefoon. Die staat nu in de donkere modus.</string>
+    <string name="theme_following_light">Volgt je telefoon. Die staat nu in de lichte modus.</string>
+    <string name="settings_color_scheme">Kleurenschema</string>
+    <string name="settings_color_note">Material You volgt je achtergrond. De andere schema\'s zijn vaste paletten, elk met een lichte en een donkere variant.</string>
+    <string name="settings_app_icon">App-pictogram</string>
+    <string name="settings_icon_note">Het pictogram op het startscherm kan een paar seconden nodig hebben om te veranderen. Sommige launchers vernieuwen het pas na een herstart.</string>
+    <string name="settings_language">Taal</string>
+    <string name="language_system">Systeemtaal</string>
+
+    <!-- About -->
+    <string name="about_tagline">Mediaconversie met hardware voorop</string>
+    <string name="about_version">Versie %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter zet de media-engine van je telefoon aan het werk. De meeste converter-apps negeren die en coderen op de CPU. Deze app onderzoekt de chip eerst en gebruikt de hardware wanneer het kan. Het softwarepad blijft voor maximale kwaliteit en voor taken die de hardware niet kan doen. Niets valt stil terug. Elke taak toont het exacte commando dat draaide, en het tabblad Hardware laat zien wat je telefoon kan. De app is gratis en open source. Je bestanden verlaten je telefoon nooit: het enige dat de app ophaalt, zijn zijn eigen updates, van GitHub.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Broncode, issues en de projectpagina</string>
+    <string name="about_releases">Releases</string>
+    <string name="about_releases_sub">Download de nieuwste APK\'s</string>
+    <string name="about_check_updates">Controleren op updates</string>
+    <string name="about_check_updates_sub">Controleer op GitHub op een nieuwere versie</string>
+    <string name="about_auto_check">Automatisch controleren op updates</string>
+    <string name="about_auto_off">Uit. De app heeft geen netwerktoegang.</string>
+    <string name="about_auto_daily">Eenmaal per dag, wanneer de app opent</string>
+    <string name="about_internet_note">De internettoestemming wordt meegeleverd met de installatie en wordt alleen gebruikt om op GitHub op updates te controleren. Als je geen updatecontroles nodig hebt, schakel de automatische controle dan uit. Als de app het internet niet kan bereiken, schakelt de controle zichzelf uit tot het wel kan.</string>
+    <string name="about_replay_tour">Rondleiding opnieuw afspelen</string>
+    <string name="about_replay_tour_sub">Bekijk de rondleiding opnieuw</string>
+    <string name="about_footer">Gebouwd op FFmpeg via FFmpegKit (GPL), draaiend op de mediahardware van je telefoon.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Welkom bij HWA Converter</string>
+    <string name="tour_welcome_body">Deze app converteert video en audio op je telefoon. Hij gebruikt eerst de media-engine, niet de CPU. Hier is een korte rondleiding.</string>
+    <string name="tour_add_title">Bestanden toevoegen</string>
+    <string name="tour_add_body">Tik op deze knop en kies je bestanden. Er start nog niets. Ze wachten tot je op Start tikt.</string>
+    <string name="tour_pick_title">Kies een conversie</string>
+    <string name="tour_pick_body">Hardwarepresets zijn snel en zuinig met de batterij. Softwarepresets zijn langzamer maar geven de beste kwaliteit. Met Aangepast stel je alles zelf in.</string>
+    <string name="tour_start_title">Start wanneer je er klaar voor bent</string>
+    <string name="tour_start_body">Nadat je bestanden hebt toegevoegd, verschijnt er een Start-knop onder Bestanden toevoegen. Tik erop om te beginnen. Tot dan draait er niets.</string>
+    <string name="tour_queue_title">Het tabblad Wachtrij</string>
+    <string name="tour_queue_body">Al je conversies staan hier. Je kunt de voortgang en snelheid volgen, het exacte commando zien dat draaide en het debuglog van een taak opslaan.</string>
+    <string name="tour_hardware_title">Je hardware</string>
+    <string name="tour_hardware_body">Dit is de media-engine in je telefoon, onderzocht op dit apparaat. Je presets worden eruit gebouwd. Als een hardwarepad niet vermeld staat, heeft je chip het niet.</string>
+    <string name="tour_settings_title">Uiterlijk</string>
+    <string name="tour_settings_body">Thema\'s, kleurenschema\'s, taal en negen launcherpictogrammen staan hier.</string>
+    <string name="tour_done_title">Dat is alles</string>
+    <string name="tour_done_body">Nog één ding. Conversies draaien volledig op je telefoon. Het enige dat de app ooit downloadt, zijn zijn eigen updates.</string>
+    <string name="tour_skip">Overslaan</string>
+    <string name="tour_next">Volgende</string>
+    <string name="tour_got_it">Begrepen</string>
+
+    <!-- Updates -->
+    <string name="update_available">Update beschikbaar</string>
+    <string name="update_on_github">Er staat een nieuwe versie op GitHub.</string>
+    <string name="update_version">Versie %1$s</string>
+    <string name="update_downloading">Downloaden… %1$d%%</string>
+    <string name="update_downloading_short">Downloaden…</string>
+    <string name="update_later">Later downloaden</string>
+    <string name="update_install">Downloaden en installeren</string>
+    <string name="update_status_checking">GitHub controleren…</string>
+    <string name="update_status_available">Versie %1$s is beschikbaar.</string>
+    <string name="update_status_uptodate">Je bent up-to-date.</string>
+    <string name="update_no_files">Aan die release zijn geen bestanden gekoppeld.</string>
+    <string name="update_no_apk">Aan die release is geen APK gekoppeld.</string>
+    <string name="update_unreachable">GitHub kon niet worden bereikt. Controleer je verbinding en probeer het opnieuw.</string>
+    <string name="update_check_failed">Er ging iets mis tijdens het controleren. Probeer het later opnieuw.</string>
+    <string name="update_download_failed">De download is mislukt. Controleer je verbinding en probeer het opnieuw.</string>
+    <string name="update_allow_installs">Sta installaties vanuit deze app toe en tik daarna opnieuw op Downloaden en installeren.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Conversies</string>
+    <string name="notif_channel_desc">Voortgang van lopende conversies terwijl de app op de achtergrond draait.</string>
+    <string name="notif_converting">Converteren…</string>
+    <string name="notif_starting">Starten…</string>
+    <string name="notif_ready_title">Klaar om te converteren</string>
+    <string name="notif_waiting">%1$d wachten. Tik op Start in de app.</string>
+    <string name="notif_converting_file">%1$s converteren</string>
+    <string name="notif_files">bestanden</string>
+    <string name="notif_more_queued">nog %1$d in wachtrij</string>
+    <string name="notif_cancel">Annuleren</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ klaar</string>
+    <string name="eta_sec_left">≈ nog %1$d s</string>
+    <string name="eta_min_left">≈ nog %1$d min</string>
+    <string name="eta_h_min_left">≈ nog %1$d u %2$d min</string>
+</resources>

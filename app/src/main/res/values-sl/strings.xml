@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Slovenian translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Pretvori</string>
+    <string name="tab_queue">Čakalna vrsta</string>
+    <string name="tab_hardware">Vaša strojna oprema</string>
+    <string name="tab_settings">Videz</string>
+    <string name="tab_about">O aplikaciji</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">Preverjanje medijskega pogona te naprave…</string>
+    <string name="convert_hero_engine">Medijski pogon %1$s</string>
+    <string name="convert_hero_engine_fallback">Medijski pogon</string>
+    <string name="convert_hero_body">Strojno pospeševanje je v tem telefonu vklopljeno. Pretvorbe se izvajajo na medijskem pogonu, ne na procesorju.</string>
+    <string name="chip_h264_hw_encode">H.264 HW kodiranje</string>
+    <string name="chip_hevc_hw_encode">HEVC HW kodiranje</string>
+    <string name="chip_vp9_hw_encode">VP9 HW kodiranje</string>
+    <string name="chip_av1_hw_encode">AV1 HW kodiranje</string>
+    <string name="chip_hevc_hw_decode">HEVC HW dekodiranje</string>
+    <string name="chip_av1_hw_decode">AV1 HW dekodiranje</string>
+    <string name="convert_with">Pretvori z</string>
+    <string name="category_hardware">Strojno kodiranje</string>
+    <string name="category_software">Programsko kodiranje</string>
+    <string name="category_audio">Samo zvok</string>
+    <string name="category_no_reencode">Brez ponovnega kodiranja</string>
+    <string name="category_create">Ustvari</string>
+    <string name="convert_helper">Izberite pretvorbo, dodajte datoteke in tapnite »Začni«. Nič se ne zažene, dokler ne rečete.</string>
+    <string name="trim_start">Začetek (sekunde)</string>
+    <string name="trim_end">Konec (sekunde)</string>
+    <string name="add_files">Dodaj datoteke</string>
+    <string name="start_conversion">Začni pretvorbo</string>
+    <string name="start_conversions_n">Začni %1$d pretvorb</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Ročne nastavitve</string>
+    <string name="manual_video">Video</string>
+    <string name="manual_container">Vsebnik</string>
+    <string name="manual_bitrate_label">Bitna hitrost videa (kbps). Prazno pomeni samodejno</string>
+    <string name="manual_crf_label">Kakovost (CRF). Prazno pomeni privzeto. Nižje je boljše</string>
+    <string name="manual_max_height">Najv. višina</string>
+    <string name="manual_original">Izvirnik</string>
+    <string name="manual_audio">Zvok</string>
+    <string name="manual_audio_bitrate">Bitna hitrost zvoka (kbps)</string>
+    <string name="manual_hw_decode">Strojno dekodiranje</string>
+    <string name="manual_hw_decode_body">Dekodiranje na medijskem pogonu, kadar ima telefon dekodirnik za kodek datoteke.</string>
+    <string name="mc_copy">Kopiraj (brez ponovnega kodiranja)</string>
+    <string name="mc_h264_hw">H.264 · strojno</string>
+    <string name="mc_hevc_hw">H.265 · strojno</string>
+    <string name="mc_vp9_hw">VP9 · strojno</string>
+    <string name="mc_av1_hw">AV1 · strojno</string>
+    <string name="mc_h264_sw">H.264 · programsko</string>
+    <string name="mc_hevc_sw">H.265 · programsko</string>
+    <string name="mc_vp9_sw">VP9 · programsko</string>
+    <string name="mc_av1_sw">AV1 · programsko</string>
+    <string name="mc_none">Brez videa (samo zvok)</string>
+    <string name="ma_copy">Kopiraj (brez ponovnega kodiranja)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Brez zvoka</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · strojna oprema</string>
+    <string name="preset_h264_hw_desc">Hitro, majhno, predvaja se povsod. Uporablja medijski pogon tega telefona.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · strojna oprema</string>
+    <string name="preset_hevc_hw_desc">Približno polovica velikosti H.264 pri enaki kakovosti. Uporablja medijski pogon tega telefona.</string>
+    <string name="preset_vp9_hw_label">VP9 · strojna oprema</string>
+    <string name="preset_vp9_hw_desc">Strojni VP9 v datoteki WebM. Samo v telefonih, katerih medijski pogon kodira VP9.</string>
+    <string name="preset_av1_hw_label">AV1 · strojna oprema</string>
+    <string name="preset_av1_hw_desc">Strojni AV1. Le nekaj medijskih pogonov lahko kodira AV1, zato se ta prednastavitev prikaže samo v teh telefonih.</string>
+    <string name="preset_h264_sw_label">H.264 · najv. kakovost (programsko)</string>
+    <string name="preset_h264_sw_desc">Počasno kodiranje na procesorju z libx264, najboljša kakovost na bajt. Za izvirnike in HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · najv. kakovost (programsko)</string>
+    <string name="preset_hevc_sw_desc">Manjše od H.264 pri enaki kakovosti. Počasno kodiranje na procesorju z libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · programsko (WebM)</string>
+    <string name="preset_vp9_sw_desc">Spletni kodek v datoteki WebM. Kodiranje na procesorju z libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · programsko</string>
+    <string name="preset_av1_sw_desc">Najnovejši kodek, najmanjše datoteke. Zelo počasen na procesorju. Najboljši za kratke posnetke.</string>
+    <string name="preset_audio_aac_label">Samo zvok · AAC</string>
+    <string name="preset_audio_aac_desc">Izvlecite zvočni posnetek v AAC.</string>
+    <string name="preset_audio_mp3_label">Samo zvok · MP3</string>
+    <string name="preset_audio_mp3_desc">Izvlecite zvočni posnetek v MP3. Predvaja se povsod.</string>
+    <string name="preset_audio_opus_label">Samo zvok · Opus</string>
+    <string name="preset_audio_opus_desc">Izvlecite zvočni posnetek v Opus. Najmanjši pri enaki kakovosti.</string>
+    <string name="preset_audio_flac_label">Samo zvok · FLAC</string>
+    <string name="preset_audio_flac_desc">Izvlecite zvočni posnetek brez izgub v FLAC.</string>
+    <string name="preset_audio_wav_label">Samo zvok · WAV</string>
+    <string name="preset_audio_wav_desc">Izvlecite zvočni posnetek nestisnjen v WAV, za urejanje.</string>
+    <string name="preset_remux_mp4_label">Prepakiraj v MP4 · brez ponovnega kodiranja</string>
+    <string name="preset_remux_mp4_desc">Ista slika in zvok, nov vsebnik MP4. Takoj.</string>
+    <string name="preset_remux_mkv_label">Prepakiraj v MKV · brez ponovnega kodiranja</string>
+    <string name="preset_remux_mkv_desc">Ista slika in zvok, nov vsebnik MKV. Takoj.</string>
+    <string name="preset_trim_label">Obreži · brez ponovnega kodiranja</string>
+    <string name="preset_trim_desc">Izreže del, ne da bi se dotaknil slike. Rezi pristanejo na ključnih sličicah.</string>
+    <string name="preset_gif_label">GIF · animirana slika</string>
+    <string name="preset_gif_desc">Spremenite posnetek v animirani GIF (12 fps, 480 px širok). Samo kratki posnetki.</string>
+    <string name="preset_custom_label">Po meri · ročne nastavitve</string>
+    <string name="preset_custom_desc">Vaša oblika: vsebnik, kodeki, bitna hitrost, ločljivost.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Programsko kodiranje (libx264, CRF 18, počasna prednastavitev). Počasno, najboljša kakovost na bajt. Dekodiranje: %1$s.</string>
+    <string name="note_sw_x265">Programsko kodiranje (libx265, CRF 22, srednja prednastavitev). Dekodiranje: %1$s.</string>
+    <string name="note_sw_vp9">Programsko kodiranje (libvpx-vp9, CRF 30) v WebM. Dekodiranje: %1$s.</string>
+    <string name="note_sw_av1">Programsko kodiranje (libaom-av1, CRF 32). AV1 na procesorju je zelo počasen. Dekodiranje: %1$s.</string>
+    <string name="note_audio_aac">Izvlečenje zvoka v AAC 192k. Video kodirnik ni vključen.</string>
+    <string name="note_audio_mp3">Izvlečenje zvoka v MP3 192k. Video kodirnik ni vključen.</string>
+    <string name="note_audio_opus">Izvlečenje zvoka v Opus 128k. Video kodirnik ni vključen.</string>
+    <string name="note_audio_flac">Izvlečenje zvoka v FLAC (brez izgub). Video kodirnik ni vključen.</string>
+    <string name="note_audio_wav">Izvlečenje zvoka v WAV (nestisnjeno). Video kodirnik ni vključen.</string>
+    <string name="note_remux_mp4">Prepakiranje v MP4: tokova se kopirata, nič se ne kodira znova.</string>
+    <string name="note_remux_mkv">Prepakiranje v MKV: tokova se kopirata, nič se ne kodira znova.</string>
+    <string name="note_gif">Animirani GIF pri 12 fps, 480 px širok. Dekodiranje: %1$s.</string>
+    <string name="note_trim">Kopiranje tokov, brez ponovnega kodiranja. Rezi pristanejo na ključnih sličicah, zato se robovi lahko premaknejo za nekaj sličic.</string>
+    <string name="note_hw_encode">Strojno kodiranje (%1$s) na %2$s pri %3$s Mbps. Dekodiranje: %4$s.</string>
+    <string name="note_custom_audio">Po meri: samo zvok (%1$s %2$dk).</string>
+    <string name="note_custom_full">Po meri: %1$s · video %2$s · zvok %3$s. Dekodiranje: %4$s.</string>
+    <string name="refusal_custom_path">Opravila po meri se sestavijo iz ročnih možnosti, ne po poti prednastavitev.</string>
+    <string name="refusal_trim_times">Najprej izberite začetni in končni čas. Obrezovanje potrebuje oba.</string>
+    <string name="refusal_no_hw_encoder">Ta telefon nima strojnega kodirnika %1$s, zato strojne prednastavitve ni mogoče zagnati. Programska prednastavitev lahko to pretvorbo vseeno opravi na procesorju.</string>
+    <string name="refusal_no_hw_encoder_manual">Ta telefon nima strojnega kodirnika %1$s, zato te nastavitve po meri ni mogoče zagnati.</string>
+    <string name="refusal_legacy_vp9_av1">Podedovani pogon (FFmpeg 6.0) nima strojnega kodirnika VP9 ali AV1. Izberite programsko možnost ali strojni H.264 / HEVC.</string>
+    <string name="refusal_audio_only_codec">Izhod samo z zvokom potrebuje zvočni kodek. Izberite AAC, MP3 ali Opus.</string>
+    <string name="refusal_pick_audio">Izberite zvočni kodek.</string>
+    <string name="refusal_webm_video">WebM vsebuje video VP9 ali AV1. Izberite enega od njiju ali uporabite vsebnik MP4 ali MKV.</string>
+    <string name="refusal_webm_audio">Zvok v WebM mora biti Opus, kopiran ali ga ni. AAC in MP3 ne sodita v WebM.</string>
+    <string name="decode_hw">strojno (%1$s na %2$s)</string>
+    <string name="decode_cpu_retry">Procesor (ponovni poskus po odpovedi strojnega dekodirnika)</string>
+    <string name="decode_cpu_choice">Procesor (vaša izbira v nastavitvah po meri)</string>
+    <string name="decode_cpu_no_path">Procesor (ni strojne poti dekodirnika za %1$s)</string>
+    <string name="decode_this_input">ta vhod</string>
+    <string name="decode_cpu_no_decoder">Procesor (ta telefon nima strojnega dekodirnika %1$s)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Začni</string>
+    <string name="queue_clear_finished">Počisti končane</string>
+    <string name="queue_empty_title">Ni še pretvorb</string>
+    <string name="queue_empty_body">Dodajte datoteke na zavihku »Pretvori«, tapnite »Začni« in izvajale se bodo tukaj, ena za drugo.</string>
+    <string name="job_waiting">Čakanje na začetek</string>
+    <string name="job_queued">V čakalni vrsti</string>
+    <string name="job_est_output">≈ %1$s izhoda</string>
+    <string name="job_cancel">Prekliči</string>
+    <string name="job_converting">Pretvarjanje…</string>
+    <string name="job_speed">Hitrost %1$s×</string>
+    <string name="job_saved_to">Shranjeno v %1$s/%2$s</string>
+    <string name="job_open">Odpri</string>
+    <string name="job_share">Deli</string>
+    <string name="job_cancelled">Preklicano</string>
+    <string name="job_failed">Ni uspelo</string>
+    <string name="job_debug_log_save">Dnevnik za odpravljanje napak. Tapnite dnevnik, da ga shranite v Download/HWA Converter</string>
+    <string name="job_debug_log_saved">Dnevnik za odpravljanje napak. Shranjen v Download/HWA Converter</string>
+    <string name="job_share_log">Deli dnevnik</string>
+    <string name="share_debug_log_title">Deli dnevnik za odpravljanje napak</string>
+    <string name="share_file_title">Deli pretvorjeno datoteko</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">Izhodne datoteke ni bilo mogoče ustvariti v MediaStore.</string>
+    <string name="queue_conversion_failed">Pretvorba ni uspela. ffmpeg je sporočil: %1$s</string>
+    <string name="queue_conversion_failed_silent">Pretvorba ni uspela (ffmpeg ni dal sporočila).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">Preverjanje medijskega pogona te naprave…</string>
+    <string name="hw_video_encoders">Video kodirniki</string>
+    <string name="hw_audio_encoders">Zvočni kodirniki</string>
+    <string name="hw_video_decoders">Video dekodirniki</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Medijski pogon: %1$s</string>
+    <string name="hw_tile_hw_encoders">strojni kodirniki</string>
+    <string name="hw_tile_hw_decoders">strojni dekodirniki</string>
+    <string name="hw_tile_max_encode">najv. strojno kodiranje</string>
+    <string name="hw_tile_top_bitrate">najvišja bitna hitrost kodirnika</string>
+    <string name="hw_unknown">Neznano</string>
+    <string name="hw_encoding_title">Strojno kodiranje</string>
+    <string name="hw_decoding_title">Strojno dekodiranje</string>
+    <string name="hw_software_only">samo programsko</string>
+    <string name="hw_badge_hardware">STROJNO</string>
+    <string name="hw_badge_software">PROGRAMSKO</string>
+    <string name="hw_up_to">do %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Tema</string>
+    <string name="theme_system">Sistemska</string>
+    <string name="theme_light">Svetla</string>
+    <string name="theme_dark">Temna</string>
+    <string name="theme_following_dark">Sledi vašemu telefonu. Trenutno je v temnem načinu.</string>
+    <string name="theme_following_light">Sledi vašemu telefonu. Trenutno je v svetlem načinu.</string>
+    <string name="settings_color_scheme">Barvna shema</string>
+    <string name="settings_color_note">Material You sledi vašemu ozadju. Druge sheme so fiksne palete, vsaka s svetlo in temno različico.</string>
+    <string name="settings_app_icon">Ikona aplikacije</string>
+    <string name="settings_icon_note">Ikona na začetnem zaslonu se lahko spremeni šele čez nekaj sekund. Nekateri zaganjalniki jo osvežijo šele po ponovnem zagonu.</string>
+    <string name="settings_language">Jezik</string>
+    <string name="language_system">Sistemski jezik</string>
+
+    <!-- About -->
+    <string name="about_tagline">Pretvorba medijev s prednostjo strojne opreme</string>
+    <string name="about_version">Različica %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter spravi medijski pogon vašega telefona na delo. Večina aplikacij za pretvorbo ga prezre in kodira na procesorju. Ta aplikacija najprej preveri čip in uporabi strojno opremo, kadar koli lahko. Programska pot ostane za najvišjo kakovost in za opravila, ki jih strojna oprema ne more opraviti. Nič se ne zamenja tiho. Vsako opravilo prikaže natančen ukaz, ki se je izvedel, zavihek »Strojna oprema« pa pokaže, kaj vaš telefon zmore. Aplikacija je brezplačna in odprtokodna. Vaše datoteke nikoli ne zapustijo telefona: edino, kar aplikacija prenese, so njene lastne posodobitve z GitHuba.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Izvorna koda, težave in stran projekta</string>
+    <string name="about_releases">Izdaje</string>
+    <string name="about_releases_sub">Prenesite najnovejše datoteke APK</string>
+    <string name="about_check_updates">Preveri posodobitve</string>
+    <string name="about_check_updates_sub">Preverite na GitHubu, ali obstaja novejša različica</string>
+    <string name="about_auto_check">Samodejno preverjanje posodobitev</string>
+    <string name="about_auto_off">Izklopljeno. Aplikacija nima dostopa do omrežja.</string>
+    <string name="about_auto_daily">Enkrat na dan, ko se aplikacija odpre</string>
+    <string name="about_internet_note">Dovoljenje za internet je priloženo namestitvi in se uporablja samo za preverjanje posodobitev na GitHubu. Če preverjanja posodobitev ne potrebujete, izklopite samodejno preverjanje. Če aplikacija ne more doseči interneta, se preverjanje samo izklopi, dokler ne more.</string>
+    <string name="about_replay_tour">Ponovni ogled predstavitve</string>
+    <string name="about_replay_tour_sub">Znova si oglejte predstavitev funkcij</string>
+    <string name="about_footer">Zgrajeno na FFmpeg prek FFmpegKit (GPL), deluje na medijski strojni opremi vašega telefona.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Dobrodošli v HWA Converter</string>
+    <string name="tour_welcome_body">Ta aplikacija pretvarja video in zvok v vašem telefonu. Najprej uporabi medijski pogon, ne procesor. Tukaj je kratek pregled.</string>
+    <string name="tour_add_title">Dodaj datoteke</string>
+    <string name="tour_add_body">Tapnite ta gumb in izberite datoteke. Nič se še ne začne. Počakajo, dokler ne tapnete »Začni«.</string>
+    <string name="tour_pick_title">Izberite pretvorbo</string>
+    <string name="tour_pick_body">Strojne prednastavitve so hitre in varčne z baterijo. Programske prednastavitve so počasnejše, a dajo najboljšo kakovost. »Po meri« vam omogoča, da vse nastavite sami.</string>
+    <string name="tour_start_title">Začnite, ko boste pripravljeni</string>
+    <string name="tour_start_body">Ko dodate datoteke, se pod »Dodaj datoteke« prikaže gumb »Začni«. Tapnite ga za začetek. Do takrat se nič ne izvaja.</string>
+    <string name="tour_queue_title">Zavihek »Čakalna vrsta«</string>
+    <string name="tour_queue_body">Vse vaše pretvorbe so tukaj. Spremljate lahko napredek in hitrost, vidite natančen ukaz, ki se je izvedel, in shranite dnevnik za odpravljanje napak posameznega opravila.</string>
+    <string name="tour_hardware_title">Vaša strojna oprema</string>
+    <string name="tour_hardware_body">To je medijski pogon v vašem telefonu, preverjen na tej napravi. Vaše prednastavitve so zgrajene na njem. Če strojna pot ni navedena, je vaš čip nima.</string>
+    <string name="tour_settings_title">Videz</string>
+    <string name="tour_settings_body">Teme, barvne sheme, jezik in devet ikon zaganjalnika so tukaj.</string>
+    <string name="tour_done_title">To je vse</string>
+    <string name="tour_done_body">Še ena stvar. Pretvorbe se v celoti izvajajo v vašem telefonu. Edino, kar aplikacija prenese, so njene lastne posodobitve.</string>
+    <string name="tour_skip">Preskoči</string>
+    <string name="tour_next">Naprej</string>
+    <string name="tour_got_it">Razumem</string>
+
+    <!-- Updates -->
+    <string name="update_available">Na voljo je posodobitev</string>
+    <string name="update_on_github">Nova različica je na GitHubu.</string>
+    <string name="update_version">Različica %1$s</string>
+    <string name="update_downloading">Prenašanje… %1$d%%</string>
+    <string name="update_downloading_short">Prenašanje…</string>
+    <string name="update_later">Prenesi pozneje</string>
+    <string name="update_install">Prenesi in namesti</string>
+    <string name="update_status_checking">Preverjanje na GitHubu…</string>
+    <string name="update_status_available">Različica %1$s je na voljo.</string>
+    <string name="update_status_uptodate">Imate najnovejšo različico.</string>
+    <string name="update_no_files">Ta izdaja nima priloženih datotek.</string>
+    <string name="update_no_apk">Ta izdaja nima priloženega APK-ja.</string>
+    <string name="update_unreachable">GitHuba ni bilo mogoče doseči. Preverite povezavo in poskusite znova.</string>
+    <string name="update_check_failed">Pri preverjanju je šlo nekaj narobe. Poskusite znova pozneje.</string>
+    <string name="update_download_failed">Prenos ni uspel. Preverite povezavo in poskusite znova.</string>
+    <string name="update_allow_installs">Dovolite namestitve iz te aplikacije, nato znova tapnite »Prenesi in namesti«.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Pretvorbe</string>
+    <string name="notif_channel_desc">Napredek pretvorb, ki se izvajajo, medtem ko je aplikacija v ozadju.</string>
+    <string name="notif_converting">Pretvarjanje…</string>
+    <string name="notif_starting">Zaganjanje…</string>
+    <string name="notif_ready_title">Pripravljeno na pretvorbo</string>
+    <string name="notif_waiting">%1$d čaka. Tapnite »Začni« v aplikaciji.</string>
+    <string name="notif_converting_file">Pretvarjanje: %1$s</string>
+    <string name="notif_files">datoteke</string>
+    <string name="notif_more_queued">še %1$d v vrsti</string>
+    <string name="notif_cancel">Prekliči</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ končano</string>
+    <string name="eta_sec_left">≈ še %1$d s</string>
+    <string name="eta_min_left">≈ še %1$d min</string>
+    <string name="eta_h_min_left">≈ še %1$d h %2$d min</string>
+</resources>

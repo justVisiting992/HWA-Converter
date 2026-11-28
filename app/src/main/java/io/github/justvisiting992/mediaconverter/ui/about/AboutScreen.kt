@@ -31,10 +31,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.github.justvisiting992.mediaconverter.BuildConfig
+import io.github.justvisiting992.mediaconverter.R
 import io.github.justvisiting992.mediaconverter.core.update.UpdateController
+import io.github.justvisiting992.mediaconverter.ui.components.OnGradientTextShadow
 import io.github.justvisiting992.mediaconverter.ui.components.HeroPanel
 import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
 import io.github.justvisiting992.mediaconverter.ui.components.InfoChip
@@ -81,13 +84,15 @@ fun AboutScreen(
                     Column {
                         Text(
                             "HWA Converter",
-                            style = MaterialTheme.typography.titleLarge,
+                            style = MaterialTheme.typography.titleLarge
+                                .copy(shadow = OnGradientTextShadow),
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                         Text(
-                            "Hardware-first media conversion",
-                            style = MaterialTheme.typography.bodyMedium,
+                            stringResource(R.string.about_tagline),
+                            style = MaterialTheme.typography.bodyMedium
+                                .copy(shadow = OnGradientTextShadow),
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
@@ -96,7 +101,7 @@ fun AboutScreen(
                     modifier = Modifier.padding(top = 14.dp),
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
-                    InfoChip("Version ${BuildConfig.VERSION_NAME}")
+                    InfoChip(stringResource(R.string.about_version, BuildConfig.VERSION_NAME))
                     InfoChip("GPL-3.0")
                 }
             }
@@ -110,17 +115,7 @@ fun AboutScreen(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
-                    "Hardware Accelerated Converter puts your phone's media " +
-                        "engine to work. Most converter apps ignore it and " +
-                        "encode on the CPU. This app probes the chip first " +
-                        "and uses the hardware whenever it can. The software " +
-                        "path stays for maximum quality and for jobs the " +
-                        "hardware cannot do. Nothing falls back silently. " +
-                        "Every job shows the exact command that ran, and the " +
-                        "Hardware tab shows what your phone can do. The app " +
-                        "is free and open source. Your files never leave " +
-                        "your phone: the only thing the app ever fetches " +
-                        "is its own updates, from GitHub.",
+                    stringResource(R.string.about_body),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(18.dp),
                 )
@@ -137,42 +132,37 @@ fun AboutScreen(
                 Column {
                     LinkRow(
                         icon = Icons.Filled.Code,
-                        title = "GitHub",
-                        subtitle = "Source code, issues and the project page",
+                        title = stringResource(R.string.about_github),
+                        subtitle = stringResource(R.string.about_github_sub),
                         onClick = { open(REPO_URL) },
                     )
                     LinkRow(
                         icon = Icons.Filled.Download,
-                        title = "Releases",
-                        subtitle = "Download the latest APKs",
+                        title = stringResource(R.string.about_releases),
+                        subtitle = stringResource(R.string.about_releases_sub),
                         onClick = { open(RELEASES_URL) },
                     )
                     ActionRow(
                         icon = Icons.Filled.SystemUpdate,
-                        title = "Check for updates",
+                        title = stringResource(R.string.about_check_updates),
                         subtitle = updateStatus
-                            ?: "Check GitHub for a newer version",
+                            ?: stringResource(R.string.about_check_updates_sub),
                         onClick = { updateController.checkManually() },
                     )
                     SwitchRow(
                         icon = Icons.Filled.Autorenew,
-                        title = "Automatic update check",
+                        title = stringResource(R.string.about_auto_check),
                         subtitle = if (networkOff) {
-                            "Off. The app has no network access."
+                            stringResource(R.string.about_auto_off)
                         } else {
-                            "Once a day, when the app opens"
+                            stringResource(R.string.about_auto_daily)
                         },
                         checked = autoCheck && !networkOff,
                         enabled = !networkOff,
                         onCheckedChange = { updateController.setAutoCheck(it) },
                     )
                     Text(
-                        "The internet permission comes with the install " +
-                            "and is used only to check GitHub for updates. " +
-                            "If you do not need update checks, switch the " +
-                            "automatic check off. If the app cannot reach " +
-                            "the internet, the checker disables itself " +
-                            "until it can.",
+                        stringResource(R.string.about_internet_note),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(
@@ -181,8 +171,8 @@ fun AboutScreen(
                     )
                     ActionRow(
                         icon = Icons.Filled.PlayArrow,
-                        title = "Replay the tour",
-                        subtitle = "See the feature tour again",
+                        title = stringResource(R.string.about_replay_tour),
+                        subtitle = stringResource(R.string.about_replay_tour_sub),
                         onClick = onReplayTour,
                     )
                 }
@@ -190,8 +180,7 @@ fun AboutScreen(
         }
         item {
             Text(
-                "Built on FFmpeg through FFmpegKit (GPL), running on your " +
-                    "phone's media hardware.",
+                stringResource(R.string.about_footer),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 4.dp),

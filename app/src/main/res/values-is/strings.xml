@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icelandic translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Umbreyta</string>
+    <string name="tab_queue">Biðröð</string>
+    <string name="tab_hardware">Vélbúnaðurinn þinn</string>
+    <string name="tab_settings">Útlit</string>
+    <string name="tab_about">Um</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">Miðlunarvél þessa tækis er könnuð…</string>
+    <string name="convert_hero_engine">%1$s miðlunarvél</string>
+    <string name="convert_hero_engine_fallback">Miðlunarvél</string>
+    <string name="convert_hero_body">Vélbúnaðarhröðun er virk í þessum síma. Umbreytingar keyra á miðlunarvélinni, ekki á örgjörvanum.</string>
+    <string name="chip_h264_hw_encode">H.264 vélbúnaðarkóðun</string>
+    <string name="chip_hevc_hw_encode">HEVC vélbúnaðarkóðun</string>
+    <string name="chip_vp9_hw_encode">VP9 vélbúnaðarkóðun</string>
+    <string name="chip_av1_hw_encode">AV1 vélbúnaðarkóðun</string>
+    <string name="chip_hevc_hw_decode">HEVC vélbúnaðarafkóðun</string>
+    <string name="chip_av1_hw_decode">AV1 vélbúnaðarafkóðun</string>
+    <string name="convert_with">Umbreyta með</string>
+    <string name="category_hardware">Vélbúnaðarkóðun</string>
+    <string name="category_software">Hugbúnaðarkóðun</string>
+    <string name="category_audio">Aðeins hljóð</string>
+    <string name="category_no_reencode">Engin endurkóðun</string>
+    <string name="category_create">Búa til</string>
+    <string name="convert_helper">Veldu umbreytingu, bættu við skrám og ýttu síðan á Byrja. Ekkert keyrir fyrr en þú segir til.</string>
+    <string name="trim_start">Upphaf (sekúndur)</string>
+    <string name="trim_end">Lok (sekúndur)</string>
+    <string name="add_files">Bæta við skrám</string>
+    <string name="start_conversion">Byrja umbreytingu</string>
+    <string name="start_conversions_n">Byrja %1$d umbreytingar</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Handvirkar stillingar</string>
+    <string name="manual_video">Myndband</string>
+    <string name="manual_container">Ílát</string>
+    <string name="manual_bitrate_label">Bitahraði myndbands (kbps). Autt þýðir sjálfvirkt</string>
+    <string name="manual_crf_label">Gæði (CRF). Autt þýðir sjálfgefið. Lægra er betra</string>
+    <string name="manual_max_height">Hámarkshæð</string>
+    <string name="manual_original">Upprunaleg</string>
+    <string name="manual_audio">Hljóð</string>
+    <string name="manual_audio_bitrate">Bitahraði hljóðs (kbps)</string>
+    <string name="manual_hw_decode">Vélbúnaðarafkóðun</string>
+    <string name="manual_hw_decode_body">Afkóðar á miðlunarvélinni þegar síminn hefur afkóðara fyrir kóðara skráarinnar.</string>
+    <string name="mc_copy">Afrita (engin endurkóðun)</string>
+    <string name="mc_h264_hw">H.264 · vélbúnaður</string>
+    <string name="mc_hevc_hw">H.265 · vélbúnaður</string>
+    <string name="mc_vp9_hw">VP9 · vélbúnaður</string>
+    <string name="mc_av1_hw">AV1 · vélbúnaður</string>
+    <string name="mc_h264_sw">H.264 · hugbúnaður</string>
+    <string name="mc_hevc_sw">H.265 · hugbúnaður</string>
+    <string name="mc_vp9_sw">VP9 · hugbúnaður</string>
+    <string name="mc_av1_sw">AV1 · hugbúnaður</string>
+    <string name="mc_none">Ekkert myndband (aðeins hljóð)</string>
+    <string name="ma_copy">Afrita (engin endurkóðun)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Ekkert hljóð</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · vélbúnaður</string>
+    <string name="preset_h264_hw_desc">Fljótt, lítið, spilast alls staðar. Notar miðlunarvél þessa síma.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · vélbúnaður</string>
+    <string name="preset_hevc_hw_desc">Um það bil helmingi minna en H.264 með sömu gæðum. Notar miðlunarvél þessa síma.</string>
+    <string name="preset_vp9_hw_label">VP9 · vélbúnaður</string>
+    <string name="preset_vp9_hw_desc">VP9 í vélbúnaði í WebM skrá. Aðeins í símum þar sem miðlunarvélin kóðar VP9.</string>
+    <string name="preset_av1_hw_label">AV1 · vélbúnaður</string>
+    <string name="preset_av1_hw_desc">AV1 í vélbúnaði. Aðeins örfáar miðlunarvélar geta kóðað AV1, svo þessi forstilling birtist aðeins í þeim símum.</string>
+    <string name="preset_h264_sw_label">H.264 · hámarksgæði (hugbúnaður)</string>
+    <string name="preset_h264_sw_desc">Hæg örgjörvakóðun með libx264, bestu gæði á bæti. Fyrir frumrit og HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · hámarksgæði (hugbúnaður)</string>
+    <string name="preset_hevc_sw_desc">Minna en H.264 með sömu gæðum. Hæg örgjörvakóðun með libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · hugbúnaður (WebM)</string>
+    <string name="preset_vp9_sw_desc">Kóðari vefsins, í WebM skrá. Örgjörvakóðun með libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · hugbúnaður</string>
+    <string name="preset_av1_sw_desc">Nýjasti kóðarinn, minnstu skrárnar. Mjög hægt á örgjörva. Best fyrir stutt brot.</string>
+    <string name="preset_audio_aac_label">Aðeins hljóð · AAC</string>
+    <string name="preset_audio_aac_desc">Dregur hljóðrásina út í AAC.</string>
+    <string name="preset_audio_mp3_label">Aðeins hljóð · MP3</string>
+    <string name="preset_audio_mp3_desc">Dregur hljóðrásina út í MP3. Spilast alls staðar.</string>
+    <string name="preset_audio_opus_label">Aðeins hljóð · Opus</string>
+    <string name="preset_audio_opus_desc">Dregur hljóðrásina út í Opus. Minnst með sömu gæðum.</string>
+    <string name="preset_audio_flac_label">Aðeins hljóð · FLAC</string>
+    <string name="preset_audio_flac_desc">Dregur hljóðrásina út í FLAC án taps.</string>
+    <string name="preset_audio_wav_label">Aðeins hljóð · WAV</string>
+    <string name="preset_audio_wav_desc">Dregur hljóðrásina út í óþjappað WAV, til að breyta.</string>
+    <string name="preset_remux_mp4_label">Endurpakka í MP4 · engin endurkóðun</string>
+    <string name="preset_remux_mp4_desc">Sama mynd og hljóð, nýtt MP4 ílát. Samstundis.</string>
+    <string name="preset_remux_mkv_label">Endurpakka í MKV · engin endurkóðun</string>
+    <string name="preset_remux_mkv_desc">Sama mynd og hljóð, nýtt MKV ílát. Samstundis.</string>
+    <string name="preset_trim_label">Klippa · engin endurkóðun</string>
+    <string name="preset_trim_desc">Klippir út hluta án þess að snerta myndina. Klippingar lenda á lykilrömmum.</string>
+    <string name="preset_gif_label">GIF · hreyfimynd</string>
+    <string name="preset_gif_desc">Gerir brot að hreyfðu GIF (12 fps, 480 px breitt). Aðeins stutt brot.</string>
+    <string name="preset_custom_label">Sérsniðið · handvirkar stillingar</string>
+    <string name="preset_custom_desc">Þitt eigið snið: ílát, kóðarar, bitahraði, upplausn.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Hugbúnaðarkóðun (libx264, CRF 18, hæg forstilling). Hæg, bestu gæði á bæti. Afkóðun: %1$s.</string>
+    <string name="note_sw_x265">Hugbúnaðarkóðun (libx265, CRF 22, miðlungs forstilling). Afkóðun: %1$s.</string>
+    <string name="note_sw_vp9">Hugbúnaðarkóðun (libvpx-vp9, CRF 30) í WebM. Afkóðun: %1$s.</string>
+    <string name="note_sw_av1">Hugbúnaðarkóðun (libaom-av1, CRF 32). AV1 er mjög hægt á örgjörva. Afkóðun: %1$s.</string>
+    <string name="note_audio_aac">Hljóð dregið út í AAC 192k. Enginn myndbandskóðari kemur við sögu.</string>
+    <string name="note_audio_mp3">Hljóð dregið út í MP3 192k. Enginn myndbandskóðari kemur við sögu.</string>
+    <string name="note_audio_opus">Hljóð dregið út í Opus 128k. Enginn myndbandskóðari kemur við sögu.</string>
+    <string name="note_audio_flac">Hljóð dregið út í FLAC (án taps). Enginn myndbandskóðari kemur við sögu.</string>
+    <string name="note_audio_wav">Hljóð dregið út í WAV (óþjappað). Enginn myndbandskóðari kemur við sögu.</string>
+    <string name="note_remux_mp4">Endurpakkað í MP4: straumar afritaðir, ekkert endurkóðað.</string>
+    <string name="note_remux_mkv">Endurpakkað í MKV: straumar afritaðir, ekkert endurkóðað.</string>
+    <string name="note_gif">Hreyft GIF við 12 fps, 480 px breitt. Afkóðun: %1$s.</string>
+    <string name="note_trim">Afrit af straumi, engin endurkóðun. Klippingar lenda á lykilrömmum, svo brúnirnar geta færst um nokkra ramma.</string>
+    <string name="note_hw_encode">Vélbúnaðarkóðun (%1$s) á %2$s við %3$s Mbps. Afkóðun: %4$s.</string>
+    <string name="note_custom_audio">Sérsniðið: aðeins hljóð (%1$s %2$dk).</string>
+    <string name="note_custom_full">Sérsniðið: %1$s · myndband %2$s · hljóð %3$s. Afkóðun: %4$s.</string>
+    <string name="refusal_custom_path">Sérsniðin verk eru byggð úr handvirku valkostunum, ekki úr forstillingaleiðinni.</string>
+    <string name="refusal_trim_times">Veldu upphafs- og lokatíma fyrst. Klippingin þarf hvort tveggja.</string>
+    <string name="refusal_no_hw_encoder">Þessi sími hefur engan %1$s vélbúnaðarkóðara, svo vélbúnaðarforstillingin getur ekki keyrt. Hugbúnaðarforstillingin getur samt gert þessa umbreytingu á örgjörvanum.</string>
+    <string name="refusal_no_hw_encoder_manual">Þessi sími hefur engan %1$s vélbúnaðarkóðara, svo þessi sérsniðna stilling getur ekki keyrt.</string>
+    <string name="refusal_legacy_vp9_av1">Elda vélin (FFmpeg 6.0) hefur engan VP9 né AV1 vélbúnaðarkóðara. Veldu hugbúnaðarvalkostinn, eða H.264 / HEVC vélbúnað.</string>
+    <string name="refusal_audio_only_codec">Úttak með aðeins hljóði þarf hljóðkóðara. Veldu AAC, MP3 eða Opus.</string>
+    <string name="refusal_pick_audio">Veldu hljóðkóðara.</string>
+    <string name="refusal_webm_video">WebM geymir VP9 eða AV1 myndband. Veldu annað hvort, eða notaðu MP4 eða MKV ílát.</string>
+    <string name="refusal_webm_audio">WebM hljóð verður að vera Opus, afritað eða ekkert. AAC og MP3 passa ekki í WebM.</string>
+    <string name="decode_hw">vélbúnaður (%1$s á %2$s)</string>
+    <string name="decode_cpu_retry">Örgjörvi (reynt aftur eftir að vélbúnaðarafkóðarinn brást)</string>
+    <string name="decode_cpu_choice">Örgjörvi (þitt val í sérsniðnu stillingunum)</string>
+    <string name="decode_cpu_no_path">Örgjörvi (engin vélbúnaðarafkóðaraleið fyrir %1$s)</string>
+    <string name="decode_this_input">þetta inntak</string>
+    <string name="decode_cpu_no_decoder">Örgjörvi (þessi sími hefur engan %1$s vélbúnaðarafkóðara)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Byrja</string>
+    <string name="queue_clear_finished">Hreinsa lokið</string>
+    <string name="queue_empty_title">Engar umbreytingar enn</string>
+    <string name="queue_empty_body">Bættu við skrám úr Umbreyta flipanum, ýttu á Byrja, og þær keyra hér, ein í einu.</string>
+    <string name="job_waiting">Bíður eftir Byrja</string>
+    <string name="job_queued">Í biðröð</string>
+    <string name="job_est_output">≈ %1$s úttak</string>
+    <string name="job_cancel">Hætta við</string>
+    <string name="job_converting">Umbreytir…</string>
+    <string name="job_speed">%1$s× hraði</string>
+    <string name="job_saved_to">Vistað í %1$s/%2$s</string>
+    <string name="job_open">Opna</string>
+    <string name="job_share">Deila</string>
+    <string name="job_cancelled">Hætt við</string>
+    <string name="job_failed">Mistókst</string>
+    <string name="job_debug_log_save">Villuleitarskrá. Ýttu á skrána til að vista hana í Download/HWA Converter</string>
+    <string name="job_debug_log_saved">Villuleitarskrá. Vistað í Download/HWA Converter</string>
+    <string name="job_share_log">Deila skrá</string>
+    <string name="share_debug_log_title">Deila villuleitarskrá</string>
+    <string name="share_file_title">Deila umbreyttri skrá</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">Ekki tókst að búa til úttaksskrána í MediaStore.</string>
+    <string name="queue_conversion_failed">Umbreytingin mistókst. ffmpeg sagði: %1$s</string>
+    <string name="queue_conversion_failed_silent">Umbreytingin mistókst (ffmpeg gaf engin skilaboð).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">Miðlunarvél þessa tækis er könnuð…</string>
+    <string name="hw_video_encoders">Myndbandskóðarar</string>
+    <string name="hw_audio_encoders">Hljóðkóðarar</string>
+    <string name="hw_video_decoders">Myndbandsafkóðarar</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Miðlunarvél: %1$s</string>
+    <string name="hw_tile_hw_encoders">vélbúnaðarkóðarar</string>
+    <string name="hw_tile_hw_decoders">vélbúnaðarafkóðarar</string>
+    <string name="hw_tile_max_encode">hámarks vélbúnaðarkóðun</string>
+    <string name="hw_tile_top_bitrate">hæsti bitahraði kóðara</string>
+    <string name="hw_unknown">Óþekkt</string>
+    <string name="hw_encoding_title">Vélbúnaðarkóðun</string>
+    <string name="hw_decoding_title">Vélbúnaðarafkóðun</string>
+    <string name="hw_software_only">aðeins hugbúnaður</string>
+    <string name="hw_badge_hardware">VÉLBÚNAÐUR</string>
+    <string name="hw_badge_software">HUGBÚNAÐUR</string>
+    <string name="hw_up_to">allt að %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Þema</string>
+    <string name="theme_system">Kerfi</string>
+    <string name="theme_light">Ljóst</string>
+    <string name="theme_dark">Dökkt</string>
+    <string name="theme_following_dark">Fylgir símanum þínum. Hann er í dökkum ham núna.</string>
+    <string name="theme_following_light">Fylgir símanum þínum. Hann er í ljósum ham núna.</string>
+    <string name="settings_color_scheme">Litastef</string>
+    <string name="settings_color_note">Material You fylgir veggfóðrinu þínu. Hin stefin eru föst litaval, hvert með ljósri og dökkri útgáfu.</string>
+    <string name="settings_app_icon">Tákn forrits</string>
+    <string name="settings_icon_note">Það getur tekið nokkrar sekúndur fyrir tákn heimaskjásins að breytast. Sumir ræsarar endurnýja það aðeins eftir endurræsingu.</string>
+    <string name="settings_language">Tungumál</string>
+    <string name="language_system">Tungumál kerfisins</string>
+
+    <!-- About -->
+    <string name="about_tagline">Miðlunarumbreyting með vélbúnaðinn fyrst</string>
+    <string name="about_version">Útgáfa %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter lætur miðlunarvél símans þíns vinna. Flest umbreytingarforrit hunsa hana og kóða á örgjörvanum. Þetta forrit kannar flöguna fyrst og notar vélbúnaðinn alltaf þegar það getur. Hugbúnaðarleitin er áfram fyrir hámarksgæði og fyrir verk sem vélbúnaðurinn getur ekki gert. Engu er skipt út í þögn. Sérhvert verk sýnir nákvæmlega þá skipun sem var keyrð, og Vélbúnaður flipinn sýnir hvað síminn þinn getur. Forritið er ókeypis og með opinn kóða. Skrárnar þínar fara aldrei úr símanum: það eina sem forritið sækir nokkurn tíma eru eigin uppfærslur þess, frá GitHub.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Upprunakóði, vandamál og verkefnasíðan</string>
+    <string name="about_releases">Útgáfur</string>
+    <string name="about_releases_sub">Sæktu nýjustu APK skrárnar</string>
+    <string name="about_check_updates">Athuga með uppfærslur</string>
+    <string name="about_check_updates_sub">Athugaðu á GitHub hvort nýrri útgáfa sé til</string>
+    <string name="about_auto_check">Sjálfvirk uppfærsluathugun</string>
+    <string name="about_auto_off">Slökkt. Forritið hefur engan netaðgang.</string>
+    <string name="about_auto_daily">Einu sinni á dag, þegar forritið opnast</string>
+    <string name="about_internet_note">Netheimildin fylgir uppsetningunni og er aðeins notuð til að athuga á GitHub eftir uppfærslum. Ef þú þarft ekki uppfærsluathuganir skaltu slökkva á sjálfvirku athuguninni. Ef forritið nær ekki á netið slekkur athugandinn á sér þar til hann getur það.</string>
+    <string name="about_replay_tour">Spila ferðina aftur</string>
+    <string name="about_replay_tour_sub">Sjáðu eiginleikaferðina aftur</string>
+    <string name="about_footer">Byggt á FFmpeg í gegnum FFmpegKit (GPL), keyrir á miðlunarvélbúnaði símans þíns.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Velkomin í HWA Converter</string>
+    <string name="tour_welcome_body">Þetta forrit umbreytir myndbandi og hljóði í símanum þínum. Það notar miðlunarvélina fyrst, ekki örgjörvann. Hér er stutt yfirlit.</string>
+    <string name="tour_add_title">Bæta við skrám</string>
+    <string name="tour_add_body">Ýttu á þennan hnapp og veldu skrárnar þínar. Ekkert byrjar enn. Þær bíða þar til þú ýtir á Byrja.</string>
+    <string name="tour_pick_title">Veldu umbreytingu</string>
+    <string name="tour_pick_body">Vélbúnaðarforstillingar eru fljótar og léttar á rafhlöðunni. Hugbúnaðarforstillingar eru hægari en gefa bestu gæðin. Sérsniðið veitir fulla stjórn á stillingum.</string>
+    <string name="tour_start_title">Byrjaðu þegar þú vilt</string>
+    <string name="tour_start_body">Eftir að þú bætir við skrám birtist Byrja hnappur fyrir neðan Bæta við skrám. Ýttu á hann til að byrja. Þangað til keyrir ekkert.</string>
+    <string name="tour_queue_title">Biðröð flipinn</string>
+    <string name="tour_queue_body">Allar umbreytingarnar þínar eru hér. Þú getur fylgst með framvindu og hraða, séð nákvæmlega þá skipun sem var keyrð og vistað villuleitarskrá verks.</string>
+    <string name="tour_hardware_title">Vélbúnaðurinn þinn</string>
+    <string name="tour_hardware_body">Þetta er miðlunarvélin inni í símanum þínum, könnuð á þessu tæki. Forstillingarnar þínar eru byggðar á henni. Ef vélbúnaðarleit er ekki á listanum hefur flagan þín hana ekki.</string>
+    <string name="tour_settings_title">Útlit</string>
+    <string name="tour_settings_body">Þemu, litastef, tungumál og níu ræsitákn eru hér.</string>
+    <string name="tour_done_title">Það er allt</string>
+    <string name="tour_done_body">Eitt að lokum. Umbreytingar keyra alfarið í símanum þínum. Það eina sem forritið sækir nokkurn tíma eru eigin uppfærslur þess.</string>
+    <string name="tour_skip">Sleppa</string>
+    <string name="tour_next">Næsta</string>
+    <string name="tour_got_it">Skilið</string>
+
+    <!-- Updates -->
+    <string name="update_available">Uppfærsla í boði</string>
+    <string name="update_on_github">Ný útgáfa er á GitHub.</string>
+    <string name="update_version">Útgáfa %1$s</string>
+    <string name="update_downloading">Sækir… %1$d%%</string>
+    <string name="update_downloading_short">Sækir…</string>
+    <string name="update_later">Sækja síðar</string>
+    <string name="update_install">Sækja &amp; setja upp</string>
+    <string name="update_status_checking">Athugar GitHub…</string>
+    <string name="update_status_available">Útgáfa %1$s er í boði.</string>
+    <string name="update_status_uptodate">Þú ert með nýjustu útgáfuna.</string>
+    <string name="update_no_files">Sú útgáfa hefur engar skrár viðhengdar.</string>
+    <string name="update_no_apk">Sú útgáfa hefur ekkert APK viðhengt.</string>
+    <string name="update_unreachable">Ekki náðist á GitHub. Athugaðu tenginguna og reyndu aftur.</string>
+    <string name="update_check_failed">Eitthvað fór úrskeiðis við athugunina. Reyndu aftur síðar.</string>
+    <string name="update_download_failed">Niðurhalið mistókst. Athugaðu tenginguna og reyndu aftur.</string>
+    <string name="update_allow_installs">Leyfðu uppsetningar úr þessu forriti og ýttu síðan á Sækja &amp; setja upp aftur.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Umbreytingar</string>
+    <string name="notif_channel_desc">Framvinda umbreytinga sem keyra á meðan forritið er í bakgrunni.</string>
+    <string name="notif_converting">Umbreytir…</string>
+    <string name="notif_starting">Byrjar…</string>
+    <string name="notif_ready_title">Tilbúið til umbreytingar</string>
+    <string name="notif_waiting">%1$d bíða. Ýttu á Byrja í forritinu.</string>
+    <string name="notif_converting_file">Umbreytir %1$s</string>
+    <string name="notif_files">skrár</string>
+    <string name="notif_more_queued">%1$d í viðbót í biðröð</string>
+    <string name="notif_cancel">Hætta við</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ lokið</string>
+    <string name="eta_sec_left">≈ %1$d s eftir</string>
+    <string name="eta_min_left">≈ %1$d mín eftir</string>
+    <string name="eta_h_min_left">≈ %1$d klst %2$d mín eftir</string>
+</resources>

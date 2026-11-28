@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The languages Android 13+ offers for this app in the system's
+  per-app language settings. Must list every values-<language> folder
+  plus the base locale. The in-app selector in Look & Feel is the
+  primary switch and works on every Android version; this file only
+  feeds the system list.
+-->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en" />
+    <locale android:name="de" />
+    <locale android:name="fr" />
+    <locale android:name="es" />
+    <locale android:name="it" />
+    <locale android:name="pt" />
+    <locale android:name="nl" />
+    <locale android:name="pl" />
+    <locale android:name="uk" />
+    <locale android:name="ru" />
+    <locale android:name="ro" />
+    <locale android:name="cs" />
+    <locale android:name="hu" />
+    <locale android:name="el" />
+    <locale android:name="sv" />
+    <locale android:name="da" />
+    <locale android:name="nb" />
+    <locale android:name="fi" />
+    <locale android:name="sk" />
+    <locale android:name="hr" />
+    <locale android:name="bg" />
+    <locale android:name="sr" />
+    <locale android:name="lt" />
+    <locale android:name="sl" />
+    <locale android:name="lv" />
+    <locale android:name="et" />
+    <locale android:name="ga" />
+    <locale android:name="ca" />
+    <locale android:name="sq" />
+    <locale android:name="is" />
+    <locale android:name="pt-BR" />
+    <locale android:name="ja" />
+    <locale android:name="ko" />
+    <locale android:name="zh-Hans" />
+    <locale android:name="zh-Hant" />
+    <locale android:name="fa" />
+</locale-config>

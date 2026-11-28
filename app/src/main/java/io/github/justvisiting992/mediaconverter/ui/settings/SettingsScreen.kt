@@ -1,15 +1,26 @@
 package io.github.justvisiting992.mediaconverter.ui.settings
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,15 +35,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Contrast
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.Card
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +59,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.github.justvisiting992.mediaconverter.R
+import io.github.justvisiting992.mediaconverter.core.locale.AppLocale
 import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeMode
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeTemplate
@@ -60,6 +77,8 @@ fun SettingsScreen(
     mode: ThemeMode,
     onTemplateChange: (ThemeTemplate) -> Unit,
     onModeChange: (ThemeMode) -> Unit,
+    languageTag: String,
+    onLanguageChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -76,12 +95,36 @@ fun SettingsScreen(
                 modifier = Modifier.padding(top = 8.dp),
             ) {
                 IconBadge(
+                    Icons.Filled.Language,
+                    MaterialTheme.colorScheme.primaryContainer,
+                    MaterialTheme.colorScheme.onPrimaryContainer,
+                    size = 32.dp,
+                )
+                Text(
+                    stringResource(R.string.settings_language),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+            }
+        }
+        item {
+            LanguageCard(
+                selectedTag = languageTag,
+                onSelect = onLanguageChange,
+            )
+        }
+        item {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.padding(top = 8.dp),
+            ) {
+                IconBadge(
                     Icons.Filled.Contrast,
                     MaterialTheme.colorScheme.tertiaryContainer,
                     MaterialTheme.colorScheme.onTertiaryContainer,
                     size = 32.dp,
                 )
-                Text("Theme", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.settings_theme), style = MaterialTheme.typography.titleMedium)
             }
         }
         item {
@@ -92,17 +135,17 @@ fun SettingsScreen(
                 FilterChip(
                     selected = mode == ThemeMode.SYSTEM,
                     onClick = { onModeChange(ThemeMode.SYSTEM) },
-                    label = { Text("System") },
+                    label = { Text(stringResource(R.string.theme_system)) },
                 )
                 FilterChip(
                     selected = mode == ThemeMode.LIGHT,
                     onClick = { onModeChange(ThemeMode.LIGHT) },
-                    label = { Text("Light") },
+                    label = { Text(stringResource(R.string.theme_light)) },
                 )
                 FilterChip(
                     selected = mode == ThemeMode.DARK,
                     onClick = { onModeChange(ThemeMode.DARK) },
-                    label = { Text("Dark") },
+                    label = { Text(stringResource(R.string.theme_dark)) },
                 )
             }
         }
@@ -110,9 +153,9 @@ fun SettingsScreen(
             item {
                 Text(
                     if (systemUsesDarkTheme(context)) {
-                        "Following your phone. It is in dark mode right now."
+                        stringResource(R.string.theme_following_dark)
                     } else {
-                        "Following your phone. It is in light mode right now."
+                        stringResource(R.string.theme_following_light)
                     },
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -131,7 +174,7 @@ fun SettingsScreen(
                     MaterialTheme.colorScheme.onPrimaryContainer,
                     size = 32.dp,
                 )
-                Text("Color scheme", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.settings_color_scheme), style = MaterialTheme.typography.titleMedium)
             }
         }
         item {
@@ -147,8 +190,7 @@ fun SettingsScreen(
         }
         item {
             Text(
-                "Material You follows your wallpaper. The other schemes " +
-                    "are fixed palettes, each with a light and a dark variant.",
+                stringResource(R.string.settings_color_note),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 4.dp),
@@ -166,7 +208,7 @@ fun SettingsScreen(
                     MaterialTheme.colorScheme.onSecondaryContainer,
                     size = 32.dp,
                 )
-                Text("App icon", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.settings_app_icon), style = MaterialTheme.typography.titleMedium)
             }
         }
         item {
@@ -197,8 +239,7 @@ fun SettingsScreen(
         }
         item {
             Text(
-                "The home-screen icon may take a few seconds to change. " +
-                    "Some launchers refresh it only after a restart.",
+                stringResource(R.string.settings_icon_note),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 4.dp),
@@ -306,5 +347,138 @@ private fun TemplateRow(
                 }
             }
         }
+    }
+}
+
+/**
+ * The language selector: a card that opens like the Convert tab's
+ * category cards. "System language" is the first row and the default;
+ * every other row is one language, named in itself, with its flag at
+ * the left. The chosen row wears the same gradient highlight as a
+ * chosen preset. Picking a language applies at once, no restart: the
+ * caller swaps the app's localized context.
+ */
+@Composable
+private fun LanguageCard(
+    selectedTag: String,
+    onSelect: (String) -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val chevronRotation by animateFloatAsState(
+        targetValue = if (expanded) 180f else 0f,
+        label = "languageChevron",
+    )
+    val selected = AppLocale.LANGUAGES.firstOrNull { it.tag == selectedTag }
+    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { expanded = !expanded }
+                    .padding(14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        selected?.nativeName
+                            ?: stringResource(R.string.language_system),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
+                Icon(
+                    Icons.Filled.KeyboardArrowDown,
+                    contentDescription = null,
+                    modifier = Modifier.rotate(chevronRotation),
+                )
+            }
+            AnimatedVisibility(
+                visible = expanded,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut(),
+            ) {
+                Column(
+                    Modifier
+                        .heightIn(max = 400.dp)
+                        .verticalScroll(rememberScrollState())
+                        .padding(bottom = 8.dp),
+                ) {
+                    LanguageRow(
+                        flag = "🌐",
+                        flagRes = 0,
+                        name = stringResource(R.string.language_system),
+                        selected = selectedTag == AppLocale.SYSTEM,
+                        onClick = { onSelect(AppLocale.SYSTEM) },
+                    )
+                    AppLocale.LANGUAGES.forEach { language ->
+                        LanguageRow(
+                            flag = language.flag,
+                            flagRes = language.flagRes,
+                            name = language.nativeName,
+                            selected = selectedTag == language.tag,
+                            onClick = { onSelect(language.tag) },
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LanguageRow(
+    flag: String,
+    flagRes: Int,
+    name: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    val scheme = MaterialTheme.colorScheme
+    val shape = RoundedCornerShape(16.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 2.dp)
+            .clip(shape)
+            .then(
+                if (selected) {
+                    Modifier.background(
+                        Brush.linearGradient(
+                            listOf(
+                                scheme.secondaryContainer,
+                                scheme.primaryContainer,
+                            ),
+                        ),
+                    )
+                } else {
+                    Modifier
+                },
+            )
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        if (flagRes != 0) {
+            // Persian: the lion and sun flag image. Unicode has no
+            // lion-and-sun flag emoji, so this one row shows a small
+            // picture where the others show an emoji.
+            Image(
+                painter = painterResource(flagRes),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(width = 30.dp, height = 18.dp)
+                    .clip(RoundedCornerShape(3.dp)),
+                contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+            )
+        } else {
+            Text(flag, fontSize = 20.sp)
+        }
+        Text(
+            name,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+        )
     }
 }

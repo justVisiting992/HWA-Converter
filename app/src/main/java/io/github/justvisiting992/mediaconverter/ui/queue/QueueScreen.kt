@@ -52,17 +52,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import io.github.justvisiting992.mediaconverter.R
 import io.github.justvisiting992.mediaconverter.core.engine.PresetCommands
 import io.github.justvisiting992.mediaconverter.core.queue.ConversionJob
 import io.github.justvisiting992.mediaconverter.core.queue.ConversionQueueViewModel
 import io.github.justvisiting992.mediaconverter.core.queue.JobStatus
 import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
 import io.github.justvisiting992.mediaconverter.ui.components.InfoChip
+import io.github.justvisiting992.mediaconverter.ui.components.OnGradientTextShadow
 import io.github.justvisiting992.mediaconverter.ui.components.Thumbnails
 import io.github.justvisiting992.mediaconverter.ui.components.estimateOutputBytes
 import io.github.justvisiting992.mediaconverter.ui.components.formatDurationMs
@@ -108,12 +111,13 @@ fun QueueScreen(
                                 contentDescription = null,
                                 modifier = Modifier.size(16.dp),
                             )
-                            Text(" Start")
+                            Spacer(Modifier.size(4.dp))
+                            Text(stringResource(R.string.queue_start))
                         }
                     }
                     if (hasFinished) {
                         TextButton(onClick = { queueViewModel.clearFinished() }) {
-                            Text("Clear finished")
+                            Text(stringResource(R.string.queue_clear_finished))
                         }
                     }
                 }
@@ -135,12 +139,11 @@ fun QueueScreen(
                         size = 52.dp,
                     )
                     Text(
-                        "No conversions yet",
+                        stringResource(R.string.queue_empty_title),
                         style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
-                        "Add files from the Convert tab, tap Start, and " +
-                            "they will run here, one at a time.",
+                        stringResource(R.string.queue_empty_body),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -179,7 +182,7 @@ private fun JobCard(
                 putExtra(Intent.EXTRA_STREAM, savedLogUri)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            context.startActivity(Intent.createChooser(intent, "Share debug log"))
+            context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_debug_log_title)))
         }
     }
     val info = job.inputInfo
@@ -242,14 +245,16 @@ private fun JobCard(
                 ) {
                     Text(
                         job.inputName,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyMedium
+                            .copy(shadow = OnGradientTextShadow),
                         fontWeight = FontWeight.Medium,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
                     Text(
-                        job.preset.label,
-                        style = MaterialTheme.typography.bodySmall,
+                        stringResource(job.preset.labelRes),
+                        style = MaterialTheme.typography.bodySmall
+                            .copy(shadow = OnGradientTextShadow),
                         color = MaterialTheme.colorScheme.primary,
                     )
                     if (info != null) {
@@ -271,14 +276,16 @@ private fun JobCard(
             if (job.note.isNotEmpty()) {
                 Text(
                     job.note,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodySmall
+                        .copy(shadow = OnGradientTextShadow),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             if (job.command.isNotEmpty()) {
                 var commandExpanded by remember { mutableStateOf(false) }
                 Text(
-                    "ffmpeg " + PresetCommands.displayCommand(job.command),
+                    stringResource(R.string.job_command_prefix) +
+                        PresetCommands.displayCommand(job.command),
                     style = MaterialTheme.typography.bodySmall,
                     fontFamily = FontFamily.Monospace,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -295,18 +302,28 @@ private fun JobCard(
                 ) {
                     Column {
                         Text(
-                            if (waitingToStart) "Waiting for Start" else "Queued",
-                            style = MaterialTheme.typography.bodyMedium,
+                            if (waitingToStart) {
+                                stringResource(R.string.job_waiting)
+                            } else {
+                                stringResource(R.string.job_queued)
+                            },
+                            style = MaterialTheme.typography.bodyMedium
+                                .copy(shadow = OnGradientTextShadow),
                         )
                         estimateOutputBytes(job.command, info?.durationMs)?.let {
                             Text(
-                                "≈ ${formatSizeBytes(it)} output",
+                                stringResource(
+                                    R.string.job_est_output,
+                                    formatSizeBytes(it),
+                                ),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                     }
-                    TextButton(onClick = onCancel) { Text("Cancel") }
+                    TextButton(onClick = onCancel) {
+                        Text(stringResource(R.string.job_cancel))
+                    }
                 }
                 is JobStatus.Running -> Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -333,14 +350,21 @@ private fun JobCard(
                                     modifier = Modifier.fillMaxWidth(),
                                 )
                                 val eta = formatEtaLeft(
+                                    context,
                                     info?.durationMs, status.fraction, status.speed,
                                 )
                                 Text(
                                     listOfNotNull(
-                                        status.speed?.let { "%.1f× speed".format(it) },
+                                        status.speed?.let {
+                                            stringResource(
+                                                R.string.job_speed,
+                                                "%.1f".format(it),
+                                            )
+                                        },
                                         eta,
                                         status.sizeBytes?.let { formatSizeBytes(it) },
-                                    ).joinToString(" · ").ifEmpty { "Converting…" },
+                                    ).joinToString(" · ")
+                                        .ifEmpty { stringResource(R.string.job_converting) },
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -349,18 +373,30 @@ private fun JobCard(
                     } else {
                         LinearProgressIndicator(Modifier.fillMaxWidth())
                         Text(
-                            "Converting…" +
-                                (status.speed?.let { " · %.1f× speed".format(it) } ?: "") +
-                                (status.sizeBytes?.let { " · ${formatSizeBytes(it)}" } ?: ""),
-                            style = MaterialTheme.typography.bodyMedium,
+                            listOfNotNull(
+                                stringResource(R.string.job_converting),
+                                status.speed?.let {
+                                    stringResource(R.string.job_speed, "%.1f".format(it))
+                                },
+                                status.sizeBytes?.let { formatSizeBytes(it) },
+                            ).joinToString(" · "),
+                            style = MaterialTheme.typography.bodyMedium
+                                .copy(shadow = OnGradientTextShadow),
                         )
                     }
-                    TextButton(onClick = onCancel) { Text("Cancel") }
+                    TextButton(onClick = onCancel) {
+                        Text(stringResource(R.string.job_cancel))
+                    }
                 }
                 is JobStatus.Done -> Column {
                     Text(
-                        "Saved to ${job.outputFolder}/${job.outputName}",
-                        style = MaterialTheme.typography.bodyMedium,
+                        stringResource(
+                            R.string.job_saved_to,
+                            job.outputFolder,
+                            job.outputName,
+                        ),
+                        style = MaterialTheme.typography.bodyMedium
+                            .copy(shadow = OnGradientTextShadow),
                         color = MaterialTheme.colorScheme.primary,
                     )
                     val outUri = job.outputUri
@@ -385,7 +421,11 @@ private fun JobCard(
                                     contentDescription = null,
                                     modifier = Modifier.size(16.dp),
                                 )
-                                Text(" Open", style = MaterialTheme.typography.labelLarge)
+                                Spacer(Modifier.size(4.dp))
+                                Text(
+                                    stringResource(R.string.job_open),
+                                    style = MaterialTheme.typography.labelLarge,
+                                )
                             }
                             TextButton(onClick = {
                                 runCatching {
@@ -395,7 +435,7 @@ private fun JobCard(
                                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                                     }
                                     context.startActivity(
-                                        Intent.createChooser(send, "Share converted file"),
+                                        Intent.createChooser(send, context.getString(R.string.share_file_title)),
                                     )
                                 }
                             }) {
@@ -404,7 +444,11 @@ private fun JobCard(
                                     contentDescription = null,
                                     modifier = Modifier.size(16.dp),
                                 )
-                                Text(" Share", style = MaterialTheme.typography.labelLarge)
+                                Spacer(Modifier.size(4.dp))
+                                Text(
+                                    stringResource(R.string.job_share),
+                                    style = MaterialTheme.typography.labelLarge,
+                                )
                             }
                         }
                     }
@@ -415,7 +459,7 @@ private fun JobCard(
                     color = MaterialTheme.colorScheme.error,
                 )
                 is JobStatus.Cancelled -> Text(
-                    "Cancelled",
+                    stringResource(R.string.job_cancelled),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -424,10 +468,9 @@ private fun JobCard(
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
                         if (job.logUri == null) {
-                            "Debug log. Tap the log to save it to " +
-                                "Download/HWA Converter"
+                            stringResource(R.string.job_debug_log_save)
                         } else {
-                            "Debug log. Saved to Download/HWA Converter"
+                            stringResource(R.string.job_debug_log_saved)
                         },
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -460,7 +503,7 @@ private fun JobCard(
                                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                                 }
                                 context.startActivity(
-                                    Intent.createChooser(intent, "Share debug log"),
+                                    Intent.createChooser(intent, context.getString(R.string.share_debug_log_title)),
                                 )
                             } else {
                                 pendingLogShare = true
@@ -468,7 +511,7 @@ private fun JobCard(
                             }
                         },
                     ) {
-                        Text("Share log")
+                        Text(stringResource(R.string.job_share_log))
                     }
                 }
             }

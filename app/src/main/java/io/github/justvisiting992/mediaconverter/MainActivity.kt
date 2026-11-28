@@ -1,5 +1,6 @@
 package io.github.justvisiting992.mediaconverter
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.Display
@@ -43,7 +44,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,10 +57,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import io.github.justvisiting992.mediaconverter.core.capability.DeviceCodecReport
 import io.github.justvisiting992.mediaconverter.core.capability.HardwareCodecProbe
+import io.github.justvisiting992.mediaconverter.core.locale.AppLocale
+import io.github.justvisiting992.mediaconverter.core.locale.Strings
 import io.github.justvisiting992.mediaconverter.core.update.UpdateController
 import io.github.justvisiting992.mediaconverter.ui.capability.CapabilityScreen
 import io.github.justvisiting992.mediaconverter.ui.about.AboutScreen
@@ -68,6 +78,7 @@ import io.github.justvisiting992.mediaconverter.ui.theme.MediaConverterTheme
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeMode
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemePrefs
 import io.github.justvisiting992.mediaconverter.ui.theme.ThemeTemplate
+import io.github.justvisiting992.mediaconverter.ui.theme.VazirFamily
 import io.github.justvisiting992.mediaconverter.ui.theme.floatingSurface
 import io.github.justvisiting992.mediaconverter.ui.update.UpdateDialog
 import io.github.justvisiting992.mediaconverter.ui.tour.FeatureTour
@@ -77,17 +88,29 @@ import io.github.justvisiting992.mediaconverter.ui.tour.tourTarget
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-internal enum class Tab(val title: String, val icon: ImageVector) {
-    CONVERT("Convert", Icons.Filled.SwapHoriz),
-    QUEUE("Queue", Icons.Filled.Queue),
-    HARDWARE("Your hardware", Icons.Filled.Memory),
-    SETTINGS("Look & Feel", Icons.Filled.Settings),
-    ABOUT("About", Icons.Filled.Info),
+internal enum class Tab(@StringRes val titleRes: Int, val icon: ImageVector) {
+    CONVERT(R.string.tab_convert, Icons.Filled.SwapHoriz),
+    QUEUE(R.string.tab_queue, Icons.Filled.Queue),
+    HARDWARE(R.string.tab_hardware, Icons.Filled.Memory),
+    SETTINGS(R.string.tab_settings, Icons.Filled.Settings),
+    ABOUT(R.string.tab_about, Icons.Filled.Info),
 }
 
 class MainActivity : ComponentActivity() {
+
+    /**
+     * The stored language wraps the activity before the first frame,
+     * so the app opens in the chosen language, never flashing the
+     * system one first. The same wrap is reapplied live, through
+     * LocalContext, when the user picks another language.
+     */
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(AppLocale.wrap(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Strings.bind(applicationContext)
         enableEdgeToEdge()
         requestHighestRefreshRate()
         setContent {
@@ -99,7 +122,36 @@ class MainActivity : ComponentActivity() {
                 appearance = newTemplate to newMode
                 ThemePrefs.save(applicationContext, newTemplate, newMode)
             }
-            MediaConverterTheme(template = template, mode = mode) {
+            var languageTag by remember {
+                mutableStateOf(AppLocale.selectedTag(applicationContext))
+            }
+            val localizedContext = remember(languageTag) {
+                AppLocale.wrap(applicationContext, languageTag)
+            }
+            val layoutDirection = if (AppLocale.isRtl(applicationContext, languageTag)) {
+                LayoutDirection.Rtl
+            } else {
+                LayoutDirection.Ltr
+            }
+            val fontFamily = if (AppLocale.isPersian(applicationContext, languageTag)) {
+                VazirFamily
+            } else {
+                FontFamily.Default
+            }
+            fun changeLanguage(tag: String) {
+                AppLocale.setTag(applicationContext, tag)
+                Strings.bind(applicationContext)
+                languageTag = tag
+            }
+            MediaConverterTheme(
+                template = template,
+                mode = mode,
+                fontFamily = fontFamily,
+            ) {
+              CompositionLocalProvider(
+                LocalContext provides localizedContext,
+                LocalLayoutDirection provides layoutDirection,
+              ) {
                 // The capability report is probed once here and shared:
                 // the Convert tab builds its presets from the same report
                 // the Hardware tab shows the user.
@@ -159,6 +211,8 @@ class MainActivity : ComponentActivity() {
                                 mode = mode,
                                 onTemplateChange = { update(it, mode) },
                                 onModeChange = { update(template, it) },
+                                languageTag = languageTag,
+                                onLanguageChange = { changeLanguage(it) },
                                 modifier = Modifier.fillMaxSize().statusBarsPadding(),
                             )
                             Tab.ABOUT -> AboutScreen(
@@ -186,6 +240,7 @@ class MainActivity : ComponentActivity() {
                     UpdateDialog(updateController)
                 }
                 }
+              }
             }
         }
     }
@@ -313,7 +368,7 @@ private fun NavPillItem(
     ) {
         Icon(
             entry.icon,
-            contentDescription = entry.title,
+            contentDescription = stringResource(entry.titleRes),
             tint = contentColor,
         )
         AnimatedVisibility(
@@ -327,7 +382,7 @@ private fun NavPillItem(
             // the whole pill with it) jumped up, then dropped back
             // when the animation finished and the text unwrapped.
             Text(
-                entry.title,
+                stringResource(entry.titleRes),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = contentColor,

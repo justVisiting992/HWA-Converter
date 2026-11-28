@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Persian translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">تبدیل</string>
+    <string name="tab_queue">صف</string>
+    <string name="tab_hardware">سخت‌افزار شما</string>
+    <string name="tab_settings">ظاهر</string>
+    <string name="tab_about">درباره</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">در حال بررسی موتور رسانه این دستگاه…</string>
+    <string name="convert_hero_engine">موتور رسانه %1$s</string>
+    <string name="convert_hero_engine_fallback">موتور رسانه</string>
+    <string name="convert_hero_body">شتاب‌دهی سخت‌افزاری در این گوشی فعال است. تبدیل‌ها روی موتور رسانه انجام می‌شوند، نه پردازنده.</string>
+    <string name="chip_h264_hw_encode">رمزگذاری سخت‌افزاری H.264</string>
+    <string name="chip_hevc_hw_encode">رمزگذاری سخت‌افزاری HEVC</string>
+    <string name="chip_vp9_hw_encode">رمزگذاری سخت‌افزاری VP9</string>
+    <string name="chip_av1_hw_encode">رمزگذاری سخت‌افزاری AV1</string>
+    <string name="chip_hevc_hw_decode">رمزگشایی سخت‌افزاری HEVC</string>
+    <string name="chip_av1_hw_decode">رمزگشایی سخت‌افزاری AV1</string>
+    <string name="convert_with">تبدیل با</string>
+    <string name="category_hardware">رمزگذاری سخت‌افزاری</string>
+    <string name="category_software">رمزگذاری نرم‌افزاری</string>
+    <string name="category_audio">فقط صدا</string>
+    <string name="category_no_reencode">بدون رمزگذاری دوباره</string>
+    <string name="category_create">ساختن</string>
+    <string name="convert_helper">یک تبدیل انتخاب کنید، فایل‌ها را اضافه کنید و بعد شروع را بزنید. تا وقتی شما نگویید، هیچ‌چیز اجرا نمی‌شود.</string>
+    <string name="trim_start">شروع (ثانیه)</string>
+    <string name="trim_end">پایان (ثانیه)</string>
+    <string name="add_files">افزودن فایل‌ها</string>
+    <string name="start_conversion">شروع تبدیل</string>
+    <string name="start_conversions_n">شروع %1$d تبدیل</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">تنظیمات دستی</string>
+    <string name="manual_video">ویدیو</string>
+    <string name="manual_container">کانتینر</string>
+    <string name="manual_bitrate_label">نرخ بیت ویدیو (kbps). خالی یعنی خودکار</string>
+    <string name="manual_crf_label">کیفیت (CRF). خالی یعنی پیش‌فرض. کمتر، بهتر است</string>
+    <string name="manual_max_height">حداکثر ارتفاع</string>
+    <string name="manual_original">اصلی</string>
+    <string name="manual_audio">صدا</string>
+    <string name="manual_audio_bitrate">نرخ بیت صدا (kbps)</string>
+    <string name="manual_hw_decode">رمزگشایی سخت‌افزاری</string>
+    <string name="manual_hw_decode_body">وقتی این گوشی برای کدک فایل رمزگشا دارد، رمزگشایی روی موتور رسانه انجام می‌شود.</string>
+    <string name="mc_copy">کپی (بدون رمزگذاری دوباره)</string>
+    <string name="mc_h264_hw">H.264 · سخت‌افزاری</string>
+    <string name="mc_hevc_hw">H.265 · سخت‌افزاری</string>
+    <string name="mc_vp9_hw">VP9 · سخت‌افزاری</string>
+    <string name="mc_av1_hw">AV1 · سخت‌افزاری</string>
+    <string name="mc_h264_sw">H.264 · نرم‌افزاری</string>
+    <string name="mc_hevc_sw">H.265 · نرم‌افزاری</string>
+    <string name="mc_vp9_sw">VP9 · نرم‌افزاری</string>
+    <string name="mc_av1_sw">AV1 · نرم‌افزاری</string>
+    <string name="mc_none">بدون ویدیو (فقط صدا)</string>
+    <string name="ma_copy">کپی (بدون رمزگذاری دوباره)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">بدون صدا</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · سخت‌افزاری</string>
+    <string name="preset_h264_hw_desc">سریع، کم‌حجم و قابل پخش در همه‌جا. از موتور رسانه این گوشی استفاده می‌کند.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · سخت‌افزاری</string>
+    <string name="preset_hevc_hw_desc">با همان کیفیت، حدود نصف حجم H.264. از موتور رسانه این گوشی استفاده می‌کند.</string>
+    <string name="preset_vp9_hw_label">VP9 · سخت‌افزاری</string>
+    <string name="preset_vp9_hw_desc">VP9 سخت‌افزاری در یک فایل WebM. فقط در گوشی‌هایی که موتور رسانه‌شان VP9 را رمزگذاری می‌کند.</string>
+    <string name="preset_av1_hw_label">AV1 · سخت‌افزاری</string>
+    <string name="preset_av1_hw_desc">AV1 سخت‌افزاری. فقط چند موتور رسانه می‌توانند AV1 را رمزگذاری کنند، پس این پیش‌تنظیم فقط در همان گوشی‌ها دیده می‌شود.</string>
+    <string name="preset_h264_sw_label">H.264 · بیشترین کیفیت (نرم‌افزاری)</string>
+    <string name="preset_h264_sw_desc">رمزگذاری کند با پردازنده و libx264، بهترین کیفیت به ازای هر بایت. برای نسخه اصلی و HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · بیشترین کیفیت (نرم‌افزاری)</string>
+    <string name="preset_hevc_sw_desc">با همان کیفیت از H.264 کوچک‌تر است. رمزگذاری کند با پردازنده و libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · نرم‌افزاری (WebM)</string>
+    <string name="preset_vp9_sw_desc">کدک وب، در یک فایل WebM. رمزگذاری با پردازنده و libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · نرم‌افزاری</string>
+    <string name="preset_av1_sw_desc">تازه‌ترین کدک، کوچک‌ترین فایل‌ها. روی پردازنده بسیار کند است. برای کلیپ‌های کوتاه بهتر است.</string>
+    <string name="preset_audio_aac_label">فقط صدا · AAC</string>
+    <string name="preset_audio_aac_desc">استخراج ترک صدا به AAC.</string>
+    <string name="preset_audio_mp3_label">فقط صدا · MP3</string>
+    <string name="preset_audio_mp3_desc">استخراج ترک صدا به MP3. در همه‌جا پخش می‌شود.</string>
+    <string name="preset_audio_opus_label">فقط صدا · Opus</string>
+    <string name="preset_audio_opus_desc">استخراج ترک صدا به Opus. با همان کیفیت، کوچک‌ترین حجم.</string>
+    <string name="preset_audio_flac_label">فقط صدا · FLAC</string>
+    <string name="preset_audio_flac_desc">استخراج بدون اتلاف ترک صدا به FLAC.</string>
+    <string name="preset_audio_wav_label">فقط صدا · WAV</string>
+    <string name="preset_audio_wav_desc">استخراج ترک صدا به WAV بدون فشرده‌سازی، برای ویرایش.</string>
+    <string name="preset_remux_mp4_label">ریمکس به MP4 · بدون رمزگذاری دوباره</string>
+    <string name="preset_remux_mp4_desc">همان تصویر و صدا، در یک کانتینر تازه MP4. فوری انجام می‌شود.</string>
+    <string name="preset_remux_mkv_label">ریمکس به MKV · بدون رمزگذاری دوباره</string>
+    <string name="preset_remux_mkv_desc">همان تصویر و صدا، در یک کانتینر تازه MKV. فوری انجام می‌شود.</string>
+    <string name="preset_trim_label">برش · بدون رمزگذاری دوباره</string>
+    <string name="preset_trim_desc">بریدن بخشی از ویدیو بدون دست‌کاری تصویر. برش‌ها روی فریم‌های کلیدی می‌نشینند.</string>
+    <string name="preset_gif_label">GIF · تصویر متحرک</string>
+    <string name="preset_gif_desc">تبدیل کلیپ به GIF متحرک (12 fps، با عرض 480 px). فقط برای کلیپ‌های کوتاه.</string>
+    <string name="preset_custom_label">سفارشی · تنظیمات دستی</string>
+    <string name="preset_custom_desc">قالب خودتان: کانتینر، کدک‌ها، نرخ بیت، وضوح.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">رمزگذاری نرم‌افزاری (libx264، CRF 18، پیش‌تنظیم کند). کند است، اما بهترین کیفیت به ازای هر بایت. رمزگشایی: %1$s.</string>
+    <string name="note_sw_x265">رمزگذاری نرم‌افزاری (libx265، CRF 22، پیش‌تنظیم متوسط). رمزگشایی: %1$s.</string>
+    <string name="note_sw_vp9">رمزگذاری نرم‌افزاری (libvpx-vp9، CRF 30) به WebM. رمزگشایی: %1$s.</string>
+    <string name="note_sw_av1">رمزگذاری نرم‌افزاری (libaom-av1، CRF 32). AV1 روی پردازنده بسیار کند است. رمزگشایی: %1$s.</string>
+    <string name="note_audio_aac">استخراج صدا به AAC 192k. هیچ رمزگذار ویدیویی در کار نیست.</string>
+    <string name="note_audio_mp3">استخراج صدا به MP3 192k. هیچ رمزگذار ویدیویی در کار نیست.</string>
+    <string name="note_audio_opus">استخراج صدا به Opus 128k. هیچ رمزگذار ویدیویی در کار نیست.</string>
+    <string name="note_audio_flac">استخراج صدا به FLAC (بدون اتلاف). هیچ رمزگذار ویدیویی در کار نیست.</string>
+    <string name="note_audio_wav">استخراج صدا به WAV (بدون فشرده‌سازی). هیچ رمزگذار ویدیویی در کار نیست.</string>
+    <string name="note_remux_mp4">ریمکس به MP4: جریان‌ها کپی می‌شوند و هیچ‌چیز دوباره رمزگذاری نمی‌شود.</string>
+    <string name="note_remux_mkv">ریمکس به MKV: جریان‌ها کپی می‌شوند و هیچ‌چیز دوباره رمزگذاری نمی‌شود.</string>
+    <string name="note_gif">GIF متحرک با 12 fps و عرض 480 px. رمزگشایی: %1$s.</string>
+    <string name="note_trim">کپی جریان، بدون رمزگذاری دوباره. برش‌ها روی فریم‌های کلیدی می‌نشینند، پس لبه‌ها ممکن است چند فریم جابه‌جا شوند.</string>
+    <string name="note_hw_encode">رمزگذاری سخت‌افزاری (%1$s) روی %2$s با %3$s Mbps. رمزگشایی: %4$s.</string>
+    <string name="note_custom_audio">سفارشی: فقط صدا (%1$s %2$dk).</string>
+    <string name="note_custom_full">سفارشی: %1$s · ویدیو %2$s · صدا %3$s. رمزگشایی: %4$s.</string>
+    <string name="refusal_custom_path">کارهای سفارشی از گزینه‌های دستی ساخته می‌شوند، نه از مسیر پیش‌تنظیم.</string>
+    <string name="refusal_trim_times">اول زمان شروع و پایان را انتخاب کنید. برش به هر دو نیاز دارد.</string>
+    <string name="refusal_no_hw_encoder">این گوشی رمزگذار سخت‌افزاری %1$s ندارد، پس پیش‌تنظیم سخت‌افزاری نمی‌تواند اجرا شود. پیش‌تنظیم نرم‌افزاری همچنان می‌تواند این تبدیل را روی پردازنده انجام دهد.</string>
+    <string name="refusal_no_hw_encoder_manual">این گوشی رمزگذار سخت‌افزاری %1$s ندارد، پس این تنظیم سفارشی نمی‌تواند اجرا شود.</string>
+    <string name="refusal_legacy_vp9_av1">موتور قدیمی (FFmpeg 6.0) رمزگذار سخت‌افزاری VP9 و AV1 ندارد. گزینه نرم‌افزاری را انتخاب کنید، یا سخت‌افزاری H.264 / HEVC را.</string>
+    <string name="refusal_audio_only_codec">خروجی فقط صدا به یک کدک صدا نیاز دارد. AAC، MP3 یا Opus را انتخاب کنید.</string>
+    <string name="refusal_pick_audio">یک کدک صدا انتخاب کنید.</string>
+    <string name="refusal_webm_video">WebM ویدیوی VP9 یا AV1 را نگه می‌دارد. یکی از آن‌ها را انتخاب کنید، یا از کانتینر MP4 یا MKV استفاده کنید.</string>
+    <string name="refusal_webm_audio">صدای WebM باید Opus، کپی یا هیچ‌کدام باشد. AAC و MP3 در WebM جا نمی‌شوند.</string>
+    <string name="decode_hw">سخت‌افزاری (%1$s روی %2$s)</string>
+    <string name="decode_cpu_retry">پردازنده (پس از ناکامی رمزگشای سخت‌افزاری دوباره تلاش شد)</string>
+    <string name="decode_cpu_choice">پردازنده (انتخاب شما در تنظیمات سفارشی)</string>
+    <string name="decode_cpu_no_path">پردازنده (برای %1$s مسیر رمزگشایی سخت‌افزاری نیست)</string>
+    <string name="decode_this_input">این ورودی</string>
+    <string name="decode_cpu_no_decoder">پردازنده (این گوشی رمزگشای سخت‌افزاری %1$s ندارد)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">شروع</string>
+    <string name="queue_clear_finished">پاک کردن تمام‌شده‌ها</string>
+    <string name="queue_empty_title">هنوز تبدیلی نیست</string>
+    <string name="queue_empty_body">از زبانه تبدیل فایل اضافه کنید و شروع را بزنید تا اینجا یکی‌یکی اجرا شوند.</string>
+    <string name="job_waiting">در انتظار شروع</string>
+    <string name="job_queued">در صف</string>
+    <string name="job_est_output">≈ خروجی %1$s</string>
+    <string name="job_cancel">لغو</string>
+    <string name="job_converting">در حال تبدیل…</string>
+    <string name="job_speed">سرعت %1$s×</string>
+    <string name="job_saved_to">ذخیره شد در %1$s/%2$s</string>
+    <string name="job_open">باز کردن</string>
+    <string name="job_share">اشتراک‌گذاری</string>
+    <string name="job_cancelled">لغو شد</string>
+    <string name="job_failed">ناموفق</string>
+    <string name="job_debug_log_save">گزارش اشکال‌زدایی. روی گزارش بزنید تا در Download/HWA Converter ذخیره شود</string>
+    <string name="job_debug_log_saved">گزارش اشکال‌زدایی. در Download/HWA Converter ذخیره شد</string>
+    <string name="job_share_log">اشتراک‌گذاری گزارش</string>
+    <string name="share_debug_log_title">اشتراک‌گذاری گزارش اشکال‌زدایی</string>
+    <string name="share_file_title">اشتراک‌گذاری فایل تبدیل‌شده</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">ساخت فایل خروجی در MediaStore ممکن نشد.</string>
+    <string name="queue_conversion_failed">تبدیل ناموفق بود. ffmpeg گفت: %1$s</string>
+    <string name="queue_conversion_failed_silent">تبدیل ناموفق بود (ffmpeg پیامی نداد).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">در حال بررسی موتور رسانه این دستگاه…</string>
+    <string name="hw_video_encoders">رمزگذارهای ویدیو</string>
+    <string name="hw_audio_encoders">رمزگذارهای صدا</string>
+    <string name="hw_video_decoders">رمزگشاهای ویدیو</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">موتور رسانه: %1$s</string>
+    <string name="hw_tile_hw_encoders">رمزگذار سخت‌افزاری</string>
+    <string name="hw_tile_hw_decoders">رمزگشای سخت‌افزاری</string>
+    <string name="hw_tile_max_encode">بیشترین رمزگذاری سخت‌افزاری</string>
+    <string name="hw_tile_top_bitrate">بالاترین نرخ بیت رمزگذار</string>
+    <string name="hw_unknown">نامشخص</string>
+    <string name="hw_encoding_title">رمزگذاری سخت‌افزاری</string>
+    <string name="hw_decoding_title">رمزگشایی سخت‌افزاری</string>
+    <string name="hw_software_only">فقط نرم‌افزاری</string>
+    <string name="hw_badge_hardware">HARDWARE</string>
+    <string name="hw_badge_software">SOFTWARE</string>
+    <string name="hw_up_to">تا %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">پوسته</string>
+    <string name="theme_system">سیستم</string>
+    <string name="theme_light">روشن</string>
+    <string name="theme_dark">تیره</string>
+    <string name="theme_following_dark">از گوشی شما پیروی می‌کند. هم‌اکنون در حالت تیره است.</string>
+    <string name="theme_following_light">از گوشی شما پیروی می‌کند. هم‌اکنون در حالت روشن است.</string>
+    <string name="settings_color_scheme">طرح رنگ</string>
+    <string name="settings_color_note">Material You از تصویر زمینه شما پیروی می‌کند. طرح‌های دیگر پالت‌های ثابت‌اند که هر کدام گونه روشن و تیره دارند.</string>
+    <string name="settings_app_icon">آیکون برنامه</string>
+    <string name="settings_icon_note">تغییر آیکون صفحه اصلی ممکن است چند ثانیه طول بکشد. بعضی لانچرها آن را فقط پس از راه‌اندازی دوباره تازه می‌کنند.</string>
+    <string name="settings_language">زبان</string>
+    <string name="language_system">زبان سیستم</string>
+
+    <!-- About -->
+    <string name="about_tagline">تبدیل رسانه با اولویت سخت‌افزار</string>
+    <string name="about_version">نسخه %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter موتور رسانه گوشی شما را به کار می‌گیرد. بیشتر برنامه‌های تبدیل آن را نادیده می‌گیرند و روی پردازنده رمزگذاری می‌کنند. این برنامه اول تراشه را بررسی می‌کند و هر جا بتواند از سخت‌افزار استفاده می‌کند. مسیر نرم‌افزاری برای بیشترین کیفیت و برای کارهایی که سخت‌افزار نمی‌تواند انجام دهد باقی می‌ماند. هیچ‌چیز بی‌سروصدا جایگزین نمی‌شود. هر کار دقیقاً فرمانی را که اجرا شده نشان می‌دهد و زبانه سخت‌افزار نشان می‌دهد گوشی شما چه توانایی‌هایی دارد. این برنامه رایگان و متن‌باز است. فایل‌های شما هرگز از گوشی‌تان بیرون نمی‌روند: تنها چیزی که این برنامه می‌گیرد، به‌روزرسانی‌های خودش از GitHub است.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">کد منبع، ایرادها و صفحه پروژه</string>
+    <string name="about_releases">انتشارها</string>
+    <string name="about_releases_sub">دانلود تازه‌ترین APKها</string>
+    <string name="about_check_updates">بررسی به‌روزرسانی</string>
+    <string name="about_check_updates_sub">بررسی GitHub برای نسخه تازه‌تر</string>
+    <string name="about_auto_check">بررسی خودکار به‌روزرسانی</string>
+    <string name="about_auto_off">خاموش. برنامه به شبکه دسترسی ندارد.</string>
+    <string name="about_auto_daily">روزی یک بار، وقتی برنامه باز می‌شود</string>
+    <string name="about_internet_note">مجوز اینترنت همراه با نصب داده می‌شود و فقط برای بررسی به‌روزرسانی در GitHub به کار می‌رود. اگر به بررسی به‌روزرسانی نیاز ندارید، بررسی خودکار را خاموش کنید. اگر برنامه نتواند به اینترنت برسد، بررسی‌کننده تا وقتی بتواند، خودش را غیرفعال می‌کند.</string>
+    <string name="about_replay_tour">پخش دوباره تور</string>
+    <string name="about_replay_tour_sub">تور امکانات را دوباره ببینید</string>
+    <string name="about_footer">ساخته‌شده بر پایه FFmpeg از راه FFmpegKit (GPL)، در حال اجرا روی سخت‌افزار رسانه گوشی شما.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">به HWA Converter خوش آمدید</string>
+    <string name="tour_welcome_body">این برنامه ویدیو و صدا را روی گوشی شما تبدیل می‌کند. اول از موتور رسانه استفاده می‌کند، نه پردازنده. نگاهی سریع به دوروبر می‌اندازیم.</string>
+    <string name="tour_add_title">افزودن فایل‌ها</string>
+    <string name="tour_add_body">این دکمه را بزنید و فایل‌هایتان را انتخاب کنید. هنوز چیزی شروع نمی‌شود. تا وقتی شروع را بزنید منتظر می‌مانند.</string>
+    <string name="tour_pick_title">یک تبدیل انتخاب کنید</string>
+    <string name="tour_pick_body">پیش‌تنظیم‌های سخت‌افزاری سریع‌اند و با باتری مهربان. پیش‌تنظیم‌های نرم‌افزاری کندترند اما بهترین کیفیت را می‌دهند. سفارشی می‌گذارد همه‌چیز را خودتان تنظیم کنید.</string>
+    <string name="tour_start_title">وقتی آماده بودید شروع کنید</string>
+    <string name="tour_start_body">پس از افزودن فایل‌ها، دکمه شروع زیر دکمه افزودن فایل‌ها دیده می‌شود. برای آغاز آن را بزنید. تا آن موقع هیچ‌چیز اجرا نمی‌شود.</string>
+    <string name="tour_queue_title">زبانه صف</string>
+    <string name="tour_queue_body">همه تبدیل‌های شما اینجاست. می‌توانید پیشرفت و سرعت را ببینید، دقیقاً فرمانی را که اجرا شده ببینید و گزارش اشکال‌زدایی یک کار را ذخیره کنید.</string>
+    <string name="tour_hardware_title">سخت‌افزار شما</string>
+    <string name="tour_hardware_body">این موتور رسانه درون گوشی شماست که روی همین دستگاه بررسی شده است. پیش‌تنظیم‌های شما بر پایه آن ساخته شده‌اند. اگر مسیر سخت‌افزاری‌ای در فهرست نیست، تراشه شما آن را ندارد.</string>
+    <string name="tour_settings_title">ظاهر</string>
+    <string name="tour_settings_body">پوسته‌ها، طرح‌های رنگ، زبان و نه آیکون لانچر اینجاست.</string>
+    <string name="tour_done_title">همین بود</string>
+    <string name="tour_done_body">یک نکته آخر. تبدیل‌ها کاملاً روی گوشی شما انجام می‌شوند. تنها چیزی که این برنامه دانلود می‌کند، به‌روزرسانی‌های خودش است.</string>
+    <string name="tour_skip">رد کردن</string>
+    <string name="tour_next">بعدی</string>
+    <string name="tour_got_it">فهمیدم</string>
+
+    <!-- Updates -->
+    <string name="update_available">به‌روزرسانی در دسترس است</string>
+    <string name="update_on_github">نسخه تازه‌ای در GitHub هست.</string>
+    <string name="update_version">نسخه %1$s</string>
+    <string name="update_downloading">در حال دانلود… %1$d%%</string>
+    <string name="update_downloading_short">در حال دانلود…</string>
+    <string name="update_later">دانلود در آینده</string>
+    <string name="update_install">دانلود و نصب</string>
+    <string name="update_status_checking">در حال بررسی GitHub…</string>
+    <string name="update_status_available">نسخه %1$s در دسترس است.</string>
+    <string name="update_status_uptodate">به‌روز هستید.</string>
+    <string name="update_no_files">آن انتشار فایلی پیوست ندارد.</string>
+    <string name="update_no_apk">آن انتشار APK پیوست ندارد.</string>
+    <string name="update_unreachable">رسیدن به GitHub ممکن نشد. اتصال‌تان را بررسی کنید و دوباره تلاش کنید.</string>
+    <string name="update_check_failed">هنگام بررسی مشکلی پیش آمد. بعداً دوباره تلاش کنید.</string>
+    <string name="update_download_failed">دانلود ناموفق بود. اتصال‌تان را بررسی کنید و دوباره تلاش کنید.</string>
+    <string name="update_allow_installs">نصب از این برنامه را اجازه دهید و بعد دانلود و نصب را دوباره بزنید.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">تبدیل‌ها</string>
+    <string name="notif_channel_desc">پیشرفت تبدیل‌های در حال اجرا وقتی برنامه در پس‌زمینه است.</string>
+    <string name="notif_converting">در حال تبدیل…</string>
+    <string name="notif_starting">در حال شروع…</string>
+    <string name="notif_ready_title">آماده تبدیل</string>
+    <string name="notif_waiting">%1$d تا در انتظار. در برنامه شروع را بزنید.</string>
+    <string name="notif_converting_file">در حال تبدیل %1$s</string>
+    <string name="notif_files">فایل‌ها</string>
+    <string name="notif_more_queued">%1$d تای دیگر در صف</string>
+    <string name="notif_cancel">لغو</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ تمام شد</string>
+    <string name="eta_sec_left">≈ %1$d ثانیه مانده</string>
+    <string name="eta_min_left">≈ %1$d دقیقه مانده</string>
+    <string name="eta_h_min_left">≈ %1$d ساعت و %2$d دقیقه مانده</string>
+</resources>

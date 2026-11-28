@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- German translation. Keys mirror values/strings.xml exactly. -->
+<resources>
+    <string name="app_name">HWA Converter</string>
+
+    <!-- Tabs -->
+    <string name="tab_convert">Konvertieren</string>
+    <string name="tab_queue">Warteschlange</string>
+    <string name="tab_hardware">Deine Hardware</string>
+    <string name="tab_settings">Darstellung</string>
+    <string name="tab_about">Info</string>
+
+    <!-- Convert screen -->
+    <string name="convert_probing">Die Media-Engine dieses Geräts wird geprüft…</string>
+    <string name="convert_hero_engine">%1$s Media-Engine</string>
+    <string name="convert_hero_engine_fallback">Media-Engine</string>
+    <string name="convert_hero_body">Hardwarebeschleunigung ist auf diesem Telefon aktiv. Konvertierungen laufen über die Media-Engine, nicht über die CPU.</string>
+    <string name="chip_h264_hw_encode">H.264 HW-Codierung</string>
+    <string name="chip_hevc_hw_encode">HEVC HW-Codierung</string>
+    <string name="chip_vp9_hw_encode">VP9 HW-Codierung</string>
+    <string name="chip_av1_hw_encode">AV1 HW-Codierung</string>
+    <string name="chip_hevc_hw_decode">HEVC HW-Decodierung</string>
+    <string name="chip_av1_hw_decode">AV1 HW-Decodierung</string>
+    <string name="convert_with">Konvertieren mit</string>
+    <string name="category_hardware">Hardware-Kodierung</string>
+    <string name="category_software">Software-Kodierung</string>
+    <string name="category_audio">Nur Audio</string>
+    <string name="category_no_reencode">Ohne Neukodierung</string>
+    <string name="category_create">Erstellen</string>
+    <string name="convert_helper">Wähle eine Konvertierung, füge Dateien hinzu und tippe dann auf Start. Nichts läuft, bis du es sagst.</string>
+    <string name="trim_start">Start (Sekunden)</string>
+    <string name="trim_end">Ende (Sekunden)</string>
+    <string name="add_files">Dateien hinzufügen</string>
+    <string name="start_conversion">Konvertierung starten</string>
+    <string name="start_conversions_n">%1$d Konvertierungen starten</string>
+
+    <!-- Manual (custom) mode -->
+    <string name="manual_title">Manuelle Einstellungen</string>
+    <string name="manual_video">Video</string>
+    <string name="manual_container">Container</string>
+    <string name="manual_bitrate_label">Video-Bitrate (kbps). Leer bedeutet automatisch</string>
+    <string name="manual_crf_label">Qualität (CRF). Leer bedeutet Standard. Niedriger ist besser</string>
+    <string name="manual_max_height">Max. Höhe</string>
+    <string name="manual_original">Original</string>
+    <string name="manual_audio">Audio</string>
+    <string name="manual_audio_bitrate">Audio-Bitrate (kbps)</string>
+    <string name="manual_hw_decode">Hardware-Decodierung</string>
+    <string name="manual_hw_decode_body">Decodierung über die Media-Engine, wenn dieses Telefon einen Decoder für den Codec der Datei hat.</string>
+    <string name="mc_copy">Kopieren (ohne Neukodierung)</string>
+    <string name="mc_h264_hw">H.264 · Hardware</string>
+    <string name="mc_hevc_hw">H.265 · Hardware</string>
+    <string name="mc_vp9_hw">VP9 · Hardware</string>
+    <string name="mc_av1_hw">AV1 · Hardware</string>
+    <string name="mc_h264_sw">H.264 · Software</string>
+    <string name="mc_hevc_sw">H.265 · Software</string>
+    <string name="mc_vp9_sw">VP9 · Software</string>
+    <string name="mc_av1_sw">AV1 · Software</string>
+    <string name="mc_none">Kein Video (nur Audio)</string>
+    <string name="ma_copy">Kopieren (ohne Neukodierung)</string>
+    <string name="ma_aac">AAC</string>
+    <string name="ma_mp3">MP3</string>
+    <string name="ma_opus">Opus</string>
+    <string name="ma_none">Kein Audio</string>
+
+    <!-- Presets: labels and descriptions -->
+    <string name="preset_h264_hw_label">H.264 · Hardware</string>
+    <string name="preset_h264_hw_desc">Schnell, klein, läuft überall. Nutzt die Media-Engine dieses Telefons.</string>
+    <string name="preset_hevc_hw_label">H.265 / HEVC · Hardware</string>
+    <string name="preset_hevc_hw_desc">Etwa halb so groß wie H.264 bei gleicher Qualität. Nutzt die Media-Engine dieses Telefons.</string>
+    <string name="preset_vp9_hw_label">VP9 · Hardware</string>
+    <string name="preset_vp9_hw_desc">Hardware-VP9 in einer WebM-Datei. Nur auf Telefonen, deren Media-Engine VP9 codiert.</string>
+    <string name="preset_av1_hw_label">AV1 · Hardware</string>
+    <string name="preset_av1_hw_desc">Hardware-AV1. Nur wenige Media-Engines können AV1 codieren, daher erscheint diese Voreinstellung nur auf diesen Telefonen.</string>
+    <string name="preset_h264_sw_label">H.264 · max. Qualität (Software)</string>
+    <string name="preset_h264_sw_desc">Langsame CPU-Kodierung mit libx264, beste Qualität pro Byte. Für Master und HDR.</string>
+    <string name="preset_hevc_sw_label">H.265 / HEVC · max. Qualität (Software)</string>
+    <string name="preset_hevc_sw_desc">Kleiner als H.264 bei gleicher Qualität. Langsame CPU-Kodierung mit libx265.</string>
+    <string name="preset_vp9_sw_label">VP9 · Software (WebM)</string>
+    <string name="preset_vp9_sw_desc">Der Codec des Webs, in einer WebM-Datei. CPU-Kodierung mit libvpx.</string>
+    <string name="preset_av1_sw_label">AV1 · Software</string>
+    <string name="preset_av1_sw_desc">Neuester Codec, kleinste Dateien. Sehr langsam auf der CPU. Am besten für kurze Clips.</string>
+    <string name="preset_audio_aac_label">Nur Audio · AAC</string>
+    <string name="preset_audio_aac_desc">Die Audiospur als AAC extrahieren.</string>
+    <string name="preset_audio_mp3_label">Nur Audio · MP3</string>
+    <string name="preset_audio_mp3_desc">Die Audiospur als MP3 extrahieren. Läuft überall.</string>
+    <string name="preset_audio_opus_label">Nur Audio · Opus</string>
+    <string name="preset_audio_opus_desc">Die Audiospur als Opus extrahieren. Am kleinsten bei gleicher Qualität.</string>
+    <string name="preset_audio_flac_label">Nur Audio · FLAC</string>
+    <string name="preset_audio_flac_desc">Die Audiospur verlustfrei als FLAC extrahieren.</string>
+    <string name="preset_audio_wav_label">Nur Audio · WAV</string>
+    <string name="preset_audio_wav_desc">Die Audiospur unkomprimiert als WAV extrahieren, zum Bearbeiten.</string>
+    <string name="preset_remux_mp4_label">Remux zu MP4 · ohne Neukodierung</string>
+    <string name="preset_remux_mp4_desc">Gleiches Bild und gleicher Ton, neuer MP4-Container. Sofort fertig.</string>
+    <string name="preset_remux_mkv_label">Remux zu MKV · ohne Neukodierung</string>
+    <string name="preset_remux_mkv_desc">Gleiches Bild und gleicher Ton, neuer MKV-Container. Sofort fertig.</string>
+    <string name="preset_trim_label">Zuschneiden · ohne Neukodierung</string>
+    <string name="preset_trim_desc">Einen Abschnitt herausschneiden, ohne das Bild zu verändern. Schnitte landen auf Keyframes.</string>
+    <string name="preset_gif_label">GIF · animiertes Bild</string>
+    <string name="preset_gif_desc">Einen Clip in ein animiertes GIF verwandeln (12 fps, 480 px breit). Nur für kurze Clips.</string>
+    <string name="preset_custom_label">Benutzerdefiniert · manuelle Einstellungen</string>
+    <string name="preset_custom_desc">Dein eigenes Format: Container, Codecs, Bitrate, Auflösung.</string>
+
+    <!-- Job notes and refusals (PresetCommands) -->
+    <string name="note_sw_x264">Software-Kodierung (libx264, CRF 18, langsame Voreinstellung). Langsam, beste Qualität pro Byte. Decodierung: %1$s.</string>
+    <string name="note_sw_x265">Software-Kodierung (libx265, CRF 22, mittlere Voreinstellung). Decodierung: %1$s.</string>
+    <string name="note_sw_vp9">Software-Kodierung (libvpx-vp9, CRF 30) zu WebM. Decodierung: %1$s.</string>
+    <string name="note_sw_av1">Software-Kodierung (libaom-av1, CRF 32). AV1 ist auf der CPU sehr langsam. Decodierung: %1$s.</string>
+    <string name="note_audio_aac">Audio-Extraktion als AAC 192k. Kein Video-Encoder beteiligt.</string>
+    <string name="note_audio_mp3">Audio-Extraktion als MP3 192k. Kein Video-Encoder beteiligt.</string>
+    <string name="note_audio_opus">Audio-Extraktion als Opus 128k. Kein Video-Encoder beteiligt.</string>
+    <string name="note_audio_flac">Audio-Extraktion als FLAC (verlustfrei). Kein Video-Encoder beteiligt.</string>
+    <string name="note_audio_wav">Audio-Extraktion als WAV (unkomprimiert). Kein Video-Encoder beteiligt.</string>
+    <string name="note_remux_mp4">Remux zu MP4: Streams kopiert, nichts neu kodiert.</string>
+    <string name="note_remux_mkv">Remux zu MKV: Streams kopiert, nichts neu kodiert.</string>
+    <string name="note_gif">Animiertes GIF mit 12 fps, 480 px breit. Decodierung: %1$s.</string>
+    <string name="note_trim">Stream-Kopie, ohne Neukodierung. Schnitte landen auf Keyframes, daher können sich die Ränder um einige Frames verschieben.</string>
+    <string name="note_hw_encode">Hardware-Kodierung (%1$s) auf %2$s mit %3$s Mbps. Decodierung: %4$s.</string>
+    <string name="note_custom_audio">Benutzerdefiniert: nur Audio (%1$s %2$dk).</string>
+    <string name="note_custom_full">Benutzerdefiniert: %1$s · Video %2$s · Audio %3$s. Decodierung: %4$s.</string>
+    <string name="refusal_custom_path">Benutzerdefinierte Aufträge werden aus den manuellen Optionen erstellt, nicht über den Voreinstellungspfad.</string>
+    <string name="refusal_trim_times">Wähle zuerst eine Start- und Endzeit. Zuschneiden braucht beides.</string>
+    <string name="refusal_no_hw_encoder">Dieses Telefon hat keinen Hardware-%1$s-Encoder, daher kann die Hardware-Voreinstellung nicht laufen. Die Software-Voreinstellung kann diese Konvertierung auf der CPU ausführen.</string>
+    <string name="refusal_no_hw_encoder_manual">Dieses Telefon hat keinen Hardware-%1$s-Encoder, daher kann diese benutzerdefinierte Einstellung nicht laufen.</string>
+    <string name="refusal_legacy_vp9_av1">Die Legacy-Engine (FFmpeg 6.0) hat keinen VP9- oder AV1-Hardware-Encoder. Wähle die Software-Option oder H.264 / HEVC-Hardware.</string>
+    <string name="refusal_audio_only_codec">Nur-Audio-Ausgabe braucht einen Audio-Codec. Wähle AAC, MP3 oder Opus.</string>
+    <string name="refusal_pick_audio">Wähle einen Audio-Codec.</string>
+    <string name="refusal_webm_video">WebM enthält VP9- oder AV1-Video. Wähle eines davon oder nutze einen MP4- oder MKV-Container.</string>
+    <string name="refusal_webm_audio">WebM-Audio muss Opus sein, kopiert werden oder fehlen. AAC und MP3 passen nicht in WebM.</string>
+    <string name="decode_hw">Hardware (%1$s auf %2$s)</string>
+    <string name="decode_cpu_retry">CPU (erneut versucht, nachdem der Hardware-Decoder fehlgeschlagen ist)</string>
+    <string name="decode_cpu_choice">CPU (deine Wahl in den benutzerdefinierten Einstellungen)</string>
+    <string name="decode_cpu_no_path">CPU (kein Hardware-Decoder-Pfad für %1$s)</string>
+    <string name="decode_this_input">diese Eingabe</string>
+    <string name="decode_cpu_no_decoder">CPU (dieses Telefon hat keinen Hardware-%1$s-Decoder)</string>
+
+    <!-- Queue screen and job cards -->
+    <string name="queue_start">Start</string>
+    <string name="queue_clear_finished">Abgeschlossene löschen</string>
+    <string name="queue_empty_title">Noch keine Konvertierungen</string>
+    <string name="queue_empty_body">Füge Dateien im Tab „Konvertieren“ hinzu, tippe auf Start, und sie laufen hier, eine nach der anderen.</string>
+    <string name="job_waiting">Warten auf Start</string>
+    <string name="job_queued">In Warteschlange</string>
+    <string name="job_est_output">≈ %1$s Ausgabe</string>
+    <string name="job_cancel">Abbrechen</string>
+    <string name="job_converting">Konvertieren…</string>
+    <string name="job_speed">%1$s× Geschwindigkeit</string>
+    <string name="job_saved_to">Gespeichert in %1$s/%2$s</string>
+    <string name="job_open">Öffnen</string>
+    <string name="job_share">Teilen</string>
+    <string name="job_cancelled">Abgebrochen</string>
+    <string name="job_failed">Fehlgeschlagen</string>
+    <string name="job_debug_log_save">Debug-Protokoll. Tippe auf das Protokoll, um es in Download/HWA Converter zu speichern</string>
+    <string name="job_debug_log_saved">Debug-Protokoll. Gespeichert in Download/HWA Converter</string>
+    <string name="job_share_log">Protokoll teilen</string>
+    <string name="share_debug_log_title">Debug-Protokoll teilen</string>
+    <string name="share_file_title">Konvertierte Datei teilen</string>
+    <string name="job_command_prefix">ffmpeg </string>
+    <string name="queue_output_create_failed">Die Ausgabedatei konnte nicht in MediaStore erstellt werden.</string>
+    <string name="queue_conversion_failed">Konvertierung fehlgeschlagen. ffmpeg sagte: %1$s</string>
+    <string name="queue_conversion_failed_silent">Konvertierung fehlgeschlagen (ffmpeg gab keine Meldung).</string>
+
+    <!-- Hardware tab -->
+    <string name="hw_probing">Die Media-Engine dieses Geräts wird geprüft…</string>
+    <string name="hw_video_encoders">Video-Encoder</string>
+    <string name="hw_audio_encoders">Audio-Encoder</string>
+    <string name="hw_video_decoders">Video-Decoder</string>
+    <string name="hw_soc_line">%1$s · Android %2$s (API %3$d)</string>
+    <string name="hw_media_engine">Media-Engine: %1$s</string>
+    <string name="hw_tile_hw_encoders">Hardware-Encoder</string>
+    <string name="hw_tile_hw_decoders">Hardware-Decoder</string>
+    <string name="hw_tile_max_encode">max. Hardware-Kodierung</string>
+    <string name="hw_tile_top_bitrate">höchste Encoder-Bitrate</string>
+    <string name="hw_unknown">Unbekannt</string>
+    <string name="hw_encoding_title">Hardware-Kodierung</string>
+    <string name="hw_decoding_title">Hardware-Decodierung</string>
+    <string name="hw_software_only">nur Software</string>
+    <string name="hw_badge_hardware">HARDWARE</string>
+    <string name="hw_badge_software">SOFTWARE</string>
+    <string name="hw_up_to">bis zu %1$d×%2$d</string>
+    <string name="hw_bitrate_cap">≤ %1$d Mbps</string>
+    <string name="hw_mbps">%1$d Mbps</string>
+
+    <!-- Look & Feel (settings) -->
+    <string name="settings_theme">Design</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="theme_following_dark">Folgt deinem Telefon. Es ist gerade im Dunkelmodus.</string>
+    <string name="theme_following_light">Folgt deinem Telefon. Es ist gerade im Hellmodus.</string>
+    <string name="settings_color_scheme">Farbschema</string>
+    <string name="settings_color_note">Material You folgt deinem Hintergrundbild. Die anderen Schemata sind feste Paletten, jede mit einer hellen und einer dunklen Variante.</string>
+    <string name="settings_app_icon">App-Symbol</string>
+    <string name="settings_icon_note">Das Symbol auf dem Startbildschirm braucht eventuell ein paar Sekunden, um sich zu ändern. Manche Launcher aktualisieren es erst nach einem Neustart.</string>
+    <string name="settings_language">Sprache</string>
+    <string name="language_system">Systemsprache</string>
+
+    <!-- About -->
+    <string name="about_tagline">Medienkonvertierung, Hardware zuerst</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_body">Hardware Accelerated Converter lässt die Media-Engine deines Telefons arbeiten. Die meisten Konverter-Apps ignorieren sie und kodieren auf der CPU. Diese App prüft zuerst den Chip und nutzt die Hardware, wann immer sie kann. Der Software-Pfad bleibt für maximale Qualität und für Aufträge, die die Hardware nicht schafft. Nichts fällt still auf etwas zurück. Jeder Auftrag zeigt den genauen Befehl, der lief, und der Tab Hardware zeigt, was dein Telefon kann. Die App ist kostenlos und quelloffen. Deine Dateien verlassen dein Telefon nie: Das Einzige, was die App je abruft, sind ihre eigenen Updates, von GitHub.</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_sub">Quellcode, Issues und die Projektseite</string>
+    <string name="about_releases">Releases</string>
+    <string name="about_releases_sub">Die neuesten APKs herunterladen</string>
+    <string name="about_check_updates">Nach Updates suchen</string>
+    <string name="about_check_updates_sub">Auf GitHub nach einer neueren Version suchen</string>
+    <string name="about_auto_check">Automatische Update-Prüfung</string>
+    <string name="about_auto_off">Aus. Die App hat keinen Netzwerkzugriff.</string>
+    <string name="about_auto_daily">Einmal am Tag, beim Öffnen der App</string>
+    <string name="about_internet_note">Die Internet-Berechtigung wird bei der Installation erteilt und dient nur dazu, auf GitHub nach Updates zu suchen. Wenn du keine Update-Prüfung brauchst, schalte die automatische Prüfung aus. Wenn die App das Internet nicht erreichen kann, deaktiviert sich die Prüfung selbst, bis es wieder geht.</string>
+    <string name="about_replay_tour">Tour wiederholen</string>
+    <string name="about_replay_tour_sub">Die Feature-Tour erneut ansehen</string>
+    <string name="about_footer">Gebaut auf FFmpeg durch FFmpegKit (GPL), läuft auf der Medien-Hardware deines Telefons.</string>
+
+    <!-- Feature tour -->
+    <string name="tour_welcome_title">Willkommen bei HWA Converter</string>
+    <string name="tour_welcome_body">Diese App konvertiert Video und Audio auf deinem Telefon. Sie nutzt zuerst die Media-Engine, nicht die CPU. Hier ein kurzer Rundgang.</string>
+    <string name="tour_add_title">Dateien hinzufügen</string>
+    <string name="tour_add_body">Tippe auf diese Schaltfläche und wähle deine Dateien. Noch startet nichts. Sie warten, bis du auf Start tippst.</string>
+    <string name="tour_pick_title">Eine Konvertierung wählen</string>
+    <string name="tour_pick_body">Hardware-Voreinstellungen sind schnell und schonen den Akku. Software-Voreinstellungen sind langsamer, liefern aber die beste Qualität. Mit Benutzerdefiniert stellst du alles selbst ein.</string>
+    <string name="tour_start_title">Starten, wenn du bereit bist</string>
+    <string name="tour_start_body">Nachdem du Dateien hinzugefügt hast, erscheint unter „Dateien hinzufügen“ eine Start-Schaltfläche. Tippe darauf, um zu beginnen. Bis dahin läuft nichts.</string>
+    <string name="tour_queue_title">Der Tab Warteschlange</string>
+    <string name="tour_queue_body">Alle deine Konvertierungen leben hier. Du kannst Fortschritt und Geschwindigkeit ansehen, den genauen Befehl sehen, der lief, und das Debug-Protokoll eines Auftrags speichern.</string>
+    <string name="tour_hardware_title">Deine Hardware</string>
+    <string name="tour_hardware_body">Das ist die Media-Engine in deinem Telefon, auf diesem Gerät geprüft. Deine Voreinstellungen werden daraus erstellt. Wenn ein Hardware-Pfad nicht aufgeführt ist, hat dein Chip ihn nicht.</string>
+    <string name="tour_settings_title">Darstellung</string>
+    <string name="tour_settings_body">Designs, Farbschemata, Sprache und neun Launcher-Symbole findest du hier.</string>
+    <string name="tour_done_title">Das war\'s</string>
+    <string name="tour_done_body">Noch eins. Konvertierungen laufen vollständig auf deinem Telefon. Das Einzige, was die App je herunterlädt, sind ihre eigenen Updates.</string>
+    <string name="tour_skip">Überspringen</string>
+    <string name="tour_next">Weiter</string>
+    <string name="tour_got_it">Verstanden</string>
+
+    <!-- Updates -->
+    <string name="update_available">Update verfügbar</string>
+    <string name="update_on_github">Eine neue Version ist auf GitHub.</string>
+    <string name="update_version">Version %1$s</string>
+    <string name="update_downloading">Herunterladen… %1$d%%</string>
+    <string name="update_downloading_short">Herunterladen…</string>
+    <string name="update_later">Später herunterladen</string>
+    <string name="update_install">Herunterladen &amp; Installieren</string>
+    <string name="update_status_checking">GitHub wird geprüft…</string>
+    <string name="update_status_available">Version %1$s ist verfügbar.</string>
+    <string name="update_status_uptodate">Du bist auf dem neuesten Stand.</string>
+    <string name="update_no_files">An diesem Release hängen keine Dateien.</string>
+    <string name="update_no_apk">An diesem Release hängt keine APK.</string>
+    <string name="update_unreachable">GitHub konnte nicht erreicht werden. Prüfe deine Verbindung und versuche es erneut.</string>
+    <string name="update_check_failed">Bei der Prüfung ist etwas schiefgelaufen. Versuche es später erneut.</string>
+    <string name="update_download_failed">Der Download ist fehlgeschlagen. Prüfe deine Verbindung und versuche es erneut.</string>
+    <string name="update_allow_installs">Erlaube Installationen aus dieser App und tippe dann erneut auf Herunterladen &amp; Installieren.</string>
+
+    <!-- Background conversion notification -->
+    <string name="notif_channel_name">Konvertierungen</string>
+    <string name="notif_channel_desc">Fortschritt laufender Konvertierungen, während die App im Hintergrund ist.</string>
+    <string name="notif_converting">Konvertieren…</string>
+    <string name="notif_starting">Starten…</string>
+    <string name="notif_ready_title">Bereit zum Konvertieren</string>
+    <string name="notif_waiting">%1$d warten. Tippe in der App auf Start.</string>
+    <string name="notif_converting_file">%1$s wird konvertiert</string>
+    <string name="notif_files">Dateien</string>
+    <string name="notif_more_queued">%1$d weitere in Warteschlange</string>
+    <string name="notif_cancel">Abbrechen</string>
+
+    <!-- Time remaining (Widgets.formatEtaLeft) -->
+    <string name="eta_done">≈ fertig</string>
+    <string name="eta_sec_left">≈ noch %1$d s</string>
+    <string name="eta_min_left">≈ noch %1$d min</string>
+    <string name="eta_h_min_left">≈ noch %1$d h %2$d min</string>
+</resources>

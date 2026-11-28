@@ -24,12 +24,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import io.github.justvisiting992.mediaconverter.R
 import io.github.justvisiting992.mediaconverter.core.update.UpdateController
 import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
 import io.github.justvisiting992.mediaconverter.ui.components.InfoChip
+import io.github.justvisiting992.mediaconverter.ui.components.OnGradientTextShadow
 import io.github.justvisiting992.mediaconverter.ui.components.formatSizeBytes
 
 /**
@@ -77,20 +80,22 @@ fun UpdateDialog(controller: UpdateController) {
                 )
                 Column {
                     Text(
-                        "Update available",
-                        style = MaterialTheme.typography.titleLarge,
+                        stringResource(R.string.update_available),
+                        style = MaterialTheme.typography.titleLarge
+                            .copy(shadow = OnGradientTextShadow),
                         fontWeight = FontWeight.Bold,
                         color = scheme.onPrimaryContainer,
                     )
                     Text(
-                        "A new version is on GitHub.",
-                        style = MaterialTheme.typography.bodyMedium,
+                        stringResource(R.string.update_on_github),
+                        style = MaterialTheme.typography.bodyMedium
+                            .copy(shadow = OnGradientTextShadow),
                         color = scheme.onPrimaryContainer,
                     )
                 }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                InfoChip("Version ${current.version}")
+                InfoChip(stringResource(R.string.update_version, current.version))
                 if (current.sizeBytes > 0) {
                     InfoChip(formatSizeBytes(current.sizeBytes))
                 }
@@ -98,7 +103,8 @@ fun UpdateDialog(controller: UpdateController) {
             if (current.notes.isNotBlank()) {
                 Text(
                     current.notes,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium
+                        .copy(shadow = OnGradientTextShadow),
                     color = scheme.onPrimaryContainer,
                     maxLines = 5,
                     overflow = TextOverflow.Ellipsis,
@@ -112,7 +118,7 @@ fun UpdateDialog(controller: UpdateController) {
                         modifier = Modifier.fillMaxWidth(),
                     )
                     Text(
-                        "Downloading… ${(fraction * 100).toInt()}%",
+                        stringResource(R.string.update_downloading, (fraction * 100).toInt()),
                         style = MaterialTheme.typography.bodyMedium,
                         color = scheme.onPrimaryContainer,
                     )
@@ -127,10 +133,10 @@ fun UpdateDialog(controller: UpdateController) {
                     onClick = { controller.postpone() },
                     enabled = progress == null,
                 ) {
-                    Text("Download Later")
+                    Text(stringResource(R.string.update_later))
                 }
                 GradientButton(
-                    text = if (progress != null) "Downloading…" else "Download & Install",
+                    text = if (progress != null) stringResource(R.string.update_downloading_short) else stringResource(R.string.update_install),
                     enabled = progress == null,
                     onClick = { controller.downloadAndInstall() },
                 )
