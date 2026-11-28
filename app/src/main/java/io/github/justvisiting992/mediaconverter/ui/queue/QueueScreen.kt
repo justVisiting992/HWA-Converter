@@ -1,7 +1,13 @@
 package io.github.justvisiting992.mediaconverter.ui.queue
 
+import android.app.Activity
 import android.content.Intent
+import android.os.Build
+import android.provider.MediaStore
 import android.webkit.MimeTypeMap
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -15,7 +21,9 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
@@ -26,12 +34,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ClearAll
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Queue
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +57,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,6 +76,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.justvisiting992.mediaconverter.R
 import io.github.justvisiting992.mediaconverter.core.engine.PresetCommands
 import io.github.justvisiting992.mediaconverter.core.queue.ConversionJob
+import io.github.justvisiting992.mediaconverter.core.queue.ConversionQueue
 import io.github.justvisiting992.mediaconverter.core.queue.ConversionQueueViewModel
 import io.github.justvisiting992.mediaconverter.core.queue.JobStatus
 import io.github.justvisiting992.mediaconverter.ui.components.IconBadge
@@ -71,6 +87,9 @@ import io.github.justvisiting992.mediaconverter.ui.components.estimateOutputByte
 import io.github.justvisiting992.mediaconverter.ui.components.formatDurationMs
 import io.github.justvisiting992.mediaconverter.ui.components.formatEtaLeft
 import io.github.justvisiting992.mediaconverter.ui.components.formatSizeBytes
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * The Queue tab: every conversion, in its own place, queued, running
@@ -92,33 +111,112 @@ fun QueueScreen(
             it.status is JobStatus.Failed ||
             it.status is JobStatus.Cancelled
     }
+    // Finished jobs whose original file is still on the device: the
+    // only ones the Delete originals button may touch.
+    val deletable = jobs.filter {
+        it.status is JobStatus.Done && !it.originalDeleted
+    }
+    var confirmDelete by remember { mutableStateOf(false) }
+    var originalsBytes by remember { mutableStateOf<Long?>(null) }
+    LaunchedEffect(deletable.map { it.id }) {
+        originalsBytes = withContext(Dispatchers.IO) {
+            var total = 0L
+            var any = false
+            for (job in deletable) {
+                queueViewModel.originalSizeBytes(job.inputUri)?.let {
+                    total += it
+                    any = true
+                }
+            }
+            if (any) total else null
+        }
+    }
+    // MediaStore files can demand the system's own approval before
+    // they may be deleted; the answer lands here and is recorded.
+    var pendingApprovalIds by remember {
+        mutableStateOf<List<Long>>(emptyList())
+    }
+    val approvalLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult(),
+    ) { result ->
+        val approved = result.resultCode == Activity.RESULT_OK
+        pendingApprovalIds.forEach {
+            queueViewModel.markOriginal(it, approved)
+        }
+        pendingApprovalIds = emptyList()
+    }
+    val scope = rememberCoroutineScope()
+    fun runDelete() {
+        val targets = deletable
+        scope.launch {
+            val needsApproval = mutableListOf<ConversionJob>()
+            for (job in targets) {
+                if (queueViewModel.deleteOriginal(job) ==
+                    ConversionQueue.DeleteOutcome.NEEDS_APPROVAL
+                ) {
+                    needsApproval += job
+                }
+            }
+            val media = needsApproval.filter {
+                it.inputUri.authority == MediaStore.AUTHORITY
+            }
+            (needsApproval - media.toSet()).forEach {
+                queueViewModel.markOriginal(it.id, deleted = false)
+            }
+            if (media.isNotEmpty()) {
+                if (Build.VERSION.SDK_INT >= 30) {
+                    pendingApprovalIds = media.map { it.id }
+                    runCatching {
+                        val request = MediaStore.createDeleteRequest(
+                            context.contentResolver,
+                            media.map { it.inputUri },
+                        )
+                        approvalLauncher.launch(
+                            IntentSenderRequest.Builder(request.intentSender)
+                                .build(),
+                        )
+                    }.onFailure {
+                        media.forEach {
+                            queueViewModel.markOriginal(it.id, deleted = false)
+                        }
+                        pendingApprovalIds = emptyList()
+                    }
+                } else {
+                    media.forEach {
+                        queueViewModel.markOriginal(it.id, deleted = false)
+                    }
+                }
+            }
+        }
+    }
+    Box(modifier = modifier) {
     LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 120.dp),
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(
+            start = 16.dp, end = 16.dp, top = 16.dp,
+            bottom = if (hasFinished || deletable.isNotEmpty()) {
+                224.dp
+            } else {
+                120.dp
+            },
+        ),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        if (awaitingStart || hasFinished) {
+        if (awaitingStart) {
             item {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Spacer(Modifier.weight(1f))
-                    if (awaitingStart) {
-                        TextButton(onClick = { queueViewModel.start(context) }) {
-                            Icon(
-                                Icons.Filled.PlayArrow,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                            )
-                            Spacer(Modifier.size(4.dp))
-                            Text(stringResource(R.string.queue_start))
-                        }
-                    }
-                    if (hasFinished) {
-                        TextButton(onClick = { queueViewModel.clearFinished() }) {
-                            Text(stringResource(R.string.queue_clear_finished))
-                        }
+                    TextButton(onClick = { queueViewModel.start(context) }) {
+                        Icon(
+                            Icons.Filled.PlayArrow,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp),
+                        )
+                        Spacer(Modifier.size(4.dp))
+                        Text(stringResource(R.string.queue_start))
                     }
                 }
             }
@@ -158,6 +256,101 @@ fun QueueScreen(
                 onSaveLog = { queueViewModel.saveLog(job.id) },
             )
         }
+    }
+    if (hasFinished || deletable.isNotEmpty()) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .navigationBarsPadding()
+                .padding(end = 16.dp, bottom = 84.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.End,
+        ) {
+            if (hasFinished) {
+                ExtendedFloatingActionButton(
+                    onClick = { queueViewModel.clearFinished() },
+                    icon = {
+                        Icon(Icons.Filled.ClearAll, contentDescription = null)
+                    },
+                    text = {
+                        Text(stringResource(R.string.queue_clear_finished))
+                    },
+                    containerColor =
+                        MaterialTheme.colorScheme.surfaceContainerHigh,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+            if (deletable.isNotEmpty()) {
+                ExtendedFloatingActionButton(
+                    onClick = { confirmDelete = true },
+                    icon = {
+                        Icon(Icons.Filled.Delete, contentDescription = null)
+                    },
+                    text = {
+                        Text(
+                            stringResource(
+                                if (deletable.size == 1) {
+                                    R.string.queue_delete_original_one
+                                } else {
+                                    R.string.queue_delete_originals
+                                },
+                            ) + " (${deletable.size})",
+                        )
+                    },
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor =
+                        MaterialTheme.colorScheme.onErrorContainer,
+                )
+            }
+        }
+    }
+    if (confirmDelete) {
+        AlertDialog(
+            onDismissRequest = { confirmDelete = false },
+            title = {
+                Text(
+                    stringResource(
+                        if (deletable.size == 1) {
+                            R.string.delete_original_title_one
+                        } else {
+                            R.string.delete_originals_title
+                        },
+                    ),
+                )
+            },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(stringResource(R.string.delete_originals_body))
+                    Text(
+                        listOfNotNull(
+                            "${deletable.size}",
+                            originalsBytes?.let { formatSizeBytes(it) },
+                        ).joinToString(" · "),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        confirmDelete = false
+                        runDelete()
+                    },
+                ) {
+                    Text(
+                        stringResource(R.string.delete_originals_confirm),
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmDelete = false }) {
+                    Text(stringResource(R.string.job_cancel))
+                }
+            },
+        )
+    }
     }
 }
 
@@ -450,6 +643,41 @@ private fun JobCard(
                                     style = MaterialTheme.typography.labelLarge,
                                 )
                             }
+                        }
+                    }
+                    if (job.originalDeleted) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                Icons.Filled.Check,
+                                contentDescription = null,
+                                modifier = Modifier.size(15.dp),
+                                tint =
+                                    MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                            Spacer(Modifier.size(4.dp))
+                            Text(
+                                stringResource(R.string.job_original_deleted),
+                                style = MaterialTheme.typography.bodySmall,
+                                color =
+                                    MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    } else if (job.originalDeleteFailed) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                Icons.Filled.Warning,
+                                contentDescription = null,
+                                modifier = Modifier.size(15.dp),
+                                tint = MaterialTheme.colorScheme.error,
+                            )
+                            Spacer(Modifier.size(4.dp))
+                            Text(
+                                stringResource(
+                                    R.string.job_original_delete_failed,
+                                ),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.error,
+                            )
                         }
                     }
                 }

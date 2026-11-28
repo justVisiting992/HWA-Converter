@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Iniciar</string>
     <string name="queue_clear_finished">Limpar concluídos</string>
+    <string name="queue_delete_original_one">Excluir original</string>
+    <string name="queue_delete_originals">Excluir originais</string>
+    <string name="delete_original_title_one">Excluir o original?</string>
+    <string name="delete_originals_title">Excluir os originais?</string>
+    <string name="delete_originals_body">Os arquivos originais serão excluídos do seu celular. As cópias convertidas permanecem. Isso não pode ser desfeito.</string>
+    <string name="delete_originals_confirm">Excluir</string>
+    <string name="job_original_deleted">Original excluído</string>
+    <string name="job_original_delete_failed">Não foi possível excluir o original</string>
     <string name="queue_empty_title">Nenhuma conversão ainda</string>
     <string name="queue_empty_body">Adicione arquivos na guia Converter, toque em Iniciar e eles rodarão aqui, um de cada vez.</string>
     <string name="job_waiting">Aguardando início</string>

@@ -143,6 +143,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Start</string>
     <string name="queue_clear_finished">Clear finished</string>
+    <string name="queue_delete_original_one">Delete original</string>
+    <string name="queue_delete_originals">Delete originals</string>
+    <string name="delete_original_title_one">Delete the original?</string>
+    <string name="delete_originals_title">Delete the originals?</string>
+    <string name="delete_originals_body">The original files are deleted from your phone. The converted copies stay. This cannot be undone.</string>
+    <string name="delete_originals_confirm">Delete</string>
+    <string name="job_original_deleted">Original deleted</string>
+    <string name="job_original_delete_failed">The original could not be deleted</string>
     <string name="queue_empty_title">No conversions yet</string>
     <string name="queue_empty_body">Add files from the Convert tab, tap Start, and they will run here, one at a time.</string>
     <string name="job_waiting">Waiting for Start</string>

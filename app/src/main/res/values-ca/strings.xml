@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Inicia</string>
     <string name="queue_clear_finished">Esborra les acabades</string>
+    <string name="queue_delete_original_one">Suprimeix l\'original</string>
+    <string name="queue_delete_originals">Suprimeix els originals</string>
+    <string name="delete_original_title_one">Suprimir l\'original?</string>
+    <string name="delete_originals_title">Suprimir els originals?</string>
+    <string name="delete_originals_body">Els fitxers originals se suprimiran del telèfon. Les còpies convertides es conservaran. Això no es pot desfer.</string>
+    <string name="delete_originals_confirm">Suprimeix</string>
+    <string name="job_original_deleted">Original suprimit</string>
+    <string name="job_original_delete_failed">No s\'ha pogut suprimir l\'original</string>
     <string name="queue_empty_title">Encara no hi ha conversions</string>
     <string name="queue_empty_body">Afegeix fitxers des de la pestanya Converteix, toca Inicia i s\'executaran aquí, d\'una en una.</string>
     <string name="job_waiting">Esperant l\'inici</string>

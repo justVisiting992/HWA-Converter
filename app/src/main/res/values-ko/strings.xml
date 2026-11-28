@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">시작</string>
     <string name="queue_clear_finished">완료된 항목 지우기</string>
+    <string name="queue_delete_original_one">원본 삭제</string>
+    <string name="queue_delete_originals">원본 삭제</string>
+    <string name="delete_original_title_one">원본을 삭제할까요?</string>
+    <string name="delete_originals_title">원본을 삭제할까요?</string>
+    <string name="delete_originals_body">원본 파일이 휴대폰에서 삭제됩니다. 변환된 파일은 그대로 남습니다. 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="delete_originals_confirm">삭제</string>
+    <string name="job_original_deleted">원본이 삭제됨</string>
+    <string name="job_original_delete_failed">원본을 삭제할 수 없었습니다</string>
     <string name="queue_empty_title">아직 변환이 없습니다</string>
     <string name="queue_empty_body">변환 탭에서 파일을 추가하고 시작을 누르면 여기에서 하나씩 실행됩니다.</string>
     <string name="job_waiting">시작 대기 중</string>

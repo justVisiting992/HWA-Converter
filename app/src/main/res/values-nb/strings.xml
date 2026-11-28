@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Start</string>
     <string name="queue_clear_finished">Fjern fullførte</string>
+    <string name="queue_delete_original_one">Slett originalen</string>
+    <string name="queue_delete_originals">Slett originalene</string>
+    <string name="delete_original_title_one">Slette originalen?</string>
+    <string name="delete_originals_title">Slette originalene?</string>
+    <string name="delete_originals_body">Originalfilene slettes fra telefonen din. De konverterte kopiene beholdes. Dette kan ikke angres.</string>
+    <string name="delete_originals_confirm">Slett</string>
+    <string name="job_original_deleted">Originalen slettet</string>
+    <string name="job_original_delete_failed">Kunne ikke slette originalen</string>
     <string name="queue_empty_title">Ingen konverteringer ennå</string>
     <string name="queue_empty_body">Legg til filer fra Konverter-fanen, trykk på Start, så kjører de her, én om gangen.</string>
     <string name="job_waiting">Venter på Start</string>

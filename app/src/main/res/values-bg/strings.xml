@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Старт</string>
     <string name="queue_clear_finished">Изчистване на завършените</string>
+    <string name="queue_delete_original_one">Изтрий оригинала</string>
+    <string name="queue_delete_originals">Изтрий оригиналите</string>
+    <string name="delete_original_title_one">Да се изтрие ли оригиналът?</string>
+    <string name="delete_originals_title">Да се изтрият ли оригиналите?</string>
+    <string name="delete_originals_body">Оригиналните файлове ще бъдат изтрити от телефона. Конвертираните копия остават. Това не може да се отмени.</string>
+    <string name="delete_originals_confirm">Изтрий</string>
+    <string name="job_original_deleted">Оригиналът е изтрит</string>
+    <string name="job_original_delete_failed">Оригиналът не можа да бъде изтрит</string>
     <string name="queue_empty_title">Все още няма конвертирания</string>
     <string name="queue_empty_body">Добавете файлове от раздела „Конвертиране“, докоснете „Старт“ и те ще се изпълняват тук, едно по едно.</string>
     <string name="job_waiting">Изчакване на старт</string>

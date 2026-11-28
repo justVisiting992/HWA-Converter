@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Start</string>
     <string name="queue_clear_finished">Voltooide wissen</string>
+    <string name="queue_delete_original_one">Origineel verwijderen</string>
+    <string name="queue_delete_originals">Originelen verwijderen</string>
+    <string name="delete_original_title_one">Het origineel verwijderen?</string>
+    <string name="delete_originals_title">De originelen verwijderen?</string>
+    <string name="delete_originals_body">De originele bestanden worden van je telefoon verwijderd. De geconverteerde kopieën blijven. Dit kan niet ongedaan worden gemaakt.</string>
+    <string name="delete_originals_confirm">Verwijderen</string>
+    <string name="job_original_deleted">Origineel verwijderd</string>
+    <string name="job_original_delete_failed">Het origineel kon niet worden verwijderd</string>
     <string name="queue_empty_title">Nog geen conversies</string>
     <string name="queue_empty_body">Voeg bestanden toe op het tabblad Converteren, tik op Start en ze draaien hier, één voor één.</string>
     <string name="job_waiting">Wachten op Start</string>

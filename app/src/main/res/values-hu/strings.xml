@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Indítás</string>
     <string name="queue_clear_finished">Kész törlése</string>
+    <string name="queue_delete_original_one">Eredeti törlése</string>
+    <string name="queue_delete_originals">Eredetik törlése</string>
+    <string name="delete_original_title_one">Törli az eredetit?</string>
+    <string name="delete_originals_title">Törli az eredetiket?</string>
+    <string name="delete_originals_body">Az eredeti fájlok törlődnek a telefonról. A konvertált másolatok megmaradnak. Ez nem vonható vissza.</string>
+    <string name="delete_originals_confirm">Törlés</string>
+    <string name="job_original_deleted">Eredeti törölve</string>
+    <string name="job_original_delete_failed">Az eredetit nem sikerült törölni</string>
     <string name="queue_empty_title">Még nincsenek konvertálások</string>
     <string name="queue_empty_body">Adj hozzá fájlokat a Konvertálás fülről, koppints az Indításra, és itt fognak futni, egyenként.</string>
     <string name="job_waiting">Indításra vár</string>

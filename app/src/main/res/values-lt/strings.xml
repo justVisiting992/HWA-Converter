@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Pradėti</string>
     <string name="queue_clear_finished">Išvalyti baigtus</string>
+    <string name="queue_delete_original_one">Ištrinti originalą</string>
+    <string name="queue_delete_originals">Ištrinti originalus</string>
+    <string name="delete_original_title_one">Ištrinti originalą?</string>
+    <string name="delete_originals_title">Ištrinti originalus?</string>
+    <string name="delete_originals_body">Originalūs failai bus ištrinti iš telefono. Konvertuotos kopijos liks. Šio veiksmo anuliuoti negalima.</string>
+    <string name="delete_originals_confirm">Ištrinti</string>
+    <string name="job_original_deleted">Originalas ištrintas</string>
+    <string name="job_original_delete_failed">Originalo ištrinti nepavyko</string>
     <string name="queue_empty_title">Kol kas konvertavimų nėra</string>
     <string name="queue_empty_body">Pridėkite failų skirtuke „Konvertuoti“, palieskite „Pradėti“ ir jie bus vykdomi čia, po vieną.</string>
     <string name="job_waiting">Laukiama pradžios</string>

@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Pokreni</string>
     <string name="queue_clear_finished">Očisti završene</string>
+    <string name="queue_delete_original_one">Izbriši izvornik</string>
+    <string name="queue_delete_originals">Izbriši izvornike</string>
+    <string name="delete_original_title_one">Izbrisati izvornik?</string>
+    <string name="delete_originals_title">Izbrisati izvornike?</string>
+    <string name="delete_originals_body">Izvorne datoteke brišu se s telefona. Pretvorene kopije ostaju. Ovo se ne može poništiti.</string>
+    <string name="delete_originals_confirm">Izbriši</string>
+    <string name="job_original_deleted">Izvornik izbrisan</string>
+    <string name="job_original_delete_failed">Izvornik se nije mogao izbrisati</string>
     <string name="queue_empty_title">Još nema pretvorbi</string>
     <string name="queue_empty_body">Dodajte datoteke s kartice Pretvori, dodirnite Pokreni i izvodit će se ovdje, jedna po jedna.</string>
     <string name="job_waiting">Čeka pokretanje</string>

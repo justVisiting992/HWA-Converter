@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Byrja</string>
     <string name="queue_clear_finished">Hreinsa lokið</string>
+    <string name="queue_delete_original_one">Eyða frumriti</string>
+    <string name="queue_delete_originals">Eyða frumritum</string>
+    <string name="delete_original_title_one">Eyða frumritinu?</string>
+    <string name="delete_originals_title">Eyða frumritunum?</string>
+    <string name="delete_originals_body">Frumritunum verður eytt úr símanum. Umbreyttu eintökin verða áfram. Ekki er hægt að afturkalla þetta.</string>
+    <string name="delete_originals_confirm">Eyða</string>
+    <string name="job_original_deleted">Frumriti eytt</string>
+    <string name="job_original_delete_failed">Ekki var hægt að eyða frumritinu</string>
     <string name="queue_empty_title">Engar umbreytingar enn</string>
     <string name="queue_empty_body">Bættu við skrám úr Umbreyta flipanum, ýttu á Byrja, og þær keyra hér, ein í einu.</string>
     <string name="job_waiting">Bíður eftir Byrja</string>

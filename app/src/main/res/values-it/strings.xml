@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Avvia</string>
     <string name="queue_clear_finished">Cancella completati</string>
+    <string name="queue_delete_original_one">Elimina originale</string>
+    <string name="queue_delete_originals">Elimina originali</string>
+    <string name="delete_original_title_one">Eliminare l\'originale?</string>
+    <string name="delete_originals_title">Eliminare gli originali?</string>
+    <string name="delete_originals_body">I file originali verranno eliminati dal telefono. Le copie convertite resteranno. L\'operazione non può essere annullata.</string>
+    <string name="delete_originals_confirm">Elimina</string>
+    <string name="job_original_deleted">Originale eliminato</string>
+    <string name="job_original_delete_failed">Impossibile eliminare l\'originale</string>
     <string name="queue_empty_title">Ancora nessuna conversione</string>
     <string name="queue_empty_body">Aggiungi file dalla scheda Converti, tocca Avvia, e verranno eseguiti qui, uno alla volta.</string>
     <string name="job_waiting">In attesa di avvio</string>

@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">شروع</string>
     <string name="queue_clear_finished">پاک کردن تمام‌شده‌ها</string>
+    <string name="queue_delete_original_one">حذف فایل اصلی</string>
+    <string name="queue_delete_originals">حذف فایل‌های اصلی</string>
+    <string name="delete_original_title_one">فایل اصلی حذف شود؟</string>
+    <string name="delete_originals_title">فایل‌های اصلی حذف شوند؟</string>
+    <string name="delete_originals_body">فایل‌های اصلی از گوشی شما حذف می‌شوند. نسخه‌های تبدیل‌شده باقی می‌مانند. این کار قابل بازگشت نیست.</string>
+    <string name="delete_originals_confirm">حذف</string>
+    <string name="job_original_deleted">فایل اصلی حذف شد</string>
+    <string name="job_original_delete_failed">حذف فایل اصلی ممکن نشد</string>
     <string name="queue_empty_title">هنوز تبدیلی نیست</string>
     <string name="queue_empty_body">از زبانه تبدیل فایل اضافه کنید و شروع را بزنید تا اینجا یکی‌یکی اجرا شوند.</string>
     <string name="job_waiting">در انتظار شروع</string>

@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Iniciar</string>
     <string name="queue_clear_finished">Limpar concluídas</string>
+    <string name="queue_delete_original_one">Eliminar original</string>
+    <string name="queue_delete_originals">Eliminar originais</string>
+    <string name="delete_original_title_one">Eliminar o original?</string>
+    <string name="delete_originals_title">Eliminar os originais?</string>
+    <string name="delete_originals_body">Os ficheiros originais serão eliminados do telemóvel. As cópias convertidas permanecem. Isto não pode ser anulado.</string>
+    <string name="delete_originals_confirm">Eliminar</string>
+    <string name="job_original_deleted">Original eliminado</string>
+    <string name="job_original_delete_failed">Não foi possível eliminar o original</string>
     <string name="queue_empty_title">Ainda sem conversões</string>
     <string name="queue_empty_body">Adicione ficheiros no separador Converter, toque em Iniciar, e serão executadas aqui, uma de cada vez.</string>
     <string name="job_waiting">À espera de início</string>

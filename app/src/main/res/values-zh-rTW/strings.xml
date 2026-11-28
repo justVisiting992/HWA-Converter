@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">開始</string>
     <string name="queue_clear_finished">清除已完成</string>
+    <string name="queue_delete_original_one">刪除原始檔案</string>
+    <string name="queue_delete_originals">刪除原始檔案</string>
+    <string name="delete_original_title_one">刪除原始檔案？</string>
+    <string name="delete_originals_title">刪除原始檔案？</string>
+    <string name="delete_originals_body">原始檔案將從手機中刪除，轉換後的檔案會保留。此操作無法復原。</string>
+    <string name="delete_originals_confirm">刪除</string>
+    <string name="job_original_deleted">原始檔案已刪除</string>
+    <string name="job_original_delete_failed">無法刪除原始檔案</string>
     <string name="queue_empty_title">尚無轉換</string>
     <string name="queue_empty_body">在轉換分頁中加入檔案並點按開始，它們會在這裡逐個執行。</string>
     <string name="job_waiting">等待開始</string>

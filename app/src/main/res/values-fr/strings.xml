@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Démarrer</string>
     <string name="queue_clear_finished">Effacer les terminées</string>
+    <string name="queue_delete_original_one">Supprimer l\'original</string>
+    <string name="queue_delete_originals">Supprimer les originaux</string>
+    <string name="delete_original_title_one">Supprimer l\'original ?</string>
+    <string name="delete_originals_title">Supprimer les originaux ?</string>
+    <string name="delete_originals_body">Les fichiers originaux seront supprimés de votre téléphone. Les copies converties resteront. Cette action est irréversible.</string>
+    <string name="delete_originals_confirm">Supprimer</string>
+    <string name="job_original_deleted">Original supprimé</string>
+    <string name="job_original_delete_failed">L\'original n\'a pas pu être supprimé</string>
     <string name="queue_empty_title">Aucune conversion pour le moment</string>
     <string name="queue_empty_body">Ajoutez des fichiers depuis l\'onglet Convertir, touchez Démarrer, et ils s\'exécuteront ici, un par un.</string>
     <string name="job_waiting">En attente de démarrage</string>

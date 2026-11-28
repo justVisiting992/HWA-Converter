@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Start</string>
     <string name="queue_clear_finished">Tühjenda lõpetatud</string>
+    <string name="queue_delete_original_one">Kustuta originaal</string>
+    <string name="queue_delete_originals">Kustuta originaalid</string>
+    <string name="delete_original_title_one">Kustuta originaal?</string>
+    <string name="delete_originals_title">Kustuta originaalid?</string>
+    <string name="delete_originals_body">Algfailid kustutatakse telefonist. Teisendatud koopiad jäävad alles. Seda ei saa tagasi võtta.</string>
+    <string name="delete_originals_confirm">Kustuta</string>
+    <string name="job_original_deleted">Originaal kustutatud</string>
+    <string name="job_original_delete_failed">Originaali ei saanud kustutada</string>
     <string name="queue_empty_title">Teisendusi veel pole</string>
     <string name="queue_empty_body">Lisa failid vahekaardilt Teisenda, puuduta nuppu Start ja need töötavad siin ükshaaval.</string>
     <string name="job_waiting">Ootab nuppu Start</string>

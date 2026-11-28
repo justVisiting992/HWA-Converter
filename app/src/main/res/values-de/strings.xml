@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Start</string>
     <string name="queue_clear_finished">Abgeschlossene löschen</string>
+    <string name="queue_delete_original_one">Original löschen</string>
+    <string name="queue_delete_originals">Originale löschen</string>
+    <string name="delete_original_title_one">Original löschen?</string>
+    <string name="delete_originals_title">Originale löschen?</string>
+    <string name="delete_originals_body">Die Originaldateien werden vom Handy gelöscht. Die umgewandelten Kopien bleiben. Das lässt sich nicht rückgängig machen.</string>
+    <string name="delete_originals_confirm">Löschen</string>
+    <string name="job_original_deleted">Original gelöscht</string>
+    <string name="job_original_delete_failed">Original konnte nicht gelöscht werden</string>
     <string name="queue_empty_title">Noch keine Konvertierungen</string>
     <string name="queue_empty_body">Füge Dateien im Tab „Konvertieren“ hinzu, tippe auf Start, und sie laufen hier, eine nach der anderen.</string>
     <string name="job_waiting">Warten auf Start</string>

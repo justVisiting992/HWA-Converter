@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">开始</string>
     <string name="queue_clear_finished">清除已完成</string>
+    <string name="queue_delete_original_one">删除源文件</string>
+    <string name="queue_delete_originals">删除源文件</string>
+    <string name="delete_original_title_one">删除源文件？</string>
+    <string name="delete_originals_title">删除源文件？</string>
+    <string name="delete_originals_body">源文件将从手机中删除，转换后的文件会保留。此操作无法撤销。</string>
+    <string name="delete_originals_confirm">删除</string>
+    <string name="job_original_deleted">源文件已删除</string>
+    <string name="job_original_delete_failed">无法删除源文件</string>
     <string name="queue_empty_title">尚无转换</string>
     <string name="queue_empty_body">在转换选项卡中添加文件并点按开始，它们会在这里逐个运行。</string>
     <string name="job_waiting">等待开始</string>

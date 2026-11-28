@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Start</string>
     <string name="queue_clear_finished">Vymazat dokončené</string>
+    <string name="queue_delete_original_one">Smazat originál</string>
+    <string name="queue_delete_originals">Smazat originály</string>
+    <string name="delete_original_title_one">Smazat originál?</string>
+    <string name="delete_originals_title">Smazat originály?</string>
+    <string name="delete_originals_body">Původní soubory budou z telefonu smazány. Převedené kopie zůstanou. Tuto akci nelze vrátit zpět.</string>
+    <string name="delete_originals_confirm">Smazat</string>
+    <string name="job_original_deleted">Originál smazán</string>
+    <string name="job_original_delete_failed">Originál se nepodařilo smazat</string>
     <string name="queue_empty_title">Zatím žádné převody</string>
     <string name="queue_empty_body">Přidejte soubory z karty Převést, klepněte na Start a poběží tady, jeden po druhém.</string>
     <string name="job_waiting">Čeká na Start</string>

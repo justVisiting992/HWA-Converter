@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Start</string>
     <string name="queue_clear_finished">Wyczyść ukończone</string>
+    <string name="queue_delete_original_one">Usuń oryginał</string>
+    <string name="queue_delete_originals">Usuń oryginały</string>
+    <string name="delete_original_title_one">Usunąć oryginał?</string>
+    <string name="delete_originals_title">Usunąć oryginały?</string>
+    <string name="delete_originals_body">Oryginalne pliki zostaną usunięte z telefonu. Przekonwertowane kopie pozostaną. Tej operacji nie można cofnąć.</string>
+    <string name="delete_originals_confirm">Usuń</string>
+    <string name="job_original_deleted">Oryginał usunięty</string>
+    <string name="job_original_delete_failed">Nie udało się usunąć oryginału</string>
     <string name="queue_empty_title">Brak konwersji</string>
     <string name="queue_empty_body">Dodaj pliki na karcie Konwertuj, dotknij Start, a będą działać tutaj, po jednej naraz.</string>
     <string name="job_waiting">Oczekiwanie na Start</string>

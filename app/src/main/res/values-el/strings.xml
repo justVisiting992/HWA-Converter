@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Έναρξη</string>
     <string name="queue_clear_finished">Εκκαθάριση ολοκληρωμένων</string>
+    <string name="queue_delete_original_one">Διαγραφή πρωτότυπου</string>
+    <string name="queue_delete_originals">Διαγραφή πρωτότυπων</string>
+    <string name="delete_original_title_one">Διαγραφή του πρωτότυπου;</string>
+    <string name="delete_originals_title">Διαγραφή των πρωτότυπων;</string>
+    <string name="delete_originals_body">Τα πρωτότυπα αρχεία διαγράφονται από το τηλέφωνό σας. Τα αντίγραφα που έχουν μετατραπεί παραμένουν. Η ενέργεια δεν μπορεί να αναιρεθεί.</string>
+    <string name="delete_originals_confirm">Διαγραφή</string>
+    <string name="job_original_deleted">Το πρωτότυπο διαγράφηκε</string>
+    <string name="job_original_delete_failed">Δεν ήταν δυνατή η διαγραφή του πρωτότυπου</string>
     <string name="queue_empty_title">Καμία μετατροπή ακόμα</string>
     <string name="queue_empty_body">Προσθέστε αρχεία από την καρτέλα Μετατροπή, πατήστε Έναρξη και θα εκτελεστούν εδώ, μία κάθε φορά.</string>
     <string name="job_waiting">Αναμονή για Έναρξη</string>

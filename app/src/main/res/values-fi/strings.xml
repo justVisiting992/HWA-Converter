@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Aloita</string>
     <string name="queue_clear_finished">Tyhjennä valmiit</string>
+    <string name="queue_delete_original_one">Poista alkuperäinen</string>
+    <string name="queue_delete_originals">Poista alkuperäiset</string>
+    <string name="delete_original_title_one">Poistetaanko alkuperäinen?</string>
+    <string name="delete_originals_title">Poistetaanko alkuperäiset?</string>
+    <string name="delete_originals_body">Alkuperäiset tiedostot poistetaan puhelimestasi. Muunnetut kopiot säilyvät. Tätä ei voi peruuttaa.</string>
+    <string name="delete_originals_confirm">Poista</string>
+    <string name="job_original_deleted">Alkuperäinen poistettu</string>
+    <string name="job_original_delete_failed">Alkuperäistä ei voitu poistaa</string>
     <string name="queue_empty_title">Ei muunnoksia vielä</string>
     <string name="queue_empty_body">Lisää tiedostoja Muunna-välilehdeltä, napauta Aloita, ja ne ajetaan täällä yksi kerrallaan.</string>
     <string name="job_waiting">Odottaa aloitusta</string>

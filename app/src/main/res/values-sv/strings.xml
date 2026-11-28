@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Start</string>
     <string name="queue_clear_finished">Rensa slutförda</string>
+    <string name="queue_delete_original_one">Ta bort originalet</string>
+    <string name="queue_delete_originals">Ta bort originalen</string>
+    <string name="delete_original_title_one">Ta bort originalet?</string>
+    <string name="delete_originals_title">Ta bort originalen?</string>
+    <string name="delete_originals_body">Originalfilerna tas bort från telefonen. De konverterade kopiorna blir kvar. Detta går inte att ångra.</string>
+    <string name="delete_originals_confirm">Ta bort</string>
+    <string name="job_original_deleted">Originalet borttaget</string>
+    <string name="job_original_delete_failed">Originalet kunde inte tas bort</string>
     <string name="queue_empty_title">Inga konverteringar ännu</string>
     <string name="queue_empty_body">Lägg till filer från fliken Konvertera, tryck på Start, så körs de här, en i taget.</string>
     <string name="job_waiting">Väntar på Start</string>

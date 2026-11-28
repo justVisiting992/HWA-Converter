@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Старт</string>
     <string name="queue_clear_finished">Обриши завршене</string>
+    <string name="queue_delete_original_one">Обриши оригинал</string>
+    <string name="queue_delete_originals">Обриши оригинале</string>
+    <string name="delete_original_title_one">Обрисати оригинал?</string>
+    <string name="delete_originals_title">Обрисати оригинале?</string>
+    <string name="delete_originals_body">Оригиналне датотеке биће обрисане са телефона. Конвертоване копије остају. Ово не може да се поништи.</string>
+    <string name="delete_originals_confirm">Обриши</string>
+    <string name="job_original_deleted">Оригинал је обрисан</string>
+    <string name="job_original_delete_failed">Оригинал није могао да се обрише</string>
     <string name="queue_empty_title">Још нема конверзија</string>
     <string name="queue_empty_body">Додајте датотеке на картици „Конвертовање“, додирните „Старт“ и оне ће се овде изводити, једна по једна.</string>
     <string name="job_waiting">Чека се старт</string>

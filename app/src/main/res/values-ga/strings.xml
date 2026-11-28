@@ -134,6 +134,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Tosaigh</string>
     <string name="queue_clear_finished">Glan na cinn chríochnaithe</string>
+    <string name="queue_delete_original_one">Scrios an comhad bunaidh</string>
+    <string name="queue_delete_originals">Scrios na comhaid bhunaidh</string>
+    <string name="delete_original_title_one">Scrios an comhad bunaidh?</string>
+    <string name="delete_originals_title">Scrios na comhaid bhunaidh?</string>
+    <string name="delete_originals_body">Scriosfar na comhaid bhunaidh de do ghuthán. Fanfaidh na cóipeanna tiontaithe. Ní féidir é seo a chealú.</string>
+    <string name="delete_originals_confirm">Scrios</string>
+    <string name="job_original_deleted">Comhad bunaidh scriosta</string>
+    <string name="job_original_delete_failed">Níorbh fhéidir an comhad bunaidh a scriosadh</string>
     <string name="queue_empty_title">Gan tiontuithe fós</string>
     <string name="queue_empty_body">Cuir comhaid leis ón táb Tiontaigh, tapáil Tosaigh, agus rithfidh siad anseo, ceann ar cheann.</string>
     <string name="job_waiting">Ag fanacht le Tosaigh</string>

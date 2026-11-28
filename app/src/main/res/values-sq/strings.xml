@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Fillo</string>
     <string name="queue_clear_finished">Pastro të përfunduarat</string>
+    <string name="queue_delete_original_one">Fshi origjinalin</string>
+    <string name="queue_delete_originals">Fshi origjinalët</string>
+    <string name="delete_original_title_one">Fshi origjinalin?</string>
+    <string name="delete_originals_title">Fshi origjinalët?</string>
+    <string name="delete_originals_body">Skedarët origjinalë do të fshihen nga telefoni. Kopjet e konvertuara mbeten. Ky veprim nuk mund të zhbëhet.</string>
+    <string name="delete_originals_confirm">Fshi</string>
+    <string name="job_original_deleted">Origjinali u fshi</string>
+    <string name="job_original_delete_failed">Origjinali nuk mund të fshihej</string>
     <string name="queue_empty_title">Ende asnjë konvertim</string>
     <string name="queue_empty_body">Shto skedarë nga skeda Konverto, prek Fillo, dhe ato do të ekzekutohen këtu, një nga një.</string>
     <string name="job_waiting">Po pret Fillo</string>

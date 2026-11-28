@@ -1,10 +1,12 @@
 package io.github.justvisiting992.mediaconverter.core.queue
 
+import android.app.RecoverableSecurityException
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.lifecycle.ViewModel
@@ -92,6 +94,10 @@ data class ConversionJob(
     val debugLog: String? = null,
     /** The saved log file; null until the user saves the log. */
     val logUri: Uri? = null,
+    /** True once the user deleted the original file from the device. */
+    val originalDeleted: Boolean = false,
+    /** True when a delete attempt was refused by the system. */
+    val originalDeleteFailed: Boolean = false,
 )
 
 /**
@@ -188,6 +194,81 @@ class ConversionQueue(private val appContext: Context) {
                 it.status is JobStatus.Running || it.status is JobStatus.Queued
             }
         }
+    }
+
+    /** How one attempt to delete an original file ended. */
+    enum class DeleteOutcome { DELETED, NEEDS_APPROVAL, FAILED }
+
+    /**
+     * Delete one finished job's original file from the device, through
+     * the document permission the file pick granted. MediaStore files
+     * on Android 11 and up often demand the system's own approval
+     * first; those come back as [DeleteOutcome.NEEDS_APPROVAL] and the
+     * UI asks with MediaStore's batched request. The job's flags are
+     * set here for DELETED and FAILED; NEEDS_APPROVAL stays unmarked
+     * until the user answers the system dialog.
+     */
+    suspend fun deleteOriginal(job: ConversionJob): DeleteOutcome =
+        withContext(Dispatchers.IO) {
+            val resolver = appContext.contentResolver
+            val outcome = try {
+                if (DocumentsContract.deleteDocument(resolver, job.inputUri)) {
+                    DeleteOutcome.DELETED
+                } else if (resolver.delete(job.inputUri, null, null) > 0) {
+                    DeleteOutcome.DELETED
+                } else {
+                    DeleteOutcome.FAILED
+                }
+            } catch (e: RecoverableSecurityException) {
+                DeleteOutcome.NEEDS_APPROVAL
+            } catch (e: SecurityException) {
+                if (Build.VERSION.SDK_INT >= 30 &&
+                    job.inputUri.authority == MediaStore.AUTHORITY
+                ) {
+                    DeleteOutcome.NEEDS_APPROVAL
+                } else {
+                    DeleteOutcome.FAILED
+                }
+            } catch (e: Exception) {
+                DeleteOutcome.FAILED
+            }
+            when (outcome) {
+                DeleteOutcome.DELETED -> markOriginal(job.id, deleted = true)
+                DeleteOutcome.FAILED -> markOriginal(job.id, deleted = false)
+                DeleteOutcome.NEEDS_APPROVAL -> Unit
+            }
+            outcome
+        }
+
+    /** Record the answer to the system's delete approval dialog. */
+    fun markOriginal(jobId: Long, deleted: Boolean) {
+        _jobs.update { list ->
+            list.map {
+                if (it.id == jobId) {
+                    it.copy(
+                        originalDeleted = deleted,
+                        originalDeleteFailed = !deleted,
+                    )
+                } else {
+                    it
+                }
+            }
+        }
+    }
+
+    /** The original file's size in bytes, when the provider reports it. */
+    fun originalSizeBytes(uri: Uri): Long? = try {
+        appContext.contentResolver.query(
+            uri, arrayOf(OpenableColumns.SIZE), null, null, null,
+        )?.use { cursor ->
+            if (cursor.moveToFirst() && !cursor.isNull(0)) {
+                cursor.getLong(0)
+            } else {
+                null
+            }
+        }
+    } catch (e: Exception) {
+        null
     }
 
     fun cancelCurrent() {
@@ -770,6 +851,18 @@ class ConversionQueueViewModel : ViewModel() {
     fun clearFinished() {
         queue?.clearFinished()
     }
+
+    /** Delete one finished job's original file from the device. */
+    suspend fun deleteOriginal(job: ConversionJob): ConversionQueue.DeleteOutcome? =
+        queue?.deleteOriginal(job)
+
+    /** Record the answer to the system's delete approval dialog. */
+    fun markOriginal(jobId: Long, deleted: Boolean) {
+        queue?.markOriginal(jobId, deleted)
+    }
+
+    /** The original file's size in bytes, when known. */
+    fun originalSizeBytes(uri: Uri): Long? = queue?.originalSizeBytes(uri)
 
     /** Save a finished job's debug log to the device, on the user's tap. */
     fun saveLog(jobId: Long) {

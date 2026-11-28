@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Sākt</string>
     <string name="queue_clear_finished">Notīrīt pabeigtos</string>
+    <string name="queue_delete_original_one">Dzēst oriģinālu</string>
+    <string name="queue_delete_originals">Dzēst oriģinālus</string>
+    <string name="delete_original_title_one">Dzēst oriģinālu?</string>
+    <string name="delete_originals_title">Dzēst oriģinālus?</string>
+    <string name="delete_originals_body">Oriģinālie faili tiks dzēsti no tālruņa. Konvertētās kopijas paliks. Šo darbību nevar atsaukt.</string>
+    <string name="delete_originals_confirm">Dzēst</string>
+    <string name="job_original_deleted">Oriģināls dzēsts</string>
+    <string name="job_original_delete_failed">Oriģinālu nevarēja izdzēst</string>
     <string name="queue_empty_title">Vēl nav konvertēšanu</string>
     <string name="queue_empty_body">Pievienojiet failus cilnē „Konvertēt“, pieskarieties „Sākt“, un tie tiks izpildīti šeit, pa vienam.</string>
     <string name="job_waiting">Gaida sākšanu</string>

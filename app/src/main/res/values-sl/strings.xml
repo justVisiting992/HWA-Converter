@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Začni</string>
     <string name="queue_clear_finished">Počisti končane</string>
+    <string name="queue_delete_original_one">Izbriši izvirnik</string>
+    <string name="queue_delete_originals">Izbriši izvirnike</string>
+    <string name="delete_original_title_one">Izbrisati izvirnik?</string>
+    <string name="delete_originals_title">Izbrisati izvirnike?</string>
+    <string name="delete_originals_body">Izvirne datoteke bodo izbrisane iz telefona. Pretvorjene kopije ostanejo. Tega ni mogoče razveljaviti.</string>
+    <string name="delete_originals_confirm">Izbriši</string>
+    <string name="job_original_deleted">Izvirnik je izbrisan</string>
+    <string name="job_original_delete_failed">Izvirnika ni bilo mogoče izbrisati</string>
     <string name="queue_empty_title">Ni še pretvorb</string>
     <string name="queue_empty_body">Dodajte datoteke na zavihku »Pretvori«, tapnite »Začni« in izvajale se bodo tukaj, ena za drugo.</string>
     <string name="job_waiting">Čakanje na začetek</string>

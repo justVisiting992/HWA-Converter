@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Запуск</string>
     <string name="queue_clear_finished">Очистить завершённые</string>
+    <string name="queue_delete_original_one">Удалить оригинал</string>
+    <string name="queue_delete_originals">Удалить оригиналы</string>
+    <string name="delete_original_title_one">Удалить оригинал?</string>
+    <string name="delete_originals_title">Удалить оригиналы?</string>
+    <string name="delete_originals_body">Оригинальные файлы будут удалены с телефона. Преобразованные копии останутся. Это действие нельзя отменить.</string>
+    <string name="delete_originals_confirm">Удалить</string>
+    <string name="job_original_deleted">Оригинал удалён</string>
+    <string name="job_original_delete_failed">Не удалось удалить оригинал</string>
     <string name="queue_empty_title">Конвертаций пока нет</string>
     <string name="queue_empty_body">Добавьте файлы на вкладке «Конвертировать», нажмите «Запуск», и они будут выполняться здесь, по одной.</string>
     <string name="job_waiting">Ожидание запуска</string>

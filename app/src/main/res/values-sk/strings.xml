@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">Štart</string>
     <string name="queue_clear_finished">Vymazať dokončené</string>
+    <string name="queue_delete_original_one">Odstrániť originál</string>
+    <string name="queue_delete_originals">Odstrániť originály</string>
+    <string name="delete_original_title_one">Odstrániť originál?</string>
+    <string name="delete_originals_title">Odstrániť originály?</string>
+    <string name="delete_originals_body">Pôvodné súbory sa z telefónu odstránia. Skonvertované kópie zostanú. Toto sa nedá vrátiť späť.</string>
+    <string name="delete_originals_confirm">Odstrániť</string>
+    <string name="job_original_deleted">Originál odstránený</string>
+    <string name="job_original_delete_failed">Originál sa nepodarilo odstrániť</string>
     <string name="queue_empty_title">Zatiaľ žiadne konverzie</string>
     <string name="queue_empty_body">Pridajte súbory z karty Konvertovať, ťuknite na Štart a pobežia tu, jedna po druhej.</string>
     <string name="job_waiting">Čaká na Štart</string>

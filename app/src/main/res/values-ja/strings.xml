@@ -136,6 +136,14 @@
     <!-- Queue screen and job cards -->
     <string name="queue_start">開始</string>
     <string name="queue_clear_finished">完了分を消去</string>
+    <string name="queue_delete_original_one">元ファイルを削除</string>
+    <string name="queue_delete_originals">元ファイルを削除</string>
+    <string name="delete_original_title_one">元ファイルを削除しますか？</string>
+    <string name="delete_originals_title">元ファイルを削除しますか？</string>
+    <string name="delete_originals_body">元ファイルは端末から削除されます。変換後のファイルは残ります。この操作は元に戻せません。</string>
+    <string name="delete_originals_confirm">削除</string>
+    <string name="job_original_deleted">元ファイルを削除しました</string>
+    <string name="job_original_delete_failed">元ファイルを削除できませんでした</string>
     <string name="queue_empty_title">まだ変換はありません</string>
     <string name="queue_empty_body">変換タブからファイルを追加して開始をタップすると、ここで 1 件ずつ実行されます。</string>
     <string name="job_waiting">開始待ち</string>
