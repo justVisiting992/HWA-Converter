@@ -120,7 +120,7 @@ first-class citizens here.
   themselves, no half-written files
 - 🪵 **Honest debug logs.** Every finished job keeps its full log in memory;
   tap it to save to `Download/HWA Converter`, or share it straight from the card
-- 🎨 **Make it yours.** Material You plus six fixed color schemes, light /
+- 🎨 **Make it yours.** Material You plus seven fixed color schemes, light /
   dark / follow-the-phone, and **nine launcher icons** to pick from in
   Look & Feel
 - 🌍 **36 languages.** The whole app speaks your language, picked in

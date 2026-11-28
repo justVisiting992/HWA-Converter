@@ -19,6 +19,7 @@ enum class ThemeTemplate(val id: String, val label: String) {
     SUNSET("sunset", "Sunset"),
     BERRY("berry", "Berry"),
     LAVENDER("lavender", "Lavender"),
+    AURORA("aurora", "Aurora"),
     GRAPHITE("graphite", "Graphite");
 
     /** The fixed scheme for this template, or null for DYNAMIC. */
@@ -29,6 +30,7 @@ enum class ThemeTemplate(val id: String, val label: String) {
         SUNSET -> if (dark) SunsetDark else SunsetLight
         BERRY -> if (dark) BerryDark else BerryLight
         LAVENDER -> if (dark) LavenderDark else LavenderLight
+        AURORA -> if (dark) AuroraDark else AuroraLight
         GRAPHITE -> if (dark) GraphiteDark else GraphiteLight
     }
 
@@ -127,6 +129,23 @@ private val LavenderDark = darkColorScheme(
     secondaryContainer = Color(0xFF47435B), onSecondaryContainer = Color(0xFFE4E0F7),
     tertiary = Color(0xFFECB8D0), onTertiary = Color(0xFF492334),
     tertiaryContainer = Color(0xFF623A4B), onTertiaryContainer = Color(0xFFFFD8E9),
+)
+
+private val AuroraLight = lightColorScheme(
+    primary = Color(0xFF006B5E), onPrimary = Color(0xFFFFFFFF),
+    primaryContainer = Color(0xFF94F2DA), onPrimaryContainer = Color(0xFF00211A),
+    secondary = Color(0xFF585191), onSecondary = Color(0xFFFFFFFF),
+    secondaryContainer = Color(0xFFE5DEFF), onSecondaryContainer = Color(0xFF1B1745),
+    tertiary = Color(0xFF94456F), onTertiary = Color(0xFFFFFFFF),
+    tertiaryContainer = Color(0xFFFFD8E7), onTertiaryContainer = Color(0xFF3C0B24),
+)
+private val AuroraDark = darkColorScheme(
+    primary = Color(0xFF72DAC2), onPrimary = Color(0xFF00382E),
+    primaryContainer = Color(0xFF005144), onPrimaryContainer = Color(0xFF94F2DA),
+    secondary = Color(0xFFC8C0FF), onSecondary = Color(0xFF2F2860),
+    secondaryContainer = Color(0xFF413A77), onSecondaryContainer = Color(0xFFE5DEFF),
+    tertiary = Color(0xFFFFAFD0), onTertiary = Color(0xFF5C2440),
+    tertiaryContainer = Color(0xFF753953), onTertiaryContainer = Color(0xFFFFD8E7),
 )
 
 private val GraphiteLight = lightColorScheme(

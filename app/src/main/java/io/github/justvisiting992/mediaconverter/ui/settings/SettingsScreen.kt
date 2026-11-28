@@ -46,6 +46,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -178,13 +179,25 @@ fun SettingsScreen(
             }
         }
         item {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                ThemeTemplate.entries.forEach { entry ->
-                    TemplateRow(
-                        entry = entry,
-                        selected = entry == template,
-                        onClick = { onTemplateChange(entry) },
-                    )
+            // Two cards per row, each taking half the width by weight
+            // and holding a near-square aspect, so the eight themes
+            // form a 4x2 grid that adapts to any screen size.
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                ThemeTemplate.entries.chunked(2).forEach { rowEntries ->
+                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        rowEntries.forEach { entry ->
+                            Box(Modifier.weight(1f)) {
+                                TemplateCard(
+                                    entry = entry,
+                                    selected = entry == template,
+                                    onClick = { onTemplateChange(entry) },
+                                )
+                            }
+                        }
+                        repeat(2 - rowEntries.size) {
+                            Spacer(Modifier.weight(1f))
+                        }
+                    }
                 }
             }
         }
@@ -301,7 +314,7 @@ private fun IconChoice(entry: AppIcon, selected: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-private fun TemplateRow(
+private fun TemplateCard(
     entry: ThemeTemplate,
     selected: Boolean,
     onClick: () -> Unit,
@@ -311,30 +324,46 @@ private fun TemplateRow(
     val dots = entry.swatches().ifEmpty {
         listOf(live.primary, live.secondary, live.tertiary)
     }
+    val shape = RoundedCornerShape(20.dp)
     Card(
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
+        shape = shape,
         modifier = Modifier
             .fillMaxWidth()
-            .border(
-                width = if (selected) 2.dp else 0.dp,
-                color = if (selected) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    Color.Transparent
-                },
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
-            )
+            .aspectRatio(1.3f)
             .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(14.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+        val painted = Modifier
+            .fillMaxSize()
+            .then(
+                if (selected) {
+                    Modifier.background(
+                        Brush.linearGradient(
+                            listOf(
+                                MaterialTheme.colorScheme.secondaryContainer,
+                                MaterialTheme.colorScheme.primaryContainer,
+                            ),
+                        ),
+                    )
+                } else {
+                    Modifier.background(
+                        MaterialTheme.colorScheme.surfaceContainer,
+                    )
+                },
+            )
+            .padding(14.dp)
+        Column(
+            modifier = painted,
+            verticalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 entry.label,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = if (selected) {
+                    FontWeight.SemiBold
+                } else {
+                    FontWeight.Medium
+                },
             )
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 dots.forEach { color ->
